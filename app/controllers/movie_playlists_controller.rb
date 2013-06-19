@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 require "spreadsheet"
 require 'stringio'
 
@@ -48,8 +48,8 @@ class MoviePlaylistsController < ApplicationController
 
     respond_to do |format|
       format.html {}
-      format.pdf { render text: PDFKit.new(edit_movie_playlist_url(@movie_playlist),
-                                           orientation: 'Landscape').to_pdf }
+      #format.pdf { render text: PDFKit.new(edit_movie_playlist_url(@movie_playlist),
+      #                                     orientation: 'Landscape').to_pdf }
 
     end
   end
@@ -181,22 +181,22 @@ class MoviePlaylistsController < ApplicationController
     end
   end
 
-  def print
-
-    @movie_playlist = MoviePlaylist.includes(movie_playlist_items: :movie)
-                                   .find(params[:id])
-    language = params[:language]
-
-    headers["Content-Disposition"] =  "attachment; filename=\"#{@movie_playlist.airline.code if !@movie_playlist.airline.nil? && !@movie_playlist.airline.code.nil?}#{@movie_playlist.start_cycle.strftime("%m%y")} #{@movie_playlist.movie_playlist_type.name if !@movie_playlist.movie_playlist_type.nil?}.pdf\""
-
-    respond_to do |format|
-      format.html
-      format.pdf {
-        render text: PDFKit.new(print_movie_playlist_url(@movie_playlist)).to_pdf,
-               layout: false
-      }
-    end
-  end
+  #def print
+  #
+  #  @movie_playlist = MoviePlaylist.includes(movie_playlist_items: :movie)
+  #                                 .find(params[:id])
+  #  language = params[:language]
+  #
+  #  headers["Content-Disposition"] =  "attachment; filename=\"#{@movie_playlist.airline.code if !@movie_playlist.airline.nil? && !@movie_playlist.airline.code.nil?}#{@movie_playlist.start_cycle.strftime("%m%y")} #{@movie_playlist.movie_playlist_type.name if !@movie_playlist.movie_playlist_type.nil?}.pdf\""
+  #
+  #  respond_to do |format|
+  #    format.html
+  #    format.pdf {
+  #      render text: PDFKit.new(print_movie_playlist_url(@movie_playlist)).to_pdf,
+  #             layout: false
+  #    }
+  #  end
+  #end
 
 
   def export_to_excel

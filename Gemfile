@@ -29,8 +29,12 @@ gem "jquery-ui-rails"
 gem "settingslogic"
 gem "authlogic"
 gem "formtastic"
-gem "pdfkit"
+
+#gem "pdfkit"
+gem 'prawn_rails'
+
 gem "spreadsheet"
+
 gem "ruby-ole"
 gem "ruby-aaws"
 gem "rbrainz"

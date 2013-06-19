@@ -30,7 +30,7 @@ Iim::Application.routes.draw do
   match "/export_by_airline" => "album_playlists#export_by_airline", as: :export_by_airline
   match "/view_splits" => "audio_playlists#splits", as: :view_splits
 
-  match "/movie_playlists/print/:id" => "movie_playlists#print", as: :print_movie_playlist
+#  match "/movie_playlists/print/:id" => "movie_playlists#print", as: :print_movie_playlist
   match "/movie_playlists/export_to_excel/:id" => "movie_playlists#export_to_excel", as: :export_to_excel
   match "/movie_playlists/download_thales_schema_package/:id" => "movie_playlists#download_thales_schema_package",
                                                                  as: :download_thales_schema_package

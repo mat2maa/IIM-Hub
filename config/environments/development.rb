@@ -50,13 +50,13 @@ Iim::Application.configure do
 
 end
 
-PDFKit.configure do |config|
-  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
-  config.default_options = {
-    encoding: "UTF-8",
-    page_size: "A4"
-  }
-end
+#PDFKit.configure do |config|
+#  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+#  config.default_options = {
+#    encoding: "UTF-8",
+#    page_size: "A4"
+#  }
+#end
 
 if $0 == 'irb'
   require 'hirb'
