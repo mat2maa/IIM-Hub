@@ -30,9 +30,17 @@
 
     |
 
-    <%= link_to "Download Full PDF",
+    <%= link_to "Download English PDF",
                 {controller: "movie_playlists",
-                 action: "print",
+                 action: "show",
+                 id: @movie_playlist,
+                 format: "pdf"} %>
+
+    |
+
+    <%= link_to "Download Chinese PDF",
+                {controller: "movie_playlists",
+                 action: "show_chinese",
                  id: @movie_playlist,
                  format: "pdf"} %>
 

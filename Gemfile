@@ -32,6 +32,7 @@ gem "formtastic"
 
 #gem "pdfkit"
 gem 'prawn_rails'
+gem 'prawn', :git => "https://github.com/prawnpdf/prawn.git"
 
 gem "spreadsheet"
 

@@ -74,6 +74,11 @@ class MoviePlaylistsController < ApplicationController
                                    .find(params[:id])
   end
 
+  def show_chinese
+    @movie_playlist = MoviePlaylist.includes(movie_playlist_items: :movie)
+    .find(params[:id])
+  end
+
   #display overlay
   def add_movie_to_playlist
 

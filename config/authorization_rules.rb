@@ -19,7 +19,7 @@ authorization do
 		has_permission_on :screener_playlist_items, :to => :manage	
 			
 		has_permission_on :movie_playlists, :to => [:read, :create, :update, :print, :add_movie, :add_movie_to_playlist, 
-		            :sort, :export_to_excel, :add_multiple_movies, :duplicate]
+		            :sort, :export_to_excel, :add_multiple_movies, :duplicate, :show_chinese]
 		            
 		has_permission_on :video_playlists, :to => [:read, :create, :update, :print, :add_video, :add_video_to_playlist, 
                 :sort, :export_to_excel, :add_multiple_videos, :duplicate]
@@ -135,7 +135,7 @@ authorization do
 		:duplicate, :set_album_playlist_item_category_id, :export_by_airline, :set_album_synopsis, :download_mp3]
 
 		has_permission_on :movie_playlists, :to => [:manage,:print, :add_movie, :add_movie_to_playlist,
-		            :sort, :export_to_excel, :add_multiple_movies, :duplicate]
+		            :sort, :export_to_excel, :add_multiple_movies, :duplicate, :show_chinese]
 
     has_permission_on :video_playlists, :to => [:manage,:print, :add_video, :add_video_to_playlist,
                 :sort, :export_to_excel, :add_multiple_videos, :duplicate]
@@ -212,7 +212,7 @@ authorization do
 
     has_permission_on :movie_playlists, :to => [:manage,:print, :add_movie, :add_movie_to_playlist,
                                                 :sort, :export_to_excel, :add_multiple_movies, :duplicate, :lock,
-                                                :unlock, :download_thales_schema_package]
+                                                :unlock, :download_thales_schema_package, :show_chinese]
 
     has_permission_on :video_playlists, :to => [:manage,:print, :add_video, :add_video_to_playlist,
                                                 :sort, :export_to_excel, :add_multiple_videos, :duplicate, :lock,

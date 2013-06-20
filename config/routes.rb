@@ -31,6 +31,7 @@ Iim::Application.routes.draw do
   match "/view_splits" => "audio_playlists#splits", as: :view_splits
 
 #  match "/movie_playlists/print/:id" => "movie_playlists#print", as: :print_movie_playlist
+  match "/movie_playlists/show_chinese/:id" => "movie_playlists#show_chinese", as: :show_chinese
   match "/movie_playlists/export_to_excel/:id" => "movie_playlists#export_to_excel", as: :export_to_excel
   match "/movie_playlists/download_thales_schema_package/:id" => "movie_playlists#download_thales_schema_package",
                                                                  as: :download_thales_schema_package
