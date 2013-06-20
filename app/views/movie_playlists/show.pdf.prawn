@@ -5,7 +5,7 @@ bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
 
-prawn_document top_margin: 100, left_margin: 42, page_size: 'A4', background: bg_image do |pdf|
+prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A4', background: bg_image do |pdf|
 
   pdf.font_families.update(
       "helvetica" => {
@@ -31,7 +31,7 @@ prawn_document top_margin: 100, left_margin: 42, page_size: 'A4', background: bg
   pdf.font("helvetica")
 
   pdf.fill_color '000000'
-  pdf.fill { pdf.rectangle [-100, 730], 695, 15 }
+  pdf.fill { pdf.rectangle [-100, 762], 695, 15 }
 
   pdf.formatted_text_box(
       [
@@ -48,10 +48,10 @@ prawn_document top_margin: 100, left_margin: 42, page_size: 'A4', background: bg
               styles: [:light]
           }
       ],
-      at: [0, 728]
+      at: [0, 760]
   )
 
-  pdf.move_down(70)
+  pdf.move_down(40)
 
 #  pdf.image open(@movie_playlist.movies.poster.path(:small))
 #  pdf.image open("http://prawn.majesticseacreature.com/images/prawn_logo.png")
@@ -74,7 +74,7 @@ prawn_document top_margin: 100, left_margin: 42, page_size: 'A4', background: bg
 
     image_path = "http://s3.amazonaws.com/iim#{movie.poster.path(:small)}" if movie.poster.present?
 
-    pdf.bounding_box([0, pdf.cursor], width: 480, height: 150) do
+    pdf.bounding_box([0, pdf.cursor], width: 480, height: 160) do
 
       pdf.image open(image_path),
                 at: [0, pdf.cursor],
@@ -157,14 +157,32 @@ prawn_document top_margin: 100, left_margin: 42, page_size: 'A4', background: bg
       row(5).font_style = :light
     end
 
-    pdf.move_down(50) if(index % 2 == 0)
+    pdf.move_down(70) if(index % 2 == 0)
 
     # create a new page every 2 tables
-    pdf.start_new_page(top_margin: 170, left_margin: 42, page_size: 'A4') if(index > 0 && index % 2 == 1)
+    pdf.start_new_page(top_margin: 140, left_margin: 42, bottom_margin: 0, page_size: 'A4') if(index > 0 && index % 2 == 1)
 
     pdf.image open(logo),
-              at: [0, 798],
+              at: [0, 830],
               scale: 0.24
 
+    pdf.font("SourceSans")
+
+    pdf.fill_color '000000'
+    pdf.fill { pdf.rectangle [-100, 15], 695, 15 }
+
+    time = Time.new
+
+    pdf.formatted_text_box(
+        [
+            {
+                text: "Copyright Images In Motion, #{ time.year }",
+                size: 10,
+                color: 'FFFFFF',
+                styles: [:light]
+            }
+        ],
+        at: [0, 13]
+    )
   end
 end
