@@ -309,20 +309,12 @@
 
         <%= f.input :critics_review,
                     input_html: {tabindex: autotab},
-                    label: ("Critics Review<br/>
-                                  <a href='http://mingyi.org/T2F3' target='_blank'>Install TableTools</a>
-                                  <br/>
-                                  <br/>
-                                  1. Right click on Critics Review table in Yahoo! Movies
-                                  <br/>
-                                  <br/>
-                                  2. Click on
-                                  <br/>
-                                  Other Table Operations > Copy Filtered As HTML").html_safe %>
-
-        <div class="action-button">
-          <%= link_to "Add Critics Review", add_review_to_movie_path(id: @movie.id), id: "add_review_to_movie" %>
-        </div>
+                    label: ("Critics Review
+                             <br/>
+                             <br/>
+                             <div class='action-button'>
+                                 #{link_to 'Add Critics Review', add_review_to_movie_path(id: @movie.id), id: 'add_review_to_movie'}
+                             </div>").html_safe %>
 
         <%= f.input :remarks,
                     input_html: {tabindex: autotab,
