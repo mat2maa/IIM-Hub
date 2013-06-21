@@ -425,6 +425,7 @@ table.splits{
 }
 #movie_synopsis, #video_synopsis,
 #movie_chinese_synopsis,
+#video_chinese_synopsis,
 #movie_imdb_synopsis{
 	height:100px;
 }

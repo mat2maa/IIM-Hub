@@ -47,6 +47,10 @@
         <td><%= @video.programme_title %></td>
       </tr>
       <tr>
+        <th width="150">Chinese Video Title:</th>
+        <td><%= @video.chinese_programme_title %></td>
+      </tr>
+      <tr>
         <th width="150">Foreign Language Title:</th>
         <td><%= @video.foreign_language_title %></td>
       </tr>
@@ -100,6 +104,11 @@
       <tr>
         <th>Programme Synopsis:</th>
         <td><%= @video.synopsis %>
+        </td>
+      </tr>
+      <tr>
+        <th>Chinese Programme Synopsis:</th>
+        <td><%= @video.chinese_synopsis %>
         </td>
       </tr>
     </table>

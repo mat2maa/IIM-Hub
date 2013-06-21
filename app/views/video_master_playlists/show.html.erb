@@ -7,6 +7,30 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
+    <span id="download_pdf_link">
+        <%= link_to "Download PDF",
+                    {controller: "video_master_playlists",
+                     action: "show",
+                     id: @video_master_playlist,
+                     format: "pdf"} %>
+    </span>
+
+    |
+
+    <span id="export_to_excel_link">
+        <%= link_to "Export as Excel",
+                    controller: "video_master_playlists",
+                    action: "export_to_excel",
+                    id: @video_master_playlist %>
+    </span>
+
+    |
+
+    <%= link_to "Edit Playlist",
+                {controller: "video_master_playlists",
+                 action: "edit",
+                 id: @video_master_playlist},
+                target: "_blank" %>
   </div>
   <div id="content-header">Video Master Playlists</div>
 </div>

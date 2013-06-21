@@ -59,6 +59,7 @@ class VideosController < ApplicationController
         end
 
         @video.programme_title = movie.movie_title
+        @video.chinese_programme_title = movie.chinese_movie_title
         @video.foreign_language_title = movie.foreign_language_title
         @video.video_distributor = movie.movie_distributor
         @video.production_studio = movie.production_studio
@@ -66,6 +67,7 @@ class VideosController < ApplicationController
         @video.language_tracks = movie.language_tracks
         @video.language_subtitles = movie.language_subtitles
         @video.synopsis = movie.synopsis
+        @video.chinese_synopsis = movie.chinese_synopsis
       else
         @video.language_tracks = ["En"]
       end

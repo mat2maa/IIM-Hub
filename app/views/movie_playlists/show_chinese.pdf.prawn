@@ -57,6 +57,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
 #  pdf.image open("http://prawn.majesticseacreature.com/images/prawn_logo.png")
 #  open("#{@movie_playlist.movies.poster.path(:small)}")
 
+  length = @movie_playlist.movies.length
   @movie_playlist.movies.each.with_index do |movie, index|
     title = pdf.make_cell(content: movie.movie_title.capitalize) if movie.movie_title.present?
     chinese_title = pdf.make_cell(content: movie.chinese_movie_title) if movie.chinese_movie_title.present?
@@ -168,7 +169,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
     pdf.move_down(70) if(index % 2 == 0)
 
     # create a new page every 2 tables
-    pdf.start_new_page(top_margin: 140, left_margin: 42, bottom_margin: 0, page_size: 'A4') if(index > 0 && index % 2 == 1)
+    pdf.start_new_page(top_margin: 140, left_margin: 42, bottom_margin: 0, page_size: 'A4') if(index > 0 && index < length-1 && index % 2 == 1)
 
     pdf.image open(logo),
               at: [0, 830],

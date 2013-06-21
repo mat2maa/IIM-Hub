@@ -25,21 +25,33 @@
                  action: "show",
                  id: @video_playlist},
                 id: 'print_playlist',
-                target: '_blank' %> |
-    <%= link_to "Download Full PDF",
+                target: '_blank' %>
+
+    |
+
+    <%= link_to "Download English PDF",
                 {controller: "video_playlists",
-                 action: "print",
+                 action: "show",
                  id: @video_playlist,
-                 format: "pdf"} %> |
-    <%#= link_to "Download Summary PDF",
-{controller: "video_playlists",
-action: "edit",
- id: @video_playlist,
-format: "pdf"}%>
+                 format: "pdf"} %>
+
+    |
+
+    <%= link_to "Download Chinese PDF",
+                {controller: "video_playlists",
+                 action: "show_chinese",
+                 id: @video_playlist,
+                 format: "pdf"} %>
+
+    |
+
     <%= link_to "Export as Excel",
                 controller: "video_playlists",
                 action: "export_to_excel",
-                id: @video_playlist %> |
+                id: @video_playlist %>
+
+    |
+
     <%= link_to "Create a playlist",
                 new_video_playlist_path %>
   </div>

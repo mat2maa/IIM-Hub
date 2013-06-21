@@ -32,6 +32,9 @@
           <%= f.input :programme_title,
                       label: "Video Title",
                       input_html: {tabindex: 1} %>
+          <%= f.input :chinese_programme_title,
+                      label: "Chinese Video Title",
+                      input_html: {tabindex: 1} %>
           <%= f.input :foreign_language_title,
                       label: "Foreign Language Title",
                       input_html: {tabindex: 2},
@@ -135,6 +138,12 @@
 
                       hint: ("(<span id='char_count' ></span > characters)").html_safe %>
 
+          <%= f.input :chinese_synopsis,
+                      label: "Chinese Programme Synopsis",
+                      input_html: {tabindex: 14},
+
+                      hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
+
 
           <%= f.input :remarks,
                       input_html: {tabindex: 15,
@@ -154,16 +163,24 @@
 
     $(document).ready(function() {
     	
-    	var chars;
-    	
+    	var chars,
+            chineseChars;
+
     	chars = $('#video_synopsis').val().length;
-    	
+        chineseChars = $('#video_chinese_synopsis').val().length;
+
     	$('#char_count').html(chars);
-    	
+        $('#chinese_char_count').html(chineseChars);
+
     	$('#video_synopsis').on("keyup change", function() {
 	    	chars = $('#video_synopsis').val().length;
 	    	$('#char_count').html(chars);
     	});
+
+        $('#video_chinese_synopsis').on("keyup change", function() {
+            chineseChars = $('#video_chinese_synopsis').val().length;
+            $('#chinese_char_count').html(chineseChars);
+        });
     });
 
 

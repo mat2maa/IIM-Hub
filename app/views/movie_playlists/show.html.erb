@@ -9,11 +9,11 @@
   <div id="content-header-actions">
     <%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;
     <span id="download_pdf_link">
-        <%= link_to "Download English PDF",
-                    {controller: "movie_playlists",
-                     action: "show",
-                     id: @movie_playlist,
-                     format: "pdf"} %>
+      <%= link_to "Download English PDF",
+                  {controller: "movie_playlists",
+                   action: "show",
+                   id: @movie_playlist,
+                   format: "pdf"} %>
     </span>
 
     |
@@ -24,6 +24,14 @@
                   action: "export_to_excel",
                   id: @movie_playlist %>
     </span>
+
+    |
+
+    <%= link_to "Edit Playlist",
+                {controller: "movie_playlists",
+                 action: "edit",
+                 id: @movie_playlist},
+                target: "_blank" %>
 
     <% if @movie_playlist.thales_schema_package_file_name.present? then %>
 
@@ -74,16 +82,16 @@
                                                   {controller: "movie_playlists",
                                                    action: "show_chinese",
                                                    id: @movie_playlist,
-                                                   format: "pdf"}) %> "
+                                                   format: "pdf"}) %> ";
       } else {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                   collection: @movie_playlist.movie_playlist_items_sorted,
                                                   locals: {language: 'english' }) %> ";
         pdfLink = " <%= escape_javascript(link_to "Download English PDF",
-                                          {controller: "movie_playlists",
-                                           action: "show",
-                                           id: @movie_playlist,
-                                           format: "pdf"}) %> "
+                                                  {controller: "movie_playlists",
+                                                   action: "show",
+                                                   id: @movie_playlist,
+                                                   format: "pdf"}) %> ";
       }
 
       $("#playlist_item_view_container").html(playlist);

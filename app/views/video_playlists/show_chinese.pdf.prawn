@@ -36,13 +36,13 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
   pdf.formatted_text_box(
       [
           {
-              text: "#{@movie_playlist.airline.name if !@movie_playlist.airline.nil? && !@movie_playlist.airline_id.nil?} #{@movie_playlist.start_cycle.strftime("%m%y")}",
+              text: "#{@video_playlist.airline.name if !@video_playlist.airline.nil? && !@video_playlist.airline_id.nil?} #{@video_playlist.start_cycle.strftime("%m%y")}",
               size: 12,
               color: 'FFFFFF',
               styles: [:bold]
           },
           {
-              text: " / #{@movie_playlist.movie_playlist_type.name}s",
+              text: " / #{@video_playlist.video_playlist_type.name}s",
               size: 12,
               color: 'FFFFFF',
               styles: [:light]
@@ -53,37 +53,36 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
 
   pdf.move_down(40)
 
-#  pdf.image open(@movie_playlist.movies.poster.path(:small))
+#  pdf.image open(@video_playlist.videos.poster.path(:small))
 #  pdf.image open("http://prawn.majesticseacreature.com/images/prawn_logo.png")
-#  open("#{@movie_playlist.movies.poster.path(:small)}")
+#  open("#{@video_playlist.videos.poster.path(:small)}")
 
-  length = @movie_playlist.movies.length
-  @movie_playlist.movies.each.with_index do |movie, index|
-    title = pdf.make_cell(content: movie.movie_title.capitalize) if movie.movie_title.present?
-    foreign_language_title = pdf.make_cell(content: movie.foreign_language_title.capitalize + " (" + movie.movie_type.name.capitalize + ")") if movie.foreign_language_title.present?
+  length = @video_playlist.videos.length
+  @video_playlist.videos.each.with_index do |video, index|
+    title = pdf.make_cell(content: video.programme_title) if video.programme_title.present?
+    chinese_title = pdf.make_cell(content: video.chinese_programme_title) if video.chinese_programme_title.present?
+    foreign_language_title = pdf.make_cell(content: video.foreign_language_title.capitalize + " (" + video.video_type.name.capitalize + ")") if video.foreign_language_title.present?
 
-    director = pdf.make_cell(content: movie.director) if movie.director.present?
-    cast = pdf.make_cell(content: movie.cast) if movie.cast.present?
-    production_studio = pdf.make_cell(content: movie.production_studio.company_name) if movie.production_studio.present?
-    theatrical_runtime = pdf.make_cell(content: movie.theatrical_runtime.to_s) if movie.theatrical_runtime.present?
-    rating = pdf.make_cell(content: movie.rating) if movie.rating.present?
-    genres = pdf.make_cell(content: movie.movie_genres_string) if movie.movie_genres_string.present?
+    video_distributor = pdf.make_cell(content: video.video_distributor.company_name) if video.video_distributor.present?
+    genres = pdf.make_cell(content: video.video_genres_string_with_parent) if video.video_genres_string_with_parent.present?
+    commercial_run_time = pdf.make_cell(content: video.commercial_run_time.minutes.to_s) if video.commercial_run_time.present?
+    language_tracks = pdf.make_cell(content: video.language_tracks.join(', ').to_s) if video.language_tracks.present?
+    language_subtitles = pdf.make_cell(content: video.language_subtitles.join(', ').to_s) if video.language_subtitles.present?
 
-    synopsis = pdf.make_cell(content: movie.synopsis) if movie.synopsis.present?
-    imdb_synopsis = pdf.make_cell(content: movie.imdb_synopsis) if movie.imdb_synopsis.present?
-    critics_review = pdf.make_cell(content: movie.critics_review.html_safe) if movie.critics_review.present?
+    synopsis = pdf.make_cell(content: video.synopsis) if video.synopsis.present?
+    chinese_synopsis = pdf.make_cell(content: video.chinese_synopsis) if video.chinese_synopsis.present?
 
-    image_path = "http://s3.amazonaws.com/iim#{movie.poster.path(:small)}" if movie.poster.present?
+    image_path = "http://s3.amazonaws.com/iim#{video.poster.path(:small)}" if video.poster.present?
 
-    pdf.bounding_box([0, pdf.cursor], width: 480, height: 160) do
+    pdf.bounding_box([0, pdf.cursor], width: 480, height: 120) do
 
       pdf.image open(image_path),
                 at: [0, pdf.cursor],
-                height: 140
+                fit: [100, 100]
 
       titles = []
-      titles.push([title]) if movie.movie_title.present?
-      titles.push([foreign_language_title]) if movie.foreign_language_title.present?
+      video.chinese_programme_title.present? ? titles.push([chinese_title]) : titles.push([title])
+      titles.push([foreign_language_title]) if video.foreign_language_title.present?
 
       pdf.table(
           titles,
@@ -92,25 +91,24 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
           position: 120,
           cell_style: {
               font: "helvetica",
-              font_style: :light,
+              font_style: :normal,
               text_color: 'FFFFFF'
           }
       ) do
         cells.borders = []
-        row(0).size = 24
+        row(0).size = 21
+        row(0).font = "WenQuanYiMicroHei" if video.chinese_programme_title.present?
         row(0).padding = [0, 2, 0, 2]
         row(1).size = 14
         row(1).padding = [0, 2, 4, 2]
-        row(1).font = "BaekmukDotum" if movie.movie_type.name.upcase == "KOREAN MOVIE"
       end
 
       information = []
-      information.push(["Director", director]) if movie.director.present?
-      information.push(["Cast", cast]) if movie.cast.present?
-      information.push(["Production Studio", production_studio]) if movie.production_studio.present?
-      information.push(["Theatrical Runtime", theatrical_runtime]) if movie.theatrical_runtime.present?
-      information.push(["Rating", rating]) if movie.rating.present?
-      information.push(["Genres", genres]) if movie.rating.present?
+      information.push(["Distributor", video_distributor]) if video.video_distributor.present?
+      information.push(["Genres", genres]) if video.video_genres_string_with_parent.present?
+      information.push(["Commercial Runtime", commercial_run_time]) if video.commercial_run_time.present?
+      information.push(["Language Tracks", language_tracks]) if video.language_tracks.present?
+      information.push(["Language Subtitles", language_subtitles]) if video.language_subtitles.present?
 
       pdf.table(
           information,
@@ -119,7 +117,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
           position: 120,
           cell_style: {
               font: "SourceSans",
-              font_style: :light,
+              font_style: :normal,
               size:10,
               text_color: 'FFFFFF'
           }
@@ -130,12 +128,8 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
     end
 
     synopses = []
-    synopses.push(["Synopsis:"]) if movie.synopsis.present?
-    synopses.push([synopsis]) if movie.synopsis.present?
-    synopses.push(["IMDB Synopsis:"]) if movie.imdb_synopsis.present?
-    synopses.push([imdb_synopsis]) if movie.imdb_synopsis.present?
-    synopses.push(["Critics Review:"]) if movie.critics_review.present?
-    synopses.push([critics_review]) if movie.critics_review.present?
+    synopses.push(["Synopsis:"])
+    video.chinese_synopsis.present? ? synopses.push([chinese_synopsis]) : synopses.push([synopsis]) if video.synopsis.present?
 
     pdf.table(
         synopses,
@@ -151,11 +145,8 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
       cells.borders = []
       cells.padding = 2
       row(0).font_style = :semibold
-      row(1).font_style = :light
-      row(2).font_style = :semibold
-      row(3).font_style = :light
-      row(4).font_style = :semibold
-      row(5).font_style = :light
+      row(1).font_style = :normal
+      row(1).font = "WenQuanYiMicroHei" if video.chinese_synopsis.present?
     end
 
     pdf.move_down(70) if(index % 2 == 0)

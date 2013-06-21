@@ -21,8 +21,8 @@
             <td><%= playlist_item.video.episodes_available %></td>
           </tr>
           <tr>
-            <th>Foreign Language Title:</th>
-            <td><%= playlist_item.video.foreign_language_title %></td>
+            <th>Chinese Programme Title:</th>
+            <td><%= playlist_item.video.chinese_programme_title %></td>
             <th>Lang Tracks:</th>
             <td><%= playlist_item.video.language_tracks.join(',
 ') if !playlist_item.video.language_tracks.nil? %> </td>
@@ -31,6 +31,10 @@
 ') if !playlist_item.video.language_subtitles.nil? %> </td>
             <th>Genres:</th>
             <td><%= playlist_item.video.video_genres_string_with_parent %> </td>
+          </tr>
+          <tr>
+            <th>Foreign Language Title:</th>
+            <td><%= playlist_item.video.foreign_language_title %></td>
           </tr>
         </table>
       </td>

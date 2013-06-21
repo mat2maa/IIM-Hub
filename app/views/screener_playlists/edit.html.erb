@@ -21,23 +21,24 @@
                  id: @screener_playlist},
                 id: 'print_playlist',
                 target: '_blank' %>
+
     |
-    <%= link_to "Download Full PDF",
+
+    <%= link_to "Download PDF",
                 {controller: "screener_playlists",
-                 action: "print",
+                 action: "show",
                  id: @screener_playlist,
                  format: "pdf"} %>
+
     |
-    <%#= link_to "Download Summary PDF",
-{controller: "screener_playlists",
-action: "edit",
- id: @screener_playlist,
-format: "pdf"} %>
+
     <%= link_to "Export as Excel",
                 controller: "screener_playlists",
                 action: "export_to_excel",
                 id: @screener_playlist %>
+
     |
+
     <%= link_to "Create a playlist",
                 new_screener_playlist_path %>
   </div>

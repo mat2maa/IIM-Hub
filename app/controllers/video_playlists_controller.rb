@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "spreadsheet"
 require 'stringio'
 
@@ -66,6 +67,11 @@ class VideoPlaylistsController < ApplicationController
   def show
     @video_playlist = VideoPlaylist.includes(video_playlist_items: :video)
                                    .find(params[:id])
+  end
+
+  def show_chinese
+    @video_playlist = VideoPlaylist.includes(video_playlist_items: :video)
+    .find(params[:id])
   end
 
   #display overlay
@@ -200,27 +206,27 @@ class VideoPlaylistsController < ApplicationController
     end
   end
 
-  def print
-
-    @video_playlist = VideoPlaylist.find(params[:id])
-
-    if @video_playlist.video_playlist_type.nil?
-      video_type = " "
-    else
-      video_type = " " + @video_playlist.video_playlist_type.name
-    end
-
-    headers["Content-Disposition"] = "attachment; filename=\"#{@video_playlist.airline.code if !@video_playlist
-     .airline.nil? }#{@video_playlist.start_cycle.strftime("%m%y")}#{video_type}.pdf\""
-
-    respond_to do |format|
-      format.html
-      format.pdf {
-        render text: PDFKit.new(print_video_playlist_url(@video_playlist)).to_pdf,
-               layout: false
-      }
-    end
-  end
+  #def print
+  #
+  #  @video_playlist = VideoPlaylist.find(params[:id])
+  #
+  #  if @video_playlist.video_playlist_type.nil?
+  #    video_type = " "
+  #  else
+  #    video_type = " " + @video_playlist.video_playlist_type.name
+  #  end
+  #
+  #  headers["Content-Disposition"] = "attachment; filename=\"#{@video_playlist.airline.code if !@video_playlist
+  #   .airline.nil? }#{@video_playlist.start_cycle.strftime("%m%y")}#{video_type}.pdf\""
+  #
+  #  respond_to do |format|
+  #    format.html
+  #    format.pdf {
+  #      render text: PDFKit.new(print_video_playlist_url(@video_playlist)).to_pdf,
+  #             layout: false
+  #    }
+  #  end
+  #end
 
 
   def export_to_excel
@@ -257,12 +263,14 @@ class VideoPlaylistsController < ApplicationController
     # header row
     sheet.add_row ["Position",
                    "Programme Title",
+                   "Chinese Programme Title",
                    "Distributor",
                    "Genre",
                    "Commercial Run Time",
                    "Lang Tracks",
                    "Lang Subtitles",
                    "Synopsis",
+                   "Chinese Synopsis",
                    "Poster"]
 
     # data rows
@@ -283,6 +291,7 @@ class VideoPlaylistsController < ApplicationController
       sheet.add_row [index + 1,
 
                      video_playlist_item.video.programme_title,
+                     video_playlist_item.video.chinese_programme_title,
 
                      video_distributor,
 
@@ -296,6 +305,7 @@ class VideoPlaylistsController < ApplicationController
 ')),
 
                      video_playlist_item.video.synopsis,
+                     video_playlist_item.video.chinese_synopsis,
 
                      "http://hub.iim.com.sg" + video_playlist_item.video.poster.url]
     end

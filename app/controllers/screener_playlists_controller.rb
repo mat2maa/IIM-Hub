@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "spreadsheet"
 require 'stringio'
 
@@ -71,6 +72,11 @@ class ScreenerPlaylistsController < ApplicationController
   def show
     @screener_playlist = ScreenerPlaylist.includes(screener_playlist_items: :screener)
                                          .find(params[:id])
+  end
+
+  def show_chinese
+    @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
+    .find(params[:id])
   end
 
   #display overlay
@@ -177,26 +183,26 @@ class ScreenerPlaylistsController < ApplicationController
     end
   end
 
-  def print
-
-    @screener_playlist = ScreenerPlaylist.find(params[:id])
-    if @screener_playlist.video_playlist_type.nil?
-      video_type = " "
-    else
-      video_type = " " + @screener_playlist.video_playlist_type.name
-    end
-    headers["Content-Disposition"] = "attachment; filename=\"#{@screener_playlist.airline.code if
-     !@screener_playlist.airline.nil? }#{@screener_playlist.start_cycle.strftime("%m%y")}#{video_type} Screener.pdf\""
-
-    respond_to do |format|
-      format.html
-      format.pdf {
-        render text: PDFKit.new(print_video_playlist_url(@screener_playlist)).to_pdf,
-               layout: false
-      }
-    end
-
-  end
+  #def print
+  #
+  #  @screener_playlist = ScreenerPlaylist.find(params[:id])
+  #  if @screener_playlist.video_playlist_type.nil?
+  #    video_type = " "
+  #  else
+  #    video_type = " " + @screener_playlist.video_playlist_type.name
+  #  end
+  #  headers["Content-Disposition"] = "attachment; filename=\"#{@screener_playlist.airline.code if
+  #   !@screener_playlist.airline.nil? }#{@screener_playlist.start_cycle.strftime("%m%y")}#{video_type} Screener.pdf\""
+  #
+  #  respond_to do |format|
+  #    format.html
+  #    format.pdf {
+  #      render text: PDFKit.new(print_video_playlist_url(@screener_playlist)).to_pdf,
+  #             layout: false
+  #    }
+  #  end
+  #
+  #end
 
 
   def export_to_excel
@@ -233,6 +239,7 @@ class ScreenerPlaylistsController < ApplicationController
     # header row
     sheet.add_row ["Position",
                    "Video Title",
+                   "Chinese Video Title",
                    "Episode Title",
                    "Episode Number",
                    "Distributor",
@@ -241,6 +248,7 @@ class ScreenerPlaylistsController < ApplicationController
                    "Commercial Runtime",
                    "Lang Tracks",
                    "Lang Subtitles",
+                   "Chinese Synopsis",
                    "Synopsis"]
 
     # data rows
@@ -255,6 +263,7 @@ class ScreenerPlaylistsController < ApplicationController
       sheet.add_row [index + 1,
 
                      screener_playlist_item.screener.video.programme_title,
+                     screener_playlist_item.screener.video.chinese_programme_title,
 
                      screener_playlist_item.screener.episode_title,
 
@@ -269,7 +278,8 @@ class ScreenerPlaylistsController < ApplicationController
 ')),
                      (screener_playlist_item.screener.video.language_subtitles.nil? ? "" : screener_playlist_item.screener.video.language_subtitles.join(',
 ')),
-                     screener_playlist_item.screener.video.synopsis
+                     screener_playlist_item.screener.video.synopsis,
+                     screener_playlist_item.screener.video.chinese_synopsis
                     ]
     end
 

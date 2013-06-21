@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130607154504) do
+ActiveRecord::Schema.define(:version => 20130621080317) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -699,17 +699,19 @@ ActiveRecord::Schema.define(:version => 20130607154504) do
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
-    t.boolean  "to_delete",              :default => false
+    t.boolean  "to_delete",               :default => false
     t.integer  "commercial_run_time_id"
     t.integer  "video_distributor_id"
     t.boolean  "on_going_series"
     t.text     "remarks"
-    t.integer  "masters_count",          :default => 0
-    t.integer  "screeners_count",        :default => 0
+    t.integer  "masters_count",           :default => 0
+    t.integer  "screeners_count",         :default => 0
     t.string   "in_playlists"
     t.text     "language_tracks"
     t.text     "language_subtitles"
-    t.boolean  "active",                 :default => true
+    t.boolean  "active",                  :default => true
+    t.string   "chinese_programme_title"
+    t.text     "chinese_synopsis"
   end
 
   add_index "videos", ["laboratory_id"], :name => "index_videos_on_laboratory_id"

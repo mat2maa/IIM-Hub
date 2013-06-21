@@ -54,7 +54,8 @@ class Video < ActiveRecord::Base
   
   attr_accessible :movie_id, :programme_title, :foreign_language_title, :video_type, :video_distributor_id,
                   :production_year, :production_studio_id, :episodes_available, :laboratory_id, :on_going_series,
-                  :commercial_run_time_id, :video_genre_ids, :language_tracks, :language_subtitles, :synopsis, :remarks, :poster
+                  :commercial_run_time_id, :video_genre_ids, :language_tracks, :language_subtitles, :synopsis, :remarks,
+                  :poster, :chinese_programme_title, :chinese_synopsis
   
   before_save :meta_tidy
 
@@ -87,6 +88,12 @@ class Video < ActiveRecord::Base
                         .strip
                         .gsub(/(\.\s{2,})/, '. ')
                         .strip if self.synopsis.present?
+
+    self.chinese_synopsis = self.chinese_synopsis
+                                .gsub(/(\r\n|\r|\n|\u0085|\u000C|\u2028|\u2029|\s{2,})/, ' ')
+                                .strip
+                                .gsub(/(\.\s{2,})/, '. ')
+                                .strip if self.chinese_synopsis.present?
   end
     
   def video_genres_string

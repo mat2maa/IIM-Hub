@@ -7,19 +7,31 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
+    <%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;
+    <span id="download_pdf_link">
+        <%= link_to "Download English PDF",
+                    {controller: "video_playlists",
+                     action: "show",
+                     id: @video_playlist,
+                     format: "pdf"} %>
+    </span>
+
+    |
+
+    <span id="export_to_excel_link">
+        <%= link_to "Export as Excel",
+                    controller: "video_playlists",
+                    action: "export_to_excel",
+                    id: @video_playlist %>
+    </span>
+
+    |
+
     <%= link_to "Edit Playlist",
                 {controller: "video_playlists",
                  action: "edit",
                  id: @video_playlist},
                 target: "_blank" %>
-    |
-    <%= link_to "Print Playlist",
-                print_video_playlist_path(id: @video_playlist, language: "english", format: "pdf") %>
-    |
-    <%= link_to "Export as Excel",
-                controller: "video_playlists",
-                action: "export_to_excel",
-                id: @video_playlist %>
   </div>
   <div id="content-header">Video Playlists</div>
 </div>
@@ -28,14 +40,52 @@
   <center>
     <h2>Video Playlist</h2>
     <%= "Video Playlist Type: #{@video_playlist.video_playlist_type.name} " if !@video_playlist.video_playlist_type.nil? %>
-
-    <table width="900">
+    <div id="playlist_item_view_container">
       <%= render partial: 'playlist_item_view',
-                 collection: @video_playlist.video_playlist_items_sorted %>
-    </table>
+                 collection: @video_playlist.video_playlist_items_sorted,
+                 locals: {language: 'english' } %>
+    </div>
 
     <%= link_to 'Back',
                 video_playlists_path %>
 
   </center>
 </div>
+
+<script>
+
+    var $ = jQuery;
+
+    $(document).ready(function() {
+
+        var playlist,
+            pdfLink;
+
+        $('#chinese_checkbox').on("change", function() {
+            if($(this).is(':checked')) {
+                playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
+                                                          collection: @video_playlist.video_playlist_items_sorted,
+                                                          locals: {language: 'chinese' }) %> ";
+                pdfLink = " <%= escape_javascript(link_to "Download Chinese PDF",
+                                                          {controller: "video_playlists",
+                                                           action: "show_chinese",
+                                                           id: @video_playlist,
+                                                           format: "pdf"}) %> ";
+            } else {
+                playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
+                                                          collection: @video_playlist.video_playlist_items_sorted,
+                                                          locals: {language: 'english' }) %> ";
+                pdfLink = " <%= escape_javascript(link_to "Download English PDF",
+                                                          {controller: "video_playlists",
+                                                           action: "show",
+                                                           id: @video_playlist,
+                                                           format: "pdf"}) %> ";
+            }
+
+            $("#playlist_item_view_container").html(playlist);
+            $("#download_pdf_link").html(pdfLink);
+        });
+
+    });
+
+</script>

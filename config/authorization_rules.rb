@@ -22,13 +22,13 @@ authorization do
 		            :sort, :export_to_excel, :add_multiple_movies, :duplicate, :show_chinese]
 		            
 		has_permission_on :video_playlists, :to => [:read, :create, :update, :print, :add_video, :add_video_to_playlist, 
-                :sort, :export_to_excel, :add_multiple_videos, :duplicate]
+                :sort, :export_to_excel, :add_multiple_videos, :duplicate, :show_chinese]
 
 		has_permission_on :video_master_playlists, :to => [:read, :create, :update, :print, :add_video_master, :add_video_master_to_playlist,
-                :sort, :export_to_excel, :add_multiple_masters, :set_video_master_playlist_item_mastering, :duplicate]
+                :sort, :export_to_excel, :add_multiple_masters, :set_video_master_playlist_item_mastering, :duplicate, :show_chinese]
 
 		has_permission_on :screener_playlists, :to => [:manage,:print, :add_screener, :add_screener_to_playlist, 
-                :sort, :export_to_excel, :add_multiple_screeners, :set_screener_playlist_item_mastering, :duplicate]
+                :sort, :export_to_excel, :add_multiple_screeners, :set_screener_playlist_item_mastering, :duplicate, :show_chinese]
 		            
 		has_permission_on :users, :to => [:edit_own_password, :update_own_password]
 	  
@@ -138,13 +138,13 @@ authorization do
 		            :sort, :export_to_excel, :add_multiple_movies, :duplicate, :show_chinese]
 
     has_permission_on :video_playlists, :to => [:manage,:print, :add_video, :add_video_to_playlist,
-                :sort, :export_to_excel, :add_multiple_videos, :duplicate]
+                :sort, :export_to_excel, :add_multiple_videos, :duplicate, :show_chinese]
 
 		has_permission_on :video_master_playlists, :to => [:manage,:print, :add_video_master, :add_video_master_to_playlist,
-                :sort, :export_to_excel, :add_multiple_masters, :set_video_master_playlist_item_mastering, :duplicate]
+                :sort, :export_to_excel, :add_multiple_masters, :set_video_master_playlist_item_mastering, :duplicate, :show_chinese]
 
 		has_permission_on :screener_playlists, :to => [:manage,:print, :add_screener, :add_screener_to_playlist,
-                :sort, :export_to_excel, :add_multiple_screeners, :set_screener_playlist_item_mastering, :duplicate]
+                :sort, :export_to_excel, :add_multiple_screeners, :set_screener_playlist_item_mastering, :duplicate, :show_chinese]
 
   end
 
@@ -216,16 +216,16 @@ authorization do
 
     has_permission_on :video_playlists, :to => [:manage,:print, :add_video, :add_video_to_playlist,
                                                 :sort, :export_to_excel, :add_multiple_videos, :duplicate, :lock,
-                                                :unlock]
+                                                :unlock, :show_chinese]
 
     has_permission_on :video_master_playlists, :to => [:manage,:print, :add_video_master, :add_video_master_to_playlist,
                                                        :sort, :export_to_excel, :add_multiple_masters,
                                                        :set_video_master_playlist_item_mastering, :duplicate, :lock,
-                                                       :unlock]
+                                                       :unlock, :show_chinese]
 
     has_permission_on :screener_playlists, :to => [:manage,:print, :add_screener, :add_screener_to_playlist,
                                                    :sort, :export_to_excel, :add_multiple_screeners,
-                                                   :set_screener_playlist_item_mastering, :duplicate, :lock, :unlock]
+                                                   :set_screener_playlist_item_mastering, :duplicate, :lock, :unlock, :show_chinese]
 
   end
 end

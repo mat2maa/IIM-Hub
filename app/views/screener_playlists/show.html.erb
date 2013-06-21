@@ -7,16 +7,30 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
-    <%= link_to "Print Playlist",
-                {controller: "screener_playlists",
-                 action: "show",
-                 id: @screener_playlist},
-                :popup => true %>
+    <span id="download_pdf_link">
+        <%= link_to "Download PDF",
+                    {controller: "screener_playlists",
+                     action: "show",
+                     id: @screener_playlist,
+                     format: "pdf"} %>
+    </span>
+
     |
-    <%= link_to "Export as Excel",
-                controller: "screener_playlists",
-                action: "export_to_excel",
-                id: @screener_playlist %>
+
+    <span id="export_to_excel_link">
+        <%= link_to "Export as Excel",
+                    controller: "screener_playlists",
+                    action: "export_to_excel",
+                    id: @screener_playlist %>
+    </span>
+
+    |
+
+    <%= link_to "Edit Playlist",
+                {controller: "screener_playlists",
+                 action: "edit",
+                 id: @screener_playlist},
+                target: "_blank" %>
   </div>
   <div id="content-header">Screener Playlists</div>
 </div>

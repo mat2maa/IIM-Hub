@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 require "spreadsheet"
 require 'stringio'
 
@@ -73,6 +73,11 @@ class VideoMasterPlaylistsController < ApplicationController
   def show
     @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
                                                 .find(params[:id])
+  end
+
+  def show_chinese
+    @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
+    .find(params[:id])
   end
 
   #display overlay
@@ -179,26 +184,26 @@ class VideoMasterPlaylistsController < ApplicationController
     end
   end
 
-  def print
-
-    @video_master_playlist = VideoMasterPlaylist.find(params[:id])
-    if @video_master_playlist.master_playlist_type.nil?
-      video_type = " "
-    else
-      video_type = " " + @video_master_playlist.master_playlist_type.name
-    end
-    headers["Content-Disposition"] = "attachment; filename=\"#{@video_master_playlist.airline.code if
-     !@video_master_playlist.airline.nil? }#{@video_master_playlist.start_cycle.strftime("%m%y")}#{video_type} Master.pdf\""
-
-    respond_to do |format|
-      format.html
-      format.pdf {
-        render text: PDFKit.new(print_video_playlist_url(@video_master_playlist)).to_pdf,
-               layout: false
-      }
-    end
-
-  end
+  #def print
+  #
+  #  @video_master_playlist = VideoMasterPlaylist.find(params[:id])
+  #  if @video_master_playlist.master_playlist_type.nil?
+  #    video_type = " "
+  #  else
+  #    video_type = " " + @video_master_playlist.master_playlist_type.name
+  #  end
+  #  headers["Content-Disposition"] = "attachment; filename=\"#{@video_master_playlist.airline.code if
+  #   !@video_master_playlist.airline.nil? }#{@video_master_playlist.start_cycle.strftime("%m%y")}#{video_type} Master.pdf\""
+  #
+  #  respond_to do |format|
+  #    format.html
+  #    format.pdf {
+  #      render text: PDFKit.new(print_video_playlist_url(@video_master_playlist)).to_pdf,
+  #             layout: false
+  #    }
+  #  end
+  #
+  #end
 
 
   def export_to_excel
@@ -239,6 +244,7 @@ class VideoMasterPlaylistsController < ApplicationController
     # header row
     sheet.add_row ["Position",
                    "Programme Title",
+                   "Chinese Programme Title",
                    "Episode Title",
                    "Episode Number",
                    "Distributor",
@@ -257,9 +263,9 @@ class VideoMasterPlaylistsController < ApplicationController
                    "Master Time Out",
                    "Duration",
                    "Programme Synopsis",
+                   "Chinese Programme Synopsis",
                    "Episode Synopsis",
-                   "Genre,
-Sub-Genre",
+                   "Genre, Sub-Genre",
                    "Mastering"]
 
     # data rows
@@ -275,6 +281,7 @@ Sub-Genre",
         sheet.add_row [index + 1,
 
                        video_master_playlist_item.master.video.programme_title,
+                       video_master_playlist_item.master.video.chinese_programme_title,
 
                        video_master_playlist_item.master.episode_title,
 
@@ -310,6 +317,7 @@ Sub-Genre",
                        video_master_playlist_item.master.duration,
 
                        video_master_playlist_item.master.video.synopsis,
+                       video_master_playlist_item.master.video.chinese_synopsis,
 
                        video_master_playlist_item.master.synopsis,
                        video_master_playlist_item.master.video.video_genres_string_with_parent,
