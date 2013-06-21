@@ -75,7 +75,7 @@ class ScreenerPlaylistsController < ApplicationController
   end
 
   def show_chinese
-    @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
+    @screener_playlist = ScreenerPlaylist.includes(screener_playlist_items: :screener)
     .find(params[:id])
   end
 

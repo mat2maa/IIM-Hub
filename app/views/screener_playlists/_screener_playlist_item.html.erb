@@ -19,14 +19,18 @@
             <td width="150"><%= screener_playlist_item.screener.location %></td>
           </tr>
           <tr>
-            <th>Episode Title:</th>
-            <td><%= screener_playlist_item.screener.episode_title %></td>
+            <th>Chinese Video Title:</th>
+            <td><%= screener_playlist_item.screener.video.chinese_programme_title %></td>
             <th>Episode No:</th>
             <td><%= screener_playlist_item.screener.episode_number %></td>
             <th>Remarks:</th>
             <td><%= screener_playlist_item.screener.remarks %></td>
             <th>Other:</th>
             <td><%= screener_playlist_item.screener.remarks_other %></td>
+          </tr>
+          <tr>
+            <th>Episode Title:</th>
+            <td><%= screener_playlist_item.screener.episode_title %></td>
           </tr>
         </table>
       </td>

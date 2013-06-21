@@ -24,9 +24,17 @@
 
     |
 
-    <%= link_to "Download PDF",
+    <%= link_to "Download English PDF",
                 {controller: "screener_playlists",
                  action: "show",
+                 id: @screener_playlist,
+                 format: "pdf"} %>
+
+    |
+
+    <%= link_to "Download Chinese PDF",
+                {controller: "screener_playlists",
+                 action: "show_chinese",
                  id: @screener_playlist,
                  format: "pdf"} %>
 

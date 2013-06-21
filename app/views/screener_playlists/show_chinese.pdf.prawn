@@ -60,6 +60,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
   length = @screener_playlist.screeners.length
   @screener_playlist.screeners.each.with_index do |screener, index|
     title = pdf.make_cell(content: screener.video.programme_title) if screener.video.programme_title.present?
+    chinese_title = pdf.make_cell(content: screener.video.chinese_programme_title) if screener.video._chinese_programme_title.present?
     episode_title = pdf.make_cell(content: screener.episode_title) if screener.episode_title.present?
 
     screener_distributor = pdf.make_cell(content: screener.video.video_distributor.company_name) if screener.video.video_distributor.present?
@@ -69,10 +70,11 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
     language_subtitles = pdf.make_cell(content: screener.video.language_subtitles.join(', ').to_s) if screener.video.language_subtitles.present?
 
     synopsis = pdf.make_cell(content: screener.video.synopsis) if screener.video.synopsis.present?
+    chinese_synopsis = pdf.make_cell(content: screener.video.chinese_synopsis) if screener.video.chinese_synopsis.present?
 
     titles = []
-    titles.push([title]) if screener.video.programme_title.present?
-    titles.push([episode_title]) if screener.episode_title.present? && screener.episode_title.upcase != screener.video.programme_title.upcase
+    screener.video.chinese_programme_title.present? ? titles.push([chinese_title]) : titles.push([title])
+    titles.push([episode_title]) if screener.episode_title.present?
 
     pdf.table(
         titles,
@@ -81,13 +83,14 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
         position: 0,
         cell_style: {
             font: "helvetica",
-            font_style: :light,
+            font_style: :normal,
             text_color: 'FFFFFF'
         }
     ) do
       cells.borders = []
       row(0).size = 21
       row(0).padding = [0, 2, 0, 2]
+      row(0).font = "WenQuanYiMicroHei" if screener.video.chinese_programme_title.present?
       row(1).size = 14
       row(1).padding = [0, 2, 4, 2]
     end
@@ -106,7 +109,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
         position: 0,
         cell_style: {
             font: "SourceSans",
-            font_style: :light,
+            font_style: :normal,
             size:10,
             text_color: 'FFFFFF'
         }
@@ -119,7 +122,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
 
     synopses = []
     synopses.push(["Synopsis:"])
-    screener.video.synopsis.present? ? synopses.push([synopsis]) : synopses.push(["N/A"])
+    screener.video.chinese_synopsis.present? ? synopses.push([chinese_synopsis]) : synopses.push([synopsis]) if screener.video.synopsis.present?
 
     pdf.table(
         synopses,
@@ -135,7 +138,8 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
       cells.borders = []
       cells.padding = 2
       row(0).font_style = :semibold
-      row(1).font_style = :light
+      row(1).font_style = :normal
+      row(1).font = "WenQuanYiMicroHei" if screener.video.chinese_synopsis.present?
     end
 
     pdf.move_down(70) if(index % 2 == 0)

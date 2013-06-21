@@ -8,12 +8,20 @@
 <div id="content-header-wrapper">
   <div id="content-header-actions">
     <span id="download_pdf_link">
-        <%= link_to "Download PDF",
+        <%= link_to "Download English PDF",
                     {controller: "screener_playlists",
                      action: "show",
                      id: @screener_playlist,
                      format: "pdf"} %>
     </span>
+
+    |
+
+    <%= link_to "Download Chinese PDF",
+                {controller: "screener_playlists",
+                 action: "show_chinese",
+                 id: @screener_playlist,
+                 format: "pdf"} %>
 
     |
 

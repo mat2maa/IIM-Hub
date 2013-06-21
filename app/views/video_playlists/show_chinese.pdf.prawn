@@ -61,7 +61,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
   @video_playlist.videos.each.with_index do |video, index|
     title = pdf.make_cell(content: video.programme_title) if video.programme_title.present?
     chinese_title = pdf.make_cell(content: video.chinese_programme_title) if video.chinese_programme_title.present?
-    foreign_language_title = pdf.make_cell(content: video.foreign_language_title.capitalize + " (" + video.video_type.name.capitalize + ")") if video.foreign_language_title.present?
+    foreign_language_title = pdf.make_cell(content: video.foreign_language_title) if video.foreign_language_title.present?
 
     video_distributor = pdf.make_cell(content: video.video_distributor.company_name) if video.video_distributor.present?
     genres = pdf.make_cell(content: video.video_genres_string_with_parent) if video.video_genres_string_with_parent.present?
