@@ -61,7 +61,7 @@ gem 'aws-sdk'
 
 gem "asset_sync"
 
-gem "rotten"
+# gem "rotten"
 
 # To use ActiveModel has_secure_password
 gem "bcrypt-ruby", "~> 3.0.1"

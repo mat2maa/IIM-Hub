@@ -309,12 +309,7 @@
 
         <%= f.input :critics_review,
                     input_html: {tabindex: autotab},
-                    label: ("Critics Review
-                             <br/>
-                             <br/>
-                             <div class='action-button'>
-                                 #{link_to 'Add Critics Review', add_review_to_movie_path(id: @movie.id), id: 'add_review_to_movie'}
-                             </div>").html_safe %>
+                    label: ("Critics Review") %>
 
         <%= f.input :remarks,
                     input_html: {tabindex: autotab,
