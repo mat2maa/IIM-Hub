@@ -105,6 +105,7 @@ prawn_document top_margin: 100,
         row(0).padding = [0, 2, 0, 2]
         row(1).size = 14
         row(1).padding = [0, 2, 4, 2]
+        row(1).font = "WenQuanYiMicroHei" if !!(video.foreign_language_title =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/)
       end
 
       information = []
