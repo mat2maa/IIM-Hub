@@ -78,13 +78,13 @@ Iim::Application.configure do
   }
 end
 
-PDFKit.configure do |config|
-  config.wkhtmltopdf = Rails.root.join('vendor', 'wkhtmltopdf').to_s
-  config.default_options = {
-    encoding: "UTF-8",
-    page_size: "A4"
-  }
-end
+#PDFKit.configure do |config|
+#  config.wkhtmltopdf = Rails.root.join('vendor', 'wkhtmltopdf').to_s
+#  config.default_options = {
+#    encoding: "UTF-8",
+#    page_size: "A4"
+#  }
+#end
 
 THALES_OPTS = {
     url: "s3_domain_url",
