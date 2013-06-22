@@ -13,7 +13,8 @@
                     {controller: "video_playlists",
                      action: "show",
                      id: @video_playlist,
-                     format: "pdf"} %>
+                     format: "pdf"},
+                    target: "_blank" %>
     </span>
 
     |
@@ -70,7 +71,8 @@
                                                           {controller: "video_playlists",
                                                            action: "show_chinese",
                                                            id: @video_playlist,
-                                                           format: "pdf"}) %> ";
+                                                           format: "pdf"},
+                                                          target: "_blank") %> ";
             } else {
                 playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                           collection: @video_playlist.video_playlist_items_sorted,
@@ -79,7 +81,8 @@
                                                           {controller: "video_playlists",
                                                            action: "show",
                                                            id: @video_playlist,
-                                                           format: "pdf"}) %> ";
+                                                           format: "pdf"},
+                                                          target: "_blank") %> ";
             }
 
             $("#playlist_item_view_container").html(playlist);

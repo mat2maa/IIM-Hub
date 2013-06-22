@@ -5,7 +5,11 @@ bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
 
-prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A4', background: bg_image do |pdf|
+prawn_document top_margin: 100,
+               left_margin: 42,
+               bottom_margin: 0,
+               page_size: 'A4',
+               background: bg_image do |pdf|
 
   pdf.font_families.update(
       "helvetica" => {

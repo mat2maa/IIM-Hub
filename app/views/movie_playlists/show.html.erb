@@ -13,7 +13,8 @@
                   {controller: "movie_playlists",
                    action: "show",
                    id: @movie_playlist,
-                   format: "pdf"} %>
+                   format: "pdf"},
+                  target: "_blank" %>
     </span>
 
     |
@@ -82,7 +83,8 @@
                                                   {controller: "movie_playlists",
                                                    action: "show_chinese",
                                                    id: @movie_playlist,
-                                                   format: "pdf"}) %> ";
+                                                   format: "pdf"},
+                                                  target: "_blank") %> ";
       } else {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                   collection: @movie_playlist.movie_playlist_items_sorted,
@@ -91,7 +93,8 @@
                                                   {controller: "movie_playlists",
                                                    action: "show",
                                                    id: @movie_playlist,
-                                                   format: "pdf"}) %> ";
+                                                   format: "pdf"},
+                                                  target: "_blank") %> ";
       }
 
       $("#playlist_item_view_container").html(playlist);

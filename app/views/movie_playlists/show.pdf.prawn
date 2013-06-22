@@ -5,7 +5,11 @@ bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
 
-prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A4', background: bg_image do |pdf|
+prawn_document top_margin: 100,
+               left_margin: 42,
+               bottom_margin: 0,
+               page_size: 'A4',
+               background: bg_image do |pdf|
 
   pdf.font_families.update(
       "helvetica" => {
@@ -71,7 +75,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
 
     synopsis = pdf.make_cell(content: movie.synopsis) if movie.synopsis.present?
     imdb_synopsis = pdf.make_cell(content: movie.imdb_synopsis) if movie.imdb_synopsis.present?
-    critics_review = pdf.make_cell(content: movie.critics_review.html_safe) if movie.critics_review.present?
+#    critics_review = pdf.make_cell(content: strip_tags(movie.critics_review.html_safe)) if movie.critics_review.present?
 
     image_path = "http://s3.amazonaws.com/iim#{movie.poster.path(:small)}" if movie.poster.present?
 
@@ -79,7 +83,7 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
 
       pdf.image open(image_path),
                 at: [0, pdf.cursor],
-                height: 140
+                fit: [100, 140]
 
       titles = []
       titles.push([title]) if movie.movie_title.present?
@@ -134,8 +138,8 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
     synopses.push([synopsis]) if movie.synopsis.present?
     synopses.push(["IMDB Synopsis:"]) if movie.imdb_synopsis.present?
     synopses.push([imdb_synopsis]) if movie.imdb_synopsis.present?
-    synopses.push(["Critics Review:"]) if movie.critics_review.present?
-    synopses.push([critics_review]) if movie.critics_review.present?
+    #synopses.push(["Critics Review:"]) if movie.critics_review.present?
+    #synopses.push([critics_review]) if movie.critics_review.present?
 
     pdf.table(
         synopses,
@@ -154,8 +158,8 @@ prawn_document top_margin: 100, left_margin: 42, bottom_margin: 0, page_size: 'A
       row(1).font_style = :light
       row(2).font_style = :semibold
       row(3).font_style = :light
-      row(4).font_style = :semibold
-      row(5).font_style = :light
+      #row(4).font_style = :semibold
+      #row(5).font_style = :light
     end
 
     pdf.move_down(70) if(index % 2 == 0)
