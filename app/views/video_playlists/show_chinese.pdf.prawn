@@ -87,7 +87,7 @@ prawn_document top_margin: 100,
 
     image_path = "http://s3.amazonaws.com/iim#{video.poster.path(:small)}" if video.poster.present?
 
-    pdf.bounding_box([0, pdf.cursor], width: 480, height: 120) do
+    pdf.bounding_box([0, pdf.cursor], width: 480, height: 140) do
 
       if image_path.present? then
         pdf.image open(image_path),
@@ -115,7 +115,7 @@ prawn_document top_margin: 100,
           }
       ) do
         cells.borders = []
-        row(0).size = video.programme_title.length > 50 && !video.chinese_programme_title.present? ? 16 : 21
+        row(0).size = video.programme_title.length > 50 && !video.chinese_programme_title.present? ? 16 : 18
         row(0).font = "ARIALUNI" if video.chinese_programme_title.present?
         row(0).padding = [0, 2, 0, 2]
         row(1).size = 14
