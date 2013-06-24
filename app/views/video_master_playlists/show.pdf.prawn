@@ -35,8 +35,8 @@ prawn_document top_margin: 100,
           light: Rails.root.join(".fonts", "Thaitillium.ttf").to_s
       },
       "ARIALUNI" => {
-          normal: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s,
-          light: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s
+          normal: Rails.root.join(".fonts", "arial.ttf").to_s,
+          light: Rails.root.join(".fonts", "arial.ttf").to_s
       }
   )
 
