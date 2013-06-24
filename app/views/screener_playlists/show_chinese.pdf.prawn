@@ -29,6 +29,14 @@ prawn_document top_margin: 100,
       "BaekmukDotum" => {
           normal: Rails.root.join(".fonts", "dotum.ttf").to_s,
           light: Rails.root.join(".fonts", "dotum.ttf").to_s
+      },
+      "Thaitillium" => {
+          normal: Rails.root.join(".fonts", "Thaitillium.ttf").to_s,
+          light: Rails.root.join(".fonts", "Thaitillium.ttf").to_s
+      },
+      "ARIALUNI" => {
+          normal: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s,
+          light: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s
       }
   )
 
@@ -92,9 +100,9 @@ prawn_document top_margin: 100,
         }
     ) do
       cells.borders = []
-      row(0).size = 21
+      row(0).size = screener.episode_title.length > 50 && !screener.video.chinese_programme_title.present? ? 16: 21
       row(0).padding = [0, 2, 0, 2]
-      row(0).font = "WenQuanYiMicroHei" if screener.video.chinese_programme_title.present?
+      row(0).font = "ARIALUNI" if screener.video.chinese_programme_title.present?
       row(1).size = 14
       row(1).padding = [0, 2, 4, 2]
     end
@@ -136,14 +144,15 @@ prawn_document top_margin: 100,
         cell_style: {
             font: "SourceSans",
             text_color: 'FFFFFF',
-            size: 10
+            size: 10,
+            leading:2
         }
     ) do
       cells.borders = []
       cells.padding = 2
       row(0).font_style = :semibold
       row(1).font_style = :normal
-      row(1).font = "WenQuanYiMicroHei" if screener.video.chinese_synopsis.present?
+      row(1).font = "ARIALUNI" if screener.video.chinese_synopsis.present?
     end
 
     pdf.move_down(70) if(index % 2 == 0)

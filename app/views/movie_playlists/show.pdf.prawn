@@ -4,6 +4,7 @@ logo = "#{Rails.root}/app/assets/images/iim-logo-transparent-hires.png"
 bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
+missing_image = "#{Rails.root}/app/assets/images/posters/missing_small.png"
 
 prawn_document top_margin: 100,
                left_margin: 42,
@@ -29,6 +30,14 @@ prawn_document top_margin: 100,
       "BaekmukDotum" => {
           normal: Rails.root.join(".fonts", "dotum.ttf").to_s,
           light: Rails.root.join(".fonts", "dotum.ttf").to_s
+      },
+      "Thaitillium" => {
+          normal: Rails.root.join(".fonts", "Thaitillium.ttf").to_s,
+          light: Rails.root.join(".fonts", "Thaitillium.ttf").to_s
+      },
+      "ARIALUNI" => {
+      normal: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s,
+      light: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s
       }
   )
 
@@ -81,9 +90,15 @@ prawn_document top_margin: 100,
 
     pdf.bounding_box([0, pdf.cursor], width: 480, height: 160) do
 
-      pdf.image open(image_path),
-                at: [0, pdf.cursor],
-                fit: [100, 140]
+      if image_path.present? then
+        pdf.image open(image_path),
+                  at: [0, pdf.cursor],
+                  fit: [100, 100]
+      else
+        pdf.image open(missing_image),
+                  at: [0, pdf.cursor],
+                  fit: [100, 100]
+      end
 
       titles = []
       titles.push([title]) if movie.movie_title.present?
@@ -101,11 +116,12 @@ prawn_document top_margin: 100,
           }
       ) do
         cells.borders = []
-        row(0).size = 24
-        row(0).padding = [0, 2, 0, 2]
+        row(0).size = movie.movie_title.length > 50 ? 16 : 21
+        row(0).padding = [0, 2, 4, 2]
+
         row(1).size = 14
         row(1).padding = [0, 2, 4, 2]
-        row(1).font = "BaekmukDotum" if movie.movie_type.name.upcase == "KOREAN MOVIE"
+        !!movie.foreign_language_title.match(/^[a-zA-Z0-9_\-+ ]*$/) ? row(1).font = "helvetica" : row(1).font = "ARIALUNI"
       end
 
       information = []
@@ -134,8 +150,8 @@ prawn_document top_margin: 100,
     end
 
     synopses = []
-    synopses.push(["Synopsis:"]) if movie.synopsis.present?
-    synopses.push([synopsis]) if movie.synopsis.present?
+    synopses.push(["Synopsis:"])
+    movie.synopsis.present? ? synopses.push([synopsis]) : synopses.push(["N/A"])
     synopses.push(["IMDB Synopsis:"]) if movie.imdb_synopsis.present?
     synopses.push([imdb_synopsis]) if movie.imdb_synopsis.present?
     #synopses.push(["Critics Review:"]) if movie.critics_review.present?
@@ -149,7 +165,8 @@ prawn_document top_margin: 100,
         cell_style: {
             font: "SourceSans",
             text_color: 'FFFFFF',
-            size: 10
+            size: 10,
+            leading:2
         }
     ) do
       cells.borders = []

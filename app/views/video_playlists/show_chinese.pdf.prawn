@@ -4,6 +4,7 @@ logo = "#{Rails.root}/app/assets/images/iim-logo-transparent-hires.png"
 bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
+missing_image = "#{Rails.root}/app/assets/images/posters/missing_small.png"
 
 prawn_document top_margin: 100,
                left_margin: 42,
@@ -29,6 +30,14 @@ prawn_document top_margin: 100,
       "BaekmukDotum" => {
           normal: Rails.root.join(".fonts", "dotum.ttf").to_s,
           light: Rails.root.join(".fonts", "dotum.ttf").to_s
+      },
+      "Thaitillium" => {
+          normal: Rails.root.join(".fonts", "Thaitillium.ttf").to_s,
+          light: Rails.root.join(".fonts", "Thaitillium.ttf").to_s
+      },
+      "ARIALUNI" => {
+          normal: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s,
+          light: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s
       }
   )
 
@@ -80,9 +89,15 @@ prawn_document top_margin: 100,
 
     pdf.bounding_box([0, pdf.cursor], width: 480, height: 120) do
 
-      pdf.image open(image_path),
-                at: [0, pdf.cursor],
-                fit: [100, 100]
+      if image_path.present? then
+        pdf.image open(image_path),
+                  at: [0, pdf.cursor],
+                  fit: [100, 100]
+      else
+        pdf.image open(missing_image),
+                  at: [0, pdf.cursor],
+                  fit: [100, 100]
+      end
 
       titles = []
       video.chinese_programme_title.present? ? titles.push([chinese_title]) : titles.push([title])
@@ -100,12 +115,12 @@ prawn_document top_margin: 100,
           }
       ) do
         cells.borders = []
-        row(0).size = 21
-        row(0).font = "WenQuanYiMicroHei" if video.chinese_programme_title.present?
+        row(0).size = video.programme_title.length > 50 && !video.chinese_programme_title.present? ? 16 : 21
+        row(0).font = "ARIALUNI" if video.chinese_programme_title.present?
         row(0).padding = [0, 2, 0, 2]
         row(1).size = 14
         row(1).padding = [0, 2, 4, 2]
-        row(1).font = "WenQuanYiMicroHei" if !!(video.foreign_language_title =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/)
+        !!video.foreign_language_title.match(/^[a-zA-Z0-9_\-+ ]*$/) ? row(1).font = "helvetica" : row(1).font = "ARIALUNI"
       end
 
       information = []
@@ -134,24 +149,31 @@ prawn_document top_margin: 100,
 
     synopses = []
     synopses.push(["Synopsis:"])
-    video.chinese_synopsis.present? ? synopses.push([chinese_synopsis]) : synopses.push([synopsis]) if video.synopsis.present?
+    if video.chinese_synopsis.present? then
+      synopses.push([chinese_synopsis])
+    else
+      video.synopsis.present? ? synopses.push([synopsis]) : synopses.push(["N/A"])
+    end
 
-    pdf.table(
-        synopses,
-        width: 480,
-        column_widths: [480],
-        position: 0,
-        cell_style: {
-            font: "SourceSans",
-            text_color: 'FFFFFF',
-            size: 10
-        }
-    ) do
-      cells.borders = []
-      cells.padding = 2
-      row(0).font_style = :semibold
-      row(1).font_style = :normal
-      row(1).font = "WenQuanYiMicroHei" if video.chinese_synopsis.present?
+    if video.chinese_synopsis.present? || video.synopsis.present? then
+      pdf.table(
+          synopses,
+          width: 480,
+          column_widths: [480],
+          position: 0,
+          cell_style: {
+              font: "SourceSans",
+              text_color: 'FFFFFF',
+              size: 10,
+              leading:2
+          }
+      ) do
+        cells.borders = []
+        cells.padding = 2
+        row(0).font_style = :semibold
+        row(1).font_style = :normal
+        row(1).font = "ARIALUNI" if video.chinese_synopsis.present?
+      end
     end
 
     pdf.move_down(70) if(index % 2 == 0)

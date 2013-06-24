@@ -29,6 +29,14 @@ prawn_document top_margin: 100,
       "BaekmukDotum" => {
           normal: Rails.root.join(".fonts", "dotum.ttf").to_s,
           light: Rails.root.join(".fonts", "dotum.ttf").to_s
+      },
+      "Thaitillium" => {
+          normal: Rails.root.join(".fonts", "Thaitillium.ttf").to_s,
+          light: Rails.root.join(".fonts", "Thaitillium.ttf").to_s
+      },
+      "ARIALUNI" => {
+          normal: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s,
+          light: Rails.root.join(".fonts", "ARIALUNI.ttf").to_s
       }
   )
 
@@ -97,7 +105,7 @@ prawn_document top_margin: 100,
         }
     ) do
       cells.borders = []
-      row(0).size = 21
+      row(0).size = video_master.episode_title.length > 50 ? 16 : 21
       row(0).padding = [0, 2, 0, 2]
     end
 
@@ -140,7 +148,8 @@ prawn_document top_margin: 100,
         cell_style: {
             font: "SourceSans",
             text_color: 'FFFFFF',
-            size: 10
+            size: 10,
+            leading:2
         }
     ) do
       cells.borders = []
