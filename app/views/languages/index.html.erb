@@ -18,7 +18,7 @@
     <%= will_paginate @languages %>
     <%
       def items_per_page_select(collection = Languages)
-        select_tag :per_page, options_for_select([10, 20, 50, 100], collection.per_page)
+        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
       end
     %>
     <%= form_for '/languages', method: :get, html: { class: 'items_per_page_select' } do |f| %>

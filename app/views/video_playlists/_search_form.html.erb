@@ -26,6 +26,15 @@
                                        {include_blank: true} %>
             <br/>
           </td>
+          <td>
+            Video Playlist Type:<br/>
+            <%= video_playlists.select :video_playlist_type_id_eq,
+                                       VideoPlaylistType.order("name asc")
+                                       .collect { |p| [p.name,
+                                                       p.id] },
+                                       {include_blank: true} %>
+            <br/>
+          </td>
           <td>Start Playdate:<br/>
             <%= video_playlists.date_select :start_cycle_cont,
                                             {discard_day: true,

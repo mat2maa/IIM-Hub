@@ -97,7 +97,7 @@
     <%= will_paginate @movie_playlists %>
     <%
       def items_per_page_select(collection = MoviePlaylists)
-        select_tag :per_page, options_for_select([10, 20, 50, 100], collection.per_page)
+        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
       end
     %>
     <%= form_for '/movie_playlists', method: :get, html: { class: 'items_per_page_select' } do |f| %>

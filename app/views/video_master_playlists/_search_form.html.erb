@@ -24,6 +24,15 @@
                                        {include_blank: true} %>
             <br/>
           </td>
+          <td>
+            Master Playlist Type:<br/>
+            <%= video_playlists.select :master_playlist_type_id_eq,
+                                       MasterPlaylistType.order("name asc")
+                                       .collect { |p| [p.name,
+                                                       p.id] },
+                                       {include_blank: true} %>
+            <br/>
+          </td>
           <td>Start Playdate:<br/>
             <%= video_playlists.date_select :start_cycle_matches,
                                             {discard_day: true,
