@@ -126,7 +126,9 @@ prawn_document top_margin: 100,
 
         row(1).size = 14
         row(1).padding = [0, 2, 4, 2]
-        !!movie.foreign_language_title.match(/^[a-zA-Z0-9_\-+ ]*$/) ? row(1).font = "helvetica" : row(1).font = "ARIALUNI"
+        if movie.foreign_language_title.present? then
+          !!movie.foreign_language_title.match(/^[a-zA-Z0-9_\-+ ]*$/) ? row(1).font = "helvetica" : row(1).font = "ARIALUNI"
+        end
       end
 
       information = []
