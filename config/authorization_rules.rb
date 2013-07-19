@@ -157,7 +157,7 @@ authorization do
     has_permission_on :airlines, :to => :manage
     has_permission_on :albums, :to => [:manage, :admin_delete, :amazon_cd_covers, :show_genre,
                                        :show_synopsis, :show_tracks, :show_playlists, :show_tracks_translation,
-                                       :sort, :restore, :add_track, :set_album_synopsis]
+                                       :sort, :restore, :add_track, :set_album_synopsis, :create_from_json]
     has_permission_on :tracks, :to => [:manage, :admin_delete, :show_lyrics_form, :show_playlists, :show_genre,
                                        :restore]
     has_permission_on :categories, :to => :manage

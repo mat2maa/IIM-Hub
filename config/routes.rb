@@ -42,6 +42,7 @@ Iim::Application.routes.draw do
   match "/album_playlists/print/:id" => "album_playlists#print", as: :print_album_playlist
 
   match "/albums/amazon_cd_covers" => "albums#amazon_cd_covers", as: :amazon_cd_covers
+  match "/albums/create_from_json" => "albums#create_from_json", as: :create_album_from_json
 
 #  match "/video_playlists/print/:id" => "video_playlists#print", as: :print_video_playlist
   match "/video_playlists/show_chinese/:id" => "video_playlists#show_chinese", as: :show_chinese

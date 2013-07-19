@@ -77,6 +77,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_http_auth_user
+    authenticate_or_request_with_http_basic do |username, password|
+      if user = User.find_by_login(username)
+        user.valid_password?(password)
+      else
+        false
+      end
+    end
+  end
+
   def store_location
     session[:return_to] = request.fullpath
   end

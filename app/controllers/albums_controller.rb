@@ -5,9 +5,13 @@ include Amazon::AWS
 include Amazon::AWS::Search
 
 class AlbumsController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, except: [:create_from_json]
+  before_filter :require_http_auth_user, only: [:create_from_json]
+  protect_from_forgery except: :create_from_json
   filter_access_to :all
   cache_sweeper :album_sweeper
+
+  respond_to :json
 
   def index
     @search = Album.includes(:label)
@@ -100,6 +104,23 @@ class AlbumsController < ApplicationController
         format.html { render action: "new" }
       end
     end
+  end
+
+
+  def create_from_json
+    @album = Album.new(params[:album])
+    @album.to_delete = 0
+
+    respond_to do |format|
+      format.json do
+        if @album.save
+          head :ok, location: @album
+        else
+          head 500
+        end
+      end
+    end
+
   end
 
   def update
