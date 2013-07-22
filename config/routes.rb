@@ -37,9 +37,10 @@ Iim::Application.routes.draw do
                                                                  as: :download_thales_schema_package
 
   match "/audio_playlists/print/:id" => "audio_playlists#print", as: :print_audio_playlist
-  match "/album_playlists/export_to_excel/:id" => "album_playlists#export_to_excel", as: :export_to_excel
+  match "/audio_playlists/export_to_excel/:id" => "audio_playlists#export_to_excel", as: :export_to_excel
 
   match "/album_playlists/print/:id" => "album_playlists#print", as: :print_album_playlist
+  match "/album_playlists/export_to_excel/:id" => "album_playlists#export_to_excel", as: :export_to_excel
 
   match "/albums/amazon_cd_covers" => "albums#amazon_cd_covers", as: :amazon_cd_covers
   match "/albums/create_from_json" => "albums#create_from_json", as: :create_album_from_json
@@ -63,6 +64,7 @@ Iim::Application.routes.draw do
   match "/import_album/find_release" => "import_album#find_release", as: :find_release
   match "/import_album/import_release" => "import_album#import_release", as: :import_release
 
+  match "/tracks/sort" => "tracks#sort", as: :sort_track
   match "/audio_playlist_tracks/sort" => "audio_playlist_tracks#sort", as: :sort_audio_playlist
   match "/album_playlist_items/sort" => "album_playlist_items#sort", as: :sort_album_playlist
   match "/movie_playlist_items/sort" => "movie_playlist_items#sort", as: :sort_movie_playlist

@@ -1,10 +1,27 @@
 <%= render partial: 'layouts/albumplaylist_header' %>
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
-  <div id="content-header-actions"><%= link_to "Export as Excel",
-                                               controller: "album_playlists",
-                                               action: "export_to_excel",
-                                               id: @album_playlist %>
+  <div id="content-header-actions">
+    <%= link_to 'Edit Album Playlist',
+                edit_album_playlist_path(@album_playlist) if @album_playlist.locked!=true %>
+    |
+    <%= link_to "Print Playlist",
+                {controller: "album_playlists",
+                 action: "print",
+                 id: @album_playlist},
+                target: "_blank" %>
+
+    |
+
+    <%= link_to "Export as Excel",
+                controller: "album_playlists",
+                action: "export_to_excel",
+                id: @album_playlist %>
+
+    |
+
+    <%= link_to_show_overlay 'Download Playlist MP3s',
+                             "/download_album_mp3/" + @album_playlist.id.to_s %>
   </div>
   <div id="content-header">Album Playlists</div>
 </div>

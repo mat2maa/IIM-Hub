@@ -16,7 +16,7 @@
   </tr>
 </table>
 <table id="tracks" width="80%">
-  <tbody id="tracklist" class="sort-list" style="cursor: move">
+  <tbody id="tracklist" class="album-sort-list" data-url="<%= sort_track_path %>" style="cursor: move">
   <%= render partial: 'track',
              collection: @tracks %>
   </tbody>

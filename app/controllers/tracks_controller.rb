@@ -168,4 +168,20 @@ class TracksController < ApplicationController
     end
   end
 
+  def sort
+    @track = Track.find(params[:id])
+
+    # .attributes is a useful shorthand for mass-assigning
+    # values via a hash
+    @track.update_attribute(:track_num_position, params[:track_num_position])
+
+    if @track.save
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :unprocessable_entity
+    end
+
+    # this action will be called via ajax
+  end
+
 end

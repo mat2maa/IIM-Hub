@@ -88,6 +88,34 @@ $(document).ready(function () {
         }
     });
 
+    $(".album-sort-list").sortable({
+        axis: 'y',
+        containment: 'parent',
+        cursor: 'crosshair',
+        items: 'tr.sortable',
+
+        stop: function(e, ui) {
+            ui.item.children('td').effect('highlight', {}, 1000);
+        },
+        update: function(e, ui) {
+            item_id = ui.item.attr('data-id');
+            position = ui.item.index();
+            url = $(this).attr('data-url');
+            console.log(item_id + " " + position + " " + url);
+            $.ajax({
+                type: 'POST',
+                url: $(this).data('url'),
+                dataType: 'json',
+
+                //the :thing hash gets passed to @thing.attributes
+                data: {
+                    id: item_id,
+                    track_num_position: position
+                }
+            });
+        }
+    });
+
     //Auto-completing sections of the movies form based on selected inputs
     $('#movie_movie_type_id').on("change", function() {
         $('#movie_language_tracks_input').find('input').prop('checked', false);
@@ -239,7 +267,7 @@ $(document).ready(function () {
     });
 
     // Remote pagination links for UI Dialog forms
-    $('.ui-dialog .pagination a').on('click', function () {
+    $('body').on('click', '.ui-dialog .pagination a', function () {
         $.rails.handleRemote($(this));
         return false;
     });

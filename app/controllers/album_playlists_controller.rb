@@ -111,10 +111,16 @@ class AlbumPlaylistsController < ApplicationController
   def add_album
 
     @album_playlist = AlbumPlaylist.find(params[:id])
+
+    @album_playlist_item_position = AlbumPlaylistItem.where("album_playlist_id=?", params[:id])
+                                                     .order("position ASC")
+                                                     .find(:last)
+    @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
+
     @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:id],
                                                  category_id: 1,
                                                  album_id: params[:album_id],
-                                                 position: @album_playlist.albums.count)
+                                                 position: @album_playlist_item_position)
 
     #check if album has been added to a previous playlist before    
     @playlists_with_album = AlbumPlaylistItem.where("album_id=#{params[:album_id]}").group("album_playlist_id")
@@ -167,10 +173,8 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def sort
-    params[:albumplaylist].each_with_index do |id,
-        pos|
-      AlbumPlaylistItem.find(id).update_attribute(:position,
-                                                  pos+1)
+    params[:albumplaylist].each_with_index do |id, pos|
+      AlbumPlaylistItem.find(id).update_attribute(:position, pos+1)
     end
     render nothing: true
   end

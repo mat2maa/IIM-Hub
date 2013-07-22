@@ -4,6 +4,9 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
+    <%= link_to "View Audio Playlist",
+                audio_playlist_path(id: @audio_playlist.id) %>
+    |
     <%= link_to "Print Playlist",
                 {controller: "audio_playlists",
                  action: "print",

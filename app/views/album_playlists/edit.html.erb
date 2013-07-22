@@ -6,6 +6,9 @@
 </center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
+    <%= link_to "View Album Playlist",
+                album_playlist_path(id: @album_playlist.id) %>
+    |
     <%= link_to "Print Playlist",
                 {controller: "album_playlists",
                  action: "print",

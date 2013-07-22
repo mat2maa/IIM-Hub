@@ -26,14 +26,16 @@ class AlbumsController < ApplicationController
 
   def show
     @album = Album.find(params[:id])
-    @tracks = Track.where(album_id: params[:id])
+    @tracks = Track.includes(:album)
+                   .where(album_id: params[:id])
     @playlists = AlbumPlaylistItem.where('album_id=?',
                                          params[:id])
   end
 
   def edit
     @album = Album.find(params[:id])
-    @tracks = Track.where(album_id: params[:id]).order('track_num')
+    @tracks = Track.includes(:album)
+                   .where(album_id: params[:id]).order('track_num')
   end
 
   def amazon_cd_covers

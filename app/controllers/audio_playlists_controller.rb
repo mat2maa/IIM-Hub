@@ -249,9 +249,15 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist = AudioPlaylist.find(params[:id])
     @audio_playlist.updated_at_will_change!
     @audio_playlist.save
+
+    @audio_playlist_track_position = AudioPlaylistTrack.where("audio_playlist_id=?", params[:id])
+                                                       .order("position ASC")
+                                                       .find(:last)
+    @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
+
     @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:id],
                                                    track_id: params[:track_id],
-                                                   position: @audio_playlist.tracks.count)
+                                                   position: @audio_playlist_track_position)
 
     #check if track has been added to a previous playlist before
     @playlists_with_track = AudioPlaylistTrack.where("track_id = ?", params[:track_id])
