@@ -99,7 +99,7 @@
             });
         });
 
-        $(".edit_master").live('click',
+        $(".edit_master").on('click',
                 function (master) {
                     master.preventDefault();
                     $.ajax({ url: this.href,
@@ -119,7 +119,7 @@
                     });
                 });
 
-        $(".delete_master").live('click',
+        $(".delete_master").on('click',
                 function (master) {
                     master.preventDefault();
                     if (confirm("Are you sure?")) {
@@ -156,7 +156,7 @@
         });
 
 
-        $(".edit_screener").live('click',
+        $(".edit_screener").on('click',
                 function (screener) {
                     screener.preventDefault();
                     $.ajax({ url: this.href,
@@ -176,7 +176,7 @@
                     });
                 });
 
-        $(".delete_screener").live('click',
+        $(".delete_screener").on('click',
                 function (screener) {
                     screener.preventDefault();
                     if (confirm("Are you sure?")) {
