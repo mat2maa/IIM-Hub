@@ -1,6 +1,6 @@
 require "open-uri"
 
-logo = "#{Rails.root}/app/assets/images/iim-logo-transparent-hires.png"
+logo = "#{Rails.root}/app/assets/images/iim-logo-transparent-hires-new.png"
 bg_image = "#{Rails.root}/app/assets/images/pdf_bg.png"
 bg_image_hires = "#{Rails.root}/app/assets/images/pdf_bg_hires.jpg"
 bg_image_pdf = "#{Rails.root}/app/assets/images/pdf_bg.pdf"
