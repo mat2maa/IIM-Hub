@@ -285,4 +285,8 @@ $(document).ready(function () {
     
     $('input[type="file"]').attr("size", 6);
 
+    //enable chosen js
+    $('.select2').select2();
+
+
 });

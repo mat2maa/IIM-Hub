@@ -1,22 +1,14 @@
-<%= render partial: 'layouts/movie_header' %>
+<%= render partial: 'layouts/movies_nav' %>
 
-<center>
-  <p style="color: green" id="notice">
-    <%= flash[:notice] %>
-  </p>
-</center>
-
-<div id="content-header-wrapper">
-  <div id="content-header-actions"><%= link_to "Create a movie",
-                                               new_movie_path %></div>
-  <div id="content-header">Movies</div>
-</div>
-
-<div id="content">
-  <%= render partial: 'search_form',
-             object: @search %>
-
-  <div id="movies">
-    <%= render partial: "movies" %>
-  </div>
-</div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "movies" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->

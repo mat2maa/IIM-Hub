@@ -14,6 +14,7 @@ group :assets do
 
   gem "less-rails"
   gem "therubyracer", :platforms => :ruby
+  gem 'twitter-bootstrap-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem "therubyracer", :platforms => :ruby
@@ -43,6 +44,7 @@ gem "hirb"
 gem "rubyzip"
 gem "mime-types"
 gem "will_paginate"
+gem "will_paginate-bootstrap"
 #gem "acts_as_list"
 gem "ranked-model"
 gem "declarative_authorization"
@@ -62,6 +64,8 @@ gem 'aws-sdk'
 gem "asset_sync"
 
 # gem "rotten"
+gem 'bootstrap-datepicker-rails'
+gem 'select2-rails'
 
 # To use ActiveModel has_secure_password
 gem "bcrypt-ruby", "~> 3.0.1"

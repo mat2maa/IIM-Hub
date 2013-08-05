@@ -1,56 +1,57 @@
 <tr id="movie-<%= movie.id %>">
   <% cache([movie,
             "movie_playlists"]) do %>
-      <td><%= link_to(movie.id,
-                      movie_path(id: movie.id),
-                      target: "_blank") %></td>
-      <td><%= movie.movie_title %></td>
-      <td><%= movie.movie_distributor.company_name if !movie.movie_distributor.nil? %>&nbsp;</td>
-      <td><%= movie.movie_type.name if movie.movie_type.present?  %></td>
-      <td><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date.nil? %></td>
-      <td><%= movie.screener_received_date.strftime("%d-%m-%Y") if !movie.screener_received_date.nil? %></td>
+    <td><%= link_to(movie.id,
+                    movie_path(id: movie.id),
+                    target: "_blank") %></td>
+    <td><%= movie.movie_title %></td>
+    <td><%= movie.movie_distributor.company_name if movie.movie_distributor.present? %>&nbsp;</td>
+    <td><%= movie.movie_type.name if movie.movie_type.present?  %></td>
+    <td><%= movie.airline_release_date.strftime("%m-%Y") if movie.airline_release_date.present? %></td>
+    <td><%= movie.screener_received_date.strftime("%d-%m-%Y") if movie.screener_received_date.present? %>&nbsp;</td>
   <% end %>
   <% if (params[:playlist_id] || params["action"]=="add_movie_to_playlist") %>
-      <td>
-        <% if !movie.to_delete %>
-            <%= link_to "add to playlist",
-                        remote: true,
-                        url: {controller: "movie_playlists",
-                              action: "add_movie",
-                              id: params[:id],
-                              movie_id: movie.id},
-                        class: 'spinner-trigger' %>
-        <% else %>
-            Pending Deletion
-        <% end %>
-      </td>
+    <td>
+      <% if !movie.to_delete %>
+        <%= link_to "add to playlist",
+                    remote: true,
+                    url: {controller: "movie_playlists",
+                          action: "add_movie",
+                          id: params[:id],
+                          movie_id: movie.id},
+                    class: 'spinner-trigger' %>
+      <% else %>
+        Pending Deletion
+      <% end %>
+    </td>
   <% else %>
-      <td><%= link_to 'Edit',
-                      edit_movie_path(movie),
-                      target: "_blank" %></td>
-      <td>
-        <% if !movie.to_delete %>
-            <%= link_to 'Delete',
-                        movie_url(movie),
-                        remote: true,
-                        method: :delete,
-                        confirm: 'Are you sure?',
-                        class: 'spinner-trigger' %>
-        <% else
-             if permitted_to? :admin_delete,
-                              :movies %>
-                <%= link_to 'Delete',
-                            movie_url(movie),
-                            remote: true,
-                            method: :delete,
-                            confirm: 'Are you sure?',
-                            class: 'spinner-trigger' %>
-            <% end %>
-            <%= link_to 'Restore',
-                        restore_movie_path(movie.id),
-                        remote: true,
-                        class: 'spinner-trigger' %>
+    <td>
+      <%= link_to 'Edit',
+                  edit_movie_path(movie),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
+      <% if !movie.to_delete %>
+        <%= link_to 'Delete',
+                    movie_url(movie),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% else
+           if permitted_to? :admin_delete,
+                            :movies %>
+          <%= link_to 'Delete',
+                      movie_url(movie),
+                      remote: true,
+                      method: :delete,
+                      confirm: 'Are you sure?',
+                      class: 'spinner-trigger btn btn-mini' %>
         <% end %>
-      </td>
+        <%= link_to 'Restore',
+                    restore_movie_path(movie.id),
+                    remote: true,
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+    </td>
   <% end %>
 </tr>

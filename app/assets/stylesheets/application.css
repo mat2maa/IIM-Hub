@@ -12,6 +12,8 @@
  *= require formtastic
  *= require formtastic_changes
  *= require jquery.ui.all
+ *= require select2
+ *= require bootstrap-datepicker
  *= require_tree .
  */
 

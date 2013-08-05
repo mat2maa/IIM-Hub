@@ -1,48 +1,60 @@
-<div id="nav">
-  <ul>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Dashboard")) %>>
-      <%= link_to "Dashboard",
-                  controller: "dashboard" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).eql?(" - Movies")) %>>
-      <%= link_to "Movies",
-                  controller: "movies" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Movie Playlists")) %>>
-      <%= link_to "Movie Playlists",
-                  controller: "movie_playlists" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).eql?(" - Videos")) %>>
-      <%= link_to "Videos",
-                  controller: "videos" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Video Playlists")) %>>
-      <%= link_to "Video Playlists",
-                  controller: "video_playlists" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Masters")) %>>
-      <%= link_to "Masters",
-                  controller: "masters" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Video Master Playlists")) %>>
-      <%= link_to "Video Master Playlists",
-                  controller: "video_master_playlists" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Screeners")) %>>
-      <%= link_to "Screeners",
-                  controller: "screeners" %>
-    </li>
-    <li <%= "id='curr-nav'" if (yield(:title).include?("Screener Playlists")) %>>
-      <%= link_to "Video Screener Playlists",
-                  controller: "screener_playlists" %>
-    </li>
-    <% if permitted_to? :manage,
-                        :movies_settings %>
-        <li  <%= "id='curr-nav'" if (yield(:title).include?("Settings")) %>>
-          <%= link_to "Settings",
-                      movies_settings_path %>
-        </li>
-    <% end %>
-  </ul>
-  <div id="clear"><br/></div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to options = { controller: "dashboard" }, html_options = { class: 'brand' } do %>
+        <div id="logo">
+          <%= image_tag "text-logo.png" %>
+        </div>
+      <% end %>
+      <a class="brand" href="#">Movie/Video Playlist Maker</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="<%= 'active' if params[:controller] == 'movies' %>">
+            <%= link_to "Movies",
+                        controller: "movies" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'movie_playlists' %>">
+            <%= link_to "Movie Playlists",
+                        controller: "movie_playlists" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'videos' %>">
+            <%= link_to "Videos",
+                        controller: "videos" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'video_playlists' %>">
+            <%= link_to "Video Playlists",
+                        controller: "video_playlists" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'masters' %>">
+            <%= link_to "Masters",
+                        controller: "masters" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'video_master_playlists' %>">
+            <%= link_to "Master Playlists",
+                        controller: "video_master_playlists" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'screeners' %>">
+            <%= link_to "Screeners",
+                        controller: "screeners" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'video_screener_playlists' %>">
+            <%= link_to "Screener Playlists",
+                        controller: "screener_playlists" %>
+          </li>
+          <li class="<%= 'active' if params[:controller] == 'settings' %>">
+            <%= link_to "Settings",
+                        controller: "settings" %>
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+      <div class="btn-group">
+      </div>
+    </div>
+  </div>
 </div>

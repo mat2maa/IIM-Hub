@@ -1,0 +1,447 @@
+.text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
+  text-shadow: @string;
+}
+.box-shadow (@string) {
+  -webkit-box-shadow: @string;
+  -moz-box-shadow:    @string;
+  box-shadow:         @string;
+}
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+  -webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -moz-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+  box-shadow:		@x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+.inner-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+  -webkit-box-shadow: inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -moz-box-shadow:    inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  box-shadow:         inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-sizing (@type: border-box) {
+  -webkit-box-sizing: @type;
+  -moz-box-sizing:    @type;
+  box-sizing:         @type;
+}
+
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius:    @radius;
+  border-radius:         @radius;
+
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+.border-radiuses (@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+  -webkit-border-top-right-radius:    @topright;
+  -webkit-border-bottom-right-radius: @bottomright;
+  -webkit-border-bottom-left-radius:  @bottomleft;
+  -webkit-border-top-left-radius:     @topleft;
+
+  -moz-border-radius-topright:        @topright;
+  -moz-border-radius-bottomright:     @bottomright;
+  -moz-border-radius-bottomleft:      @bottomleft;
+  -moz-border-radius-topleft:         @topleft;
+
+  border-top-right-radius:            @topright;
+  border-bottom-right-radius:         @bottomright;
+  border-bottom-left-radius:          @bottomleft;
+  border-top-left-radius:             @topleft;
+
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+
+.opacity (@opacity: 0.5) {
+  -webkit-opacity: 	@opacity;
+  -moz-opacity: 		@opacity;
+  opacity: 		@opacity;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+.horizontal-gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background-image: -webkit-gradient(linear, left top, right top, from(@startColor), to(@endColor));
+  background-image: -webkit-linear-gradient(left, @startColor, @endColor);
+  background-image: -moz-linear-gradient(left, @startColor, @endColor);
+  background-image: -ms-linear-gradient(left, @startColor, @endColor);
+  background-image: -o-linear-gradient(left, @startColor, @endColor);
+}
+
+.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
+  -webkit-animation: @name @duration @delay @ease;
+  -moz-animation:    @name @duration @delay @ease;
+  -ms-animation:     @name @duration @delay @ease;
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition:    @transition;
+  -ms-transition:     @transition;
+  -o-transition:      @transition;
+}
+.transform(@string){
+  -webkit-transform: @string;
+  -moz-transform: 	 @string;
+  -ms-transform: 		 @string;
+  -o-transform: 		 @string;
+}
+.scale (@factor) {
+  -webkit-transform: scale(@factor);
+  -moz-transform: 	 scale(@factor);
+  -ms-transform: 		 scale(@factor);
+  -o-transform: 		 scale(@factor);
+}
+.rotate (@deg) {
+  -webkit-transform: rotate(@deg);
+  -moz-transform: 	 rotate(@deg);
+  -ms-transform: 		 rotate(@deg);
+  -o-transform: 		 rotate(@deg);
+}
+.skew (@deg, @deg2) {
+  -webkit-transform:       skew(@deg, @deg2);
+  -moz-transform: 	 skew(@deg, @deg2);
+  -ms-transform: 		 skew(@deg, @deg2);
+  -o-transform: 		 skew(@deg, @deg2);
+}
+.translate (@x, @y:0) {
+  -webkit-transform:       translate(@x, @y);
+  -moz-transform: 	 translate(@x, @y);
+  -ms-transform: 		 translate(@x, @y);
+  -o-transform: 		 translate(@x, @y);
+}
+.translate3d (@x, @y: 0, @z: 0) {
+  -webkit-transform:       translate3d(@x, @y, @z);
+  -moz-transform: 	 translate3d(@x, @y, @z);
+  -ms-transform: 		 translate3d(@x, @y, @z);
+  -o-transform: 		 translate3d(@x, @y, @z);
+}
+.perspective (@value: 1000) {
+  -webkit-perspective: 	@value;
+  -moz-perspective: 	@value;
+  -ms-perspective: 	@value;
+  perspective: 		@value;
+}
+.transform-origin (@x:center, @y:center) {
+  -webkit-transform-origin: @x @y;
+  -moz-transform-origin:    @x @y;
+  -ms-transform-origin:     @x @y;
+  -o-transform-origin:      @x @y;
+}
+
+@import "twitter/bootstrap/bootstrap";
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings");
+@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+@import "fontawesome/font-awesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+@bodyBackground: #323232;
+@textColor: #FFFFFF;
+@linkColor: #00FFFF;
+
+/* forms and elements */
+input, textarea, .uneditable-input {
+  width:100%;
+  max-width:206px;
+}
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  padding:4px 0;
+  text-indent: 6px;
+  margin-right: 10px
+}
+
+
+/* buttons */
+.btn-inverse {
+  color: cyan;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-inverse:hover {
+  color: cyan;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-inverse:active {
+  color: cyan;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* text elements */
+a:hover {
+  text-decoration: none;
+}
+
+
+/* tables */
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: rgba(255,255,255,0.3);
+}
+
+tr:nth-of-type(even) {
+  background: rgba(255,255,255,0.2);
+}
+
+.table {
+  tr {
+    td {
+      border:none;
+    }
+  }
+}
+
+thead tr:nth-of-type(odd) {
+  background: #1b1b1b;
+}
+
+/* pagination */
+.items_per_page_select {
+
+  .items_per_page_select_menu {
+    width: auto;
+    height:26px;
+    margin:0 4px 0 10px;
+    text-indent: 0;
+  }
+}
+
+.pagination ul > li > a {
+  background-color:rgba(255,255,255,0.3) !important;
+  border: 1px solid #aaaaaa;
+  border-left-width: 0;
+}
+
+.pagination ul > li > span,
+.pagination ul > li.disabled > a {
+  background-color:rgba(255,255,255,0.2) !important;
+  border: 1px solid #aaaaaa;
+  border-left-width: 0;
+}
+
+/* "select2 gem" select menus */
+.select2-container {
+  margin-bottom:10px;
+  width:100%;
+  max-width:208px;
+}
+
+.select2-results {
+  color: #444;
+}
+
+/* general layout */
+body {
+  padding-top:100px;
+  padding-bottom: 40px;
+}
+
+#logo {
+  img {
+    margin-top:-3px;
+  }
+}
+
+.datepicker {
+  color:black;
+
+  tr:nth-of-type(odd) {
+    background: transparent;
+  }
+}
+
+#background-image {
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background:asset-url("map.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index:0;
+}
+
+.container-fluid {
+  position:relative;
+  z-index:1;
+}
+
+#footer {
+  line-height: 40px;
+
+  ul {
+    margin:0;
+  }
+}
+
+/*===== Page Specific Styles =====*/
+
+/* Login */
+#login-well {
+  position:fixed;
+  top:50%;
+  left:50%;
+  .transform(translate3D(-50%, -50%, 0));
+  max-width:400px;
+  border:none;
+  background-color: transparent;
+}
+
+/* Dashboard */
+#dashboard-well {
+  position:fixed;
+  top:50%;
+  left:50%;
+  .transform(translate3D(-50%, -50%, 0));
+  max-width:400px;
+  border:none;
+  background-color: transparent;
+
+  a {
+    padding: 11px 19px;
+  }
+}
+
+/*===== Responsive Styles =====*/
+
+@media (max-width: 979px) {
+
+  .navbar-fixed-top, .navbar-fixed-bottom {
+    position: relative;
+  }
+
+  body {
+    padding-top:0;
+  }
+
+  #footer {
+    position:relative;
+    height:40px;
+  }
+
+  /* Dashboard */
+  #dashboard-well {
+    position:relative;
+    top:auto;
+    left:auto;
+    .transform(translate3D(0, 0, 0));
+    max-width:400px;
+    margin:0 auto 10px;
+  }
+
+  /* No More Tables */
+  /* Force table to not be like tables anymore */
+  #no-more-tables table,
+  #no-more-tables thead,
+  #no-more-tables tbody,
+  #no-more-tables th,
+  #no-more-tables td,
+  #no-more-tables tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  #no-more-tables thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+
+  #no-more-tables tr:nth-of-type(odd) > td {
+    background: rgba(255,255,255,0.3);
+  }
+
+  #no-more-tables tr:nth-of-type(even) > td {
+    background: rgba(255,255,255,0.2);
+  }
+
+  #no-more-tables td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align:left;
+  }
+
+  #no-more-tables td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align:left;
+    font-weight: bold;
+  }
+
+  /*
+  Label the data
+  */
+  /*
+  Label the data
+  */
+  td:nth-of-type(1):before { content: "ID"; }
+  td:nth-of-type(2):before { content: "Movie Title"; }
+  td:nth-of-type(3):before { content: "Movie Distributor"; }
+  td:nth-of-type(4):before { content: "Movie Type"; }
+  td:nth-of-type(5):before { content: "Airline Release Date"; }
+  td:nth-of-type(6):before { content: "Screener Recieved"; }
+  td:nth-of-type(7):before { content: "Actions"; }
+}
+
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .navbar {
+    .brand {
+      float:none;
+    }
+  }
+
+  .pagination-small ul > li > a, .pagination-small ul > li > span {
+    padding: 2px 8px;
+  }
+}

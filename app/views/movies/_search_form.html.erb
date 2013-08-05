@@ -1,132 +1,128 @@
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
-<fieldset>
-  <legend>Search Movies</legend>
 
-  <%= search_form_for @search,
-                      class: 'spinner-trigger' do |movies| %>
+<%= search_form_for @search,
+                    class: 'spinner-trigger' do |movies| %>
+  <div class="control-group">
+    <%= movies.text_field :movie_title_cont,
+                          placeholder: 'Movie Title' %>
 
-      <!--Match ANY or ALL of the conditions:<br />-->
-      <%#= movies.select :any,
-[["All",
-false],
-["Any",
-true]] %>
-      <br/>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <table>
-        <tr>
-          <td valign="top">
-            Movie Title:<br/>
-            <%= movies.text_field :movie_title_cont %>
-            <br/>
-            Cast:<br/>
-            <%= movies.text_field :cast_cont %>
-          </td>
-          <td valign="top">
-            Director:<br/>
-            <%= movies.text_field :director_cont,
-                                  size: 17 %>
-            <br/>
-            <%= check_box :screener,
-                          :destroyed,
-                          { checked: !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false } %>Screener Destroyed
-            <br/>
-            <%= check_box :screener,
-                          :held,
-                          { checked: !params[:screener].nil? && params[:screener][:held] == '1' ? true : false } %>Screener Held
-          </td>
-          <td valign="top">
-            Movie Distributor:<br/>
-            <%= movies.select :movie_distributor_id_eq,
-                              Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                         p.id] },
-                              include_blank: true %>
-            <br/>
-            Laboratory:<br/>
-            <%= movies.select :laboratory_id_eq,
-                              Supplier.laboratories.collect { |p| [p.company_name,
+    <%= movies.text_field :cast_cont,
+                          placeholder: 'Cast' %>
+
+    <%= movies.text_field :director_cont,
+                          placeholder: 'Director'  %>
+
+    <div class="controls">
+      <%= movies.select :movie_distributor_id_eq,
+                        Supplier.movie_distributors.collect { |p| [p.company_name,
                                                                    p.id] },
-                              include_blank: true %>
-            <br/>
-          </td>
-          <td valign="top">
-            Movie Type:<br/>
-            <%= movies.select :movie_type_id_eq,
-                              MovieType.order("name")
-                                       .collect { |p| [p.name,
-                                                       p.id] },
-                              include_blank: true %> <br/>
-            Genre:<br/>
-            <%= movies.select :movie_genres_id_eq,
-                              MovieGenre.order("name")
-                                        .collect { |p| [p.name,
-                                                        p.id] },
-                              {include_blank: true} %>
-          </td>
-          <td valign="top">
-            Airline Release Date (MM-YYYY)<br/>
-            <%= movies.date_select :airline_release_date_gteq,
-                                   order: [:month,
-                                           :year],
-                                   discard_day: true,
-                                   include_blank: true,
-                                   use_month_numbers: true,
-                                   start_year: Date.today.year + 2,
-                                   end_year: 1900 %>
-            to
-            <%= movies.date_select :airline_release_date_lteq,
-                                   order: [:month,
-                                           :year],
-                                   discard_day: true,
-                                   include_blank: true,
-                                   use_month_numbers: true,
-                                   start_year: Date.today.year + 2,
-                                   end_year: 1900 %> <br/>
-            <table>
-              <tr>
+                        { include_blank: true },
+                        { class: 'select2',
+                          data: { placeholder: 'Movie Distributor' } } %>
+    </div>
 
-                <td>Languages:<br/>
-                  <%= select :language,
-                             :track,
-                             @languages,
-                             {include_blank: true,
-                             selected: @selected_track} %></td>
-                <td>Subtitles:<br/>
-                  <%= select :language,
-                             :subtitle,
-                             @languages,
-                             {include_blank: true,
-                              selected: @selected_subtitle} %></td>
+    <div class="controls">
+      <%= movies.select :laboratory_id_eq,
+                        Supplier.laboratories.collect { |p| [p.company_name,
+                                                             p.id] },
+                        { include_blank: true },
+                        { class: 'select2',
+                          data: { placeholder: 'Laboratory' } } %>
+    </div>
 
-              </tr>
-            </table>
-            <br/>
-          </td>
-          <td valign="top">
-            Theatrical Release Year:<br/>
-            <%= movies.select :theatrical_release_year_eq,
-                              movie_release_years,
-                              include_blank: true %>
-            <br/>
-            Movie ID:<br/>
-            <%= movies.text_field :id_eq,
-                                  size: 5 %>
-          </td>
-          <td valign="top">
-            Deactivated Movie:<br/>
-            <%= check_box_tag :active, '1', params[:active].to_i == 1 %>
-            <br/>
-            Pending Delete:<br/>
-            <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %>
-          </td>
-        </tr>
-      </table>
-      <%= movies.submit "Search" %>
-      <input type="reset" value="Reset">
-  <% end %>
+    <div class="controls">
+      <%= movies.select :movie_type_id_eq,
+                        MovieType.order("name")
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        { include_blank: true },
+                        { class: 'select2',
+                          data: { placeholder: 'Movie Type' } } %>
+    </div>
 
-</fieldset>
+    <div class="controls">
+      <%= movies.select :movie_genres_id_eq,
+                        MovieGenre.order("name")
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        { include_blank: true },
+                        { class: 'select2',
+                          data: { placeholder: 'Genre' } } %>
+    </div>
 
+    <label class="control-label">
+      Airline Release Date:
+    </label>
+    <%= movies.text_field :airline_release_date_gteq,
+                          data: { behaviour: 'datepicker' },
+                          placeholder: 'From'  %>
+    <%= movies.text_field :airline_release_date_lteq,
+                          data: { behaviour: 'datepicker' },
+                          placeholder: 'To'  %>
+
+    <div class="controls">
+      <%= select :language,
+                 :track,
+                 @languages,
+                 {include_blank: true,
+                  selected: @selected_track},
+                 { class: 'select2',
+                   data: { placeholder: 'Languages' } } %>
+    </div>
+
+    <div class="controls">
+      <%= select :language,
+                 :subtitle,
+                 @languages,
+                 {include_blank: true,
+                  selected: @selected_subtitle},
+                 { class: 'select2',
+                   data: { placeholder: 'Subtitles' } } %>
+    </div>
+
+    <%= movies.text_field :theatrical_release_year_eq,
+                          data: { behaviour: 'datepicker' },
+                          placeholder: 'Theatrical Release Year'  %>
+
+    <%= movies.text_field :id_eq,
+                          placeholder: 'Movie ID'  %>
+
+    <br>
+
+    <label class="checkbox">
+      <%= check_box :screener,
+                    :held,
+                    { checked: !params[:screener].nil? && params[:screener][:held] == '1' ? true : false } %> Screener Held
+    </label>
+
+    <label class="checkbox">
+      <%= check_box :screener,
+                    :destroyed,
+                    { checked: !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false } %> Screener Destroyed
+    </label>
+
+    <label class="checkbox">
+      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Movie
+    </label>
+
+    <label class="checkbox">
+      <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %> Pending Delete
+    </label>
+
+    <br>
+
+    <%= movies.submit "Search",
+                      { class: 'btn' } %>
+    <input type="reset" value="Reset" class="btn">
+
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('[data-behaviour~=datepicker]').datepicker( {
+    format: "mm-yyyy",
+    viewMode: "months",
+    minViewMode: "months"
+  });
+</script>

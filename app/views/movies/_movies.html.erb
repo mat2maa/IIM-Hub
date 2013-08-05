@@ -1,60 +1,70 @@
 <% if @movies_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link(@search,
+                      :id,
+                      "ID") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :movie_title,
+                      "Movie Title") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :movie_distributor_company_name,
+                      "Movie Distributor") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :movie_type_name,
+                      "Movie Type") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :airline_release_date,
+                      "Airline Release Date") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :screener_received_date,
+                      "Screener Recieved") %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "movie",
+               collection: @movies %>
+  </table>
+
+  <br>
+
+  <%= will_paginate @movies,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Movies)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/movies', method: :get, html: { class: 'items_per_page_select' } do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @movies %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @movies_count %> movies found
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link(@search,
-                        :id,
-                        "ID") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :movie_title,
-                        "Movie Title") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :movie_distributor_company_name,
-                        "Movie Distributor") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :movie_type_name,
-                        "Movie Type") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :airline_release_date,
-                        "Airline Release Date") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :screener_received_date,
-                        "Screener Recieved") %>
-        </th>
-        <th colspan="2"></th>
-      </tr>
-
-      <%= render partial: "movie",
-                 collection: @movies %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @movies %>
-    <%
-      def items_per_page_select(collection = Movies)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/movies', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @movies %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 <% else %>
 
-    No movies were found
+  No movies were found
 
 <% end %>

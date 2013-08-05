@@ -1,110 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
-<div id="header">
-  <div class="title">
-    Dashboard
-  </div>
-  <div id="nav">
-    <ul>
-      <li id="curr-nav">
-        <%= link_to "Dashboard",
-                    controller: 'dashboard' %>
-      </li>
-    </ul>
-    <div id="clear">
-      <br>
-    </div>
-  </div>
-</div>
-<center>
-  <p style="color: green">
-    <%= flash[:notice] %>
-  </p>
-</center>
-<div id="content">
-  <center>
-    <br>
-    <strong>Please select from the following options:</strong><br>
-    <br>
-    <table border="0" cellpadding="10">
-      <tr>
+<%= render partial: 'layouts/header' %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="well" id="dashboard-well">
         <% if permitted_to? :read,
                             :audio_playlists %>
-            </tr>
-            <tr>
-              <td class="dashboard">
-                <%= link_to "Audio Playlist Maker",
-                            audio_playlists_path %>
-              </td>
-              <td>
-                Songs and Albums Playlists
-              </td>
-            </tr>
+          <%= link_to 'Audio Playlist Maker',
+                      audio_playlists_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
         <% end %>
         <% if permitted_to? :edit,
                             :movie_playlists %>
-            <tr>
-              <td class="dashboard">
-                <%= link_to "Movie / Video Playlist Maker",
-                            movies_path %>
-              </td>
-              <td>
-                Create movies playlists. Add movies to database.
-              </td>
-            </tr>
-            <!--
-<tr><td class="dashboard"><%= link_to "Bookings" %></td><td>Create bookings</td></tr>
-<tr><td class="dashboard"><%= link_to "Invoicing" %></td><td>Create invoices.</td></tr>
-<tr><td class="dashboard"><%= link_to "Address book" %></td><td>Add clients to address book.</td></tr>
-<tr><td class="dashboard"><%= link_to "Label maker" %></td><td>Create labels for tapes,
-envelopes.</td></tr>
--->
+          <%= link_to 'Movie / Video Playlist Maker',
+                      movies_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
         <% end %>
         <% if permitted_to? :edit,
                             :users %>
-            <tr>
-              <td class="dashboard">
-                <%= link_to "Users",
-                            users_path %>
-              </td>
-              <td>
-                Manage user accounts and permissions
-              </td>
-            </tr>
+          <%= link_to 'Users',
+                      users_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
         <% end %>
         <% if permitted_to? :edit,
                             :airlines %>
-            <tr>
-              <td class="dashboard">
-                <%= link_to "Audio Playlist Settings",
-                            controller: "settings" %>
-              </td>
-              <td>
-                Maintain airlines,
-                genres,
-                recording labels list
-              </td>
-            </tr>
-            <tr>
-              <td class="dashboard">
-                <%= link_to "Movie Playlist Settings",
-                            controller: "movies_settings" %>
-              </td>
-              <td>
-                Maintain movie genres,
-                suppliers,
-                commercial runtime
-              </td>
-            </tr>
+          <%= link_to 'Audio Playlist Settings',
+                      { controller: 'settings' },
+                      class: 'btn btn-large btn-block btn-inverse' %>
+          <%= link_to 'Movie Playlist Settings',
+                      { controller: 'movies_settings' },
+                      class: 'btn btn-large btn-block btn-inverse' %>
         <% end %>
-        </table>
-  </center>
-  <br>
-  <br>
-</div>
-</body>
-</html>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->
