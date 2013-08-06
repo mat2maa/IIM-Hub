@@ -1,67 +1,77 @@
 <% if @videos_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :id,
+                      'ID' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :programme_title,
+                      'Programme Title' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :video_distributor_company_name,
+                      'Company Name' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :video_type,
+                      'Video Type' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :commercial_run_time_id,
+                      'Commercial Runtime' %>
+      </th>
+      <th>Genres</th>
+      <th>
+        <%= sort_link @search,
+                      :screeners_count,
+                      'Screeners Held' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :masters_count,
+                      'Masters Held' %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: 'video',
+               collection: @videos %>
+  </table>
+
+  <br/>
+
+  <%= will_paginate @videos,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Videos)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/videos', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @videos %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @videos_count %> videos found
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link @search,
-                        :id,
-                        'ID' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :programme_title,
-                        'Programme Title' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :video_distributor_company_name,
-                        'Company Name' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :video_type,
-                        'Video Type' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :commercial_run_time_id,
-                        'Commercial Runtime' %>
-        </th>
-        <th>Genres</th>
-        <th>
-          <%= sort_link @search,
-                        :screeners_count,
-                        'Screeners Held' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :masters_count,
-                        'Masters Held' %>
-        </th>
-        <th colspan="2"></th>
-      </tr>
-
-      <%= render partial: 'video',
-                 collection: @videos %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @videos %>
-    <%
-      def items_per_page_select(collection = Videos)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/videos', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @videos %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 
 <% else %>
 
-    No videos were found
+  No videos were found
 
 <% end %>

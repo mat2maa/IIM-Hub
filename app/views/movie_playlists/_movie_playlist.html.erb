@@ -1,0 +1,47 @@
+<tr id="movie_playlist-<%= movie_playlist.id %>">
+  <td><%= link_to movie_playlist.id,
+                  movie_playlist_path(id: movie_playlist.id),
+                  target: "_blank" %></td>
+  <td><%= movie_playlist.airline.name if !movie_playlist.airline.nil? %>&nbsp;</td>
+  <td><%= movie_playlist.start_cycle.strftime("%m-%Y") if !movie_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td><%= movie_playlist.end_cycle.strftime("%m-%Y") if !movie_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td><%= movie_playlist.movie_playlist_type.name if movie_playlist.movie_playlist_type.present? %>&nbsp;</td>
+  <td>
+    <% if movie_playlist.locked!=true %>
+      <%= link_to 'Edit',
+                  edit_movie_playlist_path(movie_playlist),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :delete,
+                        :movie_playlists %>
+      <% if movie_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    movie_playlist_url(movie_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_movie_playlist_path(movie_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :movie_playlists %>
+      <% if movie_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_movie_playlist_path(movie_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_movie_playlist_path(movie_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

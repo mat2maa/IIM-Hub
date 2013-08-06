@@ -1,95 +1,64 @@
 <% if @video_playlists_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :id,
+                      'ID' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :airline_name,
+                      'Airline' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :start_cycle,
+                      'Start Date' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :end_cycle,
+                      'End Date' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :video_playlist_type_name,
+                      'Video Playlist Type' %>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "video_playlist",
+               collection: @video_playlists %>
+  </table>
+
+  <br/>
+
+  <%= will_paginate @video_playlists,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = VideoPlaylists)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/video_playlists', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @video_playlists %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @video_playlists_count %> video playlists found
+    <br>
+  <% end %>
 
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link @search,
-                        :id,
-                        'ID' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :airline_name,
-                        'Airline' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :start_cycle,
-                        'Start Date' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :end_cycle,
-                        'End Date' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :video_playlist_type_name,
-                        'Video Playlist Type' %>
-        <th colspan="4"></th>
-      </tr>
-
-      <% @video_playlists.each do |video_playlist| %>
-          <tr id="video_playlist-<%= video_playlist.id %>">
-            <% cache([video_playlist]) do %>
-                <td><%= link_to video_playlist.id,
-                                video_playlist_path(id: video_playlist.id),
-                                target: "_blank" %></td>
-                <td><%= video_playlist.airline.name if !video_playlist.airline_id.nil? %></td>
-                <td><%= video_playlist.start_cycle.strftime("%m-%Y") if !video_playlist.start_cycle.nil? %>&nbsp;</td>
-                <td><%= video_playlist.end_cycle.strftime("%m-%Y") if !video_playlist.end_cycle.nil? %>&nbsp;</td>
-                <td><%= video_playlist.video_playlist_type.name if !video_playlist.video_playlist_type.nil? %>&nbsp;</td>
-            <% end %>
-            <td><%= link_to('Edit',
-                            edit_video_playlist_path(video_playlist),
-                            target: "_blank") if video_playlist.locked!=true %></td>
-            <% if permitted_to? :delete,
-                                :video_playlists %>
-                <td>
-                  <%= link_to 'Delete',
-                              video_playlist_url(video_playlist),
-                              remote: true,
-                              method: :delete,
-                              confirm: 'Are you sure?',
-                              class: 'spinner-trigger' if video_playlist.locked!=true %>
-                </td>
-                <td><%= link_to 'Duplicate',
-                                duplicate_video_playlist_path(video_playlist),
-                                confirm: 'Are you sure?',
-                                method: :post %></td>
-            <% end %>
-            <td>
-              <% if permitted_to? :lock,
-                                  :video_playlists %>
-                  <% if video_playlist.locked!=true %>
-                      <%= link_to 'Lock',
-                                  lock_video_playlist_path(video_playlist),
-                                  method: :post %>
-                  <% else %>
-                      <%= link_to 'Unlock',
-                                  unlock_video_playlist_path(video_playlist),
-                                  method: :post %>
-                  <% end %>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @video_playlists %>
-    <%
-      def items_per_page_select(collection = VideoPlaylists)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/video_playlists', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @video_playlists %>
-      <%= f.submit "Submit" %>
-    <% end %>
 <% else %>
-    No playlists were found
+
+  No playlists were found
+
 <% end %>

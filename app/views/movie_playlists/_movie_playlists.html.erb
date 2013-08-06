@@ -1,113 +1,65 @@
 <% if @movie_playlists_count > 0 %>
-    <%= @movie_playlists_count %> movie playlists found
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link(@search,
+                      :id,
+                      'ID') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :airline_name,
+                      'Airline') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :start_cycle,
+                      'Start Date') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :end_cycle,
+                      'End Date') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :movie_playlist_type_name,
+                      'Movie Playlist Type') %>
+      </th>
+      <th width="220" colspan="2"></th>
+    </tr>
+    </thead>
 
-    <table cellspacing="0" width="100%">
+    <%= render partial: "movie_playlist",
+               collection: @movie_playlists %>
+  </table>
 
-      <tr>
-        <th>
-          <%= sort_link(@search,
-                        :id,
-                        'ID') %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :airline_name,
-                        'Airline') %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :start_cycle,
-                        'Start Date') %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :end_cycle,
-                        'End Date') %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :movie_playlist_type_name,
-                        'Movie Playlist Type') %>
-        </th>
-        <th colspan="4"></th>
-      </tr>
+  <br>
 
-      <% @movie_playlists.each do |movie_playlist| %>
-          <tr id="movie_playlist-<%= movie_playlist.id %>">
-            <% cache([movie_playlist]) do %>
-                <td>
-                  <%= link_to movie_playlist.id,
-                              movie_playlist_path(id: movie_playlist.id),
-                              target: "_blank" %>
-                </td>
-                <td>
-                  <%= movie_playlist.airline.name if !movie_playlist.airline.nil? %>
-                </td>
-                <td>
-                  <%= movie_playlist.start_cycle.strftime("%m-%Y") if !movie_playlist.start_cycle.nil? %>&nbsp;
-                </td>
-                <td>
-                  <%= movie_playlist.end_cycle.strftime("%m-%Y") if !movie_playlist.end_cycle.nil? %>&nbsp;
-                </td>
-                <td>
-                  <%= movie_playlist.movie_playlist_type.name if movie_playlist.movie_playlist_type.present? %>&nbsp;
-                </td>
-            <% end %>
-            <td>
-              <%= link_to('Edit',
-                          edit_movie_playlist_path(movie_playlist),
-                          target: "_blank") if movie_playlist.locked!=true %>
-            </td>
-            <% if permitted_to? :delete,
-                                :movie_playlists %>
-                <td>
-                  <%= link_to 'Delete',
-                              movie_playlist_url(movie_playlist),
-                              remote: true,
-                              method: :delete,
-                              confirm: 'Are you sure?',
-                              class: 'spinner-trigger' if movie_playlist.locked!=true %>
-                </td>
-                <td>
-                  <%= link_to 'Duplicate',
-                              duplicate_movie_playlist_path(movie_playlist),
-                              confirm: 'Are you sure?',
-                              method: :post %>
-                </td>
-            <% end %>
-            <td>
-              <% if permitted_to? :lock,
-                                  :movie_playlists %>
-                  <% if movie_playlist.locked!=true %>
-                      <%= link_to 'Lock',
-                                  lock_movie_playlist_path(movie_playlist),
-                                  method: :post %>
-                  <% else %>
-                      <%= link_to 'Unlock',
-                                  unlock_movie_playlist_path(movie_playlist),
-                                  method: :post %>
-                  <% end %>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-    </table>
-    <br/>
-    <br/>
-    <%= will_paginate @movie_playlists %>
-    <%
-      def items_per_page_select(collection = MoviePlaylists)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/movie_playlists', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @movie_playlists %>
-      <%= f.submit "Submit" %>
-    <% end %>
+  <%= will_paginate @movie_playlists,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = MoviePlaylists)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/movie_playlists', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @movie_playlists %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @movie_playlists_count %> movies found
+    <br>
+  <% end %>
 
 <% else %>
 
-    No playlists were found
+  No playlists were found
 
 <% end %>

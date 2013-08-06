@@ -1,15 +1,12 @@
 <tr id="movie-<%= movie.id %>">
-  <% cache([movie,
-            "movie_playlists"]) do %>
-    <td><%= link_to(movie.id,
-                    movie_path(id: movie.id),
-                    target: "_blank") %></td>
-    <td><%= movie.movie_title %></td>
-    <td><%= movie.movie_distributor.company_name if movie.movie_distributor.present? %>&nbsp;</td>
-    <td><%= movie.movie_type.name if movie.movie_type.present?  %></td>
-    <td><%= movie.airline_release_date.strftime("%m-%Y") if movie.airline_release_date.present? %></td>
-    <td><%= movie.screener_received_date.strftime("%d-%m-%Y") if movie.screener_received_date.present? %>&nbsp;</td>
-  <% end %>
+  <td><%= link_to(movie.id,
+                  movie_path(id: movie.id),
+                  target: "_blank") %></td>
+  <td><%= movie.movie_title %></td>
+  <td><%= movie.movie_distributor.company_name if movie.movie_distributor.present? %>&nbsp;</td>
+  <td><%= movie.movie_type.name if movie.movie_type.present? %>&nbsp;</td>
+  <td><%= movie.airline_release_date.strftime("%m-%Y") if movie.airline_release_date.present? %>&nbsp;</td>
+  <td><%= movie.screener_received_date.strftime("%d-%m-%Y") if movie.screener_received_date.present? %>&nbsp;</td>
   <% if (params[:playlist_id] || params["action"]=="add_movie_to_playlist") %>
     <td>
       <% if !movie.to_delete %>

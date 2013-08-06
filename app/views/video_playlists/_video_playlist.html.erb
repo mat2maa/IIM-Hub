@@ -1,0 +1,47 @@
+<tr id="video_playlist-<%= video_playlist.id %>">
+  <td><%= link_to video_playlist.id,
+                  video_playlist_path(id: video_playlist.id),
+                  target: "_blank" %></td>
+  <td><%= video_playlist.airline.name if !video_playlist.airline_id.nil? %>&nbsp;</td>
+  <td><%= video_playlist.start_cycle.strftime("%m-%Y") if !video_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td><%= video_playlist.end_cycle.strftime("%m-%Y") if !video_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td><%= video_playlist.video_playlist_type.name if !video_playlist.video_playlist_type.nil? %>&nbsp;</td>
+  <td>
+    <% if video_playlist.locked!=true %>
+      <%= link_to 'Edit',
+                  edit_video_playlist_path(video_playlist),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :delete,
+                        :video_playlists %>
+      <% if video_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    video_playlist_url(video_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_video_playlist_path(video_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :video_playlists %>
+      <% if video_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_video_playlist_path(video_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_video_playlist_path(video_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

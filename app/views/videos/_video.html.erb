@@ -1,59 +1,59 @@
 <tr id="video-<%= video.id %>">
-  <%# cache([video, "videos"]) do %>
   <td><%= link_to video.id,
                   video_path(id: video.id),
                   target: "_blank" %></td>
   <td><%= video.programme_title %></td>
-  <td><%= video.video_distributor.company_name if !video.video_distributor.nil? %></td>
+  <td><%= video.video_distributor.company_name if !video.video_distributor.nil? %>&nbsp;</td>
   <td><%= video.video_type %></td>
-  <td><%= video.commercial_run_time.minutes if !video.commercial_run_time.nil? %></td>
-  <%# end %>
-  <td><%= video.video_genres.collect { |r| r.name }.to_sentence %></td>
+  <td><%= video.commercial_run_time.minutes if !video.commercial_run_time.nil? %>&nbsp;</td>
+  <td><%= video.video_genres.collect { |r| r.name }.to_sentence %>&nbsp;</td>
   <td><%= video.screeners_count > 0 ? 'Yes' : 'No' %></td>
   <td><%= video.masters_count > 0 ? 'Yes' : 'No' %></td>
   <% if (params[:playlist_id] || params["action"]=="add_video_to_playlist") %>
-      <td>
-        <% if !video.to_delete %>
-            <%= link_to "add to playlist",
-                        remote: true,
-                        url: {controller: "video_playlists",
-                              action: "add_video",
-                              id: params[:id],
-                              video_id: video.id},
-                        class: 'spinner-trigger' %>
-        <% else %>
-            Pending Deletion
-        <% end %>
-      </td>
+    <td>
+      <% if !video.to_delete %>
+        <%= link_to "add to playlist",
+                    remote: true,
+                    url: {controller: "video_playlists",
+                          action: "add_video",
+                          id: params[:id],
+                          video_id: video.id},
+                    class: 'spinner-trigger' %>
+      <% else %>
+        Pending Deletion
+      <% end %>
+    </td>
   <% else %>
-      <td><%= link_to 'Edit',
-                      edit_video_path(video),
-                      target: "_blank" %></td>
-      <td>
-        <% if !video.to_delete %>
-            <%= link_to 'Delete',
-                        video_url(video),
-                        remote: true,
-                        method: :delete,
-                        confirm: 'Are you sure?',
-                        class: 'spinner-trigger',
-                        with: "'redirect_url=#{request.url}'" %>
-        <% else %>
-            <% if permitted_to? :admin_delete,
-                                :videos %>
-                <%= link_to 'Delete',
-                            video_url(video),
-                            remote: true,
-                            method: :delete,
-                            confirm: 'Are you sure?',
-                            class: 'spinner-trigger',
-                            with: "'redirect_url=#{request.url}'" %>
-            <% end %>
-            <%= link_to 'Restore',
-                        restore_video_path(video.id),
-                        remote: true,
-                        class: 'spinner-trigger' %>
+    <td>
+      <%= link_to 'Edit',
+                    edit_video_path(video),
+                    target: "_blank",
+                    class: 'btn btn-mini' %>
+      <% if !video.to_delete %>
+        <%= link_to 'Delete',
+                    video_url(video),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini',
+                    with: "'redirect_url=#{request.url}'" %>
+      <% else %>
+        <% if permitted_to? :admin_delete,
+                            :videos %>
+          <%= link_to 'Delete',
+                      video_url(video),
+                      remote: true,
+                      method: :delete,
+                      confirm: 'Are you sure?',
+                      class: 'spinner-trigger btn btn-mini',
+                      with: "'redirect_url=#{request.url}'" %>
         <% end %>
-      </td>
+        <%= link_to 'Restore',
+                    restore_video_path(video.id),
+                    remote: true,
+                    class: 'spinner-trigger',
+                    class: 'btn btn-mini' %>
+      <% end %>
+    </td>
   <% end %>
 </tr>
