@@ -1,125 +1,121 @@
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
 
-<fieldset>
-  <legend>Search Videos</legend>
+<%= search_form_for @search,
+                    class: 'spinner-trigger' do |videos| %>
 
-  <%= search_form_for @search,
-                      class: 'spinner-trigger' do |videos| %>
+  <div class="control-group">
 
-      Match ANY or ALL of the conditions:
+    <div class="controls combinator-select-container">
       <%= videos.combinator_select %>
-      <br/>
+    </div>
 
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <br/>
+    <%= videos.text_field :programme_title_cont,
+                          placeholder: 'Video Title' %>
 
-      <table>
-        <tr>
-          <td valign="top">
-            Video Title:<br/>
-            <%= videos.text_field :programme_title_cont %>
-            <br/>
-            Episode Title:<br/>
-            <!--TODO What is masters_episode_title? -->
-            <%= videos.text_field :masters_episode_title_cont %>
-            <br/>
-          </td>
-          <td valign="top">
-            Distributor:<br/>
-            <%= videos.select :video_distributor_id_eq,
-                              Supplier.video_distributors
-                              .collect { |p| [p.company_name,
-                                              p.id] },
-                              include_blank: true %>
-            <br/>
-            Laboratory:<br/>
-            <%= videos.select :laboratory_id_eq,
-                              Supplier.laboratories
-                              .collect { |p| [p.company_name,
-                                              p.id] },
-                              include_blank: true %>
-            <br/>
 
-          </td>
-          <td valign="top">
-            Lang Track:<br/>
-            <%= select :language,
-                       :track,
-                       @languages,
-                       {include_blank: true,
-                        selected: @selected_track} %>
-            <br/>
-            Lang Subtitles:<br/>
-            <%= select :language,
-                       :subtitle,
-                       @languages,
-                       {include_blank: true,
-                        selected: @selected_subtitle} %>
-          </td>
-          <td valign="top">
-            Genre:<br/>
-            <%= videos.select :video_genres_video_parent_genre_id_eq,
-                              VideoParentGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
-                              {include_blank: true} %>
-            <br/>
-            Sub Genre:<br/>
-            <%= videos.select :video_genres_id_eq,
-                              VideoGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
-                              {include_blank: true} %>
-          </td>
-          <td valign="top">
-            Video type:<br/>
-            <%= videos.select :video_type_eq,
-                              Video::VIDEO_TYPES,
-                              {include_blank: true} %> <br/>
-            Production Year:<br/>
-            <%= videos.text_field :production_year_eq,
-                                  size: 6 %>
-          </td>
-          <td valign="top">
-            Masters Held:<br/>
-            <%= check_box_tag :masters, '1', params[:masters].to_i == 1 %>
-            <br/>
-            Tape Location Number:<br/>
-            <%= videos.text_field :masters_location_eq,
-                                  size: 6 %>
-            <br/>
-          </td>
-          <td valign="top">
-            Screeners Held:<br/>
-            <%= check_box_tag :screeners, '1', params[:screeners].to_i == 1 %>
-            <br/>
-            Video ID:<br/>
-            <%= videos.text_field :id_eq,
-                                  size: 6 %>
-          </td>
-          <td valign="top">
-            Deactivated Video:<br/>
-            <%= check_box_tag :active, '1', params[:active].to_i == 1 %>
-            <br/>
-            Pending Delete:<br/>
-            <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %>
-          </td>
-        </tr>
-      </table>
+    <%= videos.text_field :masters_episode_title_cont,
+                          placeholder: 'Episode Title' %>
 
-      <%= videos.submit "Search" %>
-      <input type="reset" value="Reset">
-  <% end %>
-</fieldset>
+    <div class="controls">
+      <%= videos.select :video_distributor_id_eq,
+                        Supplier.video_distributors
+                        .collect { |p| [p.company_name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Distributor'}} %>
+    </div>
 
-</body>
-</html>
+    <div class="controls">
+      <%= videos.select :laboratory_id_eq,
+                        Supplier.laboratories
+                        .collect { |p| [p.company_name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Laboratory'}} %>
+    </div>
+
+    <div class="controls">
+      <%= select :language,
+                 :track,
+                 @languages,
+                 {include_blank: true,
+                  selected: @selected_track},
+                 {class: 'select2',
+                  data: {placeholder: 'Language Track'}} %>
+    </div>
+
+    <div class="controls">
+      <%= select :language,
+                 :subtitle,
+                 @languages,
+                 {include_blank: true,
+                  selected: @selected_subtitle},
+                 {class: 'select2',
+                  data: {placeholder: 'Language Subtitles'}} %>
+    </div>
+
+    <div class="controls">
+      <%= videos.select :video_genres_video_parent_genre_id_eq,
+                        VideoParentGenre.all
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Genre'}} %>
+    </div>
+
+    <div class="controls">
+      <%= videos.select :video_genres_id_eq,
+                        VideoGenre.all
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Sub-genre'}} %>
+    </div>
+
+    <div class="controls">
+      <%= videos.select :video_type_eq,
+                        Video::VIDEO_TYPES,
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Video Type'}} %>
+    </div>
+
+    <%= videos.text_field :production_year_eq,
+                          data: {behaviour: 'datepicker-years'},
+                          placeholder: 'Production Year' %>
+
+    <%= videos.text_field :masters_location_eq,
+                          placeholder: 'Tape Location Number' %>
+
+    <%= videos.text_field :id_eq,
+                          placeholder: 'Video ID' %>
+
+    <label class="checkbox">
+      <%= check_box_tag :masters, '1', params[:masters].to_i == 1 %> Masters Held
+    </label>
+
+    <label class="checkbox">
+      <%= check_box_tag :screeners, '1', params[:screeners].to_i == 1 %> Screeners Held
+    </label>
+
+    <label class="checkbox">
+      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Video
+    </label>
+
+    <label class="checkbox">
+      <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %> Pending Delete
+    </label>
+
+    <br>
+
+    <%= videos.submit "Search",
+                      {class: 'btn'} %>
+    <input type="reset" value="Reset" class="btn">
+
+  </div>
+<% end %>

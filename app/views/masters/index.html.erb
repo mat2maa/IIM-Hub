@@ -1,23 +1,14 @@
 <%= render partial: 'layouts/master_header' %>
-<!--TODO calendar_date_select -->
-<%#= calendar_date_select_includes "blue" %>
 
-<center>
-  <p style="color: green" id="notice">
-    <%= flash[:notice] %>
-  </p>
-</center>
-
-<div id="content-header-wrapper">
-  <div id="content-header-actions"></div>
-  <div id="content-header">Masters</div>
-</div>
-
-<div id="content">
-  <%= render partial: 'search_form',
-             object: @search %>
-
-  <div id="movies">
-    <%= render partial: "masters" %>
-  </div>
-</div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "masters" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->

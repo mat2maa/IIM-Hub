@@ -285,8 +285,29 @@ $(document).ready(function () {
     
     $('input[type="file"]').attr("size", 6);
 
-    //enable chosen js
+    // enable chosen js
     $('.select2').select2();
 
+    // initialize datepicker for different date formats
+    $('[data-behaviour~=datepicker-days]').datepicker({
+        format: "yyyy-mm-dd",
+        viewMode: "days",
+        minViewMode: "days",
+        autoclose: true
+    });
+
+    $('[data-behaviour~=datepicker-months]').datepicker({
+        format: "yyyy-mm-dd",
+        viewMode: "months",
+        minViewMode: "months",
+        autoclose: true
+    });
+
+    $('[data-behaviour~=datepicker-years]').datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years",
+        autoclose: true
+    });
 
 });

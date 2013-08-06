@@ -1,29 +1,27 @@
 <%= render partial: 'layouts/album_header' %>
-<center>
-  <p style="color: green" id="notice">
-    <%= flash[:notice] %>
-  </p>
-</center>
 
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= link_to "Create an album",
-                new_album_path %>
-    <%= link_to "Import Album from MusicBrainz",
-                controller: "import_album" %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      &nbsp;
+    </div>
+    <div class="span9">
+      <%= link_to "Create an album",
+                  new_album_path,
+                  class: 'btn btn-create' %>
+      <%= link_to "MusicBrainz import",
+                  import_album_index_path,
+                  class: 'btn btn-create' %>
+    </div>
   </div>
-  <div id="content-header">Albums</div>
-</div>
-
-<div id="content">
-
-  <%= render partial: 'search_form',
-             object: @search %>
-
-  <div id="albums">
-    <%= render partial: 'albums',
-               object: @search %>
-  </div>
-
-</div>
-
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "albums" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->

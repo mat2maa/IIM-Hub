@@ -1,20 +1,6 @@
+<% content_for :title do %> - Albums
+<% end %>
+
 <div id="header">
-  <div class="title">Audio Playlist Maker</div>
-  <div id="nav">
-    <ul>
-      <li><%= link_to "Dashboard",
-                      controller: "dashboard" %></li>
-      <li><%= link_to "Songs Playlists",
-                      controller: "audio_playlists" %></li>
-      <li><%= link_to "Albums Playlists",
-                      controller: "album_playlists" %></li>
-      <li id="curr-nav"><%= link_to "Albums",
-                                    controller: "albums" %></li>
-      <li><%= link_to "Songs",
-                      controller: "tracks" %></li>
-      <li><%= link_to "Settings",
-                      settings_path %></li>
-    </ul>
-    <div id="clear"><br/></div>
-  </div>
+  <%= render partial: "layouts/audio_nav" %>
 </div>

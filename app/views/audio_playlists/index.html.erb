@@ -1,26 +1,24 @@
 <%= render partial: 'layouts/audioplaylist_header' %>
-<center><p style="color: green" id="notice"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
 
-  <div id="content-header-actions">
-    <% if permitted_to? :create,
-                        :audio_playlists %>
-        <%= link_to "Create a playlist",
-                    new_audio_playlist_path %>
-    <% end %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      &nbsp;
+    </div>
+    <div class="span9">
+      <%= link_to "Create a playlist",
+                  new_audio_playlist_path,
+                  class: 'btn btn-create' %>
+    </div>
   </div>
-  <div id="content-header">Songs Playlists</div>
-</div>
-
-<div id="content">
-
-
-  <%= render partial: 'playlist_search_form',
-             object: @search %>
-
-  <div id="audio_playlists">
-    <%= render partial: "audio_playlists" %>
-  </div>
-  <br/>
-
-</div>
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'playlist_search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "audio_playlists" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->

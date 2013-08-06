@@ -1,24 +1,14 @@
 <%= render partial: 'layouts/track_header' %>
-<center>
-  <p style="color: green" id="notice">
-    <%= flash[:notice] %>
-  </p>
-</center>
 
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-  </div>
-
-  <div id="content-header">Tracks</div>
-</div>
-
-<div id="content">
-
-  <%= render partial: 'search_form',
-             object: @search %>
-
-  <div id="tracks">
-    <%= render partial: "tracks" %>
-  </div>
-
-</div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "tracks" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->

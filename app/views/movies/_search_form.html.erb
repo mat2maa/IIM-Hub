@@ -4,6 +4,11 @@
 <%= search_form_for @search,
                     class: 'spinner-trigger' do |movies| %>
   <div class="control-group">
+
+    <div class="controls combinator-select-container">
+      <%= movies.combinator_select %>
+    </div>
+
     <%= movies.text_field :movie_title_cont,
                           placeholder: 'Movie Title' %>
 
@@ -51,15 +56,12 @@
                           data: { placeholder: 'Genre' } } %>
     </div>
 
-    <label class="control-label">
-      Airline Release Date:
-    </label>
     <%= movies.text_field :airline_release_date_gteq,
-                          data: { behaviour: 'datepicker' },
-                          placeholder: 'From'  %>
+                          data: { behaviour: 'datepicker-months' },
+                          placeholder: 'Airline Release Date From'  %>
     <%= movies.text_field :airline_release_date_lteq,
-                          data: { behaviour: 'datepicker' },
-                          placeholder: 'To'  %>
+                          data: { behaviour: 'datepicker-months' },
+                          placeholder: 'Airline Release Date To'  %>
 
     <div class="controls">
       <%= select :language,
@@ -82,7 +84,7 @@
     </div>
 
     <%= movies.text_field :theatrical_release_year_eq,
-                          data: { behaviour: 'datepicker' },
+                          data: { behaviour: 'datepicker-years' },
                           placeholder: 'Theatrical Release Year'  %>
 
     <%= movies.text_field :id_eq,
@@ -118,11 +120,3 @@
 
   </div>
 <% end %>
-
-<script type="text/javascript">
-  $('[data-behaviour~=datepicker]').datepicker( {
-    format: "mm-yyyy",
-    viewMode: "months",
-    minViewMode: "months"
-  });
-</script>

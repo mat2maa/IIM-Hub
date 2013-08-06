@@ -1,29 +1,27 @@
 <%= render partial: 'layouts/albumplaylist_header' %>
-<center>
-  <p style="color: green" id="notice">
-    <%= flash[:notice] %>
-  </p>
-</center>
 
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <% if permitted_to? :create,
-                        :album_playlists %>
-        <%= link_to "Export by airline",
-                    "/export_by_airline" %>
-        <%= link_to "Create a playlist",
-                    new_album_playlist_path %>
-    <% end %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      &nbsp;
+    </div>
+    <div class="span9">
+      <%= link_to "Create a playlist",
+                  new_album_playlist_path,
+                  class: 'btn btn-create' %>
+      <%= link_to "Export by airline",
+                  "/export_by_airline",
+                  class: 'btn btn-create' %>
+    </div>
   </div>
-
-  <div id="content-header">Album Playlists</div>
-</div>
-
-<div id="content">
-  <%= render partial: 'search_form',
-             object: @search %>
-
-  <div id="album_playlists">
-    <%= render partial: "album_playlists" %>
-  </div>
-</div>
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div><!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "album_playlists" %>
+    </div>
+  </div><!--/row-->
+</div> <!-- /container -->
