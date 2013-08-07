@@ -1,15 +1,15 @@
 <%= form_for @commercial_run_time,
              remote: true,
              html: {id: "commercial_run_time_form"} do |f| %>
-    <table>
-      <tr>
-        <td>Minutes</td>
-        <td>
-          <%= f.text_field :minutes %>
-        </td>
-        <td colspan="2">
-          <%= f.submit "Add Minutes" %>
-        </td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Minutes</td>
+      <td>
+        <%= f.text_field :minutes %>
+      </td>
+      <td colspan="2">
+        <%= f.submit "Add Minutes" %>
+      </td>
+    </tr>
+  </table>
 <% end %>

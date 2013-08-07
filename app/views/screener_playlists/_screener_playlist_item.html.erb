@@ -2,39 +2,39 @@
 <% @screener_playlist_item = screener_playlist_item %>
 <tr id="item_<%= screener_playlist_item.id %>" class="sortable" data-id="<%= screener_playlist_item.id %>">
   <% if screener_playlist_item.screener.nil? %>
-      <td colspan="2">Missing screener <%= screener_playlist_item.screener_id %></td>
+    <td colspan="2">Missing screener <%= screener_playlist_item.screener_id %></td>
   <% else %>
-      <td>
-        <table width="100%">
-          <tr>
-            <th width="130">(<%= position %>)
-              Video Title [<%= link_to "Edit",
-                                       edit_screener_path(screener_playlist_item.screener.id),
-                                       target: "_blank" %>]:
-            </th>
-            <td width="200"><%= screener_playlist_item.screener.video.programme_title %></td>
-            <th width="80">Distributor:</th>
-            <td width="190"><%= screener_playlist_item.screener.video.video_distributor.company_name unless screener_playlist_item.screener.video.video_distributor.nil? %></td>
-            <th width="100">Location:</th>
-            <td width="150"><%= screener_playlist_item.screener.location %></td>
-          </tr>
-          <tr>
-            <th>Chinese Video Title:</th>
-            <td><%= screener_playlist_item.screener.video.chinese_programme_title %></td>
-            <th>Episode No:</th>
-            <td><%= screener_playlist_item.screener.episode_number %></td>
-            <th>Remarks:</th>
-            <td><%= screener_playlist_item.screener.remarks %></td>
-            <th>Other:</th>
-            <td><%= screener_playlist_item.screener.remarks_other %></td>
-          </tr>
-          <tr>
-            <th>Episode Title:</th>
-            <td><%= screener_playlist_item.screener.episode_title %></td>
-          </tr>
-        </table>
-      </td>
-      <td class="actions"><%= image_tag("arrow_move.png") %></td>
+    <td>
+      <table width="100%">
+        <tr>
+          <th width="130">(<%= position %>)
+            Video Title [<%= link_to "Edit",
+                                     edit_screener_path(screener_playlist_item.screener.id),
+                                     target: "_blank" %>]:
+          </th>
+          <td width="200"><%= screener_playlist_item.screener.video.programme_title %></td>
+          <th width="80">Distributor:</th>
+          <td width="190"><%= screener_playlist_item.screener.video.video_distributor.company_name unless screener_playlist_item.screener.video.video_distributor.nil? %></td>
+          <th width="100">Location:</th>
+          <td width="150"><%= screener_playlist_item.screener.location %></td>
+        </tr>
+        <tr>
+          <th>Chinese Video Title:</th>
+          <td><%= screener_playlist_item.screener.video.chinese_programme_title %></td>
+          <th>Episode No:</th>
+          <td><%= screener_playlist_item.screener.episode_number %></td>
+          <th>Remarks:</th>
+          <td><%= screener_playlist_item.screener.remarks %></td>
+          <th>Other:</th>
+          <td><%= screener_playlist_item.screener.remarks_other %></td>
+        </tr>
+        <tr>
+          <th>Episode Title:</th>
+          <td><%= screener_playlist_item.screener.episode_title %></td>
+        </tr>
+      </table>
+    </td>
+    <td class="actions"><%= image_tag("arrow_move.png") %></td>
   <% end %>
   <td class="actions"><%= link_to "Delete",
                                   screener_playlist_item,

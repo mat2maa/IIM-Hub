@@ -1,57 +1,53 @@
 <%= search_form_for @search,
                     class: 'spinner-trigger' do |albums| %>
-    <fieldset>
-      <legend>Search Albums</legend>
-      Match ANY or ALL of the conditions:
-      <%= albums.combinator_select %>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <br/>
-      <table>
-        <tr>
-          <td valign="top">
-            Title Original:<br>
-            <%= albums.text_field :title_original_cont %>
-            <br>
-            Artist Original:<br>
-            <%= albums.text_field :artist_original_cont %>
-          </td>
-          <td valign="top">
-            Title (Translated):<br>
-            <%= albums.text_field :title_english_cont %>
-            <br>
-            Artist (Translated):<br>
-            <%= albums.text_field :artist_english_cont %>
-          </td>
-          <td valign="top">
-            Year:<br>
-            <%= albums.text_field :release_year_eq,
-                                  size: 6 %>
-            <br>
-            CD Code:<br>
-            <%= albums.text_field :cd_code_cont,
-                                  size: 6 %>
-          </td>
-          <td valign="top">
-            Label:<br>
-            <%= albums.select :label_id_eq,
-                              Label.all
-                              .collect { |p| [p.name,
-                                              p.id] },
-                              {include_blank: true} %>
-            <br/>
-            Genre:<br>
-            <%= albums.select :genres_id_eq,
-                              Genre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
-                              {include_blank: true} %>
 
-            Pending Delete: <%= albums.check_box :to_delete_eq %>
-          </td>
-        </tr>
-      </table>
-      <%= albums.submit "Search" %>
-    </fieldset>
+  <div class="control-group">
+    <div class="controls combinator-select-container">
+      <%= albums.combinator_select %>
+    </div>
+
+    <%= albums.text_field :title_original_cont,
+                          placeholder: 'Title Original' %>
+
+    <%= albums.text_field :artist_original_cont,
+                          placeholder: 'Artist Original' %>
+
+    <%= albums.text_field :title_english_cont,
+                          placeholder: 'Title (Translated)' %>
+
+    <%= albums.text_field :artist_english_cont,
+                          placeholder: 'Artist (Translated)' %>
+
+    <%= albums.text_field :release_year_eq,
+                          data: {behaviour: 'datepicker-years'},
+                          placeholder: 'Year' %>
+
+    <%= albums.text_field :cd_code_cont,
+                          placeholder: 'CD Code' %>
+
+    <div class="controls">
+      <%= albums.select :label_id_eq,
+                        Label.all
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Label'}} %>
+    </div>
+
+    <div class="controls">
+      <%= albums.select :genres_id_eq,
+                        Genre.all
+                        .collect { |p| [p.name,
+                                        p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Genre'}} %>
+    </div>
+
+  </div>
+
+  <%= albums.submit "Search",
+                    {class: 'btn'} %>
+
 <% end %>

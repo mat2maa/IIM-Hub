@@ -4,94 +4,94 @@
 <fieldset>
   <legend>Search Masters</legend>
   <%= search_form_for @search,
-                     url: add_video_master_to_playlist_path(id: @video_master_playlist.id),
-                     remote: true,
-                     id: "master_search_form",
-                     class: 'spinner-trigger' do |masters| %>
-      <br/>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <table>
-        <tr>
-          <td valign="top">
-            Video Title:<br/>
-            <%= masters.text_field :video_programme_title_cont %>
-            <br/>
-            Episode Title:<br/>
-            <%= masters.text_field :episode_title_cont %>
-            <br/>
-            Episode #:<br/>
-            <%= masters.text_field :episode_number_eq %>
-            <br/>
-            Genre:<br/>
-            <%= masters.select :video_video_genres_video_parent_genre_id_eq,
-                               VideoParentGenre.all
-                               .collect { |p| [p.name,
-                                               p.id] },
-                               {include_blank: true} %>
-            <br/>
-            Sub Genre:<br/>
-            <%= masters.select :video_video_genres_id_eq,
-                               VideoGenre.all
-                               .collect { |p| [p.name,
-                                               p.id] },
-                               {include_blank: true} %>
-          </td>
-          <td valign="top">
-            Distributor:<br/>
-            <%= masters.select :video_video_distributor_id_eq,
-                               Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                          p.id] },
-                               include_blank: true %>
-            <br/>
-            Laboratory:<br/>
-            <%= masters.select :video_laboratory_id_eq,
-                               Supplier.laboratories.collect { |p| [p.company_name,
-                                                                    p.id] },
-                               include_blank: true %>
-            <br/>
-            Video type:<br/>
-            <%= masters.select :video_video_type_eq,
-                               Video::VIDEO_TYPES,
-                               {include_blank: true} %> <br/>
-            Production Year:<br/>
-            <%= masters.text_field :video_production_year_eq,
-                                   size: 6 %>
+                      url: add_video_master_to_playlist_path(id: @video_master_playlist.id),
+                      remote: true,
+                      id: "master_search_form",
+                      class: 'spinner-trigger' do |masters| %>
+    <br/>
+    <%= image_tag 'spinner.gif',
+                  id: 'spinner',
+                  class: 'transparent' %>
+    <table>
+      <tr>
+        <td valign="top">
+          Video Title:<br/>
+          <%= masters.text_field :video_programme_title_cont %>
+          <br/>
+          Episode Title:<br/>
+          <%= masters.text_field :episode_title_cont %>
+          <br/>
+          Episode #:<br/>
+          <%= masters.text_field :episode_number_eq %>
+          <br/>
+          Genre:<br/>
+          <%= masters.select :video_video_genres_video_parent_genre_id_eq,
+                             VideoParentGenre.all
+                             .collect { |p| [p.name,
+                                             p.id] },
+                             {include_blank: true} %>
+          <br/>
+          Sub Genre:<br/>
+          <%= masters.select :video_video_genres_id_eq,
+                             VideoGenre.all
+                             .collect { |p| [p.name,
+                                             p.id] },
+                             {include_blank: true} %>
+        </td>
+        <td valign="top">
+          Distributor:<br/>
+          <%= masters.select :video_video_distributor_id_eq,
+                             Supplier.video_distributors.collect { |p| [p.company_name,
+                                                                        p.id] },
+                             include_blank: true %>
+          <br/>
+          Laboratory:<br/>
+          <%= masters.select :video_laboratory_id_eq,
+                             Supplier.laboratories.collect { |p| [p.company_name,
+                                                                  p.id] },
+                             include_blank: true %>
+          <br/>
+          Video type:<br/>
+          <%= masters.select :video_video_type_eq,
+                             Video::VIDEO_TYPES,
+                             {include_blank: true} %> <br/>
+          Production Year:<br/>
+          <%= masters.text_field :video_production_year_eq,
+                                 size: 6 %>
 
-          </td>
-          <td valign="top">
-<!--
-            Lang Track:<br/>
--->
-            <%#= select :language,
+        </td>
+        <td valign="top">
+          <!--
+                      Lang Track:<br/>
+          -->
+          <%#= select :language,
                        :track,
                        @languages,
                        {include_blank: true,
                         selected: @selected_track} %>
-<!--
-            <br/>
-            Lang Subtitles:<br/>
--->
-            <%#= select :language,
+          <!--
+                      <br/>
+                      Lang Subtitles:<br/>
+          -->
+          <%#= select :language,
                        :subtitle,
                        @languages,
                        {include_blank: true,
                         selected: @selected_subtitle} %>
-<!--
-            <br/>
--->
-            Tape Location Number:<br/>
-            <%= masters.text_field :video_masters_location_eq,
-                                   size: 6 %>
-            <br/>
-            Video ID:<br/>
-            <%= masters.text_field :video_id_eq,
-                                   size: 6 %>
-          </td>
-        </tr>
-      </table>
-            <!--
+          <!--
+                      <br/>
+          -->
+          Tape Location Number:<br/>
+          <%= masters.text_field :video_masters_location_eq,
+                                 size: 6 %>
+          <br/>
+          Video ID:<br/>
+          <%= masters.text_field :video_id_eq,
+                                 size: 6 %>
+        </td>
+      </tr>
+    </table>
+    <!--
 <table>
 	<tr>
 		<td valign="top">
@@ -107,7 +107,7 @@
 	</tr>
 </table>
 -->
-      <%= masters.submit "Search" %>
+    <%= masters.submit "Search" %>
   <% end %>
 
 </fieldset>

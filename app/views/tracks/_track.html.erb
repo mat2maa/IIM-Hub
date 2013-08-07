@@ -1,63 +1,51 @@
-<% cache([track,
-          track.album]) do %>
-    <tr id="track-<%= track.id %>">
-      <td>
-        <%= link_to track.id,
-                    track_path(id: track.id) %>
-      </td>
-      <td>
-        <%= track.title_original %>
-        <br/>
-        <%= track.title_english %>
-      </td>
-      <td>
-        <%= track.artist_original %>
-        <br/>
-        <%= track.artist_english %>
-      </td>
-      <td>
-        <%= track.album.label.name if !track.album.label_id.nil? && !track.album.nil? %>
-      </td>
-      <td>
-        <%= track.album.cd_code %>&nbsp;
-      </td>
-      <td>
-        <%= duration(track.duration) %>
-      </td>
-      <% if params[:playlist_id] || params["action"]=="add_track_to_playlist" %>
-          <td>
-            <% if !track.to_delete %>
-                <%= link_to "add to playlist",
-                            remote: true,
-                            url: {controller: "audio_playlists",
-                                  action: "add_track",
-                                  id: params[:id],
-                                  track_id: track.id},
-                            class: 'spinner-trigger' %>
-            <% else %>
-                Pending Deletion
-            <% end %>
-          </td>
+<tr id="track-<%= track.id %>">
+  <td data-title="ID"><%= link_to track.id,
+                  track_path(id: track.id) %></td>
+  <td data-title="Title">
+    <%= track.title_original %>
+    <br/>
+    <%= track.title_english %></td>
+  <td data-title="Artist">
+    <%= track.artist_original %>
+    <br/>
+    <%= track.artist_english %></td>
+  <td data-title="Label"><%= track.album.label.name if !track.album.label_id.nil? && !track.album.nil? %>&nbsp;</td>
+  <td data-title="CD Code"><%= track.album.cd_code %>&nbsp;</td>
+  <td data-title="Duration"><%= duration(track.duration) %>&nbsp;</td>
+
+  <% if params[:playlist_id] || params["action"]=="add_track_to_playlist" %>
+    <td>
+      <% if !track.to_delete %>
+        <%= link_to "add to playlist",
+                    remote: true,
+                    url: {controller: "audio_playlists",
+                          action: "add_track",
+                          id: params[:id],
+                          track_id: track.id},
+                    class: 'spinner-trigger' %>
       <% else %>
-          <td>
-            <%= link_to 'Edit',
-                        edit_track_path(track) %>
-          </td>
-          <td>
-            <% if !track.to_delete %>
-                <%= link_to 'Delete',
-                            track_url(track),
-                            remote: true,
-                            method: :delete,
-                            confirm: 'Are you sure?',
-                            class: 'spinner-trigger' %>
-            <% else %>
-                <%= link_to 'Restore',
-                            restore_track_path(track.id),
-                            remote: true,
-                            class: 'spinner-trigger' %>
-            <% end %>
-          </td>
+        Pending Deletion
       <% end %>
-    </tr>
-<% end %>
+    </td>
+
+  <% else %>
+    <td data-title="Actions">
+      <%= link_to 'Edit',
+                  edit_track_path(track),
+                  class: 'btn btn-mini' %>
+      <% if !track.to_delete %>
+        <%= link_to 'Delete',
+                    track_url(track),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Restore',
+                    restore_track_path(track.id),
+                    remote: true,
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+    </td>
+  <% end %>
+</tr>

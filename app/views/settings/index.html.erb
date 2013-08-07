@@ -61,16 +61,16 @@
         <td>Edit VOs list</td>
       </tr>
       <% if has_role? :administrator %>
-          <tr>
-            <td class="dashboard"><%= link_to "Splits",
-                                              splits_path %></td>
-            <td>Edit Splits list</td>
-          </tr>
-          <tr>
-            <td class="dashboard"><%= link_to "VO Durations",
-                                              vo_durations_path %></td>
-            <td>Edit VO Durations list</td>
-          </tr>
+        <tr>
+          <td class="dashboard"><%= link_to "Splits",
+                                            splits_path %></td>
+          <td>Edit Splits list</td>
+        </tr>
+        <tr>
+          <td class="dashboard"><%= link_to "VO Durations",
+                                            vo_durations_path %></td>
+          <td>Edit VO Durations list</td>
+        </tr>
       <% end %>
     </table>
   </center>

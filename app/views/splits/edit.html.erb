@@ -4,41 +4,41 @@
     <h1>Edit split</h1>
 
     <%= form_for(@split) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          <%= f.label :duration %><br/>
-          <%= f.text_field :duration %>
-        </p>
+      <p>
+        <%= f.label :duration %><br/>
+        <%= f.text_field :duration %>
+      </p>
 
-        <p>
-          <%= f.label :more_than %><br/>
-          <%= text_field_tag :more_than_min,
-                             duration_min(@split.more_than),
-                             :size => 3 %> min
-          <%= text_field_tag :more_than_sec,
-                             duration_sec(@split.more_than),
-                             :size => 3 %> sec
-        </p>
+      <p>
+        <%= f.label :more_than %><br/>
+        <%= text_field_tag :more_than_min,
+                           duration_min(@split.more_than),
+                           :size => 3 %> min
+        <%= text_field_tag :more_than_sec,
+                           duration_sec(@split.more_than),
+                           :size => 3 %> sec
+      </p>
 
-        <p>
-          <%= f.label :less_than %><br/>
-          <%= text_field_tag :less_than_min,
-                             duration_min(@split.less_than),
-                             :size => 3 %> min
-          <%= text_field_tag :less_than_sec,
-                             duration_sec(@split.less_than),
-                             :size => 3 %> sec
-        </p>
+      <p>
+        <%= f.label :less_than %><br/>
+        <%= text_field_tag :less_than_min,
+                           duration_min(@split.less_than),
+                           :size => 3 %> min
+        <%= text_field_tag :less_than_sec,
+                           duration_sec(@split.less_than),
+                           :size => 3 %> sec
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

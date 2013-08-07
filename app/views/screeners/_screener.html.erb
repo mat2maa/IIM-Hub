@@ -1,18 +1,19 @@
 <tr id="screener-<%= screener.id %>">
-  <td><%= screener.id %></td>
-  <td><%= screener.video.programme_title if !screener.video.nil? %></td>
-  <td><%= screener.episode_title %></td>
-  <td><%= screener.episode_number %></td>
-  <td><%= screener.location %></td>
-  <td><%= link_to 'Edit',
+  <td data-title="ID"><%= screener.id %></td>
+  <td data-title="Programme Title"><%= screener.video.programme_title if !screener.video.nil? %>&nbsp;</td>
+  <td data-title="Episode Title"><%= screener.episode_title %>&nbsp;</td>
+  <td data-title="Episode number"><%= screener.episode_number %>&nbsp;</td>
+  <td data-title="Location"><%= screener.location %>&nbsp;</td>
+  <td data-title="Actions">
+    <%= link_to 'Edit',
                   edit_screener_path(screener),
-                  target: "_blank" %></td>
-  <td>
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
     <%= link_to 'Delete',
                 screener_url(screener),
                 remote: true,
                 method: :delete,
                 confirm: 'Are you sure?',
-                class: 'spinner-trigger' %>
+                class: 'spinner-trigger btn btn-mini' %>
   </td>
 </tr>

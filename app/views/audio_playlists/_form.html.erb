@@ -1,132 +1,132 @@
 <%= form_for(@audio_playlist) do |form| %>
-    <%= error_messages_for form.object %>
+  <%= error_messages_for form.object %>
 
-    <table class="edit">
-      <tr>
-        <td class="pl-title">
-          Client Playlist Code:
-        </td>
-        <td>
-          <%= form.text_field :client_playlist_code %>
-        </td>
-        <td class="pl-title">
-          Airline:
-        </td>
-        <td>
-          <%= select("audio_playlist",
-                     "airline_id",
-                     Airline.order("code asc")
-                     .collect { |p| [p.code + " - " + p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      airlines_path,
-                      id: "add",
-                      target: "_blank" %>
-        </td>
-        <td class="pl-title">
-          Programmer:
-        </td>
-        <td>
-          <%= @audio_playlist.user.login if !@audio_playlist.user_id.nil? %>
-        </td>
-      </tr>
-      <tr>
-        <td class="pl-title">
-          Programme:
-        </td>
-        <td>
-          <%= select("audio_playlist",
-                     "program_id",
-                     Program.order("name asc")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      programs_path,
-                      id: "add",
-                      target: "_blank" %>
-        </td>
-        <td class="pl-title">
-          IN/OUT:
-        </td>
-        <td>
-          <%= select("audio_playlist",
-                     "in_out",
-                     in_out,
-                     {include_blank: true}) %>
-        </td>
-        <td class="pl-title">
-          VO:
-        </td>
-        <td>
-          <%= select("audio_playlist",
-                     "vo_id",
-                     Vo.order("name asc").collect { |p| [p.name,
-                                                         p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      vos_path,
-                      id: "add",
-                      target: "_blank" %>
-        </td>
-      </tr>
-      <tr>
-        <td class="pl-title">
-          Play Date:
-        </td>
-        <td colspan="3">
-          <%= form.date_select :start_playdate,
-                               discard_day: true,
-                               order: [:month,
-                                       :year] %>
+  <table class="edit">
+    <tr>
+      <td class="pl-title">
+        Client Playlist Code:
+      </td>
+      <td>
+        <%= form.text_field :client_playlist_code %>
+      </td>
+      <td class="pl-title">
+        Airline:
+      </td>
+      <td>
+        <%= select("audio_playlist",
+                   "airline_id",
+                   Airline.order("code asc")
+                   .collect { |p| [p.code + " - " + p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    airlines_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+      <td class="pl-title">
+        Programmer:
+      </td>
+      <td>
+        <%= @audio_playlist.user.login if !@audio_playlist.user_id.nil? %>
+      </td>
+    </tr>
+    <tr>
+      <td class="pl-title">
+        Programme:
+      </td>
+      <td>
+        <%= select("audio_playlist",
+                   "program_id",
+                   Program.order("name asc")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    programs_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+      <td class="pl-title">
+        IN/OUT:
+      </td>
+      <td>
+        <%= select("audio_playlist",
+                   "in_out",
+                   in_out,
+                   {include_blank: true}) %>
+      </td>
+      <td class="pl-title">
+        VO:
+      </td>
+      <td>
+        <%= select("audio_playlist",
+                   "vo_id",
+                   Vo.order("name asc").collect { |p| [p.name,
+                                                       p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    vos_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+    </tr>
+    <tr>
+      <td class="pl-title">
+        Play Date:
+      </td>
+      <td colspan="3">
+        <%= form.date_select :start_playdate,
+                             discard_day: true,
+                             order: [:month,
+                                     :year] %>
 
-          to
+        to
 
-          <%= form.date_select :end_playdate,
-                               discard_day: true,
-                               order: [:month,
-                                       :year] %>
-        </td>
-        <td class="pl-title">
-          Airline Duration:
-        </td>
-        <td>
-          <%= select("audio_playlist",
-                     "airline_duration",
-                     Split.order(:duration)
-                     .collect { |p| [p.name,
-                                     p.duration] },
-                     {include_blank: true}) %>
-        </td>
-      </tr>
-      <tr>
-        <td class="pl-title">
-          Total Duration:
-        </td>
-        <td id="duration">
-          <%= render partial: 'duration',
-                     object: @audio_playlist %>
-        </td>
-        <td class="pl-title">Splits:</td>
-        <td id="splits">
-          <%= render partial: 'splits',
-                     object: @audio_playlist %>
-        </td>
-        <td></td>
-        <td>
-          <%= link_to "View Splits",
-                      :view_splits,
-                      target: "_blank" %>
-        </td>
-      </tr>
-    </table>
+        <%= form.date_select :end_playdate,
+                             discard_day: true,
+                             order: [:month,
+                                     :year] %>
+      </td>
+      <td class="pl-title">
+        Airline Duration:
+      </td>
+      <td>
+        <%= select("audio_playlist",
+                   "airline_duration",
+                   Split.order(:duration)
+                   .collect { |p| [p.name,
+                                   p.duration] },
+                   {include_blank: true}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="pl-title">
+        Total Duration:
+      </td>
+      <td id="duration">
+        <%= render partial: 'duration',
+                   object: @audio_playlist %>
+      </td>
+      <td class="pl-title">Splits:</td>
+      <td id="splits">
+        <%= render partial: 'splits',
+                   object: @audio_playlist %>
+      </td>
+      <td></td>
+      <td>
+        <%= link_to "View Splits",
+                    :view_splits,
+                    target: "_blank" %>
+      </td>
+    </tr>
+  </table>
 
-    <p>
-      <% if params[:action] == "new" %>
-          <%= form.submit "Next" %>
-      <% else %>
-          <%= form.submit "Update" %>
-      <% end %>
-    </p>
+  <p>
+    <% if params[:action] == "new" %>
+      <%= form.submit "Next" %>
+    <% else %>
+      <%= form.submit "Update" %>
+    <% end %>
+  </p>
 <% end %>

@@ -6,18 +6,18 @@
     <%= form_for @user,
                  url: password_reset_path,
                  method: :put do |f| %>
-        <%= error_messages_for(f.object) %>
-        <%= f.label :password %>
-        <br/>
-        <%= f.password_field :password %>
-        <br/>
-        <br/>
-        <%= f.label :password_confirmation %>
-        <br/>
-        <%= f.password_field :password_confirmation %>
-        <br/>
-        <br/>
-        <%= f.submit "Update my password and log me in" %>
+      <%= error_messages_for(f.object) %>
+      <%= f.label :password %>
+      <br/>
+      <%= f.password_field :password %>
+      <br/>
+      <br/>
+      <%= f.label :password_confirmation %>
+      <br/>
+      <%= f.password_field :password_confirmation %>
+      <br/>
+      <br/>
+      <%= f.submit "Update my password and log me in" %>
     <% end %>
 
   </center>

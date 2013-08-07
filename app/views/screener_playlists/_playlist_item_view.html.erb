@@ -2,7 +2,7 @@
 <% @screener_playlist_item = playlist_item_view %>
 <tr id="item_<%= playlist_item_view.id %>">
   <% if playlist_item_view.screener.nil? %>
-      <td colspan="2">Missing video <%= playlist_item_view.screener_id %></td>
+    <td colspan="2">Missing video <%= playlist_item_view.screener_id %></td>
 
   <% else %>
 

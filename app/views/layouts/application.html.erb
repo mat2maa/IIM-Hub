@@ -53,7 +53,7 @@
     <% if logged_in? %>
       <ul class="inline">
         <li>You are logged in as <strong><%= current_user.login %></strong></li>
-        <li> | </li>
+        <li> |</li>
         <li><%= link_to 'Change Password',
                         change_password_path %></li>
         <li><%= link_to "Log Out",

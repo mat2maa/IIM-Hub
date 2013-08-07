@@ -13,12 +13,14 @@
   </div>
   <div class="row-fluid">
     <div class="span3">
-      <%= render partial: 'playlist_search_form',
+      <%= render partial: 'search_form',
                  object: @search %>
-    </div><!--/span-->
+    </div>
+    <!--/span-->
     <div class="span9" id="no-more-tables">
       <%= bootstrap_flash %>
       <%= render partial: "audio_playlists" %>
     </div>
-  </div><!--/row-->
+  </div>
+  <!--/row-->
 </div> <!-- /container -->

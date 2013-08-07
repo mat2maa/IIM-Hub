@@ -1,15 +1,15 @@
 <%= form_for @master_language,
              remote: true,
              html: {id: "master_language_form"} do |f| %>
-    <table>
-      <tr>
-        <td>Language</td>
-        <td>
-          <%= f.text_field :name %>
-        </td>
-        <td colspan="2">
-          <%= f.submit "Add New Language" %>
-        </td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Language</td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+      <td colspan="2">
+        <%= f.submit "Add New Language" %>
+      </td>
+    </tr>
+  </table>
 <% end %>

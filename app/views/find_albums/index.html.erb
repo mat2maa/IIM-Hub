@@ -9,48 +9,48 @@
 <div id="content">
 
   <% form_for @search do |f| %>
-      <fieldset>
-        <legend>Search Albums</legend>
+    <fieldset>
+      <legend>Search Albums</legend>
 
-        <% f.fields_for @search.conditions do |albums| %>
-            Title Original:<br/>
-            <%= albums.text_field :title_original_keywords %>
-            <br/>
-            <br/>
-        <% end %>
-      </fieldset>
-      <%= f.submit "Search" %>
+      <% f.fields_for @search.conditions do |albums| %>
+        Title Original:<br/>
+        <%= albums.text_field :title_original_keywords %>
+        <br/>
+        <br/>
+      <% end %>
+    </fieldset>
+    <%= f.submit "Search" %>
   <% end %>
 
 
   <% if @albums_count > 0 %>
-      <%= @albums_count %> albums found
+    <%= @albums_count %> albums found
 
-      <table border="1" cellpadding="5">
+    <table border="1" cellpadding="5">
+      <tr>
+        <th><%= order_by_link :id %></th>
+        <th><%= order_by_link :title_original %></th>
+        <th><%= order_by_link :artist_original %></th>
+      </tr>
+      <% @albums.each do |album| %>
         <tr>
-          <th><%= order_by_link :id %></th>
-          <th><%= order_by_link :title_original %></th>
-          <th><%= order_by_link :artist_original %></th>
+          <td><%= album.id %></td>
+          <td><%= album.title_original %></td>
+          <td><%= album.artist_original %></td>
         </tr>
-        <% @albums.each do |album| %>
-            <tr>
-              <td><%= album.id %></td>
-              <td><%= album.title_original %></td>
-              <td><%= album.artist_original %></td>
-            </tr>
-        <% end %>
-      </table>
-
-      <br/>
-      <br/>
-
-      Per page: <%= per_page_select %>
-
-      <% if @search.page_count > 1 %>
-          <br/>Page: <%= page_select %>
       <% end %>
+    </table>
+
+    <br/>
+    <br/>
+
+    Per page: <%= per_page_select %>
+
+    <% if @search.page_count > 1 %>
+      <br/>Page: <%= page_select %>
+    <% end %>
   <% else %>
-      No albums were returned
+    No albums were returned
   <% end %>
 
 

@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "label",
 object: @label)) %> ";
 
 $("#label_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#labels>tbody").append(newRow);

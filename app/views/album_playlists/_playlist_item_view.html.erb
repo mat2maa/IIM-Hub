@@ -2,42 +2,42 @@
 <% @album_playlist_item = playlist_item_view %>
 <tr id="item_<%= playlist_item_view.id %>">
   <% if playlist_item_view.album.nil? %>
-      <td colspan="2">Missing album <%= playlist_item_view.album_id %></td>
+    <td colspan="2">Missing album <%= playlist_item_view.album_id %></td>
 
   <% else %>
 
-      <td>
-        <table width="100%">
-          <tr>
-            <td class="pl-title" width="184"> (<%= position %>)Album Title:</td>
-            <td width="141"><%= playlist_item_view.album.title_original %></td>
-            <td class="pl-title" width="115">Artist:</td>
-            <td width="171"><%= playlist_item_view.album.artist_original %></td>
-            <td class="pl-title" width="62">CD Code:</td>
-            <td width="128"><%= playlist_item_view.album.cd_code %></td>
-            <td><strong>Duration:</strong><%= playlist_item_view.album.duration_in_min %></td>
-            <td class="pl-title" width="144">Tracks:</td>
-            <td width="22"><%= playlist_item_view.album.tracks.size %></td>
-          </tr>
-          <tr>
-            <td class="pl-title" width="184">Album Title(Translated):</td>
-            <td width="141"><%= playlist_item_view.album.title_english %></td>
-            <td class="pl-title" width="115">Artist(Translated):</td>
-            <td width="171"><%= playlist_item_view.album.artist_english %></td>
-            <td class="pl-title">Label:</td>
-            <td width="128" colspan="2"><%= playlist_item_view.album.label.name if !playlist_item_view.album.label_id.nil? %></td>
-            <td class="pl-title">Explicit Lyrics:</td>
-            <td><%= has_explicit_lyrics(playlist_item_view.album.explicit_lyrics) %></td>
-          </tr>
-          <tr>
-            <td class="pl-title">Synopsis:</td>
-            <td colspan="3"><%= playlist_item_view.album.synopsis %></td>
-            <td class="pl-title">Category:</td>
-            <td colspan="2"><%= playlist_item_view.category.name if !playlist_item_view.category_id.nil? %></td>
-            <td class="pl-title">Genre:</td>
-            <td><%= show_genres(playlist_item_view.album.genres) if !playlist_item_view.album.genres.count.zero? %></td>
-          </tr>
-        </table>
-      </td>
+    <td>
+      <table width="100%">
+        <tr>
+          <td class="pl-title" width="184"> (<%= position %>)Album Title:</td>
+          <td width="141"><%= playlist_item_view.album.title_original %></td>
+          <td class="pl-title" width="115">Artist:</td>
+          <td width="171"><%= playlist_item_view.album.artist_original %></td>
+          <td class="pl-title" width="62">CD Code:</td>
+          <td width="128"><%= playlist_item_view.album.cd_code %></td>
+          <td><strong>Duration:</strong><%= playlist_item_view.album.duration_in_min %></td>
+          <td class="pl-title" width="144">Tracks:</td>
+          <td width="22"><%= playlist_item_view.album.tracks.size %></td>
+        </tr>
+        <tr>
+          <td class="pl-title" width="184">Album Title(Translated):</td>
+          <td width="141"><%= playlist_item_view.album.title_english %></td>
+          <td class="pl-title" width="115">Artist(Translated):</td>
+          <td width="171"><%= playlist_item_view.album.artist_english %></td>
+          <td class="pl-title">Label:</td>
+          <td width="128" colspan="2"><%= playlist_item_view.album.label.name if !playlist_item_view.album.label_id.nil? %></td>
+          <td class="pl-title">Explicit Lyrics:</td>
+          <td><%= has_explicit_lyrics(playlist_item_view.album.explicit_lyrics) %></td>
+        </tr>
+        <tr>
+          <td class="pl-title">Synopsis:</td>
+          <td colspan="3"><%= playlist_item_view.album.synopsis %></td>
+          <td class="pl-title">Category:</td>
+          <td colspan="2"><%= playlist_item_view.category.name if !playlist_item_view.category_id.nil? %></td>
+          <td class="pl-title">Genre:</td>
+          <td><%= show_genres(playlist_item_view.album.genres) if !playlist_item_view.album.genres.count.zero? %></td>
+        </tr>
+      </table>
+    </td>
   <% end %>
 </tr>

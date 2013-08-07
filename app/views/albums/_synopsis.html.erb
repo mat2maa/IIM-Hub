@@ -1,14 +1,14 @@
 <%= form_for @album,
-            remote: true do |form| %>
-    <strong>Synopsis</strong><br/><br/>
-    <%= link_to "YesAsia",
-                "http://www.yesasia.com",
-                target: "_blank" %> |
-    <%= link_to "Wikipedia",
-                "http://www.wikipedia.org/wiki/#{@album.artist_original.sub(/ /,
-                                                                            '_')}",
-                target: "_blank" %>
-    <br/><br/>
-    <%= form.text_area :synopsis %>
-    <br/>
+             remote: true do |form| %>
+  <strong>Synopsis</strong><br/><br/>
+  <%= link_to "YesAsia",
+              "http://www.yesasia.com",
+              target: "_blank" %> |
+  <%= link_to "Wikipedia",
+              "http://www.wikipedia.org/wiki/#{@album.artist_original.sub(/ /,
+                                                                          '_')}",
+              target: "_blank" %>
+  <br/><br/>
+  <%= form.text_area :synopsis %>
+  <br/>
 <% end %>

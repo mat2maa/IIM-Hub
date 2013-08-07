@@ -1,14 +1,14 @@
 <% content_for(:head) do %>
-    <meta name="pdfkit-orientation" content="Landscape"/>
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('#print_playlist').click(function (event) {
-                if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
+  <meta name="pdfkit-orientation" content="Landscape"/>
+  <script>
+    jQuery(document).ready(function () {
+      jQuery('#print_playlist').click(function (event) {
+        if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 <% end %>
 
 <%= render partial: 'layouts/movieplaylist_header' %>
@@ -68,7 +68,7 @@ format: "pdf"} %>
                       id: @movie_playlist %>
         </span>
 
-        |
+      |
 
     <% end %>
     <%= link_to "Create a playlist",
@@ -82,8 +82,9 @@ format: "pdf"} %>
   <center>
     <h2>Edit Movie Playlist</h2>
     <br/>
+
     <div class="action-button">
-        <%= link_to "Add Movie", add_movie_to_playlist_path(id: @movie_playlist.id), id: "add_movie_to_playlist" %>
+      <%= link_to "Add Movie", add_movie_to_playlist_path(id: @movie_playlist.id), id: "add_movie_to_playlist" %>
     </div>
     <br/>
 
@@ -104,25 +105,25 @@ format: "pdf"} %>
 </div>
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $(document).on("click", "#add_movie_to_playlist", function (movie) {
-            movie.preventDefault();
-            $('#add_movie_dialog').dialog({
-                title: 'Add Movie',
-                modal: true,
-                width: 912,
-                height: 540,
-                position: ['center', 100],
-                close: function (movie, ui) {
-                    $('#add_movie_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/add_movie_to_playlist/<%= @movie_playlist.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+  $(function () {
+    $(document).on("click", "#add_movie_to_playlist", function (movie) {
+      movie.preventDefault();
+      $('#add_movie_dialog').dialog({
+        title: 'Add Movie',
+        modal: true,
+        width: 912,
+        height: 540,
+        position: ['center', 100],
+        close: function (movie, ui) {
+          $('#add_movie_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/add_movie_to_playlist/<%= @movie_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
+  });
 </script>

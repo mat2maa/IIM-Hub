@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "split",
 object: @split)) %> ";
 
 $("#split_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#splits>tbody").append(newRow);

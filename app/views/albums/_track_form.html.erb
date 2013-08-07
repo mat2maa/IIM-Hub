@@ -1,78 +1,78 @@
 <%= form_tag url: {action: 'create_track'},
-            html: {id: 'add_track_form'},
-            remote: true do %>
-    <table class="edit">
-      <tr>
-        <td>Track Title (Original)</td>
-        <td><%= text_field_tag 'track[title_original]' %></td>
-        <td>Tempo</td>
-        <td><%= select("track",
-                       "tempo",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <td>Track Title (Translated)</td>
-        <td><%= text_field_tag 'track[title_english]' %></td>
-        <td>Intro Tempo</td>
-        <td><%= select("track",
-                       "tempo_intro",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <td>Artist (Original)</td>
-        <td><%= text_field_tag 'track[artist_original]' %></td>
-        <td>Outro Tempo</td>
-        <td><%= select("track",
-                       "tempo_outro",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <td>Artist (Translated)</td>
-        <td><%= text_field_tag 'track[artist_english]' %></td>
-        <td>Gender</td>
-        <td><%= select("track",
-                       "gender",
-                       gender,
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <td>Composer</td>
-        <td><%= text_field_tag 'track[composer]' %></td>
-        <td>Language</td>
-        <td><%= select("track",
-                       "language",
-                       Language.all
-                               .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <td>Distributor</td>
-        <td><%= text_field_tag 'track[distributor]' %></td>
-        <td>Duration</td>
-        <td><%= text_field_tag :dur_min,
-                               0,
-                               size: 3 %> : <%= text_field_tag :dur_sec,
-                                                               0,
-                                                               size: 3 %></td>
-      </tr>
-      <tr>
-        <td>Origin</td>
-        <td><%= select("track",
-                       "origin",
-                       Origin.all
-                             .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-    <%= hidden_field_tag 'track[album_id]',
-                         params[:id] %>
-    <%= submit_tag "Add New Track" %>
+             html: {id: 'add_track_form'},
+             remote: true do %>
+  <table class="edit">
+    <tr>
+      <td>Track Title (Original)</td>
+      <td><%= text_field_tag 'track[title_original]' %></td>
+      <td>Tempo</td>
+      <td><%= select("track",
+                     "tempo",
+                     Tempo.all
+                     .collect { |p| [p.name, p.id] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <td>Track Title (Translated)</td>
+      <td><%= text_field_tag 'track[title_english]' %></td>
+      <td>Intro Tempo</td>
+      <td><%= select("track",
+                     "tempo_intro",
+                     Tempo.all
+                     .collect { |p| [p.name, p.id] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <td>Artist (Original)</td>
+      <td><%= text_field_tag 'track[artist_original]' %></td>
+      <td>Outro Tempo</td>
+      <td><%= select("track",
+                     "tempo_outro",
+                     Tempo.all
+                     .collect { |p| [p.name, p.id] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <td>Artist (Translated)</td>
+      <td><%= text_field_tag 'track[artist_english]' %></td>
+      <td>Gender</td>
+      <td><%= select("track",
+                     "gender",
+                     gender,
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <td>Composer</td>
+      <td><%= text_field_tag 'track[composer]' %></td>
+      <td>Language</td>
+      <td><%= select("track",
+                     "language",
+                     Language.all
+                     .collect { |p| [p.name, p.id] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <td>Distributor</td>
+      <td><%= text_field_tag 'track[distributor]' %></td>
+      <td>Duration</td>
+      <td><%= text_field_tag :dur_min,
+                             0,
+                             size: 3 %> : <%= text_field_tag :dur_sec,
+                                                             0,
+                                                             size: 3 %></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td><%= select("track",
+                     "origin",
+                     Origin.all
+                     .collect { |p| [p.name, p.id] },
+                     {include_blank: true}) %></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  <%= hidden_field_tag 'track[album_id]',
+                       params[:id] %>
+  <%= submit_tag "Add New Track" %>
 <% end %>

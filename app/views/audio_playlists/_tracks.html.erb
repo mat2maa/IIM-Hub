@@ -1,87 +1,92 @@
 <% if @tracks_count > 0 %>
-    <%= @tracks_count %> tracks found
+  <%= @tracks_count %> tracks found
 
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link @search,
-                        :audio_playlists_id,
-                        'id',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>(track num)
-          <%= sort_link @search, :audio_playlists_title_original,
-                        'Original Title',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>
-          <%= sort_link @search, :audio_playlists_artist_original,
-                        'Original Artist',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>Label <%#= remote_order_by_link label: :name,
+  <table cellspacing="0" width="100%">
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :audio_playlists_id,
+                      'id',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>(track num)
+        <%= sort_link @search, :audio_playlists_title_original,
+                      'Original Title',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>
+        <%= sort_link @search, :audio_playlists_artist_original,
+                      'Original Artist',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>Label <%#= remote_order_by_link label: :name,
 search_obj: @search,
 params_scope: :audio_playlists  %></th>
-        <th>CD Code</th>
-        <th>
-          <%= sort_link @search, :audio_playlists_duration,
-                        'Duration',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>Explicit Lyrics</th>
-        <th>&nbsp;</th>
+      <th>CD Code</th>
+      <th>
+        <%= sort_link @search, :audio_playlists_duration,
+                      'Duration',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>Explicit Lyrics</th>
+      <th>&nbsp;</th>
+    </tr>
+    <% @tracks.each do |track| %>
+
+      <% @track=track %>
+      <tr>
+        <% cache([track,
+                  track.album,
+                  "audio_playlists"]) do %>
+          <td><%= link_to track.id,
+                          track_path(id: track.id),
+                          :popup => true %></td>
+          <td>(<%= track.track_num %>)
+            <%= track.title_original %>
+            <br/><%= track.title_english %></td>
+          <td><%= track.artist_original %>
+            <br/><%= track.artist_english %></td>
+          <td><%= track.label_cached if !track.album.label_id.nil? %></td>
+          <td><%= track.album.cd_code %>&nbsp;</td>
+          <td><%= duration(track.duration) %></td>
+        <% end %>
+        <td><%= check_box(:track,
+                          :explicit_lyrics,
+                          disabled: true) %></td>
+        <td>
+          <%= link_to "add to playlist",
+                      add_track_audio_playlist_path(@audio_playlist, track_id: track.id),
+                      method: :post,
+                      remote: true,
+                      class: 'spinner-trigger' %>
+        </td>
       </tr>
-      <% @tracks.each do |track| %>
 
-          <% @track=track %>
-          <tr>
-            <% cache([track,
-                      track.album,
-                      "audio_playlists"]) do %>
-                <td><%= link_to track.id,
-                                track_path(id: track.id),
-                                :popup => true %></td>
-                <td>(<%= track.track_num %>)
-                  <%= track.title_original %>
-                  <br/><%= track.title_english %></td>
-                <td><%= track.artist_original %>
-                  <br/><%= track.artist_english %></td>
-                <td><%= track.label_cached if !track.album.label_id.nil? %></td>
-                <td><%= track.album.cd_code %>&nbsp;</td>
-                <td><%= duration(track.duration) %></td>
-            <% end %>
-            <td><%= check_box(:track,
-                              :explicit_lyrics,
-                              disabled: true) %></td>
-            <td>
-              <%= link_to "add to playlist",
-                          add_track_audio_playlist_path(@audio_playlist, track_id: track.id),
-                          method: :post,
-                          remote: true,
-                          class: 'spinner-trigger' %>
-            </td>
-          </tr>
-
-      <% end %>
-    </table>
-    <br/>
-    <br/>
-    <%= will_paginate @tracks %>
-    <%
-      def items_per_page_select(collection = Tracks)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/tracks', method: :get, html: { class: 'items_per_page_select' }, remote: true do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @tracks %>
-      <%= f.submit "Submit" %>
     <% end %>
+  </table>
+  <br/>
+  <br/>
+  <%= will_paginate @tracks,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Tracks)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/tracks', method: :get, html: {class: 'items_per_page_select'}, remote: true do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @tracks %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+  <% end %>
 
 <% else %>
-    No tracks were returned
+  No tracks were returned
 <% end %>

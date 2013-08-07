@@ -1,5 +1,5 @@
 <strong>Album Playlists this album is in</strong><br/><br/>
 <% @playlists.each do |playlist| %>
-    playlist id <%= link_to playlist.album_playlist_id,
-                            edit_album_playlist_path(id: playlist.album_playlist_id) %> - <%= playlist.album_playlist.client_playlist_code %><br/>
+  playlist id <%= link_to playlist.album_playlist_id,
+                          edit_album_playlist_path(id: playlist.album_playlist_id) %> - <%= playlist.album_playlist.client_playlist_code %><br/>
 <% end %>

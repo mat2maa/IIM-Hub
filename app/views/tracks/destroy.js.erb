@@ -4,26 +4,26 @@ var $element = $("#track-<%= @track.id %>");
 var notice = "<%= escape_javascript(flash[:notice]) %>";
 
 <% if @track_is_deleted %>
-    $element.fadeOut("fast");
+$element.fadeOut("fast");
 <% else %>
-    $('#notice').html(notice);
+$('#notice').html(notice);
 <% end %>
 
 $('#spinner').addClass('transparent');
-            console.log("off");
+console.log("off");
 
 
 /*
-if @track_is_deleted
-page.visual_effect :fade,
-        "track-#{@track.id}"
-else
-page.replace "track-#{@track.id}",
-        partial: "track",
-        object: @track
-page.replace_html :notice,
-        flash[:notice]
-page.visual_effect :highlight,
-:notice
-flash.discard
-end*/
+ if @track_is_deleted
+ page.visual_effect :fade,
+ "track-#{@track.id}"
+ else
+ page.replace "track-#{@track.id}",
+ partial: "track",
+ object: @track
+ page.replace_html :notice,
+ flash[:notice]
+ page.visual_effect :highlight,
+ :notice
+ flash.discard
+ end*/

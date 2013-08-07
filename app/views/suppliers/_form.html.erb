@@ -2,51 +2,51 @@
 
   <%= semantic_form_for @supplier do |form| %>
 
-      <%= form.semantic_errors %>
+    <%= form.semantic_errors %>
 
-      <%= form.inputs do %>
-          <%= form.input :company_name,
-                         label: "Company Name" %>
-          <%= form.input :supplier_categories,
-                         as: :check_boxes,
-                         label: "Supplier Categories" %>
-          <%= form.input :contact_name_1,
-                         label: "Contact Name 1" %>
-          <%= form.input :position_1,
-                         label: "Position 1" %>
-          <%= form.input :tel_1 %>
-          <%= form.input :fax_1 %>
-          <%= form.input :hp_1 %>
-          <%= form.input :email_1 %>
-          <%= form.input :contact_name_2,
-                         label: "Contact Name 2" %>
-          <%= form.input :position_2 %>
-          <%= form.input :tel_2 %>
-          <%= form.input :fax_2 %>
-          <%= form.input :hp_2 %>
-          <%= form.input :email_2 %>
-          <%= form.input :address,
-                         input_html: {rows: 5} %>
-          <%= form.input :website %>
-          <%= form.input :remarks,
-                         input_html: {rows: 5} %>
-          <%= form.input :bank %>
-          <%= form.input :bank_branch,
-                         label: "Bank Branch",
-                         input_html: {rows: 3} %>
-          <%= form.input :beneficiary_name,
-                         label: "Beneficiary Name" %>
-          <%= form.input :bank_account,
-                         label: "Bank Account" %>
-          <%= form.input :aba_routing,
-                         label: "ABA Routing",
-                         input_html: {rows: 3} %>
-      <% end %>
+    <%= form.inputs do %>
+      <%= form.input :company_name,
+                     label: "Company Name" %>
+      <%= form.input :supplier_categories,
+                     as: :check_boxes,
+                     label: "Supplier Categories" %>
+      <%= form.input :contact_name_1,
+                     label: "Contact Name 1" %>
+      <%= form.input :position_1,
+                     label: "Position 1" %>
+      <%= form.input :tel_1 %>
+      <%= form.input :fax_1 %>
+      <%= form.input :hp_1 %>
+      <%= form.input :email_1 %>
+      <%= form.input :contact_name_2,
+                     label: "Contact Name 2" %>
+      <%= form.input :position_2 %>
+      <%= form.input :tel_2 %>
+      <%= form.input :fax_2 %>
+      <%= form.input :hp_2 %>
+      <%= form.input :email_2 %>
+      <%= form.input :address,
+                     input_html: {rows: 5} %>
+      <%= form.input :website %>
+      <%= form.input :remarks,
+                     input_html: {rows: 5} %>
+      <%= form.input :bank %>
+      <%= form.input :bank_branch,
+                     label: "Bank Branch",
+                     input_html: {rows: 3} %>
+      <%= form.input :beneficiary_name,
+                     label: "Beneficiary Name" %>
+      <%= form.input :bank_account,
+                     label: "Bank Account" %>
+      <%= form.input :aba_routing,
+                     label: "ABA Routing",
+                     input_html: {rows: 3} %>
+    <% end %>
 
-      <%= form.actions do %>
-          <%= form.action :submit,
-                          as: :button %>
-      <% end %>
+    <%= form.actions do %>
+      <%= form.action :submit,
+                      as: :button %>
+    <% end %>
 
   <% end %>
 </div>

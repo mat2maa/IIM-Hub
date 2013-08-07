@@ -1,12 +1,12 @@
 <tr id="movie_playlist-<%= movie_playlist.id %>">
-  <td><%= link_to movie_playlist.id,
+  <td data-title="ID"><%= link_to movie_playlist.id,
                   movie_playlist_path(id: movie_playlist.id),
                   target: "_blank" %></td>
-  <td><%= movie_playlist.airline.name if !movie_playlist.airline.nil? %>&nbsp;</td>
-  <td><%= movie_playlist.start_cycle.strftime("%m-%Y") if !movie_playlist.start_cycle.nil? %>&nbsp;</td>
-  <td><%= movie_playlist.end_cycle.strftime("%m-%Y") if !movie_playlist.end_cycle.nil? %>&nbsp;</td>
-  <td><%= movie_playlist.movie_playlist_type.name if movie_playlist.movie_playlist_type.present? %>&nbsp;</td>
-  <td>
+  <td data-title="Airline"><%= movie_playlist.airline.name if !movie_playlist.airline.nil? %>&nbsp;</td>
+  <td data-title="Start Date"><%= movie_playlist.start_cycle.strftime("%m-%Y") if !movie_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td data-title="End Date"><%= movie_playlist.end_cycle.strftime("%m-%Y") if !movie_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td data-title="Movie Playlist Type"><%= movie_playlist.movie_playlist_type.name if movie_playlist.movie_playlist_type.present? %>&nbsp;</td>
+  <td data-title="Actions">
     <% if movie_playlist.locked!=true %>
       <%= link_to 'Edit',
                   edit_movie_playlist_path(movie_playlist),

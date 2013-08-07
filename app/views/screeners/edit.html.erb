@@ -13,10 +13,10 @@
                 edit_screener_path(@next_id) if !@next_id.nil? %> ]
     <% if permitted_to? :admin_delete,
                         :screeners %>
-        <%= link_to 'Delete',
-                    screener_url(@screener),
-                    method: :delete,
-                    confirm: 'Are you sure?' %>
+      <%= link_to 'Delete',
+                  screener_url(@screener),
+                  method: :delete,
+                  confirm: 'Are you sure?' %>
     <% end %>
 
   </div>
@@ -29,7 +29,7 @@
     <h1>Edit Screener</h1>
 
     <%= render partial: 'search_form',
-                   object: @search %>
+               object: @search %>
     <br/><br/>
 
     <%= render partial: 'edit_form' %>

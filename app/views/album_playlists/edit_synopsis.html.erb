@@ -5,13 +5,13 @@
 
     <% form_for(@album_playlist_item.album) do |synopsis_form| %>
 
-        <%= synopsis_form.error_messages %>
+      <%= synopsis_form.error_messages %>
 
-        <%= render partial: 'synopsis_form',
-                   object: synopsis_form %>
-        <p>
-          <%= submit_tag "Update" %>
-        </p>
+      <%= render partial: 'synopsis_form',
+                 object: synopsis_form %>
+      <p>
+        <%= submit_tag "Update" %>
+      </p>
     <% end %>
 
     <%= link_to_hide_overlay 'Cancel',

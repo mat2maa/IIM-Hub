@@ -27,6 +27,7 @@
   <center>
     <h1>Edit Songs Playlist</h1>
     <br/>
+
     <div class="action-button">
       <%= link_to "Add Track", add_track_to_playlist_path(id: @audio_playlist.id), id: "add_track_to_playlist" %>
     </div>
@@ -52,25 +53,25 @@
 </div>
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $(document).on("click", "#add_track_to_playlist", function (track) {
-            track.preventDefault();
-            $('#add_track_dialog').dialog({
-                title: 'Add Track',
-                modal: true,
-                width: 740,
-                height: 540,
-                position: ['center', 100],
-                close: function (track, ui) {
-                    $('#add_track_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/add_track_to_playlist/<%= @audio_playlist.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+  $(function () {
+    $(document).on("click", "#add_track_to_playlist", function (track) {
+      track.preventDefault();
+      $('#add_track_dialog').dialog({
+        title: 'Add Track',
+        modal: true,
+        width: 740,
+        height: 540,
+        position: ['center', 100],
+        close: function (track, ui) {
+          $('#add_track_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/add_track_to_playlist/<%= @audio_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
+  });
 </script>

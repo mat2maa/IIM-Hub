@@ -2,21 +2,21 @@
              remote: true,
              html: {id: "airline_form"} do |f| %>
 
-    <table>
-      <tr>
-        <td>Airline Name</td>
-        <td>
-          <%= f.text_field :name %>
-        </td>
-        <td>Airline Code</td>
-        <td>
-          <%= f.text_field :code %>
-        </td>
-        <td colspan="2">
-          <%= f.submit "Add New Airline" %>
-        </td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Airline Name</td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+      <td>Airline Code</td>
+      <td>
+        <%= f.text_field :code %>
+      </td>
+      <td colspan="2">
+        <%= f.submit "Add New Airline" %>
+      </td>
+    </tr>
+  </table>
 
 <% end %>
 

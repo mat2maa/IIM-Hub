@@ -1,83 +1,88 @@
 <% if @albums_count > 0 %>
-    <%= @albums_count %> albums found
+  <%= @albums_count %> albums found
 
-    <table cellspacing="0" width="100%">
+  <table cellspacing="0" width="100%">
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :id,
+                      'ID',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :title_original,
+                      'Original Title',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :artist_original,
+                      'Original Artist',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :release_year,
+                      'Release Year',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :cd_code,
+                      'CD Code',
+                      {},
+                      {remote: true} %>
+      </th>
+      <th>&nbsp;</th>
+    </tr>
+    <% @albums.each do |album| %>
       <tr>
-        <th>
-          <%= sort_link @search,
-                        :id,
-                        'ID',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :title_original,
-                        'Original Title',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :artist_original,
-                        'Original Artist',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :release_year,
-                        'Release Year',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :cd_code,
-                        'CD Code',
-                        {},
-                        { remote: true } %>
-        </th>
-        <th>&nbsp;</th>
-      </tr>
-      <% @albums.each do |album| %>
-          <tr>
-            <% cache([album]) do %>
-                <td><%= link_to album.id,
-                                album_path(id: album.id) %></td>
-                <td><%= album.title_original %>
-                  <br/><%= album.title_english %></td>
-                <td><%= album.artist_original %>
-                  <br/><%= album.artist_english %></td>
-                <!--
+        <% cache([album]) do %>
+          <td><%= link_to album.id,
+                          album_path(id: album.id) %></td>
+          <td><%= album.title_original %>
+            <br/><%= album.title_english %></td>
+          <td><%= album.artist_original %>
+            <br/><%= album.artist_english %></td>
+          <!--
 								<td><%#=h album.label.name if !album.label_id.nil? %></td>-->
-                <td><%= album.release_year %>&nbsp;</td>
-                <td><%= album.cd_code %>&nbsp;</td>
-            <% end %>
-            <td>
-              <%= link_to "add to playlist",
-                          add_album_album_playlist_path(@album_playlist, album_id: album.id),
-                          method: :post,
-                          remote: true,
-                          class: 'spinner-trigger' %>
-            </td>
-          </tr>
+          <td><%= album.release_year %>&nbsp;</td>
+          <td><%= album.cd_code %>&nbsp;</td>
+        <% end %>
+        <td>
+          <%= link_to "add to playlist",
+                      add_album_album_playlist_path(@album_playlist, album_id: album.id),
+                      method: :post,
+                      remote: true,
+                      class: 'spinner-trigger' %>
+        </td>
+      </tr>
 
-      <% end %>
-    </table>
-    <br/>
-    <br/>
-    <%= will_paginate @albums %>
-    <%
-      def items_per_page_select(collection = Albums)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/albums', method: :get, html: { class: 'items_per_page_select' }, remote: true do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @albums %>
-      <%= f.submit "Submit" %>
     <% end %>
+  </table>
+  <br/>
+  <br/>
+  <%= will_paginate @albums,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Albums)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/albums', method: :get, html: {class: 'items_per_page_select'}, remote: true do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @albums %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+  <% end %>
 <% else %>
-    No albums were found
+  No albums were found
 <% end %>

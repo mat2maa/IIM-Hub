@@ -15,16 +15,21 @@
 
     <br/>
     <br/>
-    <%= will_paginate @categories %>
+    <%= will_paginate @categories,
+                      inner_window: 1,
+                      renderer: BootstrapPagination::Rails,
+                      class: 'pagination pagination-small' %>
     <%
-      def items_per_page_select(collection = Categories)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
+       def items_per_page_select(collection = Categories)
+         select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                    class: 'items_per_page_select_menu'
+       end
     %>
-    <%= form_for '/categories', method: :get, html: { class: 'items_per_page_select' } do |f| %>
+    <%= form_for '/categories', method: :get, html: {class: 'items_per_page_select'} do |f| %>
       <span>Items per page: </span>
       <%= items_per_page_select @categories %>
-      <%= f.submit "Submit" %>
+      <%= f.submit "Submit",
+                   class: 'btn btn-small' %>
     <% end %>
 
   </center>

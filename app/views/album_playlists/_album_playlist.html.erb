@@ -1,0 +1,46 @@
+<tr id="album_playlist-<%= album_playlist.id %>">
+  <td data-title="ID"><%= link_to album_playlist.id,
+                  album_playlist_path(id: album_playlist.id) %>&nbsp;</td>
+  <td data-title="Client Playlist Code"><%= album_playlist.client_playlist_code %>&nbsp;</td>
+  <td data-title="Airline"><%= album_playlist.airline.name if !album_playlist.airline_id.nil? %>&nbsp;</td>
+  <td data-title="In/Out"><%= album_playlist.in_out %>&nbsp;</td>
+  <td data-title="Start Date"><%= album_playlist.start_playdate.strftime("%B %Y") if !album_playlist.start_playdate.nil? %>&nbsp;</td>
+  <td data-title="End Date"><%= album_playlist.end_playdate.strftime("%B %Y") if !album_playlist.end_playdate.nil? %>&nbsp;</td>
+  <td data-title="Actions">
+    <% if album_playlist.locked!=true %>
+      <% if permitted_to? :edit,
+                          :album_playlists %>
+        <%= link_to 'Edit',
+                    edit_album_playlist_path(album_playlist),
+                    class: 'btn btn-mini' %>
+      <% end %>
+      <% if album_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    album_playlist_url(album_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_album_playlist_path(album_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :album_playlists %>
+      <% if album_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_album_playlist_path(album_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_album_playlist_path(album_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

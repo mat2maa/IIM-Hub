@@ -116,48 +116,48 @@
 
     <h2>Screeners</h2>
     <% for screener in @video.screeners %>
-        <table class="screener">
-          <tr>
-            <td><strong>Episode Title:</strong> <%= screener.episode_title %></td>
-            <td><strong>Episode Number:</strong> <%= screener.episode_number %></td>
-            <td><strong>Location:</strong> <%= screener.location %></td>
-            <td><strong>Screener Remarks:</strong> <%= screener.remarks %></td>
-            <td><strong>Other:</strong> <%= screener.remarks_other %></td>
-          </tr>
-        </table>
+      <table class="screener">
+        <tr>
+          <td><strong>Episode Title:</strong> <%= screener.episode_title %></td>
+          <td><strong>Episode Number:</strong> <%= screener.episode_number %></td>
+          <td><strong>Location:</strong> <%= screener.location %></td>
+          <td><strong>Screener Remarks:</strong> <%= screener.remarks %></td>
+          <td><strong>Other:</strong> <%= screener.remarks_other %></td>
+        </tr>
+      </table>
     <% end %>
     <br/>
 
     <h2>Masters</h2>
     <% for master in @video.masters %>
-        <table class="master">
-          <% fields_for_master(master) do |master_form| %>
-              <tr>
-                <td><strong>Episode Title:</strong> <%= master.episode_title %></td>
-                <td><strong>Episode #:</strong> <%= master.episode_number %></td>
-                <td><strong>Tape Media:</strong> <%= master.tape_media %></td>
-                <td><strong>Tape Format:</strong> <%= master.tape_format %></td>
-                <td><strong>Tape Size:</strong> <%= master.tape_size %></td>
-                <td><strong>Video Subtitles 1:</strong> <%= master.video_subtitles_1 %></td>
-                <td><strong>Video Subtitles 2:</strong> <%= master.video_subtitles_2 %></td>
-              </tr>
-              <tr>
-                <td rowspan="2">Episode Synopsis:</strong> <%= master.synopsis %></td>
-                <td><strong>Lang Track 1:</strong> <br/><%= master.language_track_1 %></td>
-                <td><strong>Lang Track 2:</strong> <br/><%= master.language_track_2 %></td>
-                <td><strong>Lang Track 3:</strong> <br/><%= master.language_track_3 %></td>
-                <td><strong>Lang Track 4:</strong> <br/><%= master.language_track_4 %></td>
-                <td><strong>Aspect Ratio:</strong> <br/><%= master.aspect_ratio %></td>
-              </tr>
-              <tr>
-                <td><strong>Tape Location:</strong> <br/><%= master.location %></td>
-                <td><strong>Time In:</strong> <br/><%= master.time_in %></td>
-                <td><strong>Time Out:</strong> <br/><%= master.time_out %></td>
-                <td><strong>Duration:</strong> <br/><%= master.duration %></td>
-                <td></td>
-              </tr>
-          <% end %>
-        </table>
+      <table class="master">
+        <% fields_for_master(master) do |master_form| %>
+          <tr>
+            <td><strong>Episode Title:</strong> <%= master.episode_title %></td>
+            <td><strong>Episode #:</strong> <%= master.episode_number %></td>
+            <td><strong>Tape Media:</strong> <%= master.tape_media %></td>
+            <td><strong>Tape Format:</strong> <%= master.tape_format %></td>
+            <td><strong>Tape Size:</strong> <%= master.tape_size %></td>
+            <td><strong>Video Subtitles 1:</strong> <%= master.video_subtitles_1 %></td>
+            <td><strong>Video Subtitles 2:</strong> <%= master.video_subtitles_2 %></td>
+          </tr>
+          <tr>
+            <td rowspan="2">Episode Synopsis:</strong> <%= master.synopsis %></td>
+            <td><strong>Lang Track 1:</strong> <br/><%= master.language_track_1 %></td>
+            <td><strong>Lang Track 2:</strong> <br/><%= master.language_track_2 %></td>
+            <td><strong>Lang Track 3:</strong> <br/><%= master.language_track_3 %></td>
+            <td><strong>Lang Track 4:</strong> <br/><%= master.language_track_4 %></td>
+            <td><strong>Aspect Ratio:</strong> <br/><%= master.aspect_ratio %></td>
+          </tr>
+          <tr>
+            <td><strong>Tape Location:</strong> <br/><%= master.location %></td>
+            <td><strong>Time In:</strong> <br/><%= master.time_in %></td>
+            <td><strong>Time Out:</strong> <br/><%= master.time_out %></td>
+            <td><strong>Duration:</strong> <br/><%= master.duration %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </table>
     <% end %>
 
   </center>

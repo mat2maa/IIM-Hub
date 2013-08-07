@@ -2,39 +2,44 @@
 <div id="content">
   <%= search_form_for @search,
                       url: roles_path do |f| %>
-      <%= f.text_field :name_cont %>
-      <%= f.submit "Search" %>
+    <%= f.text_field :name_cont %>
+    <%= f.submit "Search" %>
   <% end %>
 
   <% if @roles_count > 0 %>
-      <div id="admin-actions"><%= @roles_count %> entries found</div>
-      <table border="0" cellpadding="10" cellspacing="0" width="80%" class="list">
-        <tr>
-          <th><%= sort_link @search,
-                            :id,
-                            'ID' %></th>
-          <th><%= sort_link @search,
-                            :name,
-                            'Name' %></th>
-          <th colspan="2">&nbsp;</th>
-        </tr>
-        <%= render partial: 'role',
-                   collection: @roles %>
-      </table>
-      <br/>
-      <br/>
-      <%= will_paginate @roles %>
+    <div id="admin-actions"><%= @roles_count %> entries found</div>
+    <table border="0" cellpadding="10" cellspacing="0" width="80%" class="list">
+      <tr>
+        <th><%= sort_link @search,
+                          :id,
+                          'ID' %></th>
+        <th><%= sort_link @search,
+                          :name,
+                          'Name' %></th>
+        <th colspan="2">&nbsp;</th>
+      </tr>
+      <%= render partial: 'role',
+                 collection: @roles %>
+    </table>
+    <br/>
+    <br/>
+    <%= will_paginate @roles,
+                      inner_window: 1,
+                      renderer: BootstrapPagination::Rails,
+                      class: 'pagination pagination-small' %>
     <%
-      def items_per_page_select(collection = Roles)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
+       def items_per_page_select(collection = Roles)
+         select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                    class: 'items_per_page_select_menu'
+       end
     %>
-    <%= form_for '/roles', method: :get, html: { class: 'items_per_page_select' } do |f| %>
+    <%= form_for '/roles', method: :get, html: {class: 'items_per_page_select'} do |f| %>
       <span>Items per page: </span>
       <%= items_per_page_select @roles %>
-      <%= f.submit "Submit" %>
+      <%= f.submit "Submit",
+                   class: 'btn btn-small' %>
     <% end %>
   <% else %>
-      No entries were returned
+    No entries were returned
   <% end %>
 </div>

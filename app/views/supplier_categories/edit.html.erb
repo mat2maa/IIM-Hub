@@ -4,21 +4,21 @@
     <h1>Edit supplier category</h1>
 
     <%= form_for(@category) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          <%= f.label :remarks %><br/>
-          <%= f.text_field :remarks %>
-        </p>
+      <p>
+        <%= f.label :remarks %><br/>
+        <%= f.text_field :remarks %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

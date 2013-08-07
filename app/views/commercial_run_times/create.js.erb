@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "commercial_run_time",
 object: @commercial_run_time)) %> ";
 
 $("#commercial_run_time_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#commercial_run_times>tbody").append(newRow);

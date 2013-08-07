@@ -4,16 +4,16 @@
     <h1>Edit language</h1>
 
     <%= form_for(@language) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          Name<br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        Name<br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

@@ -1,5 +1,5 @@
 <strong>Songs Playlists this track is in</strong><br/><br/>
 <% @playlists.each do |playlist| %>
-    playlist id <%= link_to playlist.audio_playlist_id,
-                            edit_audio_playlist_path(id: playlist.audio_playlist_id) %> - <%= playlist.audio_playlist.client_playlist_code %><br/>
+  playlist id <%= link_to playlist.audio_playlist_id,
+                          edit_audio_playlist_path(id: playlist.audio_playlist_id) %> - <%= playlist.audio_playlist.client_playlist_code %><br/>
 <% end %>

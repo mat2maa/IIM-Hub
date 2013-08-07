@@ -1,14 +1,14 @@
 <% content_for(:head) do %>
-    <meta name="pdfkit-orientation" content="Landscape"/>
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('#print_playlist').click(function (event) {
-                if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
+  <meta name="pdfkit-orientation" content="Landscape"/>
+  <script>
+    jQuery(document).ready(function () {
+      jQuery('#print_playlist').click(function (event) {
+        if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 <% end %>
 
 <%= render partial: 'layouts/screener_playlist_header' %>
@@ -59,8 +59,9 @@
   <center>
     <h2>Edit Screener Playlist</h2>
     <br/>
+
     <div class="action-button">
-        <%= link_to "Add Screener", add_screener_to_playlist_path(id: @screener_playlist.id), id: "add_screener_to_playlist" %>
+      <%= link_to "Add Screener", add_screener_to_playlist_path(id: @screener_playlist.id), id: "add_screener_to_playlist" %>
     </div>
     <br/>
 
@@ -85,25 +86,25 @@
 
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $(document).on("click", "#add_screener_to_playlist", function (screener) {
-            screener.preventDefault();
-            $('#add_screener_dialog').dialog({
-                title: 'Add Screener',
-                modal: true,
-                width: 740,
-                height: 540,
-                position: ['center', 100],
-                close: function (screener, ui) {
-                    $('#add_screener_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/add_screener_to_playlist/<%= @screener_playlist.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+  $(function () {
+    $(document).on("click", "#add_screener_to_playlist", function (screener) {
+      screener.preventDefault();
+      $('#add_screener_dialog').dialog({
+        title: 'Add Screener',
+        modal: true,
+        width: 740,
+        height: 540,
+        position: ['center', 100],
+        close: function (screener, ui) {
+          $('#add_screener_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/add_screener_to_playlist/<%= @screener_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
+  });
 </script>

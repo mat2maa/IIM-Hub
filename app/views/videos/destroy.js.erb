@@ -4,38 +4,38 @@ var $element = $("#video-<%= @video.id %>");
 var notice = "<%= escape_javascript(flash[:notice]) %>";
 
 <% if @video_is_deleted %>
-    <% if @video.active %>
-        $element.fadeOut("fast");
-    <% else %>
-        window.location = "<%= escape_javascript(videos_url) %>";
-    <% end %>
+<% if @video.active %>
+$element.fadeOut("fast");
 <% else %>
-    $('#notice').html(notice);
+window.location = "<%= escape_javascript(videos_url) %>";
+<% end %>
+<% else %>
+$('#notice').html(notice);
 <% end %>
 
 $('#spinner').addClass('transparent');
-            console.log("off");
+console.log("off");
 
 /*
-#page.visual_effect :fade,
-"video-#{@video.id}"
-#page.redirect_to videos_url(CGI::unescape(videos_url(params[:search])))
+ #page.visual_effect :fade,
+ "video-#{@video.id}"
+ #page.redirect_to videos_url(CGI::unescape(videos_url(params[:search])))
 
-if @video_is_deleted
-  if @video.active
-    page.visual_effect :fade,
-                       "video-#{@video.id}"
-  else
-    page.redirect_to videos_url
-  end
-else
-  page.replace "video-#{@video.id}",
-               partial: "video",
-               object: @video
-  page.replace_html :notice,
-                    flash[:notice]
-  page.visual_effect :highlight,
-                     :notice
-  flash.discard
-end
-*/
+ if @video_is_deleted
+ if @video.active
+ page.visual_effect :fade,
+ "video-#{@video.id}"
+ else
+ page.redirect_to videos_url
+ end
+ else
+ page.replace "video-#{@video.id}",
+ partial: "video",
+ object: @video
+ page.replace_html :notice,
+ flash[:notice]
+ page.visual_effect :highlight,
+ :notice
+ flash.discard
+ end
+ */

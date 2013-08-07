@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "movie_playlist_type",
 object: @movie_playlist_type)) %> ";
 
 $("#movie_playlist_type_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#movie_playlist_types>tbody").append(newRow);

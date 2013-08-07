@@ -1,60 +1,60 @@
 <%= form_for(@screener_playlist) do |form| %>
-    <%= error_messages_for form.object %>
+  <%= error_messages_for form.object %>
 
-    <table class="edit">
-      <tr>
-        <td class="pl-title">Airline :</td>
-        <td><%= select("screener_playlist",
-                       "airline_id",
-                       Airline.order("name asc")
-                              .collect { |p| [p.name + " - " + p.code, p.id] },
-                       {include_blank: true}) %> <%= link_to "+",
-                                                             airlines_path,
-                                                             id: "add",
-                                                             target: "_blank" %></td>
-        <td class="pl-title">Start Cycle :</td>
-        <td><%= form.date_select :start_cycle,
-                                 discard_day: true,
-                                 order: [:month,
-                                         :year],
-                                 use_month_numbers: true,
-                                 start_year: Date.today.year + 2,
-                                 end_year: 1900 %>
-          <strong>End Cycle:</strong> <%= form.date_select :end_cycle,
-                                                           discard_day: true,
-                                                           order: [:month,
-                                                                   :year],
-                                                           use_month_numbers: true,
-                                                           start_year: Date.today.year + 2,
-                                                           end_year: 1900 %>
-        </td>
-      </tr>
-      <tr>
-        <td class="pl-title">Video Playlist Type :</td>
-        <td>
-          <%= select("screener_playlist",
-                       "video_playlist_type_id",
-                       VideoPlaylistType.order("name asc")
-                                        .collect { |p| [p.name, p.id] },
-                       {include_blank: true}) %>
-          <%= link_to "+",
-                      video_playlist_types_path,
-                      id: "add",
-                      target: "_blank" %></td>
-        <td class="pl-title">Programmer :</td>
-        <td><%= @screener_playlist.user.login if !@screener_playlist.user_id.nil? %></td>
-      </tr>
-      <tr>
-        <td class="pl-title">Media Instruction</td>
-        <td colspan="5"><%= form.text_area :media_instruction,
-                                           size: "80x3" %></td>
-      </tr>
-    </table>
-    <p>
-      <% if params[:action] == "new" %>
-          <%= form.submit "Next" %>
-      <% else %>
-          <%= form.submit "Update" %>
-      <% end %>
-    </p>
+  <table class="edit">
+    <tr>
+      <td class="pl-title">Airline :</td>
+      <td><%= select("screener_playlist",
+                     "airline_id",
+                     Airline.order("name asc")
+                     .collect { |p| [p.name + " - " + p.code, p.id] },
+                     {include_blank: true}) %> <%= link_to "+",
+                                                           airlines_path,
+                                                           id: "add",
+                                                           target: "_blank" %></td>
+      <td class="pl-title">Start Cycle :</td>
+      <td><%= form.date_select :start_cycle,
+                               discard_day: true,
+                               order: [:month,
+                                       :year],
+                               use_month_numbers: true,
+                               start_year: Date.today.year + 2,
+                               end_year: 1900 %>
+        <strong>End Cycle:</strong> <%= form.date_select :end_cycle,
+                                                         discard_day: true,
+                                                         order: [:month,
+                                                                 :year],
+                                                         use_month_numbers: true,
+                                                         start_year: Date.today.year + 2,
+                                                         end_year: 1900 %>
+      </td>
+    </tr>
+    <tr>
+      <td class="pl-title">Video Playlist Type :</td>
+      <td>
+        <%= select("screener_playlist",
+                   "video_playlist_type_id",
+                   VideoPlaylistType.order("name asc")
+                   .collect { |p| [p.name, p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    video_playlist_types_path,
+                    id: "add",
+                    target: "_blank" %></td>
+      <td class="pl-title">Programmer :</td>
+      <td><%= @screener_playlist.user.login if !@screener_playlist.user_id.nil? %></td>
+    </tr>
+    <tr>
+      <td class="pl-title">Media Instruction</td>
+      <td colspan="5"><%= form.text_area :media_instruction,
+                                         size: "80x3" %></td>
+    </tr>
+  </table>
+  <p>
+    <% if params[:action] == "new" %>
+      <%= form.submit "Next" %>
+    <% else %>
+      <%= form.submit "Update" %>
+    <% end %>
+  </p>
 <% end %>

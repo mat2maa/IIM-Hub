@@ -16,10 +16,10 @@
       <th>less than</th>
     </tr>
     <% @splits.each do |split| %>
-        <tr>
-          <td><%= split.name %></td>
-          <td><%= duration(split.more_than) %></td>
-          <td><%= duration(split.less_than) %></td>
+      <tr>
+        <td><%= split.name %></td>
+        <td><%= duration(split.more_than) %></td>
+        <td><%= duration(split.less_than) %></td>
     <% end %>
   </table>
 </center>

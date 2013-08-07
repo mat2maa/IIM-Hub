@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "category",
                                             object: @category)) %> ";
 
 $("#category_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#categories>tbody").append(newRow);

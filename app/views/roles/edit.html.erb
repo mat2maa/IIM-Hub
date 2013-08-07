@@ -4,26 +4,26 @@
     <h1>Edit Role</h1>
 
     <%= form_for(@role) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <input type="checkbox" id="selectAll" value="selectAll"> Select / Deselect All<br/><br/>
-        <% for right in Right.all %>
-            <div>
-              <%= check_box_tag "role[right_ids][]",
-                                right.id,
-                                @role.rights.include?(right) %>
-              <%= right.name %>
-            </div>
-        <% end %>
+      <input type="checkbox" id="selectAll" value="selectAll"> Select / Deselect All<br/><br/>
+      <% for right in Right.all %>
+        <div>
+          <%= check_box_tag "role[right_ids][]",
+                            right.id,
+                            @role.rights.include?(right) %>
+          <%= right.name %>
+        </div>
+      <% end %>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',
@@ -35,22 +35,22 @@
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $('#selectAll').click(function () {
-            if (this.checked) {
-                $(':checkbox').each(function () {
-                    this.checked = true;
-                });
-            } else {
-                $(':checkbox').each(function () {
-                    this.checked = false;
-                });
-            }
+    $('#selectAll').click(function () {
+      if (this.checked) {
+        $(':checkbox').each(function () {
+          this.checked = true;
         });
-
+      } else {
+        $(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
     });
+
+  });
 
 </script>

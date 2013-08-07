@@ -1,70 +1,64 @@
 <%= search_form_for @search,
                     class: 'spinner-trigger' do |tracks| %>
 
-    <fieldset>
-      <legend>Search Tracks</legend>
-      Match ANY or ALL of the conditions:
+  <div class="control-group">
+    <div class="controls combinator-select-container">
       <%= tracks.combinator_select %>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
+    </div>
 
-      <table>
-        <tr>
-          <td valign="top">
-            Title Original:<br>
-            <%= tracks.text_field :title_original_cont %>
-            <br>
-            Artist Original:<br>
-            <%= tracks.text_field :artist_original_cont %>
-            <br>
-            Duration: <br>
-            <%= text_field_tag 'dur_min_min',
-                               params[:dur_min_min],
-                               size: 3 %>
-            :
-            <%= text_field_tag 'dur_min_sec',
-                               params[:dur_min_sec],
-                               size: 3 %>
-            to
-            <%= text_field_tag 'dur_max_min',
-                               params[:dur_max_min],
-                               size: 3 %>
-            :
-            <%= text_field_tag 'dur_max_sec',
-                               params[:dur_max_sec],
-                               size: 3 %>
-            <br>
-          </td>
+    <%= tracks.text_field :title_original_cont,
+                          placeholder: 'Title Original' %>
 
-          <td valign="top">
-            Title (Translated):<br>
-            <%= tracks.text_field :title_english_cont %>
-            <br>
+    <%= tracks.text_field :artist_original_cont,
+                          placeholder: 'Artist Original' %>
+    <br>
+    Duration: <br>
+    <%= text_field_tag 'dur_min_min',
+                       params[:dur_min_min],
+                       placeholder: 'Minutes',
+                       class: 'small-input' %>
+    :
+    <%= text_field_tag 'dur_min_sec',
+                       params[:dur_min_sec],
+                       placeholder: 'Seconds',
+                       class: 'small-input' %> <br>
+    To: <br>
+    <%= text_field_tag 'dur_max_min',
+                       params[:dur_max_min],
+                       placeholder: 'Minutes',
+                       class: 'small-input' %>
+    :
+    <%= text_field_tag 'dur_max_sec',
+                       params[:dur_max_sec],
+                       placeholder: 'Seconds',
+                       class: 'small-input' %> <br>
 
-            Artist (Translated):<br>
-            <%= tracks.text_field :artist_english_cont %>
-            <br/><br/>
+    <br>
+    <%= tracks.text_field :title_english_cont,
+                          placeholder: 'Title (Translated)' %>
 
-            Pending Delete: <%= tracks.check_box :to_delete_eq %>
-          </td>
+    <%= tracks.text_field :artist_english_cont,
+                          placeholder: 'Artist (Translated)' %>
 
-          <td valign="top">
-            Label:<br>
-            <%= tracks.select :album_label_id_eq,
-                              Label.all.collect { |p| [p.name,
-                                                       p.id] },
-                              {include_blank: true} %>
-            <br>
+    <div class="controls">
+      <%= tracks.select :album_label_id_eq,
+                        Label.all.collect { |p| [p.name,
+                                                 p.id] },
+                        {include_blank: true},
+                        {class: 'select2',
+                         data: {placeholder: 'Label'}} %>
+    </div>
 
-            CD Code:<br>
-            <%= tracks.text_field :album_cd_code_cont %>
-            <br>
-            <br/><br/>
-            <%= tracks.submit "Search" %>
-          </td>
-        </tr>
-      </table>
-    </fieldset>
+    <%= tracks.text_field :album_cd_code_cont,
+                          placeholder: 'CD Code' %>
+
+    <label class="checkbox">
+      <%= tracks.check_box :to_delete_eq %> Pending Delete
+    </label>
+
+  </div>
+
+  <%= tracks.submit "Search",
+                    {class: 'btn'} %>
 
 <% end %>

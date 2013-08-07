@@ -3,11 +3,11 @@
                               track_path(id: track_view.id) %></td>
   <td width="45%">
     <% if track_view.mp3_exists == true %>
-        <%= link_to track_view.title_original,
-                    Settings.nas_mp3_url + track_view.album.id.to_s + "/" + track_view.track_num.to_s + ".mp3",
-                    :title => track_view.artist_original + " - " + track_view.title_original %>
+      <%= link_to track_view.title_original,
+                  Settings.nas_mp3_url + track_view.album.id.to_s + "/" + track_view.track_num.to_s + ".mp3",
+                  :title => track_view.artist_original + " - " + track_view.title_original %>
     <% else %>
-        <%= track_view.title_original %>
+      <%= track_view.title_original %>
     <% end %>
   </td>
   <td width="20%"><%= track_view.artist_original %></td>

@@ -22,32 +22,32 @@
                  html: {id: 'import_album_form'},
                  class: 'spinner-trigger' do %>
 
-        <table class="edit">
-          <tr>
-            <td>Album Title</td>
-            <td>
-              <%= text_field_tag 'title' %>
-            </td>
-            <td>Artist</td>
-            <td>
-              <%= text_field_tag 'artist' %>
-            </td>
-          </tr>
-          <tr>
-            <td>Query</td>
-            <td>
-              <%= text_field_tag 'query' %>
-            </td>
-            <td></td>
-            <td>
-              <%= image_tag 'spinner.gif',
-                            id: 'spinner',
-                            class: 'transparent' %>
-            </td>
-          </tr>
-        </table>
+      <table class="edit">
+        <tr>
+          <td>Album Title</td>
+          <td>
+            <%= text_field_tag 'title' %>
+          </td>
+          <td>Artist</td>
+          <td>
+            <%= text_field_tag 'artist' %>
+          </td>
+        </tr>
+        <tr>
+          <td>Query</td>
+          <td>
+            <%= text_field_tag 'query' %>
+          </td>
+          <td></td>
+          <td>
+            <%= image_tag 'spinner.gif',
+                          id: 'spinner',
+                          class: 'transparent' %>
+          </td>
+        </tr>
+      </table>
 
-        <%= submit_tag 'Search' %>
+      <%= submit_tag 'Search' %>
 
     <% end %>
     <br/>

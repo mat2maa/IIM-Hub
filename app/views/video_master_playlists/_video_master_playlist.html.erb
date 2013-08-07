@@ -1,0 +1,47 @@
+<tr id="video_master_playlist-<%= video_master_playlist.id %>">
+  <td data-title="ID"><%= link_to video_master_playlist.id,
+                                  video_master_playlist_path(id: video_master_playlist.id),
+                                  target: "_blank" %></td>
+  <td data-title="Airline"><%= video_master_playlist.airline.name if !video_master_playlist.airline_id.nil? %>&nbsp;</td>
+  <td data-title="Start Date"><%= video_master_playlist.start_cycle.strftime("%m-%Y") if !video_master_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td data-title="End Date"><%= video_master_playlist.end_cycle.strftime("%m-%Y") if !video_master_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td data-title="Master Playlist Type"><%= video_master_playlist.master_playlist_type.name if !video_master_playlist.master_playlist_type.nil? %>&nbsp;</td>
+  <td data-title="Actions">
+    <% if video_master_playlist.locked!=true %>
+      <%= link_to 'Edit',
+                  edit_video_master_playlist_path(video_master_playlist),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :delete,
+                        :video_master_playlists %>
+      <% if video_master_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    video_master_playlist_url(video_master_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_video_master_playlist_path(video_master_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :video_playlists %>
+      <% if video_master_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_video_master_playlist_path(video_master_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_video_master_playlist_path(video_master_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

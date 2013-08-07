@@ -1,54 +1,54 @@
 <% if @videos_count > 0 %>
-    <%= form_tag url_for(controller: "video_playlists",
-                         action: "add_multiple_videos"),
-                 id: "multiple_videos",
-                 remote: true do %>
-        <%= hidden_field_tag 'playlist_id',
-                             params[:id] %>
-        <%= submit_tag 'Add Selected to Playlist' %><br/>
-        <%= @videos_count %> videos found
-        <table cellspacing="0" width="100%">
-          <tr>
-            <th width="8">
-              <%= check_box_tag('check_all',
-                                'check_all',
-                                false) %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :id,
-                            'ID',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :programme_title,
-                            'Programme Title',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :video_type,
-                            'Video Type',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>In Playlists With<br/>Same Airline</th>
-            <th>&nbsp;</th>
-          </tr>
-          <% @videos.each do |video| %>
-              <tr class="playlist-entry">
-                <%# cache([video]) do %>
-                <td><%= check_box_tag "video_ids[]",
-                                      video.id %></td>
-                <td><%= link_to video.id,
-                                video_path(id: video.id),
-                                target: "_blank" %></td>
-                <td><%= video.programme_title %></td>
-                <td><%= video.video_type %></td>
-                <td>
+  <%= form_tag url_for(controller: "video_playlists",
+                       action: "add_multiple_videos"),
+               id: "multiple_videos",
+               remote: true do %>
+    <%= hidden_field_tag 'playlist_id',
+                         params[:id] %>
+    <%= submit_tag 'Add Selected to Playlist' %><br/>
+    <%= @videos_count %> videos found
+    <table cellspacing="0" width="100%">
+      <tr>
+        <th width="8">
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :id,
+                        'ID',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :programme_title,
+                        'Programme Title',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :video_type,
+                        'Video Type',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>In Playlists With<br/>Same Airline</th>
+        <th>&nbsp;</th>
+      </tr>
+      <% @videos.each do |video| %>
+        <tr class="playlist-entry">
+          <%# cache([video]) do %>
+          <td><%= check_box_tag "video_ids[]",
+                                video.id %></td>
+          <td><%= link_to video.id,
+                          video_path(id: video.id),
+                          target: "_blank" %></td>
+          <td><%= video.programme_title %></td>
+          <td><%= video.video_type %></td>
+          <td>
                     <span id="exists">
                         <% if (video.in_playlists!="" && !video.in_playlists.nil?) %>
                             <%= VideoPlaylist.with_same_airline_and_video(video.id,
@@ -57,54 +57,59 @@
                                                                                                                                                                          target: "_blank") }.join(', ').html_safe %>
                         <% end %>
                     </span>
-                </td>
-                <%# end %>
-                <td>
-                  <%= link_to "add to playlist",
-                              add_video_video_playlist_path(@video_playlist, video_id: video.id),
-                              method: :post,
-                              remote: true,
-                              class: 'spinner-trigger' %>
-                </td>
-              </tr>
-          <% end %>
-        </table>
-    <% end %>
-    <br/>
-    <br/>
-    <%= will_paginate @videos %>
-    <%
-      def items_per_page_select(collection = Videos)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/videos', method: :get, html: { class: 'items_per_page_select' }, remote: true do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @videos %>
-      <%= f.submit "Submit" %>
-    <% end %>
+          </td>
+          <%# end %>
+          <td>
+            <%= link_to "add to playlist",
+                        add_video_video_playlist_path(@video_playlist, video_id: video.id),
+                        method: :post,
+                        remote: true,
+                        class: 'spinner-trigger' %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <br/>
+  <br/>
+  <%= will_paginate @videos,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Videos)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/videos', method: :get, html: {class: 'items_per_page_select'}, remote: true do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @videos %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+  <% end %>
 <% else %>
-    No videos were found
+  No videos were found
 <% end %>
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $('#check_all').click(function () {
-            if (this.checked) {
-                $('.playlist-entry').find(':checkbox').each(function () {
-                    this.checked = true;
-                });
-            } else {
-                $('.playlist-entry').find(':checkbox').each(function () {
-                    this.checked = false;
-                });
-            }
+    $('#check_all').click(function () {
+      if (this.checked) {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = true;
         });
-
+      } else {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
     });
+
+  });
 
 </script>

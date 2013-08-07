@@ -10,21 +10,21 @@
   <center>
     <% form_remote_tag url: {action: 'find_tracks'} do %>
 
-        Search for <%= text_field_tag 'title' %>
-        <br/><br/>
-        Duration between <%= text_field_tag 'min_dur_min',
-                                            '',
-                                            size: 3 %>
-        :<%= text_field_tag 'min_dur_sec',
-                            '',
-                            size: 3 %> and <%= text_field_tag 'max_dur_min',
-                                                              '',
-                                                              size: 3 %>
-        :<%= text_field_tag 'max_dur_sec',
-                            '',
-                            size: 3 %>
-        <br/><br/>
-        <%= submit_tag "Search for track" %>
+      Search for <%= text_field_tag 'title' %>
+      <br/><br/>
+      Duration between <%= text_field_tag 'min_dur_min',
+                                          '',
+                                          size: 3 %>
+      :<%= text_field_tag 'min_dur_sec',
+                          '',
+                          size: 3 %> and <%= text_field_tag 'max_dur_min',
+                                                            '',
+                                                            size: 3 %>
+      :<%= text_field_tag 'max_dur_sec',
+                          '',
+                          size: 3 %>
+      <br/><br/>
+      <%= submit_tag "Search for track" %>
 
     <% end %>
     <br/><br/>

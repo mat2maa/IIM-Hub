@@ -15,13 +15,13 @@
   <%= form_for :album_playlist,
                url: {action: "export_albums_programmed_per_airline_to_excel"} do |f| %>
 
-      Airline <%= select("album_playlist",
-                         "airline_id",
-                         Airline.order("name asc")
-                         .collect { |p| [p.code + " - " + p.name,
-                                         p.id] }) %>
+    Airline <%= select("album_playlist",
+                       "airline_id",
+                       Airline.order("name asc")
+                       .collect { |p| [p.code + " - " + p.name,
+                                       p.id] }) %>
 
-      <%= submit_tag "Export to Excel" %>
+    <%= submit_tag "Export to Excel" %>
 
   <% end %>
 </div>

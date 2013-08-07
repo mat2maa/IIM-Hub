@@ -12,21 +12,21 @@
   <th colspan="2" class="list-header">&nbsp;</th>
 </tr>
 <% for album in @albums %>
-    <tr>
-      <td class="list-item"><%= link_to album.title_original,
-                                        album_path(id: album.id) %>
-        <br/><%= album.title_english %>&nbsp;</td>
-      <td class="list-item"><%= album.artist_original %>
-        <br/><%= album.artist_english %>&nbsp;</td>
-      <td class="list-item"><%= album.label.name if !album.label_id.nil? %>&nbsp;</td>
-      <td class="list-item"><%= album.release_year %>&nbsp;</td>
-      <td class="list-item"><%= album.cd_code %>&nbsp;</td>
-      <td class="list-item"><%= link_to 'Edit',
-                                        edit_album_path(album) %></td>
-      <td class="list-item"><%= link_to 'Delete',
-                                        album,
-                                        confirm: 'Are you sure?',
-                                        method: :delete %></td>
-    </tr>
+  <tr>
+    <td class="list-item"><%= link_to album.title_original,
+                                      album_path(id: album.id) %>
+      <br/><%= album.title_english %>&nbsp;</td>
+    <td class="list-item"><%= album.artist_original %>
+      <br/><%= album.artist_english %>&nbsp;</td>
+    <td class="list-item"><%= album.label.name if !album.label_id.nil? %>&nbsp;</td>
+    <td class="list-item"><%= album.release_year %>&nbsp;</td>
+    <td class="list-item"><%= album.cd_code %>&nbsp;</td>
+    <td class="list-item"><%= link_to 'Edit',
+                                      edit_album_path(album) %></td>
+    <td class="list-item"><%= link_to 'Delete',
+                                      album,
+                                      confirm: 'Are you sure?',
+                                      method: :delete %></td>
+  </tr>
 <% end %>
 

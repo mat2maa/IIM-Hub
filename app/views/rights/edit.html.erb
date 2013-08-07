@@ -5,22 +5,22 @@
     <%= form_for @right,
                  url: {action: "update",
                        id: @right.id} do |form| %>
-        <%= error_messages_for form.object -%>
-        <%= form.label :name %>
-        <br/>
-        <%= form.text_field :name %>
-        <br/>
-        <%= form.label :controller %>
-        <br/>
-        <%= form.text_field :controller %>
-        <br/>
-        <%= form.label :action %>
-        <br/>
-        <%= form.text_field :action %>
-        <br/>
-        <br/>
-        <%= submit_tag "Save",
-                       class: "submit" %>
+      <%= error_messages_for form.object -%>
+      <%= form.label :name %>
+      <br/>
+      <%= form.text_field :name %>
+      <br/>
+      <%= form.label :controller %>
+      <br/>
+      <%= form.text_field :controller %>
+      <br/>
+      <%= form.label :action %>
+      <br/>
+      <%= form.text_field :action %>
+      <br/>
+      <br/>
+      <%= submit_tag "Save",
+                     class: "submit" %>
     <% end %>
   </center>
 </div>

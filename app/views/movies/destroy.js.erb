@@ -5,30 +5,30 @@ var $element = $("#movie-<%= @movie.id %>");
 $element.fadeOut("fast");
 
 $('#spinner').addClass('transparent');
-            console.log("off");
+console.log("off");
 
 /*
-#page.redirect_to movies_url
+ #page.redirect_to movies_url
 
-page.redirect_to movies_url if !@movie.active
+ page.redirect_to movies_url if !@movie.active
 
-if @movie_is_deleted
+ if @movie_is_deleted
 
-  if @movie.active
-    page.visual_effect :fade,
-                       "movie-#{@movie.id}"
-  else
-    page.redirect_to movies_url
-  end
+ if @movie.active
+ page.visual_effect :fade,
+ "movie-#{@movie.id}"
+ else
+ page.redirect_to movies_url
+ end
 
-else
-  page.replace "movie-#{@movie.id}",
-               partial: "movie",
-               object: @movie
-  page.replace_html :notice,
-                    flash[:notice]
-  page.visual_effect :highlight,
-                     :notice
-  flash.discard
-end
-*/
+ else
+ page.replace "movie-#{@movie.id}",
+ partial: "movie",
+ object: @movie
+ page.replace_html :notice,
+ flash[:notice]
+ page.visual_effect :highlight,
+ :notice
+ flash.discard
+ end
+ */

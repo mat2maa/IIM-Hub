@@ -2,43 +2,43 @@
 <% @video_playlist_item = playlist_item %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if playlist_item.video.nil? %>
-      <td colspan="2">Missing video <%= playlist_item.video_id %></td>
+    <td colspan="2">Missing video <%= playlist_item.video_id %></td>
   <% else %>
-      <td>
-        <table width="100%">
-          <tr>
-            <th width="130">(<%= position %>) Programme Title:</th>
-            <td width="200"><%= link_to playlist_item.video.programme_title,
-                                        edit_video_path(playlist_item.video),
-                                        target: "_blank" %> <%= playlist_item.video.on_going_series ? "(On-Going)" : "" %></td>
-            <th width="60">Distributor:</th>
-            <td width="180"><%= playlist_item.video.video_distributor.company_name if !playlist_item.video.video_distributor.nil? %></td>
-            <th width="50">Run Time:</th>
-            <td width="60"><%= playlist_item.video.commercial_run_time.minutes if !playlist_item.video.commercial_run_time.nil? %>
-              min
-            </td>
-            <th width="80">Episodes Avail:</th>
-            <td><%= playlist_item.video.episodes_available %></td>
-          </tr>
-          <tr>
-            <th>Chinese Programme Title:</th>
-            <td><%= playlist_item.video.chinese_programme_title %></td>
-            <th>Lang Tracks:</th>
-            <td><%= playlist_item.video.language_tracks.join(',
+    <td>
+      <table width="100%">
+        <tr>
+          <th width="130">(<%= position %>) Programme Title:</th>
+          <td width="200"><%= link_to playlist_item.video.programme_title,
+                                      edit_video_path(playlist_item.video),
+                                      target: "_blank" %> <%= playlist_item.video.on_going_series ? "(On-Going)" : "" %></td>
+          <th width="60">Distributor:</th>
+          <td width="180"><%= playlist_item.video.video_distributor.company_name if !playlist_item.video.video_distributor.nil? %></td>
+          <th width="50">Run Time:</th>
+          <td width="60"><%= playlist_item.video.commercial_run_time.minutes if !playlist_item.video.commercial_run_time.nil? %>
+            min
+          </td>
+          <th width="80">Episodes Avail:</th>
+          <td><%= playlist_item.video.episodes_available %></td>
+        </tr>
+        <tr>
+          <th>Chinese Programme Title:</th>
+          <td><%= playlist_item.video.chinese_programme_title %></td>
+          <th>Lang Tracks:</th>
+          <td><%= playlist_item.video.language_tracks.join(',
 ') if !playlist_item.video.language_tracks.nil? %> </td>
-            <th>Lang Subs:</th>
-            <td><%= playlist_item.video.language_subtitles.join(',
+          <th>Lang Subs:</th>
+          <td><%= playlist_item.video.language_subtitles.join(',
 ') if !playlist_item.video.language_subtitles.nil? %> </td>
-            <th>Genres:</th>
-            <td><%= playlist_item.video.video_genres_string_with_parent %> </td>
-          </tr>
-          <tr>
-            <th>Foreign Language Title:</th>
-            <td><%= playlist_item.video.foreign_language_title %></td>
-          </tr>
-        </table>
-      </td>
-      <td class="actions"><%= image_tag("arrow_move.png") %></td>
+          <th>Genres:</th>
+          <td><%= playlist_item.video.video_genres_string_with_parent %> </td>
+        </tr>
+        <tr>
+          <th>Foreign Language Title:</th>
+          <td><%= playlist_item.video.foreign_language_title %></td>
+        </tr>
+      </table>
+    </td>
+    <td class="actions"><%= image_tag("arrow_move.png") %></td>
   <% end %>
   <td class="actions"><%= link_to "Delete",
                                   playlist_item,

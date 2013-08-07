@@ -5,106 +5,129 @@
   <title>Images in Motion
     - <%= @movie_playlist.airline.code if !@movie_playlist.airline.nil? && !@movie_playlist.airline_id.nil? %><%= @movie_playlist.start_cycle.strftime("%m%y") %>
     Movies Playlist</title>
-    <style type="text/css">
-        body, .wrapper, .note, .info, code, #topNav, .L, .R, #frame, #container, #header, #navigation, #footer,
-        #feature, #mainCol, #subCol, #extraCol, .content {
-            position: static;
-            text-align: left;
-            text-indent: 0;
-            background: White;
-            color: Black;
-            border-color: Black;
-            width: auto;
-            height: auto;
-            display: block;
-            float: none;
-            min-height: 0;
-            margin: 0;
-            padding: 0;
-        }
+  <style type="text/css">
+    body, .wrapper, .note, .info, code, #topNav, .L, .R, #frame, #container, #header, #navigation, #footer,
+    #feature, #mainCol, #subCol, #extraCol, .content {
+      position: static;
+      text-align: left;
+      text-indent: 0;
+      background: White;
+      color: Black;
+      border-color: Black;
+      width: auto;
+      height: auto;
+      display: block;
+      float: none;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background: #FFF;
-            font-size: 10pt !important;
-            font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
-            line-height: 1.5;
-            color: #000;
-            padding: 0 3%;
-        }
+    body {
+      background: #FFF;
+      font-size: 10pt !important;
+      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
+      line-height: 1.5;
+      color: #000;
+      padding: 0 3%;
+    }
 
-        .hide, .nav {
-            display: none !important;
-        }
+    .hide, .nav {
+      display: none !important;
+    }
 
-        a:link, a:visited {
-            background: transparent;
-            font-weight: bold;
-            text-decoration: underline;
-        }
+    a:link, a:visited {
+      background: transparent;
+      font-weight: bold;
+      text-decoration: underline;
+    }
 
-        hr {
-            background:#ccc;
-            color:#ccc;
-            width:100%;
-            height:2px;
-            margin:2em 0;
-            padding:0;
-            border:none;
-        }
+    hr {
+      background: #ccc;
+      color: #ccc;
+      width: 100%;
+      height: 2px;
+      margin: 2em 0;
+      padding: 0;
+      border: none;
+    }
 
-        h1,h2,h3,h4,h5,h6 { font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif; }
-        code { font:.9em "Courier New", Monaco, Courier, monospace; }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
+    }
 
-        img { float:none; margin:1.5em 1.5em 1.5em 0; }
-        a img { border:none; }
+    code {
+      font: .9em "Courier New", Monaco, Courier, monospace;
+    }
 
-        blockquote {
-            margin:1.5em;
-            padding:1em;
-            font-style:italic;
-            font-size:.9em;
-        }
+    img {
+      float: none;
+      margin: 1.5em 1.5em 1.5em 0;
+    }
 
-        .small  { font-size: .9em; }
-        .large  { font-size: 1.1em; }
+    a img {
+      border: none;
+    }
 
-        #header {
-            display:none;
-        }
+    blockquote {
+      margin: 1.5em;
+      padding: 1em;
+      font-style: italic;
+      font-size: .9em;
+    }
 
-        #playlist {
-            border:none;
-        }
+    .small {
+      font-size: .9em;
+    }
 
-        table.playlist{
-          border-collapse: collapse;
-          border: 2px solid #ddd;
-        }
-        .playlist td {
-          font-size: 13px;
-          border: 1px solid #ddd; 
-          color: #333;  
-          padding:5px;
-        }
-        .print{
-          margin-left: auto;
-          margin-right: auto;
-          width: 900px;
-        }
-        .print h2{
-          margin-bottom:0;
-        }
-        @media print {  
-          body { background-color: #FFF; }  
-        
-          table.playlist{
-            page-break-inside: avoid;  
-          }
-          .print-hide{
-            display:none;
-          }
-        }
-    </style>
+    .large {
+      font-size: 1.1em;
+    }
+
+    #header {
+      display: none;
+    }
+
+    #playlist {
+      border: none;
+    }
+
+    table.playlist {
+      border-collapse: collapse;
+      border: 2px solid #ddd;
+    }
+
+    .playlist td {
+      font-size: 13px;
+      border: 1px solid #ddd;
+      color: #333;
+      padding: 5px;
+    }
+
+    .print {
+      margin-left: auto;
+      margin-right: auto;
+      width: 900px;
+    }
+
+    .print h2 {
+      margin-bottom: 0;
+    }
+
+    @media print {
+      body {
+        background-color: #FFF;
+      }
+
+      table.playlist {
+        page-break-inside: avoid;
+      }
+
+      .print-hide {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="print">
@@ -117,11 +140,11 @@
   <br/>
   <strong><%= "MOVIE TYPE: #{@movie_playlist.movie_playlist_type.name.upcase} " if @movie_playlist.movie_playlist_type.present? %></strong>
   <br/><br/>
-  
+
   <div id="playlist">
     <%= render partial: 'playlist_item_view',
                collection: @movie_playlist.movie_playlist_items_sorted,
-               locals: {language: params[:language] } %>
+               locals: {language: params[:language]} %>
   </div>
 </div>
 </body>

@@ -1,187 +1,187 @@
 <%= semantic_form_for @video,
                       html: {multipart: true} do |f| %>
-    <%= error_messages_for(f.object) %><br/>
+  <%= error_messages_for(f.object) %><br/>
 
-    <div id="poster-thumbnail">
-      <%= link_to(image_tag(@video.poster.url(:small)),
-                  @video.poster.url,
-                  target: "_blank") %>
-      <br/>
-      <a href="http://images.google.com/images?hl=en&q=tv+still+<%= @video.programme_title %>" target="_blank">Search
-        Google Images</a><br/>
-      <a href="http://www.tv.com/search?type=11&stype=all&tag=search%3Bfrontdoor&q=<%= @video.programme_title %>&stype=program" target="_blank">Search
-        TV.com</a><br/>
-      <a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<%= @video.programme_title %>" target="_blank">Search
-        Wikipedia</a><br/>
+  <div id="poster-thumbnail">
+    <%= link_to(image_tag(@video.poster.url(:small)),
+                @video.poster.url,
+                target: "_blank") %>
+    <br/>
+    <a href="http://images.google.com/images?hl=en&q=tv+still+<%= @video.programme_title %>" target="_blank">Search
+      Google Images</a><br/>
+    <a href="http://www.tv.com/search?type=11&stype=all&tag=search%3Bfrontdoor&q=<%= @video.programme_title %>&stype=program" target="_blank">Search
+      TV.com</a><br/>
+    <a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<%= @video.programme_title %>" target="_blank">Search
+      Wikipedia</a><br/>
 
-      <%= f.input :poster,
-                  input_html: {tabindex: 16},
-                  label: false,
-                  as: :file,
-                  input_html: {size: 6} %>
-      <br/>
-      <%= f.actions %>
+    <%= f.input :poster,
+                input_html: {tabindex: 16},
+                label: false,
+                as: :file,
+                input_html: {size: 6} %>
+    <br/>
+    <%= f.actions %>
+  </div>
+
+  <%= f.inputs do %>
+
+    <div id="video-fields">
+      <%= f.input :movie_id,
+                  as: :hidden,
+                  value: @video.movie_id %>
+      <%= f.input :programme_title,
+                  label: "Video Title",
+                  input_html: {tabindex: 1} %>
+      <%= f.input :chinese_programme_title,
+                  label: "Chinese Video Title",
+                  input_html: {tabindex: 1} %>
+      <%= f.input :foreign_language_title,
+                  label: "Foreign Language Title",
+                  input_html: {tabindex: 2},
+                  size: 2 %>
+      <%= f.input :video_type,
+                  label: "Video Type",
+                  as: :select,
+
+                  collection: Video::VIDEO_TYPES,
+
+                  include_blank: true,
+                  input_html: {tabindex: 3} %>
+
+      <table>
+        <tr>
+          <td valign="top">
+            <%= f.input :video_distributor,
+                        include_blank: true,
+                        input_html: {tabindex: 4},
+
+                        label: ("Distributor " + link_to("[edit]",
+                                                         suppliers_path,
+                                                         target: "_blank")).html_safe,
+                        collection: Supplier.video_distributors.collect { |p| [p.company_name,
+                                                                               p.id] } %>
+
+            <%= f.input :production_year,
+                        input_html: {tabindex: 7},
+                        label: "Production Year",
+                        size: 3 %>
+
+          </td>
+          <td valign="top">
+            <%= f.input :production_studio,
+                        input_html: {tabindex: 5},
+                        include_blank: true,
+
+                        label: ("Production Studio " + link_to("[edit]",
+                                                               suppliers_path,
+                                                               target: "_blank")).html_safe,
+                        collection: Supplier.production_studios.collect { |p| [p.company_name,
+                                                                               p.id] } %>
+            <%= f.input :episodes_available,
+                        input_html: {tabindex: 9},
+                        label: "&nbsp;No. of Episodes Available" %>
+
+
+          </td>
+          <td valign="top">
+            <%= f.input :laboratory,
+                        input_html: {tabindex: 6},
+                        label: "Laboratory",
+                        include_blank: true,
+
+                        label: ("Laboratory "+ link_to("[edit]",
+                                                       suppliers_path,
+                                                       target: "_blank")).html_safe,
+                        collection: Supplier.laboratories.collect { |p| [p.company_name,
+                                                                         p.id] } %>
+            <%= f.input :on_going_series,
+                        input_html: {tabindex: 10},
+                        label: "On Going Series" %>
+          </td>
+        </tr>
+      </table>
+      <%= f.input :commercial_run_time,
+                  label: "Run Time (Commercial)",
+
+                  as: :select,
+
+                  include_blank: true,
+                  input_html: {tabindex: 8},
+                  collection: CommercialRunTime.all.collect { |p| [p.minutes,
+                                                                   p.id] } %>
+      Video Genres
+      <% @video_genres.each do |video_genre| %>
+        <%= f.input :video_genres,
+                    input_html: {tabindex: 11},
+                    label: video_genre.name,
+                    as: :check_boxes,
+                    collection: video_genre.video_genres %>
+      <% end %>
+
+      <%= f.input :language_tracks,
+                  input_html: {tabindex: 12},
+                  label: ("Available Language<br/>Tracks").html_safe,
+                  as: :check_boxes,
+
+                  collection: @languages %>
+
+      <%= f.input :language_subtitles,
+                  input_html: {tabindex: 13},
+                  label: ("Available Language<br/>Subtitles").html_safe,
+                  as: :check_boxes,
+
+                  collection: @languages %>
+
+      <%= f.input :synopsis,
+                  label: "Programme Synopsis",
+                  input_html: {tabindex: 14},
+
+                  hint: ("(<span id='char_count' ></span > characters)").html_safe %>
+
+      <%= f.input :chinese_synopsis,
+                  label: "Chinese Programme Synopsis",
+                  input_html: {tabindex: 14},
+
+                  hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
+
+
+      <%= f.input :remarks,
+                  input_html: {tabindex: 15,
+                               rows: 3},
+                  hint: 'Only use this remarks field as a last resort' %>
     </div>
 
-    <%= f.inputs do %>
+  <% end %>
 
-        <div id="video-fields">
-          <%= f.input :movie_id,
-                      as: :hidden,
-                      value: @video.movie_id %>
-          <%= f.input :programme_title,
-                      label: "Video Title",
-                      input_html: {tabindex: 1} %>
-          <%= f.input :chinese_programme_title,
-                      label: "Chinese Video Title",
-                      input_html: {tabindex: 1} %>
-          <%= f.input :foreign_language_title,
-                      label: "Foreign Language Title",
-                      input_html: {tabindex: 2},
-                      size: 2 %>
-          <%= f.input :video_type,
-                      label: "Video Type",
-                      as: :select,
-
-                      collection: Video::VIDEO_TYPES,
-
-                      include_blank: true,
-                      input_html: {tabindex: 3} %>
-
-          <table>
-            <tr>
-              <td valign="top">
-                <%= f.input :video_distributor,
-                            include_blank: true,
-                            input_html: {tabindex: 4},
-
-                            label: ("Distributor " + link_to("[edit]",
-                                                             suppliers_path,
-                                                             target: "_blank")).html_safe,
-                            collection: Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                                   p.id] } %>
-
-                <%= f.input :production_year,
-                            input_html: {tabindex: 7},
-                            label: "Production Year",
-                            size: 3 %>
-
-              </td>
-              <td valign="top">
-                <%= f.input :production_studio,
-                            input_html: {tabindex: 5},
-                            include_blank: true,
-
-                            label: ("Production Studio " + link_to("[edit]",
-                                                                   suppliers_path,
-                                                                   target: "_blank")).html_safe,
-                            collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                                   p.id] } %>
-                <%= f.input :episodes_available,
-                            input_html: {tabindex: 9},
-                            label: "&nbsp;No. of Episodes Available" %>
-
-
-              </td>
-              <td valign="top">
-                <%= f.input :laboratory,
-                            input_html: {tabindex: 6},
-                            label: "Laboratory",
-                            include_blank: true,
-
-                            label: ("Laboratory "+ link_to("[edit]",
-                                                           suppliers_path,
-                                                           target: "_blank")).html_safe,
-                            collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                             p.id] } %>
-                <%= f.input :on_going_series,
-                            input_html: {tabindex: 10},
-                            label: "On Going Series" %>
-              </td>
-            </tr>
-          </table>
-          <%= f.input :commercial_run_time,
-                      label: "Run Time (Commercial)",
-
-                      as: :select,
-
-                      include_blank: true,
-                      input_html: {tabindex: 8},
-                      collection: CommercialRunTime.all.collect { |p| [p.minutes,
-                                                                       p.id] } %>
-          Video Genres
-          <% @video_genres.each do |video_genre| %>
-              <%= f.input :video_genres,
-                          input_html: {tabindex: 11},
-                          label: video_genre.name,
-                          as: :check_boxes,
-                          collection: video_genre.video_genres %>
-          <% end %>
-
-          <%= f.input :language_tracks,
-                      input_html: {tabindex: 12},
-                      label: ("Available Language<br/>Tracks").html_safe,
-                      as: :check_boxes,
-
-                      collection: @languages %>
-
-          <%= f.input :language_subtitles,
-                      input_html: {tabindex: 13},
-                      label: ("Available Language<br/>Subtitles").html_safe,
-                      as: :check_boxes,
-
-                      collection: @languages %>
-
-          <%= f.input :synopsis,
-                      label: "Programme Synopsis",
-                      input_html: {tabindex: 14},
-
-                      hint: ("(<span id='char_count' ></span > characters)").html_safe %>
-
-          <%= f.input :chinese_synopsis,
-                      label: "Chinese Programme Synopsis",
-                      input_html: {tabindex: 14},
-
-                      hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
-
-
-          <%= f.input :remarks,
-                      input_html: {tabindex: 15,
-                                   rows: 3},
-                      hint: 'Only use this remarks field as a last resort' %>
-        </div>
-
-    <% end %>
-
-    <%= f.actions %>
+  <%= f.actions %>
 
 <% end %>
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function() {
-    	
-    	var chars,
-            chineseChars;
+  $(document).ready(function () {
 
-    	chars = $('#video_synopsis').val().length;
-        chineseChars = $('#video_chinese_synopsis').val().length;
+    var chars,
+        chineseChars;
 
-    	$('#char_count').html(chars);
-        $('#chinese_char_count').html(chineseChars);
+    chars = $('#video_synopsis').val().length;
+    chineseChars = $('#video_chinese_synopsis').val().length;
 
-    	$('#video_synopsis').on("keyup change", function() {
-	    	chars = $('#video_synopsis').val().length;
-	    	$('#char_count').html(chars);
-    	});
+    $('#char_count').html(chars);
+    $('#chinese_char_count').html(chineseChars);
 
-        $('#video_chinese_synopsis').on("keyup change", function() {
-            chineseChars = $('#video_chinese_synopsis').val().length;
-            $('#chinese_char_count').html(chineseChars);
-        });
+    $('#video_synopsis').on("keyup change", function () {
+      chars = $('#video_synopsis').val().length;
+      $('#char_count').html(chars);
     });
+
+    $('#video_chinese_synopsis').on("keyup change", function () {
+      chineseChars = $('#video_chinese_synopsis').val().length;
+      $('#chinese_char_count').html(chineseChars);
+    });
+  });
 
 
 </script>

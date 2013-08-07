@@ -4,112 +4,114 @@
 <fieldset>
   <legend>Search Movies</legend>
   <%= search_form_for @search,
-                     url: add_movie_to_playlist_path(id: @movie_playlist.id),
-                     remote: true,
-                     id: "movie_search_form",
-                     class: 'spinner-trigger' do |movies| %>
-      <br/>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <table>
-        <tr>
-          <td valign="top">
-            Movie Title:<br/>
-            <%= movies.text_field :movie_title_cont %>
-            <br/>
-            Cast:<br/>
-            <%= movies.text_field :cast_cont %>
-          </td>
-          <td valign="top">
-            Director:<br/>
-            <%= movies.text_field :director_cont,
-                                  size: 17 %>
-            <br/>
-            <%= check_box :screener,
-                          :destroyed,
-                          { checked: !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false } %>Screener Destroyed
-            <br/>
-            <%= check_box :screener,
-                          :held,
-                          { checked: !params[:screener].nil? && params[:screener][:held] == '1' ? true : false } %>Screener Held
-          </td>
-          <td valign="top">
-            Movie Distributor:<br/>
-            <%= movies.select :movie_distributor_id_eq,
-                              Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                         p.id] },
-                              include_blank: true %>
-            <br/>
-            Laboratory:<br/>
-            <%= movies.select :laboratory_id_eq,
-                              Supplier.laboratories.collect { |p| [p.company_name,
-                                                                   p.id] },
-                              include_blank: true %>
-            <br/>
-          </td>
-          <td valign="top">
-            Movie type:<br/>
-            <%= movies.select :movie_type_id_eq,
-                              MovieType.order("name")
-                                       .collect { |p| [p.name,
-                                                       p.id] },
-                              include_blank: true %> <br/>
-            Genre:<br/>
-            <%= movies.select :movie_genres_id_eq,
-                              MovieGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
-                              include_blank: true %>
+                      url: add_movie_to_playlist_path(id: @movie_playlist.id),
+                      remote: true,
+                      id: "movie_search_form",
+                      class: 'spinner-trigger' do |movies| %>
+    <br/>
+    <%= image_tag 'spinner.gif',
+                  id: 'spinner',
+                  class: 'transparent' %>
+    <table>
+      <tr>
+        <td valign="top">
+          Movie Title:<br/>
+          <%= movies.text_field :movie_title_cont %>
+          <br/>
+          Cast:<br/>
+          <%= movies.text_field :cast_cont %>
+        </td>
+        <td valign="top">
+          Director:<br/>
+          <%= movies.text_field :director_cont,
+                                size: 17 %>
+          <br/>
+          <%= check_box :screener,
+                        :destroyed,
+                        {checked: !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false} %>
+          Screener Destroyed
+          <br/>
+          <%= check_box :screener,
+                        :held,
+                        {checked: !params[:screener].nil? && params[:screener][:held] == '1' ? true : false} %>Screener
+          Held
+        </td>
+        <td valign="top">
+          Movie Distributor:<br/>
+          <%= movies.select :movie_distributor_id_eq,
+                            Supplier.movie_distributors.collect { |p| [p.company_name,
+                                                                       p.id] },
+                            include_blank: true %>
+          <br/>
+          Laboratory:<br/>
+          <%= movies.select :laboratory_id_eq,
+                            Supplier.laboratories.collect { |p| [p.company_name,
+                                                                 p.id] },
+                            include_blank: true %>
+          <br/>
+        </td>
+        <td valign="top">
+          Movie type:<br/>
+          <%= movies.select :movie_type_id_eq,
+                            MovieType.order("name")
+                            .collect { |p| [p.name,
+                                            p.id] },
+                            include_blank: true %> <br/>
+          Genre:<br/>
+          <%= movies.select :movie_genres_id_eq,
+                            MovieGenre.all
+                            .collect { |p| [p.name,
+                                            p.id] },
+                            include_blank: true %>
 
-          </td>
-        <tr>
-          <td valign="top" colspan="2">
-            <table>
-              <tr>
-                <td>Languages:<br/>
-                  <%= select :language,
-                             :track,
-                             @languages,
-                             {include_blank: true,
-                             selected: @selected_track} %></td>
-                <td>Subtitles:<br/>
-                  <%= select :language,
-                             :subtitle,
-                             @languages,
-                             {include_blank: true,
-                              selected: @selected_subtitle} %></td>
-                <td>Theatrical Release Year:<br/>
-                  <%= movies.select :theatrical_release_year_eq,
-                                    movie_release_years,
-                                    include_blank: true %></td>
-              </tr>
-            </table>
-          </td>
-          <td valign="top" colspan="2">
-            Airline Release Date (MM-YYYY)<br/>
-            <%= movies.date_select :airline_release_date_gteq,
-                                   order: [:month,
-                                           :year],
-                                   discard_day: true,
-                                   include_blank: true,
-                                   use_month_numbers: true,
-                                   start_year: Date.today.year + 2,
-                                   end_year: 1900 %>
-            to
-            <%= movies.date_select :airline_release_date_lteq,
-                                   order: [:month,
-                                           :year],
-                                   discard_day: true,
-                                   include_blank: true,
-                                   use_month_numbers: true,
-                                   start_year: Date.today.year + 2,
-                                   end_year: 1900 %>
-          </td>
-        </tr>
-        </tr>
-      </table>
-      <%= movies.submit "Search" %>
+        </td>
+      <tr>
+        <td valign="top" colspan="2">
+          <table>
+            <tr>
+              <td>Languages:<br/>
+                <%= select :language,
+                           :track,
+                           @languages,
+                           {include_blank: true,
+                            selected: @selected_track} %></td>
+              <td>Subtitles:<br/>
+                <%= select :language,
+                           :subtitle,
+                           @languages,
+                           {include_blank: true,
+                            selected: @selected_subtitle} %></td>
+              <td>Theatrical Release Year:<br/>
+                <%= movies.select :theatrical_release_year_eq,
+                                  movie_release_years,
+                                  include_blank: true %></td>
+            </tr>
+          </table>
+        </td>
+        <td valign="top" colspan="2">
+          Airline Release Date (MM-YYYY)<br/>
+          <%= movies.date_select :airline_release_date_gteq,
+                                 order: [:month,
+                                         :year],
+                                 discard_day: true,
+                                 include_blank: true,
+                                 use_month_numbers: true,
+                                 start_year: Date.today.year + 2,
+                                 end_year: 1900 %>
+          to
+          <%= movies.date_select :airline_release_date_lteq,
+                                 order: [:month,
+                                         :year],
+                                 discard_day: true,
+                                 include_blank: true,
+                                 use_month_numbers: true,
+                                 start_year: Date.today.year + 2,
+                                 end_year: 1900 %>
+        </td>
+      </tr>
+      </tr>
+    </table>
+    <%= movies.submit "Search" %>
   <% end %>
 
 </fieldset>

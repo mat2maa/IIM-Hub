@@ -1,45 +1,65 @@
 <% if @screeners_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link(@search,
+                      :id,
+                      'ID') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :video_programme_title,
+                      'Programme Title') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :episode_title,
+                      'Episode Title') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :episode_number,
+                      'Episode Number') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :location,
+                      'Location') %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "screener",
+               collection: @screeners %>
+  </table>
+
+  <br/>
+  <br/>
+  <%= will_paginate @screeners,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Screeners)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/screeners', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @screeners %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @screeners_count %> screeners found
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link(@search, :id, 'ID') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :video_programme_title, 'Programme Title') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :episode_title, 'Episode Title') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :episode_number, 'Episode Number') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :location, 'Location') %>
-        </th>
-        <th colspan="2"></th>
-      </tr>
-
-      <%= render partial: "screener",
-                 collection: @screeners %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @screeners %>
-    <%
-      def items_per_page_select(collection = Screeners)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/screeners', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @screeners %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 <% else %>
 
-    No screeners were found
+  No screeners were found
 
 <% end %>

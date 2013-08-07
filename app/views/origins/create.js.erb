@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "origin",
 object: @origin)) %> ";
 
 $("#origin_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#origins>tbody").append(newRow);

@@ -1,13 +1,13 @@
 <% if @notice=="" %>
-    "<%= @master_to_add.episode_title %>" added to playlist
+  "<%= @master_to_add.episode_title %>" added to playlist
 <% else %>
-    <%= @notice %>
-    <%= link_to_remote "Continue adding to playlist",
-                       url: {controller: "video_master_playlists",
-                             action: "add_master",
-                             id: params[:id],
-                             master_id: @master_to_add.id,
-                             add: 1},
-                       class: 'spinner-trigger' %>
+  <%= @notice %>
+  <%= link_to_remote "Continue adding to playlist",
+                     url: {controller: "video_master_playlists",
+                           action: "add_master",
+                           id: params[:id],
+                           master_id: @master_to_add.id,
+                           add: 1},
+                     class: 'spinner-trigger' %>
 
 <% end %>

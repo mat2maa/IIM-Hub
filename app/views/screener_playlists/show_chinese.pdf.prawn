@@ -13,14 +13,14 @@ prawn_document top_margin: 100,
 
   pdf.font_families.update(
       "helvetica" => {
-          light:    Rails.root.join(".fonts", "HelveticaLight.ttf").to_s,
+          light: Rails.root.join(".fonts", "HelveticaLight.ttf").to_s,
           normal: Rails.root.join(".fonts", "Helvetica.ttf").to_s,
-          bold:     Rails.root.join(".fonts", "HelveticaBold.ttf").to_s
+          bold: Rails.root.join(".fonts", "HelveticaBold.ttf").to_s
       },
       "SourceSans" => {
-          light:    Rails.root.join(".fonts", "SourceSans-Light.ttf").to_s,
+          light: Rails.root.join(".fonts", "SourceSans-Light.ttf").to_s,
           normal: Rails.root.join(".fonts", "SourceSans-Regular.ttf").to_s,
-          semibold:     Rails.root.join(".fonts", "SourceSans-Semibold.ttf").to_s
+          semibold: Rails.root.join(".fonts", "SourceSans-Semibold.ttf").to_s
       },
       "WenQuanYiMicroHei" => {
           normal: Rails.root.join(".fonts", "wqy-microhei_0.ttf").to_s,
@@ -100,7 +100,7 @@ prawn_document top_margin: 100,
         }
     ) do
       cells.borders = []
-      row(0).size = screener.episode_title.length > 50 && !screener.video.chinese_programme_title.present? ? 16: 21
+      row(0).size = screener.episode_title.length > 50 && !screener.video.chinese_programme_title.present? ? 16 : 21
       row(0).padding = [0, 2, 0, 2]
       row(0).font = "ARIALUNI" if screener.video.chinese_programme_title.present?
       row(1).size = 14
@@ -122,7 +122,7 @@ prawn_document top_margin: 100,
         cell_style: {
             font: "SourceSans",
             font_style: :normal,
-            size:10,
+            size: 10,
             text_color: 'FFFFFF'
         }
     ) do
@@ -145,7 +145,7 @@ prawn_document top_margin: 100,
             font: "SourceSans",
             text_color: 'FFFFFF',
             size: 10,
-            leading:2
+            leading: 2
         }
     ) do
       cells.borders = []
@@ -155,10 +155,10 @@ prawn_document top_margin: 100,
       row(1).font = "ARIALUNI" if screener.video.chinese_synopsis.present?
     end
 
-    pdf.move_down(70) if(index % 2 == 0)
+    pdf.move_down(70) if (index % 2 == 0)
 
     # create a new page every 2 tables
-    pdf.start_new_page(top_margin: 140, left_margin: 42, bottom_margin: 0, page_size: 'A4') if(index > 0 && index < length-1 && index % 2 == 1)
+    pdf.start_new_page(top_margin: 140, left_margin: 42, bottom_margin: 0, page_size: 'A4') if (index > 0 && index < length-1 && index % 2 == 1)
 
     pdf.image open(logo),
               at: [0, 830],

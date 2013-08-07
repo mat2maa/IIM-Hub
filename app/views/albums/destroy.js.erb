@@ -4,27 +4,27 @@ var $element = $("#album-<%= @album.id %>");
 var notice = "<%= escape_javascript(flash[:notice]) %>";
 
 <% if @album_is_deleted %>
-    $element.fadeOut("fast");
+$element.fadeOut("fast");
 <% else %>
-    $('#notice').html(notice);
+$('#notice').html(notice);
 <% end %>
 
 $('#spinner').addClass('transparent');
-            console.log("off");
+console.log("off");
 
 
 /*
-if @album_is_deleted
-  page.visual_effect :fade,
-                     "album-#{@album.id}"
-else
-  page.replace "album-#{@album.id}",
-               partial: "album",
-               object: @album
-  page.replace_html :notice,
-                    flash[:notice]
-  page.visual_effect :highlight,
-                     :notice
-  flash.discard
-end
-*/
+ if @album_is_deleted
+ page.visual_effect :fade,
+ "album-#{@album.id}"
+ else
+ page.replace "album-#{@album.id}",
+ partial: "album",
+ object: @album
+ page.replace_html :notice,
+ flash[:notice]
+ page.visual_effect :highlight,
+ :notice
+ flash.discard
+ end
+ */

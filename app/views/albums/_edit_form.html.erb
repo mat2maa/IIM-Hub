@@ -1,191 +1,191 @@
 <%= form_for(@album,
              html: {multipart: true}) do |form| %>
-    <%= error_messages_for form.object %>
-    <table class="edit">
-      <tr>
-        <th>Album Title (Original)</th>
-        <td><%= form.text_field :title_original %></td>
-        <th>Label <%= link_to "+",
-                              labels_path,
-                              id: 'add',
-                              target: "_blank" %>
-        </th>
-        <td colspan="3" width="400">
-          <%= select("album",
-                     "label_id",
-                     Label.order("name")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-        </td>
-      </tr>
-      <tr>
-        <th><%= link_to "YesAsia",
-                        "http://www.yesasia.com",
-                        target: "_blank" %>
-          Album Title (Translated)
-        </th>
-        <td>
-          <%= form.text_field :title_english %>
-        </td>
-        <th>Release Year</th>
-        <td colspan="3">
-          <%= form.text_field :release_year %>
-        </td>
-      </tr>
-      <tr>
-        <th>Artist (Original)</th>
-        <td>
-          <%= form.text_field :artist_original %>
-        </td>
-        <th>Publisher
-          <%= link_to "+",
-                      publishers_path,
-                      id: 'add',
-                      target: "_blank" %>
-        </th>
-        <td colspan="3">
-          <%= select("album",
-                     "publisher_id",
-                     Publisher.order("name")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <%= link_to "YesAsia",
+  <%= error_messages_for form.object %>
+  <table class="edit">
+    <tr>
+      <th>Album Title (Original)</th>
+      <td><%= form.text_field :title_original %></td>
+      <th>Label <%= link_to "+",
+                            labels_path,
+                            id: 'add',
+                            target: "_blank" %>
+      </th>
+      <td colspan="3" width="400">
+        <%= select("album",
+                   "label_id",
+                   Label.order("name")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= link_to "YesAsia",
                       "http://www.yesasia.com",
                       target: "_blank" %>
-          Artist (Translated)
-        </th>
-        <td>
-          <%= form.text_field :artist_english %>
-        </td>
-        <th>Disc</th>
-        <td colspan="3">
-          <%= form.text_field :disc_num,
-                              size: 5 %>
+        Album Title (Translated)
+      </th>
+      <td>
+        <%= form.text_field :title_english %>
+      </td>
+      <th>Release Year</th>
+      <td colspan="3">
+        <%= form.text_field :release_year %>
+      </td>
+    </tr>
+    <tr>
+      <th>Artist (Original)</th>
+      <td>
+        <%= form.text_field :artist_original %>
+      </td>
+      <th>Publisher
+        <%= link_to "+",
+                    publishers_path,
+                    id: 'add',
+                    target: "_blank" %>
+      </th>
+      <td colspan="3">
+        <%= select("album",
+                   "publisher_id",
+                   Publisher.order("name")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%= link_to "YesAsia",
+                    "http://www.yesasia.com",
+                    target: "_blank" %>
+        Artist (Translated)
+      </th>
+      <td>
+        <%= form.text_field :artist_english %>
+      </td>
+      <th>Disc</th>
+      <td colspan="3">
+        <%= form.text_field :disc_num,
+                            size: 5 %>
 
-          of
+        of
 
-          <%= form.text_field :disc_count,
-                              size: 5 %></td>
-      </tr>
-      <tr>
-        <th>CD Code</th>
-        <td>
-          <%= form.text_field :cd_code %>
-        </td>
-        <th>Live Album</th>
-        <td>
-          <%= check_box("album",
-                        "live_album") %>
-        </td>
-        <th>Explicit Lyrics</th>
-        <td>
-          <%= check_box("album",
-                        "explicit_lyrics") %>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <a href="http://images.google.com/images?hl=en&q=cd+cover+<%= @album.title_original %>+<%= @album.artist_original %>"
-             target="_blank">
-            Google
-          </a>
+        <%= form.text_field :disc_count,
+                            size: 5 %></td>
+    </tr>
+    <tr>
+      <th>CD Code</th>
+      <td>
+        <%= form.text_field :cd_code %>
+      </td>
+      <th>Live Album</th>
+      <td>
+        <%= check_box("album",
+                      "live_album") %>
+      </td>
+      <th>Explicit Lyrics</th>
+      <td>
+        <%= check_box("album",
+                      "explicit_lyrics") %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <a href="http://images.google.com/images?hl=en&q=cd+cover+<%= @album.title_original %>+<%= @album.artist_original %>"
+           target="_blank">
+          Google
+        </a>
 
-          |
+        |
 
-          <%= link_to 'Amazon',
-                      {controller: :albums,
-                       action: :amazon_cd_covers,
-                       id: @album},
-                      target: "_blank" %>
-          CD Cover<br>
+        <%= link_to 'Amazon',
+                    {controller: :albums,
+                     action: :amazon_cd_covers,
+                     id: @album},
+                    target: "_blank" %>
+        CD Cover<br>
           <span class="hint">(JPEG,
 GIF,
 or PNG files up to 500 KB)</span>
-        </th>
-        <td>
-          <%= form.file_field :cover,
-                              size: 20 %>
-        </td>
-        <th>Gender</th>
-        <td>
-          <%= select("album",
-                     "gender",
-                     gender,
-                     {include_blank: true}) %>
-        </td>
-        <th>Language</th>
-        <td>
-          <%= select("album",
-                     "language_id",
-                     Language.order("name")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      languages_path,
-                      id: 'add',
-                      target: "_blank" %>
-        </td>
-      </tr>
-      <tr>
-        <th>Compilation</th>
-        <td>
-          <%= check_box("album",
-                        "compilation") %>
-        </td>
-        <th>Origin</th>
-        <td>
-          <%= select("album",
-                     "origin_id",
-                     Origin.order("name")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      origins_path,
-                      id: 'add',
-                      target: "_blank" %>
-        </td>
-        <th>Total Duration:</th>
-        <td>
-          <%= @album.duration_in_min %>
-        </td>
-      </tr>
-    </table>
-    <br/>
-    <%= submit_tag "Save",
-                   class: "submit" %>
+      </th>
+      <td>
+        <%= form.file_field :cover,
+                            size: 20 %>
+      </td>
+      <th>Gender</th>
+      <td>
+        <%= select("album",
+                   "gender",
+                   gender,
+                   {include_blank: true}) %>
+      </td>
+      <th>Language</th>
+      <td>
+        <%= select("album",
+                   "language_id",
+                   Language.order("name")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    languages_path,
+                    id: 'add',
+                    target: "_blank" %>
+      </td>
+    </tr>
+    <tr>
+      <th>Compilation</th>
+      <td>
+        <%= check_box("album",
+                      "compilation") %>
+      </td>
+      <th>Origin</th>
+      <td>
+        <%= select("album",
+                   "origin_id",
+                   Origin.order("name")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    origins_path,
+                    id: 'add',
+                    target: "_blank" %>
+      </td>
+      <th>Total Duration:</th>
+      <td>
+        <%= @album.duration_in_min %>
+      </td>
+    </tr>
+  </table>
+  <br/>
+  <%= submit_tag "Save",
+                 class: "submit" %>
 
-    <div class="nav-tab">
-      <%= link_to :Tracks,
-                  remote: true,
-                  action: "show_tracks",
-                  id: @album.id %>
-      <%= link_to "Genre",
-                  remote: true,
-                  action: "show_genre",
-                  id: @album.id %>
-      <%= link_to "Synopsis",
-                  remote: true,
-                  action: "show_synopsis",
-                  id: @album.id %>
-      <%= link_to "For Translation",
-                  remote: true,
-                  action: "show_tracks_translation",
-                  id: @album.id %>
-      <%= link_to "Playlists",
-                  remote: true,
-                  action: "show_playlists",
-                  id: @album.id %>
-    </div>
-    <div id="tab-area">
-      <%= render partial: 'show_tracks',
-                 locals: {tracks: 'tracks'} %>
-    </div>
+  <div class="nav-tab">
+    <%= link_to :Tracks,
+                remote: true,
+                action: "show_tracks",
+                id: @album.id %>
+    <%= link_to "Genre",
+                remote: true,
+                action: "show_genre",
+                id: @album.id %>
+    <%= link_to "Synopsis",
+                remote: true,
+                action: "show_synopsis",
+                id: @album.id %>
+    <%= link_to "For Translation",
+                remote: true,
+                action: "show_tracks_translation",
+                id: @album.id %>
+    <%= link_to "Playlists",
+                remote: true,
+                action: "show_playlists",
+                id: @album.id %>
+  </div>
+  <div id="tab-area">
+    <%= render partial: 'show_tracks',
+               locals: {tracks: 'tracks'} %>
+  </div>
 <% end %>

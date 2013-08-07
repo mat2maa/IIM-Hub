@@ -1,35 +1,35 @@
 <center>
-    <strong>Add Album to Playlist</strong><br/>
+  <strong>Add Album to Playlist</strong><br/>
 
-    <div id="search_form">
-      <%= render partial: 'album_search_form',
-                 object: @search %>
-    </div>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
+  <div id="search_form">
+    <%= render partial: 'album_search_form',
+               object: @search %>
+  </div>
+  <%= image_tag 'spinner.gif',
+                id: 'spinner',
+                class: 'transparent' %>
 
-    <div id="item_added"></div>
+  <div id="item_added"></div>
 
-    <div id="albums">
-      <%= render partial: "albums" %>
-    </div>
+  <div id="albums">
+    <%= render partial: "albums" %>
+  </div>
 </center>
 
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $("#album_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/albums',
-                type: 'get',
-                success: function() {
-                    var albums = " <%= escape_javascript(render("albums")) %> ";
-                    $("#albums").html(albums);
-                }
-            });
-        });
+  $(function () {
+    $("#album_search_form").submit(function (form) {
+      form.preventDefault();
+      $.ajax({ url: '/albums',
+        type: 'get',
+        success: function () {
+          var albums = " <%= escape_javascript(render("albums")) %> ";
+          $("#albums").html(albums);
+        }
+      });
     });
+  });
 </script>

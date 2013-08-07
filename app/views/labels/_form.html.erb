@@ -1,15 +1,15 @@
 <%= form_for @label,
              remote: true,
              html: {id: "label_form"} do |f| %>
-    <table>
-      <tr>
-        <td>Label Name</td>
-        <td>
-          <%= f.text_field :name %>
-        </td>
-        <td colspan="2">
-          <%= f.submit "Add New Label" %>
-        </td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Label Name</td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+      <td colspan="2">
+        <%= f.submit "Add New Label" %>
+      </td>
+    </tr>
+  </table>
 <% end %>

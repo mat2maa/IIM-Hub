@@ -52,7 +52,7 @@
                   class: 'items_per_page_select_menu'
      end
   %>
-  <%= form_for '/movies', method: :get, html: { class: 'items_per_page_select' } do |f| %>
+  <%= form_for '/movies', method: :get, html: {class: 'items_per_page_select'} do |f| %>
     <span>Items per page: </span>
     <%= items_per_page_select @movies %>
     <%= f.submit "Submit",

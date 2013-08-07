@@ -2,19 +2,19 @@
              remote: true,
              html: {id: "right_form"} do |f| %>
 
-    <table>
-      <tr>
-        <td>Name</td>
-        <td><%= f.text_field :name,
-                             size: nil %></td>
-        <td>Controller</td>
-        <td><%= f.text_field :controller,
-                             size: nil %></td>
-        <td>Action</td>
-        <td><%= f.text_field :action,
-                             size: nil %></td>
-        <td><%= f.submit "Add Right" %></td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Name</td>
+      <td><%= f.text_field :name,
+                           size: nil %></td>
+      <td>Controller</td>
+      <td><%= f.text_field :controller,
+                           size: nil %></td>
+      <td>Action</td>
+      <td><%= f.text_field :action,
+                           size: nil %></td>
+      <td><%= f.submit "Add Right" %></td>
+    </tr>
+  </table>
 
 <% end %>

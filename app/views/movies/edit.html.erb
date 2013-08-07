@@ -19,10 +19,10 @@
                 new_movie_path %> |
     <% if permitted_to? :admin_delete,
                         :movies %>
-        <%= link_to 'Delete',
-                    movie_url(@movie),
-                    method: :delete,
-                    confirm: 'Are you sure?' %>
+      <%= link_to 'Delete',
+                  movie_url(@movie),
+                  method: :delete,
+                  confirm: 'Are you sure?' %>
     <% end %>
   </div>
   <div id="content-header">

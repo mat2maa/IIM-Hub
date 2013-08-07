@@ -1,72 +1,60 @@
 <tr id="album-<%= album.id %>">
-  <% cache([album,
-            "album_playlists"]) do %>
-      <td>
-        <%= link_to album.id,
-                    album_path(id: album.id) %>
-      </td>
-      <td>
-        <%= album.title_original %>
-        <br/>
-        <%= album.title_english %>
-      </td>
-      <td>
-        <%= album.artist_original %>
-        <br/>
-        <%= album.artist_english %>
-      </td>
-      <td>
-        <%= album.label.name if !album.label_id.nil? || !album.label.nil? %>
-      </td>
-      <td>
-        <%= album.release_year %>&nbsp;
-      </td>
-      <td>
-        <%= album.cd_code %>&nbsp;</td>
-  <% end %>
+  <td data-title="ID"><%= link_to album.id,
+                  album_path(id: album.id) %>&nbsp;</td>
+  <td data-title="Title">
+    <%= album.title_original %>
+    <br/>
+    <%= album.title_english %></td>
+  <td data-title="Artist">
+    <%= album.artist_original %>
+    <br/>
+    <%= album.artist_english %></td>
+  <td data-title="Label"><%= album.label.name if !album.label_id.nil? || !album.label.nil? %>&nbsp;</td>
+  <td data-title="Release Year"><%= album.release_year %>&nbsp;</td>
+  <td data-title="CD Code"><%= album.cd_code %>&nbsp;</td>
 
   <% if params[:playlist_id] || params["action"]=="add_album_to_playlist" %>
-      <td>
-        <% if !album.to_delete %>
-            <%= link_to "add to playlist",
-                        remote: true,
-                        url: {controller: "album_playlists",
-                              action: "add_album",
-                              id: params[:id],
-                              album_id: album.id},
-                        class: 'spinner-trigger' %>
-        <% else %>
-            Pending Deletion
-        <% end %>
-      </td>
+    <td>
+      <% if !album.to_delete %>
+        <%= link_to "add to playlist",
+                    remote: true,
+                    url: {controller: "album_playlists",
+                          action: "add_album",
+                          id: params[:id],
+                          album_id: album.id},
+                    class: 'spinner-trigger' %>
+      <% else %>
+        Pending Deletion
+      <% end %>
+    </td>
+
   <% else %>
-      <td>
-        <%= link_to 'Edit',
-                    edit_album_path(album) %>
-      </td>
-      <td>
-        <% if !album.to_delete %>
-            <%= link_to 'Delete',
-                        album_url(album),
-                        remote: true,
-                        method: :delete,
-                        confirm: 'Are you sure? Tracks from the album will be deleted too.',
-                        class: 'spinner-trigger' %>
-        <% else %>
-            <% if permitted_to? :admin_delete,
-                                :albums %>
-                <%= link_to 'Delete',
-                            album_url(album),
-                            remote: true,
-                            method: :delete,
-                            confirm: 'Are you sure? Tracks from the album will be deleted too.',
-                            class: 'spinner-trigger' %>
-            <% end %>
-            <%= link_to 'Restore',
-                        restore_album_path(album.id),
-                        remote: true,
-                        class: 'spinner-trigger' %>
+    <td data-title="Actions">
+      <%= link_to 'Edit',
+                  edit_album_path(album),
+                  class: 'btn btn-mini' %>
+      <% if !album.to_delete %>
+        <%= link_to 'Delete',
+                    album_url(album),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure? Tracks from the album will be deleted too.',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% else %>
+        <% if permitted_to? :admin_delete,
+                            :albums %>
+          <%= link_to 'Delete',
+                      album_url(album),
+                      remote: true,
+                      method: :delete,
+                      confirm: 'Are you sure? Tracks from the album will be deleted too.',
+                      class: 'spinner-trigger btn btn-mini' %>
         <% end %>
-      </td>
+        <%= link_to 'Restore',
+                    restore_album_path(album.id),
+                    remote: true,
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+    </td>
   <% end %>
 </tr>

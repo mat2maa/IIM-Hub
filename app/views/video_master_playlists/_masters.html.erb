@@ -1,62 +1,62 @@
 <% if @masters_count > 0 %>
-    <%= form_tag url_for(controller: "video_master_playlists",
-                         action: "add_multiple_masters"),
-                 id: "multiple_videos",
-                 remote: true do %>
-        <%= hidden_field_tag 'playlist_id',
-                             params[:id] %>
-        <%= submit_tag 'Add Selected to Playlist' %><br/>
-        <%= @masters_count %> masters found
-        <table cellspacing="0" width="100%" id="masters">
-          <tr>
-            <th width="8">
-              <%= check_box_tag('check_all',
-                                'check_all',
-                                false) %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :id,
-                            'ID',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :video_programme_title,
-                            'Programme Title',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :episode_title,
-                            'Episode Title',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>
-              <%= sort_link @search,
-                            :episode_number,
-                            'Episode Number',
-                            {},
-                            { remote: true } %>
-            </th>
-            <th>Video Type</th>
-            <th>In Playlists With<br/>Same Airline</th>
-            <th>&nbsp;</th>
-          </tr>
-          <% @masters.each do |master| %>
-              <tr class="playlist-entry">
-                <%# cache([video]) do %>
-                <td><%= check_box_tag "master_ids[]",
-                                      master.id %></td>
-                <td><%= master.id %></td>
-                <td><%= master.video.programme_title %></td>
-                <td><%= master.episode_title %></td>
-                <td><%= master.episode_number %></td>
-                <td><%= master.video.video_type %></td>
-                <td>
+  <%= form_tag url_for(controller: "video_master_playlists",
+                       action: "add_multiple_masters"),
+               id: "multiple_videos",
+               remote: true do %>
+    <%= hidden_field_tag 'playlist_id',
+                         params[:id] %>
+    <%= submit_tag 'Add Selected to Playlist' %><br/>
+    <%= @masters_count %> masters found
+    <table cellspacing="0" width="100%" id="masters">
+      <tr>
+        <th width="8">
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :id,
+                        'ID',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :video_programme_title,
+                        'Programme Title',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :episode_title,
+                        'Episode Title',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :episode_number,
+                        'Episode Number',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>Video Type</th>
+        <th>In Playlists With<br/>Same Airline</th>
+        <th>&nbsp;</th>
+      </tr>
+      <% @masters.each do |master| %>
+        <tr class="playlist-entry">
+          <%# cache([video]) do %>
+          <td><%= check_box_tag "master_ids[]",
+                                master.id %></td>
+          <td><%= master.id %></td>
+          <td><%= master.video.programme_title %></td>
+          <td><%= master.episode_title %></td>
+          <td><%= master.episode_number %></td>
+          <td><%= master.video.video_type %></td>
+          <td>
                     <span id="exists">
                         <% if (master.in_playlists!="" && !master.in_playlists.nil?) %>
                             <%= VideoMasterPlaylist.with_same_airline_and_master(master.id,
@@ -65,54 +65,59 @@
                                                                                                                                                                                               target: "_blank") }.join(', ').html_safe %>
                         <% end %>
                     </span>
-                </td>
-                <%# end %>
-                <td>
-                  <%= link_to "add to playlist",
-                              add_video_master_video_master_playlist_path(@video_master_playlist, master_id: master.id),
-                              method: :post,
-                              remote: true,
-                              class: 'spinner-trigger' %>
-                </td>
-              </tr>
-          <% end %>
-        </table>
-    <% end %>
-    <br/>
-    <br/>
-    <%= will_paginate @masters %>
-    <%
-      def items_per_page_select(collection = Masters)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/masters', method: :get, html: { class: 'items_per_page_select' }, remote: true do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @masters %>
-      <%= f.submit "Submit" %>
-    <% end %>
+          </td>
+          <%# end %>
+          <td>
+            <%= link_to "add to playlist",
+                        add_video_master_video_master_playlist_path(@video_master_playlist, master_id: master.id),
+                        method: :post,
+                        remote: true,
+                        class: 'spinner-trigger' %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <br/>
+  <br/>
+  <%= will_paginate @masters,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Masters)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/masters', method: :get, html: {class: 'items_per_page_select'}, remote: true do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @masters %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+  <% end %>
 <% else %>
-    No masters were found
+  No masters were found
 <% end %>
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $('#check_all').click(function () {
-            if (this.checked) {
-                $('.playlist-entry').find(':checkbox').each(function () {
-                    this.checked = true;
-                });
-            } else {
-                $('.playlist-entry').find(':checkbox').each(function () {
-                    this.checked = false;
-                });
-            }
+    $('#check_all').click(function () {
+      if (this.checked) {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = true;
         });
-
+      } else {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
     });
+
+  });
 
 </script>

@@ -1,60 +1,70 @@
 <% if @tracks_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :id,
+                      'ID' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :title_original,
+                      'Original Title' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :artist_original,
+                      'Original Artist' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :album_label_name,
+                      'Label' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :album_cd_code,
+                      'CD Code' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :duration,
+                      'Duration' %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "track",
+               collection: @tracks %>
+  </table>
+
+  <br/>
+  <br/>
+  <%= will_paginate @tracks,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Tracks)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/tracks', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @tracks %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @tracks_count %> tracks found
-
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link @search,
-                        :id,
-                        'ID' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :title_original,
-                        'Original Title' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :artist_original,
-                        'Original Artist' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :album_label_name,
-                        'Label' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :album_cd_code,
-                        'CD Code' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :duration,
-                        'Duration' %>
-        </th>
-        <th colspan="2"></th>
-      </tr>
-      <%= render partial: "track",
-                 collection: @tracks %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @tracks %>
-    <%
-      def items_per_page_select(collection = Tracks)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/tracks', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @tracks %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 <% else %>
 
-    No tracks were returned
+  No tracks were returned
 
 <% end %>

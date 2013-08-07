@@ -1,0 +1,47 @@
+<tr id="audio_playlist-<%= audio_playlist.id %>">
+  <td data-title="ID"><%= link_to audio_playlist.id,
+                                  audio_playlist_path(id: audio_playlist.id) %>&nbsp;</td>
+  <td data-title="Program"><%= audio_playlist.program_cache if !audio_playlist.program_id.nil? %>&nbsp;</td>
+  <td data-title="Airline"><%= audio_playlist.airline_cache if !audio_playlist.airline_id.nil? %>&nbsp;</td>
+  <td data-title="In/Out"><%= audio_playlist.in_out %>&nbsp;</td>
+  <td data-title="Start Month"><%= audio_playlist.start_playdate.strftime("%B %Y") if !audio_playlist.start_playdate.nil? %>&nbsp;</td>
+  <td data-title="End Month"><%= audio_playlist.end_playdate.strftime("%B %Y") if !audio_playlist.end_playdate.nil? %>&nbsp;</td>
+  <td data-title="Total Duration"><%= audio_playlist.total_duration_cached if !audio_playlist.total_duration.nil? %>&nbsp;</td>
+  <td data-title="Actions">
+    <% if permitted_to? :edit,
+                        :audio_playlists %>
+      <% if audio_playlist.locked!=true %>
+        <%= link_to 'Edit',
+                    edit_audio_playlist_path(audio_playlist),
+                    class: 'btn btn-mini' %>
+      <% end %>
+      <% if audio_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    audio_playlist_url(audio_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_audio_playlist_path(audio_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :audio_playlists %>
+      <% if audio_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_audio_playlist_path(audio_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_audio_playlist_path(audio_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

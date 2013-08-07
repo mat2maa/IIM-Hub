@@ -4,6 +4,6 @@ var newRow = " <%= escape_javascript(render(partial: "video_parent_genre",
 object: @video_parent_genre)) %> ";
 
 $("#video_parent_genre_form")
-        .find("input[type=text]").val("");
+    .find("input[type=text]").val("");
 
 $("#video_parent_genres>tbody").append(newRow);

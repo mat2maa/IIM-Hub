@@ -51,10 +51,14 @@
   <%= will_paginate @videos,
                     inner_window: 1,
                     renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small',
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
                     class: 'pagination pagination-small' %>
   <%
      def items_per_page_select(collection = Videos)
        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu',
                   class: 'items_per_page_select_menu'
      end
   %>
@@ -62,6 +66,7 @@
     <span>Items per page: </span>
     <%= items_per_page_select @videos %>
     <%= f.submit "Submit",
+                 class: 'btn btn-small',
                  class: 'btn btn-small' %>
     <br>
     <br>

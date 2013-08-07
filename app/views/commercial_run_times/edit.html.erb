@@ -4,16 +4,16 @@
     <h1>Edit Commercial Run Time</h1>
 
     <%= form_for(@commercial_run_time) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :minutes %><br/>
-          <%= f.text_field :minutes %>
-        </p>
+      <p>
+        <%= f.label :minutes %><br/>
+        <%= f.text_field :minutes %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

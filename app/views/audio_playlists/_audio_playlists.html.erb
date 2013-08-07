@@ -1,121 +1,71 @@
 <% if @audio_playlists_count > 0 %>
-    <%= @audio_playlists_count %> songs playlists found
-    <table width="100%" cellspacing="0">
-      <tr>
-        <th class="list-header">
-          <%= sort_link(@search,
-                        :id,
-                        "ID") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :program_name,
-                        "Program") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :airline_name,
-                        "Airline Name") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :in_out,
-                        "In/Out") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :start_playdate,
-                        "Start Month") %>
-        </th>
-        <th>
-          <%= sort_link(@search,
-                        :end_playdate,
-                        "End Month") %>
-        </th>
-        <th>
-          Total Duration
-        </th>
-        <th colspan="4"></th>
-      </tr>
-      <% @audio_playlists.each do |audio_playlist| %>
-          <tr id="audio_playlist-<%= audio_playlist.id %>">
-            <% cache([audio_playlist]) do %>
-                <td>
-                  <%= link_to audio_playlist.id,
-                              audio_playlist_path(id: audio_playlist.id) %>
-                </td>
-                <td>
-                  <%= audio_playlist.program_cache if !audio_playlist.program_id.nil? %>
-                </td>
-                <td>
-                  <%= audio_playlist.airline_cache if !audio_playlist.airline_id.nil? %>
-                </td>
-                <td>
-                  <%= audio_playlist.in_out %>&nbsp;
-                </td>
-                <td>
-                  <%= audio_playlist.start_playdate.strftime("%B %Y") if !audio_playlist.start_playdate.nil? %>&nbsp;
-                </td>
-                <td>
-                  <%= audio_playlist.end_playdate.strftime("%B %Y") if !audio_playlist.end_playdate.nil? %>&nbsp;
-                </td>
-                <td>
-                  <%= audio_playlist.total_duration_cached if !audio_playlist.total_duration.nil? %>
-                </td>
-            <% end %>
-            <% if permitted_to? :edit,
-                                :audio_playlists %>
-                <td>
-                  <%= link_to 'Edit',
-                              edit_audio_playlist_path(audio_playlist) if audio_playlist.locked!=true %>
-                </td>
-                <td>
-                  <%= link_to 'Delete',
-                              audio_playlist_url(audio_playlist),
-                              remote: true,
-                              method: :delete,
-                              confirm: 'Are you sure?',
-                              class: 'spinner-trigger' if audio_playlist.locked!=true %>
-                </td>
-                <td>
-                  <%= link_to 'Duplicate',
-                              duplicate_audio_playlist_path(audio_playlist),
-                              confirm: 'Are you sure?',
-                              method: :post %>
-                </td>
-            <% end %>
-            <td>
-              <% if permitted_to? :lock,
-                                  :audio_playlists %>
-                  <% if audio_playlist.locked!=true %>
-                      <%= link_to 'Lock',
-                                  lock_audio_playlist_path(audio_playlist),
-                                  method: :post %>
-                  <% else %>
-                      <%= link_to 'Unlock',
-                                  unlock_audio_playlist_path(audio_playlist),
-                                  method: :post %>
-                  <% end %>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-    </table>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link(@search,
+                      :id,
+                      "ID") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :program_name,
+                      "Program") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :airline_name,
+                      "Airline Name") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :in_out,
+                      "In/Out") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :start_playdate,
+                      "Start Month") %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :end_playdate,
+                      "End Month") %>
+      </th>
+      <th>
+        Total Duration
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
 
-    <br/>
-    <br/>
-    <%= will_paginate @audio_playlists %>
-    <%
-      def items_per_page_select(collection = AudioPlaylists)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/audio_playlists', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @audio_playlists %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <%= render partial: "audio_playlist",
+               collection: @audio_playlists %>
+  </table>
+
+  <br/>
+  <br/>
+  <%= will_paginate @audio_playlists,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = AudioPlaylists)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/audio_playlists', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @audio_playlists %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @audio_playlists_count %> songs playlists found
+    <br>
+  <% end %>
 
 <% else %>
-    No playlists were found
+  No playlists were found
 <% end %>

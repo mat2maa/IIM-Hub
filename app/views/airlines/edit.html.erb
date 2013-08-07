@@ -4,21 +4,21 @@
     <h1>Edit airline</h1>
 
     <%= form_for(@airline) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          <%= f.label :airline_code %><br/>
-          <%= f.text_field :code %>
-        </p>
+      <p>
+        <%= f.label :airline_code %><br/>
+        <%= f.text_field :code %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

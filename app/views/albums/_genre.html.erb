@@ -6,13 +6,13 @@
 <ul class="checkbox-list">
   <% @album_genres = @album.genres %>
   <% @genres.each do |genre| -%>
-      <li>
-        <%= check_box_tag "album[genre_ids][]",
-                          genre.id,
-                          album_has_genre?(@album_genres,
-                                           genre.id) -%>
-        <%= genre.name -%>
-      </li>
+    <li>
+      <%= check_box_tag "album[genre_ids][]",
+                        genre.id,
+                        album_has_genre?(@album_genres,
+                                         genre.id) -%>
+      <%= genre.name -%>
+    </li>
   <% end -%>
 </ul>
 

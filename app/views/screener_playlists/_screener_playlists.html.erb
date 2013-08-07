@@ -1,86 +1,65 @@
 <% if @screener_playlists_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link(@search,
+                      :id,
+                      'ID') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :airline_name,
+                      'Airline') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :start_cycle,
+                      'Start Date') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :end_cycle,
+                      'End Date') %>
+      </th>
+      <th>
+        <%= sort_link(@search,
+                      :video_playlist_type_name,
+                      'Video Playlist Type') %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "screener_playlist",
+               collection: @screener_playlists %>
+  </table>
+
+  <br/>
+  <br/>
+  <%= will_paginate @screener_playlists,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = ScreenerPlaylists)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/screener_playlists', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @screener_playlists %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @screener_playlists_count %> video screener playlists found
-
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%= sort_link(@search, :id, 'ID') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :airline_name, 'Airline') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :start_cycle, 'Start Date') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :end_cycle, 'End Date') %>
-        </th>
-        <th>
-          <%= sort_link(@search, :video_playlist_type_name, 'Video Playlist Type') %>
-        </th>
-        <th colspan="4"></th>
-      </tr>
-      <% @screener_playlists.each do |screener_playlist| %>
-          <tr id="screener_playlist-<%= screener_playlist.id %>">
-            <% cache([screener_playlist]) do %>
-                <td><%= link_to screener_playlist.id,
-                                screener_playlist_path(id: screener_playlist.id),
-                                target: "_blank" %></td>
-                <td><%= screener_playlist.airline.name if !screener_playlist.airline_id.nil? %></td>
-                <td><%= screener_playlist.start_cycle.strftime("%m-%Y") if !screener_playlist.start_cycle.nil? %>&nbsp;</td>
-                <td><%= screener_playlist.end_cycle.strftime("%m-%Y") if !screener_playlist.end_cycle.nil? %>&nbsp;</td>
-                <td><%= screener_playlist.video_playlist_type.name if !screener_playlist.video_playlist_type.nil? %>&nbsp;</td>
-            <% end %>
-            <td><%= link_to('Edit',
-                            edit_screener_playlist_path(screener_playlist),
-                            target: "_blank") if screener_playlist.locked!=true %></td>
-            <% if permitted_to? :delete,
-                                :screener_playlists %>
-                <td><%= link_to 'Delete',
-                                screener_playlist_url(screener_playlist),
-                                remote: true,
-                                method: :delete,
-                                confirm: 'Are you sure?',
-                                class: 'spinner-trigger' if screener_playlist.locked!=true %></td>
-                <td><%= link_to 'Duplicate',
-                                duplicate_screener_playlist_path(screener_playlist),
-                                confirm: 'Are you sure?',
-                                method: :post %></td>
-            <% end %>
-            <td>
-              <% if permitted_to? :lock,
-                                  :video_playlists %>
-                  <% if screener_playlist.locked!=true %>
-                      <%= link_to 'Lock',
-                                  lock_screener_playlist_path(screener_playlist),
-                                  method: :post %>
-                  <% else %>
-                      <%= link_to 'Unlock',
-                                  unlock_screener_playlist_path(screener_playlist),
-                                  method: :post %>
-                  <% end %>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @screener_playlists %>
-    <%
-      def items_per_page_select(collection = ScreenerPlaylists)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/screener_playlists', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @screener_playlists %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 <% else %>
 
-    No playlists were found
+  No playlists were found
 
 <% end %>

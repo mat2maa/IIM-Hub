@@ -12,23 +12,23 @@
     <th></th>
   </tr>
   <% Master.where("video_id = #{video_id} AND active=true").order("location, episode_number").each do |master| %>
-      <tr id="master-<%= master.id %>">
-        <td><%= master.episode_title %></td>
-        <td><%= master.episode_number %></td>
-        <td><%= master.location %></td>
-        <td width="140">
-          <%= link_to 'duplicate',
-                      duplicate_master_path(master),
-                      confirm: 'Are you sure?',
-                      method: :post %> |
-          <%= link_to "edit",
-                      edit_master_path(master),
-                      class: 'edit_master' %> |
-          <%= link_to 'delete',
-                      master_path(master),
-                      class: 'delete_master' %>
+    <tr id="master-<%= master.id %>">
+      <td><%= master.episode_title %></td>
+      <td><%= master.episode_number %></td>
+      <td><%= master.location %></td>
+      <td width="140">
+        <%= link_to 'duplicate',
+                    duplicate_master_path(master),
+                    confirm: 'Are you sure?',
+                    method: :post %> |
+        <%= link_to "edit",
+                    edit_master_path(master),
+                    class: 'edit_master' %> |
+        <%= link_to 'delete',
+                    master_path(master),
+                    class: 'delete_master' %>
 
-        </td>
-      </tr>
+      </td>
+    </tr>
   <% end %>
 </table>

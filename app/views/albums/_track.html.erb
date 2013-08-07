@@ -3,11 +3,11 @@
   <td width="5%"><%= track.track_num %></td>
   <td width="45%">
     <% if track.mp3_exists == true %>
-        <%= link_to track.title_original,
-                    Settings.nas_mp3_url + track.album.id.to_s + "/" + track.track_num.to_s + ".mp3",
-                    title: track.artist_original + " - " + track.title_original %>
+      <%= link_to track.title_original,
+                  Settings.nas_mp3_url + track.album.id.to_s + "/" + track.track_num.to_s + ".mp3",
+                  title: track.artist_original + " - " + track.title_original %>
     <% else %>
-        <%= track.title_original %>
+      <%= track.title_original %>
     <% end %>
   </td>
   <td width="20%"><%= track.artist_original %></td>

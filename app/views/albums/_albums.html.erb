@@ -1,62 +1,71 @@
 <% if @albums_count > 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <%= sort_link @search,
+                      :id,
+                      'ID' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :title_original,
+                      'Original Title' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :artist_original,
+                      'Original Artist' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :label_name,
+                      'Label' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :release_year,
+                      'Release Year' %>
+      </th>
+      <th>
+        <%= sort_link @search,
+                      :cd_code,
+                      'CD Code' %>
+      </th>
+      <th width="180" colspan="2"></th>
+    </tr>
+    </thead>
+
+    <%= render partial: "album",
+               collection: @albums %>
+
+  </table>
+
+  <br/>
+  <br/>
+  <%= will_paginate @albums,
+                    inner_window: 1,
+                    renderer: BootstrapPagination::Rails,
+                    class: 'pagination pagination-small' %>
+  <%
+     def items_per_page_select(collection = Albums)
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                  class: 'items_per_page_select_menu'
+     end
+  %>
+  <%= form_for '/albums', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+    <span>Items per page: </span>
+    <%= items_per_page_select @albums %>
+    <%= f.submit "Submit",
+                 class: 'btn btn-small' %>
+    <br>
+    <br>
     <%= @albums_count %> albums found
-    <table cellspacing="0" width="100%">
-      <tr>
-        <th>
-          <%#=TODO remote_order_by_link :id, params: {hello: "there"} %>
-          <%= sort_link @search,
-                        :id,
-                        'ID' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :title_original,
-                        'Original Title' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :artist_original,
-                        'Original Artist' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :label_name,
-                        'Label' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :release_year,
-                        'Release Year' %>
-        </th>
-        <th>
-          <%= sort_link @search,
-                        :cd_code,
-                        'CD Code' %>
-        </th>
-        <th colspan="2"></th>
-      </tr>
-
-      <%= render partial: "album",
-                 collection: @albums %>
-
-    </table>
-
-    <br/>
-    <br/>
-    <%= will_paginate @albums %>
-    <%
-      def items_per_page_select(collection = Albums)
-        select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
-      end
-    %>
-    <%= form_for '/albums', method: :get, html: { class: 'items_per_page_select' } do |f| %>
-      <span>Items per page: </span>
-      <%= items_per_page_select @albums %>
-      <%= f.submit "Submit" %>
-    <% end %>
+    <br>
+  <% end %>
 
 <% else %>
 
-    No albums were found
+  No albums were found
 
 <% end %>

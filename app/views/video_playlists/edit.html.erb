@@ -1,14 +1,14 @@
 <% content_for(:head) do %>
-    <meta name="pdfkit-orientation" content="Landscape"/>
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('#print_playlist').click(function (event) {
-                if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
+  <meta name="pdfkit-orientation" content="Landscape"/>
+  <script>
+    jQuery(document).ready(function () {
+      jQuery('#print_playlist').click(function (event) {
+        if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 <% end %>
 
 <%= render partial: 'layouts/videoplaylist_header' %>
@@ -64,8 +64,9 @@
   <center>
     <h2>Edit Video Playlist</h2>
     <br/>
+
     <div class="action-button">
-        <%= link_to "Add Video", add_video_to_playlist_path(id: @video_playlist.id), id: "add_video_to_playlist" %>
+      <%= link_to "Add Video", add_video_to_playlist_path(id: @video_playlist.id), id: "add_video_to_playlist" %>
     </div>
     <br/>
 
@@ -89,25 +90,25 @@
 </div>
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $(document).on("click", "#add_video_to_playlist", function (video) {
-            video.preventDefault();
-            $('#add_video_dialog').dialog({
-                title: 'Add Video',
-                modal: true,
-                width: 1200,
-                height: 540,
-                position: ['center', 100],
-                close: function (video, ui) {
-                    $('#add_video_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/add_video_to_playlist/<%= @video_playlist.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+  $(function () {
+    $(document).on("click", "#add_video_to_playlist", function (video) {
+      video.preventDefault();
+      $('#add_video_dialog').dialog({
+        title: 'Add Video',
+        modal: true,
+        width: 1200,
+        height: 540,
+        position: ['center', 100],
+        close: function (video, ui) {
+          $('#add_video_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/add_video_to_playlist/<%= @video_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
+  });
 </script>

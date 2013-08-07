@@ -1,35 +1,35 @@
 <center>
-    <strong>Add Master to Playlist</strong><br/>
+  <strong>Add Master to Playlist</strong><br/>
 
-    <div id="search_form">
-      <%= render partial: 'video_master_search_form',
-                 object: @search %>
-    </div>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
+  <div id="search_form">
+    <%= render partial: 'video_master_search_form',
+               object: @search %>
+  </div>
+  <%= image_tag 'spinner.gif',
+                id: 'spinner',
+                class: 'transparent' %>
 
-    <div id="item_added"></div>
+  <div id="item_added"></div>
 
-    <div id="masters">
-      <%= render partial: "masters" %>
-    </div>
+  <div id="masters">
+    <%= render partial: "masters" %>
+  </div>
 </center>
 
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $("#video_master_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/masters',
-                type: 'get',
-                success: function() {
-                    var masters = " <%= escape_javascript(render("masters")) %> ";
-                    $("#masters").html(masters);
-                }
-            });
-        });
+  $(function () {
+    $("#video_master_search_form").submit(function (form) {
+      form.preventDefault();
+      $.ajax({ url: '/masters',
+        type: 'get',
+        success: function () {
+          var masters = " <%= escape_javascript(render("masters")) %> ";
+          $("#masters").html(masters);
+        }
+      });
     });
+  });
 </script>

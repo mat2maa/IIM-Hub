@@ -1,49 +1,49 @@
 <%= form_for(@album_playlist) do |form| %>
-    <%= error_messages_for form.object %>
+  <%= error_messages_for form.object %>
 
-    <table class="edit">
-      <tr>
-        <td class="pl-title">Client Playlist Code:</td>
-        <td><%= form.text_field :client_playlist_code %></td>
-        <td class="pl-title">IN/OUT :</td>
-        <td><%= select("album_playlist",
-                       "in_out",
-                       in_out,
-                       {include_blank: true}) %></td>
-        <td class="pl-title">Programmer :</td>
-        <td><%= @album_playlist.user.login if !@album_playlist.user_id.nil? %></td>
-      </tr>
-      <tr>
-        <td class="pl-title">Play Date :</td>
-        <td><%= form.date_select :start_playdate,
-                                 discard_day: true,
-                                 order: [:month,
-                                         :year] %>
-          to <%= form.date_select :end_playdate,
-                                  discard_day: true,
-                                  order: [:month,
-                                          :year] %></td>
-        <td class="pl-title">Airline :</td>
-        <td><%= select("album_playlist",
-                       "airline_id",
-                       Airline.order("code asc").collect { |p| [p.code + " - " + p.name,
-                                                                p.id] },
-                       {include_blank: true}) %>
-          <%= link_to "+",
-                      airlines_path,
-                      id: "add",
-                      target: "_blank" %>
-        </td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
-    <p>
+  <table class="edit">
+    <tr>
+      <td class="pl-title">Client Playlist Code:</td>
+      <td><%= form.text_field :client_playlist_code %></td>
+      <td class="pl-title">IN/OUT :</td>
+      <td><%= select("album_playlist",
+                     "in_out",
+                     in_out,
+                     {include_blank: true}) %></td>
+      <td class="pl-title">Programmer :</td>
+      <td><%= @album_playlist.user.login if !@album_playlist.user_id.nil? %></td>
+    </tr>
+    <tr>
+      <td class="pl-title">Play Date :</td>
+      <td><%= form.date_select :start_playdate,
+                               discard_day: true,
+                               order: [:month,
+                                       :year] %>
+        to <%= form.date_select :end_playdate,
+                                discard_day: true,
+                                order: [:month,
+                                        :year] %></td>
+      <td class="pl-title">Airline :</td>
+      <td><%= select("album_playlist",
+                     "airline_id",
+                     Airline.order("code asc").collect { |p| [p.code + " - " + p.name,
+                                                              p.id] },
+                     {include_blank: true}) %>
+        <%= link_to "+",
+                    airlines_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <p>
 
-      <% if params[:action] == "new" %>
-          <%= form.submit "Next" %>
-      <% else %>
-          <%= form.submit "Update" %>
-      <% end %>
-    </p>
+    <% if params[:action] == "new" %>
+      <%= form.submit "Next" %>
+    <% else %>
+      <%= form.submit "Update" %>
+    <% end %>
+  </p>
 <% end %>

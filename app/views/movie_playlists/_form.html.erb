@@ -1,79 +1,79 @@
-<%= form_for @movie_playlist, html: { multipart: true } do |form| %>
+<%= form_for @movie_playlist, html: {multipart: true} do |form| %>
 
-    <%= error_messages_for(form.object) %>
+  <%= error_messages_for(form.object) %>
 
-    <table class="edit">
+  <table class="edit">
+    <tr>
+      <td class="pl-title">Airline :</td>
+      <td>
+        <%= select("movie_playlist",
+                   "airline_id",
+                   Airline.order("name asc")
+                   .collect { |p| [p.name + " - " + p.code,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    airlines_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+      <td class="pl-title">Start Cycle :</td>
+      <td>
+        <%= form.date_select :start_cycle,
+                             discard_day: true,
+                             order: [:month,
+                                     :year],
+                             use_month_numbers: true,
+                             start_year: Date.today.year + 2,
+                             end_year: 1900 %>
+        <strong>End Cycle:</strong>
+        <%= form.date_select :end_cycle,
+                             discard_day: true,
+                             order: [:month,
+                                     :year],
+                             use_month_numbers: true,
+                             start_year: Date.today.year + 2,
+                             end_year: 1900 %>
+      </td>
+    </tr>
+    <tr>
+      <td class="pl-title">Movie Playlist Type :</td>
+      <td>
+        <%= select("movie_playlist",
+                   "movie_playlist_type_id",
+                   MoviePlaylistType.order("name asc")
+                   .collect { |p| [p.name,
+                                   p.id] },
+                   {include_blank: true}) %>
+        <%= link_to "+",
+                    movie_playlist_types_path,
+                    id: "add",
+                    target: "_blank" %>
+      </td>
+      <td class="pl-title">Programmer :</td>
+      <td>
+        <%= @movie_playlist.user.login if @movie_playlist.user_id.present? %></td>
+    </tr>
+    <% permitted_to? :download_thales_schema_package, :movie_playlists do %>
       <tr>
-        <td class="pl-title">Airline :</td>
+        <td class="pl-title">Thales Schema Package:</td>
         <td>
-          <%= select("movie_playlist",
-                     "airline_id",
-                     Airline.order("name asc")
-                     .collect { |p| [p.name + " - " + p.code,
-                                     p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      airlines_path,
-                      id: "add",
-                      target: "_blank" %>
+          <%= form.file_field :thales_schema_package %>
         </td>
-        <td class="pl-title">Start Cycle :</td>
+        <td class="pl-title">Current Schema Package:</td>
         <td>
-          <%= form.date_select :start_cycle,
-                               discard_day: true,
-                               order: [:month,
-                                       :year],
-                               use_month_numbers: true,
-                               start_year: Date.today.year + 2,
-                               end_year: 1900 %>
-          <strong>End Cycle:</strong>
-          <%= form.date_select :end_cycle,
-                               discard_day: true,
-                               order: [:month,
-                                       :year],
-                               use_month_numbers: true,
-                               start_year: Date.today.year + 2,
-                               end_year: 1900 %>
-        </td>
+          <%= @movie_playlist.thales_schema_package_file_name.present? ?
+                  @movie_playlist.thales_schema_package_file_name : "n/a" %></td>
       </tr>
-      <tr>
-        <td class="pl-title">Movie Playlist Type :</td>
-        <td>
-          <%= select("movie_playlist",
-                     "movie_playlist_type_id",
-                     MoviePlaylistType.order("name asc")
-                                      .collect { |p| [p.name,
-                                                      p.id] },
-                     {include_blank: true}) %>
-          <%= link_to "+",
-                      movie_playlist_types_path,
-                      id: "add",
-                      target: "_blank" %>
-        </td>
-        <td class="pl-title">Programmer :</td>
-        <td>
-          <%= @movie_playlist.user.login if @movie_playlist.user_id.present? %></td>
-      </tr>
-      <% permitted_to? :download_thales_schema_package, :movie_playlists do %>
-          <tr>
-            <td class="pl-title">Thales Schema Package:</td>
-            <td>
-              <%= form.file_field :thales_schema_package %>
-            </td>
-            <td class="pl-title">Current Schema Package:</td>
-            <td>
-              <%= @movie_playlist.thales_schema_package_file_name.present? ?
-                          @movie_playlist.thales_schema_package_file_name : "n/a" %></td>
-          </tr>
-      <% end %>
-    </table>
+    <% end %>
+  </table>
 
-    <p>
-      <% if params[:action] == "new" %>
-          <%= form.submit "Next" %>
-      <% else %>
-          <%= form.submit "Update" %>
-      <% end %>
-    </p>
+  <p>
+    <% if params[:action] == "new" %>
+      <%= form.submit "Next" %>
+    <% else %>
+      <%= form.submit "Update" %>
+    <% end %>
+  </p>
 
 <% end %>

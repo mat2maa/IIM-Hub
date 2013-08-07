@@ -1,14 +1,14 @@
 <tr id="video-<%= video.id %>">
-  <td><%= link_to video.id,
+  <td data-title="ID"><%= link_to video.id,
                   video_path(id: video.id),
                   target: "_blank" %></td>
-  <td><%= video.programme_title %></td>
-  <td><%= video.video_distributor.company_name if !video.video_distributor.nil? %>&nbsp;</td>
-  <td><%= video.video_type %></td>
-  <td><%= video.commercial_run_time.minutes if !video.commercial_run_time.nil? %>&nbsp;</td>
-  <td><%= video.video_genres.collect { |r| r.name }.to_sentence %>&nbsp;</td>
-  <td><%= video.screeners_count > 0 ? 'Yes' : 'No' %></td>
-  <td><%= video.masters_count > 0 ? 'Yes' : 'No' %></td>
+  <td data-title="Programme Title"><%= video.programme_title %></td>
+  <td data-title="Company Name"><%= video.video_distributor.company_name if !video.video_distributor.nil? %>&nbsp;</td>
+  <td data-title="Video Type"><%= video.video_type %></td>
+  <td data-title="Commercial Runtime"><%= video.commercial_run_time.minutes if !video.commercial_run_time.nil? %>&nbsp;</td>
+  <td data-title="Genres"><%= video.video_genres.collect { |r| r.name }.to_sentence %>&nbsp;</td>
+  <td data-title="Screeners Held"><%= video.screeners_count > 0 ? 'Yes' : 'No' %></td>
+  <td data-title="Masters Held"><%= video.masters_count > 0 ? 'Yes' : 'No' %></td>
   <% if (params[:playlist_id] || params["action"]=="add_video_to_playlist") %>
     <td>
       <% if !video.to_delete %>
@@ -24,11 +24,11 @@
       <% end %>
     </td>
   <% else %>
-    <td>
+    <td data-title="Actions">
       <%= link_to 'Edit',
-                    edit_video_path(video),
-                    target: "_blank",
-                    class: 'btn btn-mini' %>
+                  edit_video_path(video),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
       <% if !video.to_delete %>
         <%= link_to 'Delete',
                     video_url(video),

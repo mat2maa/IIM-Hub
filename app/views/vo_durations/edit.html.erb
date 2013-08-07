@@ -4,21 +4,21 @@
     <h1>Edit vo_duration</h1>
 
     <%= form_for(@vo_duration) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          <%= f.label :duration %><br/>
-          <%= f.text_field :duration %>
-        </p>
+      <p>
+        <%= f.label :duration %><br/>
+        <%= f.text_field :duration %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

@@ -1,7 +1,7 @@
 <script>
-    jQuery(document).ready(function () {
-        window.print();
-    });
+  jQuery(document).ready(function () {
+    window.print();
+  });
 </script>
 <%= render partial: 'layouts/videoplaylist_header' %>
 <center><p style="color: green"><%= flash[:notice] %></p></center>
@@ -44,7 +44,7 @@
     <div id="playlist_item_view_container">
       <%= render partial: 'playlist_item_view',
                  collection: @video_playlist.video_playlist_items_sorted,
-                 locals: {language: 'english' } %>
+                 locals: {language: 'english'} %>
     </div>
 
     <%= link_to 'Back',
@@ -55,40 +55,40 @@
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function() {
+  $(document).ready(function () {
 
-        var playlist,
-            pdfLink;
+    var playlist,
+        pdfLink;
 
-        $('#chinese_checkbox').on("change", function() {
-            if($(this).is(':checked')) {
-                playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
+    $('#chinese_checkbox').on("change", function () {
+      if ($(this).is(':checked')) {
+        playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                           collection: @video_playlist.video_playlist_items_sorted,
                                                           locals: {language: 'chinese' }) %> ";
-                pdfLink = " <%= escape_javascript(link_to "Download Chinese PDF",
+        pdfLink = " <%= escape_javascript(link_to "Download Chinese PDF",
                                                           {controller: "video_playlists",
                                                            action: "show_chinese",
                                                            id: @video_playlist,
                                                            format: "pdf"},
                                                           target: "_blank") %> ";
-            } else {
-                playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
+      } else {
+        playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                           collection: @video_playlist.video_playlist_items_sorted,
                                                           locals: {language: 'english' }) %> ";
-                pdfLink = " <%= escape_javascript(link_to "Download English PDF",
+        pdfLink = " <%= escape_javascript(link_to "Download English PDF",
                                                           {controller: "video_playlists",
                                                            action: "show",
                                                            id: @video_playlist,
                                                            format: "pdf"},
                                                           target: "_blank") %> ";
-            }
+      }
 
-            $("#playlist_item_view_container").html(playlist);
-            $("#download_pdf_link").html(pdfLink);
-        });
-
+      $("#playlist_item_view_container").html(playlist);
+      $("#download_pdf_link").html(pdfLink);
     });
+
+  });
 
 </script>

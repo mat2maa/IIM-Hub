@@ -1,15 +1,15 @@
 <%= form_for @video_parent_genre,
              remote: true,
              html: {id: "video_parent_genre_form"} do |f| %>
-    <table>
-      <tr>
-        <td>Video Parent Genre Name</td>
-        <td>
-          <%= f.text_field :name %>
-        </td>
-        <td colspan="2">
-          <%= f.submit "Add New Video Parent Genre" %>
-        </td>
-      </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Video Parent Genre Name</td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+      <td colspan="2">
+        <%= f.submit "Add New Video Parent Genre" %>
+      </td>
+    </tr>
+  </table>
 <% end %>

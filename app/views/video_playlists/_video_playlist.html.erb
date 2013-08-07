@@ -1,12 +1,12 @@
 <tr id="video_playlist-<%= video_playlist.id %>">
-  <td><%= link_to video_playlist.id,
+  <td data-title="ID"><%= link_to video_playlist.id,
                   video_playlist_path(id: video_playlist.id),
                   target: "_blank" %></td>
-  <td><%= video_playlist.airline.name if !video_playlist.airline_id.nil? %>&nbsp;</td>
-  <td><%= video_playlist.start_cycle.strftime("%m-%Y") if !video_playlist.start_cycle.nil? %>&nbsp;</td>
-  <td><%= video_playlist.end_cycle.strftime("%m-%Y") if !video_playlist.end_cycle.nil? %>&nbsp;</td>
-  <td><%= video_playlist.video_playlist_type.name if !video_playlist.video_playlist_type.nil? %>&nbsp;</td>
-  <td>
+  <td data-title="Airline"><%= video_playlist.airline.name if !video_playlist.airline_id.nil? %>&nbsp;</td>
+  <td data-title="Start Date"><%= video_playlist.start_cycle.strftime("%m-%Y") if !video_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td data-title="End Date"><%= video_playlist.end_cycle.strftime("%m-%Y") if !video_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td data-title="Video Playlist Type"><%= video_playlist.video_playlist_type.name if !video_playlist.video_playlist_type.nil? %>&nbsp;</td>
+  <td data-title="Actions">
     <% if video_playlist.locked!=true %>
       <%= link_to 'Edit',
                   edit_video_playlist_path(video_playlist),

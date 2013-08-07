@@ -1,0 +1,47 @@
+<tr id="screener_playlist-<%= screener_playlist.id %>">
+  <td data-title="ID"><%= link_to screener_playlist.id,
+                                  screener_playlist_path(id: screener_playlist.id),
+                                  target: "_blank" %></td>
+  <td data-title="Airline"><%= screener_playlist.airline.name if !screener_playlist.airline_id.nil? %>&nbsp;</td>
+  <td data-title="Start Date"><%= screener_playlist.start_cycle.strftime("%m-%Y") if !screener_playlist.start_cycle.nil? %>&nbsp;</td>
+  <td data-title="End Date"><%= screener_playlist.end_cycle.strftime("%m-%Y") if !screener_playlist.end_cycle.nil? %>&nbsp;</td>
+  <td data-title="Video Playlist Type"><%= screener_playlist.video_playlist_type.name if !screener_playlist.video_playlist_type.nil? %>&nbsp;</td>
+  <td data-title="Actions">
+    <% if screener_playlist.locked!=true %>
+      <%= link_to 'Edit',
+                  edit_screener_playlist_path(screener_playlist),
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :delete,
+                        :screener_playlists %>
+      <% if screener_playlist.locked!=true %>
+        <%= link_to 'Delete',
+                    screener_playlist_url(screener_playlist),
+                    remote: true,
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    class: 'spinner-trigger btn btn-mini' %>
+      <% end %>
+      <%= link_to 'Duplicate',
+                  duplicate_screener_playlist_path(screener_playlist),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini' %>
+    <% end %>
+    <% if permitted_to? :lock,
+                        :video_playlists %>
+      <% if screener_playlist.locked!=true %>
+        <%= link_to 'Lock',
+                    lock_screener_playlist_path(screener_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% else %>
+        <%= link_to 'Unlock',
+                    unlock_screener_playlist_path(screener_playlist),
+                    method: :post,
+                    class: 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

@@ -1,7 +1,7 @@
 <table width="100%">
   <tbody id="videoplaylist" class="sort-list" data-url="<%= sort_screener_playlist_path %>" style="cursor: move">
-    <% @screener_playlist.screener_playlist_items_sorted.each.with_index do |item, index| %>
-      <%= render partial: 'screener_playlist_item', object: item, locals: { position: index + 1} %>
-    <% end %>
+  <% @screener_playlist.screener_playlist_items_sorted.each.with_index do |item, index| %>
+    <%= render partial: 'screener_playlist_item', object: item, locals: {position: index + 1} %>
+  <% end %>
   </tbody>
 </table>

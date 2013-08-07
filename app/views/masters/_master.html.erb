@@ -1,19 +1,20 @@
 <tr id="master-<%= master.id %>">
-  <td><%= master.id %></td>
-  <td><%= master.video.programme_title %></td>
-  <td><%= master.episode_title %></td>
-  <td><%= master.episode_number %></td>
-  <td><%= master.location %></td>
-  <td><%= link_to 'Edit',
+  <td data-title="ID"><%= master.id %></td>
+  <td data-title="Programme Title"><%= master.video.programme_title %>&nbsp;</td>
+  <td data-title="Episode Title"><%= master.episode_title %>&nbsp;</td>
+  <td data-title="Episode Number"><%= master.episode_number %>&nbsp;</td>
+  <td data-title="Location"><%= master.location %>&nbsp;</td>
+  <td data-title="Actions">
+    <%= link_to 'Edit',
                   edit_master_path(master),
-                  target: "_blank" %></td>
-  <td>
+                  target: "_blank",
+                  class: 'btn btn-mini' %>
     <%= link_to 'Delete',
                 master_url(master),
                 remote: true,
                 target: "_blank",
                 method: :delete,
                 confirm: 'Are you sure?',
-                class: 'spinner-trigger' %>
+                class: 'spinner-trigger btn btn-mini' %>
   </td>
 </tr>

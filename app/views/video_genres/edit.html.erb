@@ -4,24 +4,24 @@
     <h1>Edit Video Genre</h1>
 
     <%= form_for(@video_genre) do |f| %>
-        <%= error_messages_for(f.object) %>
+      <%= error_messages_for(f.object) %>
 
-        <p>
-          <%= f.label :name %><br/>
-          <%= f.text_field :name %>
-        </p>
+      <p>
+        <%= f.label :name %><br/>
+        <%= f.text_field :name %>
+      </p>
 
-        <p>
-          Parent Category<br/>
-          <%= select('video_genre',
-                     'video_parent_genre_id',
-                     VideoParentGenre.all.collect { |p| [p.name,
-                                                         p.id] }) %>
-        </p>
+      <p>
+        Parent Category<br/>
+        <%= select('video_genre',
+                   'video_parent_genre_id',
+                   VideoParentGenre.all.collect { |p| [p.name,
+                                                       p.id] }) %>
+      </p>
 
-        <p>
-          <%= f.submit "Update" %>
-        </p>
+      <p>
+        <%= f.submit "Update" %>
+      </p>
     <% end %>
 
     <%= link_to 'Back',

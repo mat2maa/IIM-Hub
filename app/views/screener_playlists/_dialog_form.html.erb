@@ -1,35 +1,35 @@
 <center>
-    <strong>Add Screener to Playlist</strong><br/>
+  <strong>Add Screener to Playlist</strong><br/>
 
-    <div id="search_form">
-      <%= render partial: 'screener_search_form',
-                 object: @search %>
-    </div>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
+  <div id="search_form">
+    <%= render partial: 'screener_search_form',
+               object: @search %>
+  </div>
+  <%= image_tag 'spinner.gif',
+                id: 'spinner',
+                class: 'transparent' %>
 
-    <div id="item_added"></div>
+  <div id="item_added"></div>
 
-    <div id="screeners">
-      <%= render partial: "screeners" %>
-    </div>
+  <div id="screeners">
+    <%= render partial: "screeners" %>
+  </div>
 </center>
 
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $("#screener_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/screeners',
-                type: 'get',
-                success: function() {
-                    var screeners = " <%= escape_javascript(render("screeners")) %> ";
-                    $("#screeners").html(screeners);
-                }
-            });
-        });
+  $(function () {
+    $("#screener_search_form").submit(function (form) {
+      form.preventDefault();
+      $.ajax({ url: '/screeners',
+        type: 'get',
+        success: function () {
+          var screeners = " <%= escape_javascript(render("screeners")) %> ";
+          $("#screeners").html(screeners);
+        }
+      });
     });
+  });
 </script>

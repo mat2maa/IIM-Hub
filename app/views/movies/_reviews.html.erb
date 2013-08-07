@@ -1,50 +1,50 @@
 <% if @movies_count > 0 %>
-    <%= @movies_count %> movies found
-    <table cellspacing="0" width="100%">
-      <thead>
-      <tr>
-        <th>&nbsp;</th>
-        <th>Title (Year)</th>
-        <th>Cast</th>
-        <th>&nbsp;</th>
+  <%= @movies_count %> movies found
+  <table cellspacing="0" width="100%">
+    <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Title (Year)</th>
+      <th>Cast</th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <% @movies.each do |movie| %>
+      <tbody>
+      <tr class="playlist-entry">
+        <td><a href="#" id="add" class="expand-link" data-link="<%= movie.id %>">+</a></td>
+        <td><%= movie %> (<%= movie.year %>)</td>
+        <td colspan="2">
+          <%= movie.cast.actors.collect { |r| r.name }.to_sentence %>
+        </td>
       </tr>
-      </thead>
-      <% @movies.each do |movie| %>
-          <tbody>
-              <tr class="playlist-entry">
-                <td><a href="#" id="add" class="expand-link" data-link="<%=	movie.id %>">+</a></td>
-                <td><%= movie %> (<%= movie.year %>)</td>
-                <td colspan="2">
-                  <%= movie.cast.actors.collect { |r| r.name }.to_sentence %>
+      <tr class="playlist-entry expandable-row" data-link="<%= movie.id %>" style="display: none;">
+        <td colspan="4">
+          <table>
+            <tbody>
+            <% movie.reviews.each.with_index do |review, index| %>
+              <tr>
+                <td class="choice-content" data-review="<%= index %>">
+                  <%= review.quote.to_s.squish if !review.quote.blank? %>
+                </td>
+                <td>
+                  <%= review.critic if !review.quote.blank? %>
+                </td>
+                <td>
+                  <%= review.publication if !review.quote.blank? %>
+                </td>
+                <td>
+                  <a href="#" class="choice-link" data-review="<%= index %>">choose review</a>
                 </td>
               </tr>
-              <tr class="playlist-entry expandable-row" data-link="<%= movie.id %>" style="display: none;">
-                <td colspan="4">
-                  <table>
-                    <tbody>
-                        <% movie.reviews.each.with_index do |review, index| %>
-                          <tr>
-                            <td class="choice-content" data-review="<%= index %>">
-                              <%= review.quote.to_s.squish if !review.quote.blank? %>
-                            </td>
-                            <td>
-                              <%= review.critic if !review.quote.blank? %>
-                            </td>
-                            <td>
-                              <%= review.publication if !review.quote.blank? %>
-                            </td>
-                            <td>
-                              <a href="#" class="choice-link" data-review="<%= index %>">choose review</a>
-                            </td>
-                          </tr>
-                        <% end %>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-          </tbody>
-      <% end %>
-    </table>
+            <% end %>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    <% end %>
+  </table>
 <% else %>
-    No movies were found
+  No movies were found
 <% end %>

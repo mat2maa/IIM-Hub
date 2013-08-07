@@ -1,7 +1,7 @@
 <script>
-    jQuery(document).ready(function () {
-        window.print();
-    });
+  jQuery(document).ready(function () {
+    window.print();
+  });
 </script>
 <%= render partial: 'layouts/movieplaylist_header' %>
 <center><p style="color: green"><%= flash[:notice] %></p></center>
@@ -36,7 +36,7 @@
 
     <% if @movie_playlist.thales_schema_package_file_name.present? then %>
 
-        |
+      |
 
         <span id="download_thales_schema_package_link">
           <%= link_to "Download Thales Schema Package",
@@ -56,7 +56,7 @@
     <div id="playlist_item_view_container">
       <%= render partial: 'playlist_item_view',
                  collection: @movie_playlist.movie_playlist_items_sorted,
-                 locals: {language: 'english' } %>
+                 locals: {language: 'english'} %>
     </div>
 
     <%= link_to 'Back',
@@ -68,14 +68,14 @@
 <script>
 
   var $ = jQuery;
-    
-  $(document).ready(function() {
+
+  $(document).ready(function () {
 
     var playlist,
         pdfLink;
-    
-    $('#chinese_checkbox').on("change", function() {
-      if($(this).is(':checked')) {
+
+    $('#chinese_checkbox').on("change", function () {
+      if ($(this).is(':checked')) {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                   collection: @movie_playlist.movie_playlist_items_sorted,
                                                   locals: {language: 'chinese' }) %> ";
@@ -100,7 +100,7 @@
       $("#playlist_item_view_container").html(playlist);
       $("#download_pdf_link").html(pdfLink);
     });
-    
+
   });
-    
+
 </script>

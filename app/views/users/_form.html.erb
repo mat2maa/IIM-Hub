@@ -1,29 +1,29 @@
 <%= form_for @user do |f| %>
 
-    <%= error_messages_for f.object %>
+  <%= error_messages_for f.object %>
 
-    <%= f.label :login %><br />
-    <%= f.text_field :login %><br />
-    <br/>
-    <%= f.label :email %><br />
-    <%= f.text_field :email %><br />
-    <br/>
-    <%= f.label :password %><br />
-    <%= f.password_field :password %><br />
-    <br/>
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %><br />
-    <br/>
-    <% for role in Role.all %>
-        <div>
-          <%= check_box_tag "user[roles][]",
-                            role.name,
-                            @user.roles.include?(role.name.to_sym) %>
-          <%= role.name %>
-        </div>
-    <% end %>
-    <br/>
+  <%= f.label :login %><br />
+  <%= f.text_field :login %><br />
+  <br/>
+  <%= f.label :email %><br />
+  <%= f.text_field :email %><br />
+  <br/>
+  <%= f.label :password %><br />
+  <%= f.password_field :password %><br />
+  <br/>
+  <%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %><br />
+  <br/>
+  <% for role in Role.all %>
+    <div>
+      <%= check_box_tag "user[roles][]",
+                        role.name,
+                        @user.roles.include?(role.name.to_sym) %>
+      <%= role.name %>
+    </div>
+  <% end %>
+  <br/>
 
-    <%= f.submit "Save" %>
+  <%= f.submit "Save" %>
 
 <% end %>

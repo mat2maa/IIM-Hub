@@ -1,7 +1,7 @@
 <table width="100%">
   <tbody id="videoplaylist" class="sort-list" data-url="<%= sort_video_master_playlist_path %>" style="cursor: move">
-    <% @video_master_playlist.video_master_playlist_items_sorted.each.with_index do |item, index| %>
-      <%= render partial: 'video_master_playlist_item', object: item, locals: { position: index + 1} %>
-    <% end %>
+  <% @video_master_playlist.video_master_playlist_items_sorted.each.with_index do |item, index| %>
+    <%= render partial: 'video_master_playlist_item', object: item, locals: {position: index + 1} %>
+  <% end %>
   </tbody>
 </table>

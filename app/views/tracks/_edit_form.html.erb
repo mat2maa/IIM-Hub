@@ -1,135 +1,135 @@
 <%= form_for (@track) do |form| %>
 
-    <table class="edit">
-      <tr>
-        <th>Track Title (Original)</th>
-        <td><%= form.text_field :title_original %></td>
-        <th>Track Num</th>
-        <td><%= @track.track_num if !@track.track_num.nil? %></td>
-      </tr>
-      <tr>
-        <th>Track Title (Translated)</th>
-        <td><%= form.text_field :title_english %></td>
-        <th>Tempo</th>
-        <td><%= select("track",
-                       "tempo",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <th>Artist (Original)</th>
-        <td><%= form.text_field :artist_original %></td>
-        <th>Intro Tempo</th>
-        <td><%= select("track",
-                       "tempo_intro",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <th>Artist (Translated)</th>
-        <td><%= form.text_field :artist_english %></td>
-        <th>Outro Tempo</th>
-        <td><%= select("track",
-                       "tempo_outro",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <th>Composer</th>
-        <td><%= form.text_field :composer %></td>
-        <th>Gender</th>
-        <td><%= select("track",
-                       "gender",
-                       gender,
-                       {include_blank: true}) %></td>
-      </tr>
-      <tr>
-        <th>Distributor</th>
-        <td><%= form.text_field :distributor %></td>
-        <th>Language</th>
-        <td><%= select("track",
-                       "language_id",
-                       Language.order("name asc")
-                       .collect { |p| [p.name,
-                                       p.id] },
-                       {include_blank: true}) %>
-          <%= link_to "+",
-                      languages_path,
-                      id: 'add',
-                      target: "_blank" %></td>
-      </tr>
-      <tr>
-        <th>Album</th>
-        <td><%= link_to @track.album.title_original,
-                        edit_album_path(@track.album) %></td>
-        <th>Origin</th>
-        <td><%= select("track",
-                       "origin_id",
-                       Origin.order("name asc")
-                       .collect { |p| [p.name,
-                                       p.id] },
-                       {include_blank: true}) %>
-          <%= link_to "+",
-                      origins_path,
-                      id: 'add',
-                      target: "_blank" %></td>
-      </tr>
-      <tr>
-        <th>Publisher</th>
-        <td><%= @track.album.publisher.name if !@track.album.publisher.nil? %></td>
-        <th>Duration</th>
-        <td><%= text_field_tag :dur_min,
-                               duration_min(@track.duration),
-                               size: 3 %> : <%= text_field_tag :dur_sec,
-                                                               duration_sec(@track.duration),
-                                                               size: 3 %></td>
-      </tr>
-      <tr>
-        <th>Label</th>
-        <td><%= @track.album.label.name if !@track.album.label.nil? %></td>
-        <th>Explicit Lyrics</th>
-        <td><%= check_box("track",
-                          "explicit_lyrics") %></td>
-      </tr>
-      <tr>
-        <th>Release Year</th>
-        <td><%= @track.album.release_year %></td>
-        <th>CD Code</th>
-        <td><%= @track.album.cd_code %></td>
-      </tr>
-    </table>
-    <%= hidden_field_tag 'track[album_id]',
-                         @track.album_id %>
+  <table class="edit">
+    <tr>
+      <th>Track Title (Original)</th>
+      <td><%= form.text_field :title_original %></td>
+      <th>Track Num</th>
+      <td><%= @track.track_num if !@track.track_num.nil? %></td>
+    </tr>
+    <tr>
+      <th>Track Title (Translated)</th>
+      <td><%= form.text_field :title_english %></td>
+      <th>Tempo</th>
+      <td><%= select("track",
+                     "tempo",
+                     Tempo.all.collect { |p| [p.name,
+                                              p.name] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <th>Artist (Original)</th>
+      <td><%= form.text_field :artist_original %></td>
+      <th>Intro Tempo</th>
+      <td><%= select("track",
+                     "tempo_intro",
+                     Tempo.all.collect { |p| [p.name,
+                                              p.name] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <th>Artist (Translated)</th>
+      <td><%= form.text_field :artist_english %></td>
+      <th>Outro Tempo</th>
+      <td><%= select("track",
+                     "tempo_outro",
+                     Tempo.all.collect { |p| [p.name,
+                                              p.name] },
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <th>Composer</th>
+      <td><%= form.text_field :composer %></td>
+      <th>Gender</th>
+      <td><%= select("track",
+                     "gender",
+                     gender,
+                     {include_blank: true}) %></td>
+    </tr>
+    <tr>
+      <th>Distributor</th>
+      <td><%= form.text_field :distributor %></td>
+      <th>Language</th>
+      <td><%= select("track",
+                     "language_id",
+                     Language.order("name asc")
+                     .collect { |p| [p.name,
+                                     p.id] },
+                     {include_blank: true}) %>
+        <%= link_to "+",
+                    languages_path,
+                    id: 'add',
+                    target: "_blank" %></td>
+    </tr>
+    <tr>
+      <th>Album</th>
+      <td><%= link_to @track.album.title_original,
+                      edit_album_path(@track.album) %></td>
+      <th>Origin</th>
+      <td><%= select("track",
+                     "origin_id",
+                     Origin.order("name asc")
+                     .collect { |p| [p.name,
+                                     p.id] },
+                     {include_blank: true}) %>
+        <%= link_to "+",
+                    origins_path,
+                    id: 'add',
+                    target: "_blank" %></td>
+    </tr>
+    <tr>
+      <th>Publisher</th>
+      <td><%= @track.album.publisher.name if !@track.album.publisher.nil? %></td>
+      <th>Duration</th>
+      <td><%= text_field_tag :dur_min,
+                             duration_min(@track.duration),
+                             size: 3 %> : <%= text_field_tag :dur_sec,
+                                                             duration_sec(@track.duration),
+                                                             size: 3 %></td>
+    </tr>
+    <tr>
+      <th>Label</th>
+      <td><%= @track.album.label.name if !@track.album.label.nil? %></td>
+      <th>Explicit Lyrics</th>
+      <td><%= check_box("track",
+                        "explicit_lyrics") %></td>
+    </tr>
+    <tr>
+      <th>Release Year</th>
+      <td><%= @track.album.release_year %></td>
+      <th>CD Code</th>
+      <td><%= @track.album.cd_code %></td>
+    </tr>
+  </table>
+  <%= hidden_field_tag 'track[album_id]',
+                       @track.album_id %>
 
 
 
 
-    <br/>
-    <%= submit_tag "Save",
-                   class: "submit" %>
+  <br/>
+  <%= submit_tag "Save",
+                 class: "submit" %>
 
-    <div class="nav-tab">
-      <%= link_to "Genre",
-                  remote: true,
-                  action: "show_genre",
-                  id: @track.id %>
-      <%= link_to "Lyrics",
-                  remote: true,
-                  action: "show_lyrics_form",
-                  id: @track.id %>
-      <%= link_to "Playlists",
-                  remote: true,
-                  action: "show_playlists",
-                  id: @track.id %>
+  <div class="nav-tab">
+    <%= link_to "Genre",
+                remote: true,
+                action: "show_genre",
+                id: @track.id %>
+    <%= link_to "Lyrics",
+                remote: true,
+                action: "show_lyrics_form",
+                id: @track.id %>
+    <%= link_to "Playlists",
+                remote: true,
+                action: "show_playlists",
+                id: @track.id %>
 
-    </div>
-    <div id="tab-area">
-      <%= render partial: 'genre',
-                 locals: {track: 'track',
-                          genres: 'genres'} %>
-    </div>
+  </div>
+  <div id="tab-area">
+    <%= render partial: 'genre',
+               locals: {track: 'track',
+                        genres: 'genres'} %>
+  </div>
 <% end %>
 

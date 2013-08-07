@@ -9,12 +9,12 @@
     <div id="search_form">
       <% remote_form_for :screener_playlists,
                          class: 'spinner-trigger' do |f| %>
-          <%= hidden_field_tag 'id',
-                               params[:id] %>
-          <%= hidden_field_tag 'playlist_id',
-                               params[:id] %>
-          <%= render partial: 'screener_search_form',
-                     locals: {f: f} %>
+        <%= hidden_field_tag 'id',
+                             params[:id] %>
+        <%= hidden_field_tag 'playlist_id',
+                             params[:id] %>
+        <%= render partial: 'screener_search_form',
+                   locals: {f: f} %>
       <% end %>
     </div>
     <%= image_tag 'spinner.gif',

@@ -1,14 +1,14 @@
 <% content_for(:head) do %>
-    <meta name="pdfkit-orientation" content="Landscape"/>
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('#print_playlist').click(function (event) {
-                if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
+  <meta name="pdfkit-orientation" content="Landscape"/>
+  <script>
+    jQuery(document).ready(function () {
+      jQuery('#print_playlist').click(function (event) {
+        if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 <% end %>
 
 <%= render partial: 'layouts/videomasterplaylist_header' %>
@@ -50,8 +50,9 @@
   <center>
     <h2>Edit Video Master Playlist</h2>
     <br/>
+
     <div class="action-button">
-        <%= link_to "Add Master", add_video_master_to_playlist_path(id: @video_master_playlist.id), id: "add_video_master_to_playlist" %>
+      <%= link_to "Add Master", add_video_master_to_playlist_path(id: @video_master_playlist.id), id: "add_video_master_to_playlist" %>
     </div>
     <br/>
     <%= render 'form' %>
@@ -76,25 +77,25 @@
 
 
 <script type="text/javascript">
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $(document).on("click", "#add_video_master_to_playlist", function (track) {
-            track.preventDefault();
-            $('#add_master_dialog').dialog({
-                title: 'Add Master',
-                modal: true,
-                width: 740,
-                height: 540,
-                position: ['center', 100],
-                close: function (track, ui) {
-                    $('#add_master_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/add_video_master_to_playlist/<%= @video_master_playlist.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+  $(function () {
+    $(document).on("click", "#add_video_master_to_playlist", function (track) {
+      track.preventDefault();
+      $('#add_master_dialog').dialog({
+        title: 'Add Master',
+        modal: true,
+        width: 740,
+        height: 540,
+        position: ['center', 100],
+        close: function (track, ui) {
+          $('#add_master_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/add_video_master_to_playlist/<%= @video_master_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
+  });
 </script>

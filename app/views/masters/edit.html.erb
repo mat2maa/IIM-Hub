@@ -13,10 +13,10 @@
                 edit_master_path(@next_id) if !@next_id.nil? %> ]
     <% if permitted_to? :admin_delete,
                         :masters %>
-        <%= link_to 'Delete',
-                    master_url(@master),
-                    method: :delete,
-                    confirm: 'Are you sure?' %>
+      <%= link_to 'Delete',
+                  master_url(@master),
+                  method: :delete,
+                  confirm: 'Are you sure?' %>
     <% end %>
 
   </div>

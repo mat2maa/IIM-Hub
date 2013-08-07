@@ -5,10 +5,10 @@
 <ul class="checkbox-list">
   <% @track_genres = @track.genres %>
   <% @genres.each do |genre| -%>
-      <li><%= check_box_tag "track[genre_ids][]",
-                            genre.id,
-                            track_has_genre?(@track_genres,
-                                             genre.id) -%> <%= genre.name -%></li>
+    <li><%= check_box_tag "track[genre_ids][]",
+                          genre.id,
+                          track_has_genre?(@track_genres,
+                                           genre.id) -%> <%= genre.name -%></li>
 
   <% end -%>
 </ul>

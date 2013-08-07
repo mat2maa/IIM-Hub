@@ -1,7 +1,7 @@
 <table width="100%">
   <tbody id="albumplaylist" class="sort-list" data-url="<%= sort_album_playlist_path %>" style="cursor: move">
-    <% @album_playlist.album_playlist_items_sorted.each.with_index do |item, index| %>
-      <%= render partial: 'playlist_item', object: item, locals: { position: index + 1} %>
-    <% end %>
+  <% @album_playlist.album_playlist_items_sorted.each.with_index do |item, index| %>
+    <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
+  <% end %>
   </tbody>
 </table>

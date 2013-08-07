@@ -1,40 +1,40 @@
 <%= form_for @role,
              url: {action: "create"} do |form| %>
-    <%= error_messages_for form.object %>
-    <%= form.label :name %><br />
-    <%= form.text_field :name %><br />
-    Rights
-    <input type="checkbox" id="selectAll" value="selectAll"> Select / Deselect All<br/><br/>
-    <% for right in Right.all %>
-        <div>
-          <%= check_box_tag "role[right_ids][]",
-                            right.id,
-                            @role.rights.include?(right) %>
-          <%= right.name %>
-        </div>
-    <% end %>
-    <br/>
-    <%= form.submit "Register" %>
+  <%= error_messages_for form.object %>
+  <%= form.label :name %><br />
+  <%= form.text_field :name %><br />
+  Rights
+  <input type="checkbox" id="selectAll" value="selectAll"> Select / Deselect All<br/><br/>
+  <% for right in Right.all %>
+    <div>
+      <%= check_box_tag "role[right_ids][]",
+                        right.id,
+                        @role.rights.include?(right) %>
+      <%= right.name %>
+    </div>
+  <% end %>
+  <br/>
+  <%= form.submit "Register" %>
 <% end %>
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $('#selectAll').click(function () {
-            if (this.checked) {
-                $(':checkbox').each(function () {
-                    this.checked = true;
-                });
-            } else {
-                $(':checkbox').each(function () {
-                    this.checked = false;
-                });
-            }
+    $('#selectAll').click(function () {
+      if (this.checked) {
+        $(':checkbox').each(function () {
+          this.checked = true;
         });
-
+      } else {
+        $(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
     });
+
+  });
 
 </script>

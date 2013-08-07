@@ -5,32 +5,32 @@
                       class: 'spinner-trigger' do |suppliers| %>
 
 
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <br/>
+    <%= image_tag 'spinner.gif',
+                  id: 'spinner',
+                  class: 'transparent' %>
+    <br/>
 
-      <table>
-        <tr>
-          <td valign="top">
-            Company Name:<br/>
-            <%= suppliers.text_field :company_name_cont %>
-            <br/>
-          </td>
-          <td valign="top">
-            Categories:<br/>
+    <table>
+      <tr>
+        <td valign="top">
+          Company Name:<br/>
+          <%= suppliers.text_field :company_name_cont %>
+          <br/>
+        </td>
+        <td valign="top">
+          Categories:<br/>
 
-            <%= suppliers.select :supplier_categories_id_eq,
-                                 SupplierCategory.all
-                                 .collect { |p| [p.name,
-                                                 p.id] },
-                                 {include_blank: true} %>
+          <%= suppliers.select :supplier_categories_id_eq,
+                               SupplierCategory.all
+                               .collect { |p| [p.name,
+                                               p.id] },
+                               {include_blank: true} %>
 
-          </td>
-        </tr>
-      </table>
+        </td>
+      </tr>
+    </table>
 
-      <%= suppliers.submit "Search" %>
+    <%= suppliers.submit "Search" %>
 
   <% end %>
 

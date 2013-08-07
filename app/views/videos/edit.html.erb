@@ -13,10 +13,10 @@
                 new_video_path %> |
     <% if permitted_to? :admin_delete,
                         :videos %>
-        <%= link_to 'Delete',
-                    video_url(@video),
-                    method: :delete,
-                    confirm: 'Are you sure?' %>
+      <%= link_to 'Delete',
+                  video_url(@video),
+                  method: :delete,
+                  confirm: 'Are you sure?' %>
     <% end %>
 
   </div>
@@ -76,120 +76,120 @@
 
 <script type="text/javascript">
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(function () {
-        $("#add_master").click(function (master) {
-            master.preventDefault();
-            $('#create_master_dialog').dialog({
-                title: 'New Master',
-                modal: true,
-                width: 1000,
-                height: 300,
-                position: ['center',
-                    100],
-                close: function (master, ui) {
-                    $('#create_master_dialog').dialog('destroy')
-                }
-            });
-            $.ajax({ url: '/masters/new/',
-                type: 'get',
-                dataType: 'script',
-                data: { id: <%= @video.id %> }
-            });
-        });
-
-        $(".edit_master").on('click',
-                function (master) {
-                    master.preventDefault();
-                    $.ajax({ url: this.href,
-                        type: 'get',
-                        dataType: 'script' });
-
-                    $('#update_master_dialog').dialog({
-                        title: 'Edit Master',
-                        modal: true,
-                        width: 1024,
-                        height: 300,
-                        position: ['center',
-                            100],
-                        close: function (master, ui) {
-                            $('#edit_master_dialog').dialog('destroy')
-                        }
-                    });
-                });
-
-        $(".delete_master").on('click',
-                function (master) {
-                    master.preventDefault();
-                    if (confirm("Are you sure?")) {
-                        $.post(this.href,
-                                {_method: 'delete',
-                                    video: true},
-                                null,
-                                "script");
-                        return false;
-                    } else {
-                        //they clicked no.
-                        return false;
-                    }
-                });
-
-        $("#add_screener").click(function (screener) {
-            $('#create_screener_dialog').dialog({
-                title: 'New Screener',
-                modal: true,
-                width: 760,
-                height: 150,
-                position: ['center',
-                    100],
-                close: function (screener, ui) {
-                    $('#create_screener_dialog').dialog('destroy')
-                }
-            });
-            screener.preventDefault();
-            $.ajax({ url: '/screeners/new',
-                type: 'get',
-                dataType: 'script',
-                data: { id: <%= @video.id %> }
-            });
-        });
-
-
-        $(".edit_screener").on('click',
-                function (screener) {
-                    screener.preventDefault();
-                    $.ajax({ url: this.href,
-                        type: 'get',
-                        dataType: 'script' });
-
-                    $('#update_screener_dialog').dialog({
-                        title: 'Edit Screener',
-                        modal: true,
-                        width: 760,
-                        height: 150,
-                        position: ['center',
-                            100],
-                        close: function (screener, ui) {
-                            $('#edit_screener_dialog').dialog('destroy')
-                        }
-                    });
-                });
-
-        $(".delete_screener").on('click',
-                function (screener) {
-                    screener.preventDefault();
-                    if (confirm("Are you sure?")) {
-                        $.post(this.href,
-                                {_method: 'delete'},
-                                null,
-                                "script");
-                        return false;
-                    } else {
-                        //they clicked no.
-                        return false;
-                    }
-                });
+  $(function () {
+    $("#add_master").click(function (master) {
+      master.preventDefault();
+      $('#create_master_dialog').dialog({
+        title: 'New Master',
+        modal: true,
+        width: 1000,
+        height: 300,
+        position: ['center',
+          100],
+        close: function (master, ui) {
+          $('#create_master_dialog').dialog('destroy')
+        }
+      });
+      $.ajax({ url: '/masters/new/',
+        type: 'get',
+        dataType: 'script',
+        data: { id: <%= @video.id %> }
+      });
     });
+
+    $(".edit_master").on('click',
+        function (master) {
+          master.preventDefault();
+          $.ajax({ url: this.href,
+            type: 'get',
+            dataType: 'script' });
+
+          $('#update_master_dialog').dialog({
+            title: 'Edit Master',
+            modal: true,
+            width: 1024,
+            height: 300,
+            position: ['center',
+              100],
+            close: function (master, ui) {
+              $('#edit_master_dialog').dialog('destroy')
+            }
+          });
+        });
+
+    $(".delete_master").on('click',
+        function (master) {
+          master.preventDefault();
+          if (confirm("Are you sure?")) {
+            $.post(this.href,
+                {_method: 'delete',
+                  video: true},
+                null,
+                "script");
+            return false;
+          } else {
+            //they clicked no.
+            return false;
+          }
+        });
+
+    $("#add_screener").click(function (screener) {
+      $('#create_screener_dialog').dialog({
+        title: 'New Screener',
+        modal: true,
+        width: 760,
+        height: 150,
+        position: ['center',
+          100],
+        close: function (screener, ui) {
+          $('#create_screener_dialog').dialog('destroy')
+        }
+      });
+      screener.preventDefault();
+      $.ajax({ url: '/screeners/new',
+        type: 'get',
+        dataType: 'script',
+        data: { id: <%= @video.id %> }
+      });
+    });
+
+
+    $(".edit_screener").on('click',
+        function (screener) {
+          screener.preventDefault();
+          $.ajax({ url: this.href,
+            type: 'get',
+            dataType: 'script' });
+
+          $('#update_screener_dialog').dialog({
+            title: 'Edit Screener',
+            modal: true,
+            width: 760,
+            height: 150,
+            position: ['center',
+              100],
+            close: function (screener, ui) {
+              $('#edit_screener_dialog').dialog('destroy')
+            }
+          });
+        });
+
+    $(".delete_screener").on('click',
+        function (screener) {
+          screener.preventDefault();
+          if (confirm("Are you sure?")) {
+            $.post(this.href,
+                {_method: 'delete'},
+                null,
+                "script");
+            return false;
+          } else {
+            //they clicked no.
+            return false;
+          }
+        });
+  });
 
 </script>
