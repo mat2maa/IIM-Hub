@@ -188,7 +188,6 @@ class Movie < ActiveRecord::Base
   #   def language_subtitle_symbols
   #     old_language_subtitles.map(&:to_sym)
   #   end
-  #   
- 
-  
+  #
+
 end
