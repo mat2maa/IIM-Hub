@@ -37,7 +37,8 @@ Iim::Application.routes.draw do
                                                                  as: :download_thales_schema_package
 
   match "/audio_playlists/print/:id" => "audio_playlists#print", as: :print_audio_playlist
-  match "/audio_playlists/export_to_excel/:id" => "audio_playlists#export_to_excel", as: :export_to_excel
+  match "/audio_playlists/export_to_excel/:id" => "find_via_json#export_to_excel", as: :export_to_excel
+  match "/audio_playlists/find_via_json/:id" => "audio_playlists#find_via_json", as: :find_via_json
 
   match "/album_playlists/print/:id" => "album_playlists#print", as: :print_album_playlist
   match "/album_playlists/export_to_excel/:id" => "album_playlists#export_to_excel", as: :export_to_excel

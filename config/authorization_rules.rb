@@ -204,7 +204,8 @@ authorization do
     has_permission_on :audio_playlists, :to => [:manage, :add_track, :add_track_to_playlist, :duplicate,
                                                 :edit_audio_playlist_mastering, :export, :export_to_excel, :find_track, :lock,
                                                 :unlock,:set_audio_playlist_track_mastering, :set_audio_playlist_track_split,
-                                                :print, :sort, :splits,:set_audio_playlist_track_vo_duration, :download_mp3]
+                                                :print, :sort, :splits,:set_audio_playlist_track_vo_duration,
+                                                :download_mp3, :find_via_json]
 
     has_permission_on :album_playlists, :to => [:manage,:print, :add_album, :add_album_to_playlist, :lock,
                                                 :unlock, :sort, :edit_synopsis, :export_to_excel, :export_albums_programmed_per_airline_to_excel,
