@@ -300,6 +300,31 @@ class AudioPlaylistsController < ApplicationController
     end
   end
 
+  #add selected movies to playlist
+  def add_multiple_tracks
+
+    @notice = ""
+    @audio_playlist = AudioPlaylist.find(params[:playlist_id])
+    track_ids = params[:track_ids]
+
+    track_ids.each do |track_id|
+      @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
+                                                         .order('position ASC')
+                                                         .find(:last)
+      @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
+      @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
+                                                     track_id: track_id,
+                                                     position: @audio_playlist_track_position)
+
+      if @audio_playlist_track.save
+        flash[:notice] = 'Tracks were successfully added to playlist.'
+        @notice = 'Tracks were successfully added to playlist.'
+        session[:audios_search] = collection_to_id_array(@audio_playlist.tracks)
+      end
+    end # loop through audio ids
+
+  end
+
   def export
     headers['Content-Type'] = "application/vnd.ms-excel"
     headers['Content-Disposition'] = 'attachment; filename="excel-export.xls"'
