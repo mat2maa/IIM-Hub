@@ -1,73 +1,90 @@
 <% if @tracks_count > 0 %>
-  <%= @tracks_count %> tracks found
+  <%= form_tag url_for(controller: "audio_playlists",
+                       action: "add_multiple_tracks"),
+               id: "multiple_tracks",
+               remote: true do %>
+    <%= hidden_field_tag 'playlist_id',
+                         params[:id] %>
+    <%= submit_tag 'Add Selected to Playlist' %><br/>
+    <%= @tracks_count %> tracks found
 
-  <table cellspacing="0" width="100%">
-    <tr>
-      <th>
-        <%= sort_link @search,
-                      :audio_playlists_id,
-                      'id',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>(track num)
-        <%= sort_link @search, :audio_playlists_title_original,
-                      'Original Title',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>
-        <%= sort_link @search, :audio_playlists_artist_original,
-                      'Original Artist',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>Label <%#= remote_order_by_link label: :name,
+    <table cellspacing="0" width="100%">
+      <tr>
+        <th width="8">
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :audio_playlists_id,
+                        'id',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>(track num)
+          <%= sort_link @search, :audio_playlists_title_original,
+                        'Original Title',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search, :audio_playlists_artist_original,
+                        'Original Artist',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>Label <%#= remote_order_by_link label: :name,
 search_obj: @search,
 params_scope: :audio_playlists  %></th>
-      <th>CD Code</th>
-      <th>
-        <%= sort_link @search, :audio_playlists_duration,
-                      'Duration',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>Explicit Lyrics</th>
-      <th>&nbsp;</th>
-    </tr>
-    <% @tracks.each do |track| %>
-
-      <% @track=track %>
-      <tr>
-        <% cache([track,
-                  track.album,
-                  "audio_playlists"]) do %>
-          <td><%= link_to track.id,
-                          track_path(id: track.id),
-                          :popup => true %></td>
-          <td>(<%= track.track_num %>)
-            <%= track.title_original %>
-            <br/><%= track.title_english %></td>
-          <td><%= track.artist_original %>
-            <br/><%= track.artist_english %></td>
-          <td><%= track.label_cached if !track.album.label_id.nil? %></td>
-          <td><%= track.album.cd_code %>&nbsp;</td>
-          <td><%= duration(track.duration) %></td>
-        <% end %>
-        <td><%= check_box(:track,
-                          :explicit_lyrics,
-                          disabled: true) %></td>
-        <td>
-          <%= link_to "add to playlist",
-                      add_track_audio_playlist_path(@audio_playlist, track_id: track.id),
-                      method: :post,
-                      remote: true,
-                      class: 'spinner-trigger' %>
-        </td>
+        <th>CD Code</th>
+        <th>
+          <%= sort_link @search, :audio_playlists_duration,
+                        'Duration',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>Explicit Lyrics</th>
+        <th>&nbsp;</th>
       </tr>
+      <% @tracks.each do |track| %>
 
-    <% end %>
-  </table>
+        <% @track=track %>
+        <tr class="playlist-entry">
+          <% cache([track,
+                    track.album,
+                    "audio_playlists"]) do %>
+            <td class="checkable">
+              <%= check_box_tag "track_ids[]",
+                                track.id %>
+            </td>
+            <td><%= link_to track.id,
+                            track_path(id: track.id),
+                            :popup => true %></td>
+            <td>(<%= track.track_num %>)
+              <%= track.title_original %>
+              <br/><%= track.title_english %></td>
+            <td><%= track.artist_original %>
+              <br/><%= track.artist_english %></td>
+            <td><%= track.label_cached if !track.album.label_id.nil? %></td>
+            <td><%= track.album.cd_code %>&nbsp;</td>
+            <td><%= duration(track.duration) %></td>
+          <% end %>
+          <td><%= check_box(:track,
+                            :explicit_lyrics,
+                            disabled: true) %></td>
+          <td>
+            <%= link_to "add to playlist",
+                        add_track_audio_playlist_path(@audio_playlist, track_id: track.id),
+                        method: :post,
+                        remote: true,
+                        class: 'spinner-trigger' %>
+          </td>
+        </tr>
+
+      <% end %>
+    </table>
+  <% end %>
   <br/>
   <br/>
   <%= will_paginate @tracks,
@@ -76,8 +93,7 @@ params_scope: :audio_playlists  %></th>
                     class: 'pagination pagination-small' %>
   <%
      def items_per_page_select(collection = Tracks)
-       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
-                  class: 'items_per_page_select_menu'
+       select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page)
      end
   %>
   <%= form_for '/tracks', method: :get, html: {class: 'items_per_page_select'}, remote: true do |f| %>
@@ -90,3 +106,25 @@ params_scope: :audio_playlists  %></th>
 <% else %>
   No tracks were returned
 <% end %>
+
+<script>
+
+  var $ = jQuery;
+
+  $(document).ready(function () {
+
+    $('#check_all').click(function () {
+      if (this.checked) {
+        $('.checkable').find(':checkbox').each(function () {
+          this.checked = true;
+        });
+      } else {
+        $('.checkable').find(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
+    });
+
+  });
+
+</script>

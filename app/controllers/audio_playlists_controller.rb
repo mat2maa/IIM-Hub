@@ -13,8 +13,13 @@ class AudioPlaylistsController < ApplicationController
 =end
   layout "layouts/application",
          except: :export_to_excel
-  before_filter :require_user
+  before_filter :require_user, except: [:find_via_json]
+  before_filter :require_http_auth_user, only: [:find_via_json]
+  protect_from_forgery except: :find_via_json
+
   filter_access_to :all
+
+  respond_to :json
 
   def index
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
@@ -35,6 +40,18 @@ class AudioPlaylistsController < ApplicationController
   def show
     @audio_playlist = AudioPlaylist.includes(tracks: :origin)
                                    .find(params[:id])
+  end
+
+  def find_via_json
+    @playlist_id = params[:id]
+    playlist = AudioPlaylist.find(@playlist_id)
+    tracks_found = playlist.audio_playlist_tracks_sorted.delete_if { |playlist_track| playlist_track.track.mp3_exists==false }
+
+    playlist_positions = tracks_found.map { |t| t.position.to_s }.flatten
+    album_ids = tracks_found.map { |t| t.track.album_id }.flatten
+    track_nums = tracks_found.map { |t| t.track.track_num }.flatten
+
+    respond_with [ playlist_positions, album_ids, track_nums ]
   end
 
   def print
@@ -281,6 +298,31 @@ class AudioPlaylistsController < ApplicationController
       format.html {}
       format.js
     end
+  end
+
+  #add selected movies to playlist
+  def add_multiple_tracks
+
+    @notice = ""
+    @audio_playlist = AudioPlaylist.find(params[:playlist_id])
+    track_ids = params[:track_ids]
+
+    track_ids.each do |track_id|
+      @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
+                                                         .order('position ASC')
+                                                         .find(:last)
+      @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
+      @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
+                                                     track_id: track_id,
+                                                     position: @audio_playlist_track_position)
+
+      if @audio_playlist_track.save
+        flash[:notice] = 'Tracks were successfully added to playlist.'
+        @notice = 'Tracks were successfully added to playlist.'
+        session[:audios_search] = collection_to_id_array(@audio_playlist.tracks)
+      end
+    end # loop through audio ids
+
   end
 
   def export

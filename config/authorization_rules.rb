@@ -39,7 +39,7 @@ authorization do
     has_permission_on :vos, :to => :manage
     has_permission_on :settings, :to => :manage
     has_permission_on :airlines, :to => :manage
-		has_permission_on :albums, :to => [:manage, :amazon_cd_covers, :show_genre, :show_synopsis, :show_tracks, :show_playlists, :show_tracks_translation, :sort, :restore, :add_track, :set_album_synopsis]
+		has_permission_on :albums, :to => [:manage, :amazon_cd_covers, :show_genre, :show_synopsis, :show_tracks, :show_playlists, :show_tracks_translation, :sort, :restore, :add_track, :set_album_synopsis, :create_from_json]
 		has_permission_on :tracks, :to => [:manage, :show_lyrics_form, :show_playlists, :show_genre, :restore]
 		has_permission_on :categories, :to => :manage
 		has_permission_on :supplier_categories, :to => :manage
@@ -82,7 +82,7 @@ authorization do
     has_permission_on :settings, :to => :manage
     has_permission_on :airlines, :to => :manage
 		has_permission_on :albums, :to => [:manage, :admin_delete, :amazon_cd_covers, :show_genre,
-		              :show_synopsis, :show_tracks, :show_playlists, :show_tracks_translation, :sort, :restore, :add_track, :set_album_synopsis]
+		              :show_synopsis, :show_tracks, :show_playlists, :show_tracks_translation, :sort, :restore, :add_track, :set_album_synopsis, :create_from_json]
 		has_permission_on :tracks, :to => [:manage, :admin_delete, :show_lyrics_form, :show_playlists, :show_genre]
 		has_permission_on :categories, :to => :manage
 		has_permission_on :supplier_categories, :to => :manage
@@ -204,7 +204,8 @@ authorization do
     has_permission_on :audio_playlists, :to => [:manage, :add_track, :add_track_to_playlist, :duplicate,
                                                 :edit_audio_playlist_mastering, :export, :export_to_excel, :find_track, :lock,
                                                 :unlock,:set_audio_playlist_track_mastering, :set_audio_playlist_track_split,
-                                                :print, :sort, :splits,:set_audio_playlist_track_vo_duration, :download_mp3]
+                                                :print, :sort, :splits,:set_audio_playlist_track_vo_duration,
+                                                :download_mp3, :find_via_json, :add_multiple_tracks]
 
     has_permission_on :album_playlists, :to => [:manage,:print, :add_album, :add_album_to_playlist, :lock,
                                                 :unlock, :sort, :edit_synopsis, :export_to_excel, :export_albums_programmed_per_airline_to_excel,
