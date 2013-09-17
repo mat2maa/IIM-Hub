@@ -15,8 +15,8 @@
                 controller: "audio_playlists",
                 action: "export_to_excel",
                 id: @audio_playlist %> |
-    <%= link_to_show_overlay 'Download Playlist MP3s',
-                             "/download_track_mp3/" + @audio_playlist.id.to_s %>
+    <%= link_to 'Download Audio Playlist',
+                download_audio_playlist_path(@audio_playlist.id) %>
   </div>
   <div id="content-header">Songs Playlists</div>
 </div>

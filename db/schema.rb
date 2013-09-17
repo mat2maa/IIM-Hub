@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621080317) do
+ActiveRecord::Schema.define(:version => 20130913102946) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -319,6 +319,8 @@ ActiveRecord::Schema.define(:version => 20130621080317) do
     t.datetime "updated_at"
   end
 
+  add_index "movie_genres_movies", ["movie_genre_id", "movie_id"], :name => "index_movie_genres_movies_on_movie_genre_id_and_movie_id"
+
   create_table "movie_playlist_items", :force => true do |t|
     t.integer  "movie_playlist_id"
     t.integer  "movie_id"
@@ -411,6 +413,7 @@ ActiveRecord::Schema.define(:version => 20130621080317) do
 
   add_index "movies", ["laboratory_id"], :name => "index_movies_on_laboratory_id"
   add_index "movies", ["movie_distributor_id"], :name => "index_movies_on_movie_distributor_id"
+  add_index "movies", ["movie_type_id"], :name => "index_movies_on_movie_type_id"
   add_index "movies", ["production_studio_id"], :name => "index_movies_on_production_studio_id"
 
   create_table "origins", :force => true do |t|

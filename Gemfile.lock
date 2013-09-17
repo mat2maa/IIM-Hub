@@ -254,7 +254,7 @@ DEPENDENCIES
   ruby-aaws
   ruby-ole
   ruby_parser
-  rubyzip
+  rubyzip (~> 0.9.9)
   sass-rails (~> 3.2.3)
   settingslogic
   spreadsheet
