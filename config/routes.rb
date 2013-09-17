@@ -24,7 +24,7 @@ Iim::Application.routes.draw do
 
   match "/add_review_to_movie/:id" => "movies#add_review_to_movie", as: :add_review_to_movie
 
-  match "/download_track_mp3/:id" => "audio_playlists#download_mp3", as: :download_tracks_mp3
+  match "/download_audio_playlist/:id" => "audio_playlists#download_audio_playlist", as: :download_audio_playlist
   match "/download_album_mp3/:id" => "album_playlists#download_mp3", as: :download_album_tracks_mp3
   match "/edit_album_playlist_synopsis/:id" => "album_playlists#edit_synopsis", as: :edit_album_playlist_synopsis
   match "/export_by_airline" => "album_playlists#export_by_airline", as: :export_by_airline
