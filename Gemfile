@@ -61,6 +61,9 @@ gem 'rubyzip',  '~> 0.9.9'
 
 gem 'asset_sync'
 
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
+
 # gem 'rotten'
 
 # To use ActiveModel has_secure_password

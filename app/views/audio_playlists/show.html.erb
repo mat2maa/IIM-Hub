@@ -14,9 +14,7 @@
     <%= link_to "Export as Excel",
                 controller: "audio_playlists",
                 action: "export_to_excel",
-                id: @audio_playlist %> |
-    <%= link_to 'Download Audio Playlist',
-                download_audio_playlist_path(@audio_playlist.id) %>
+                id: @audio_playlist %>
   </div>
   <div id="content-header">Songs Playlists</div>
 </div>
@@ -66,12 +64,26 @@
 
     <div id="playlist">
 
+      <div class="download-info">
+        <div class="progress-bar" style="width:0%;"></div>
+        <div class="message"></div>
+        <div class="progress"></div>
+        <div class="links">
+          <%= link_to 'Create Playlist Zip',
+                      download_audio_playlist_path(@audio_playlist.id),
+                      id: 'download_playlist_link' %>
+          <% if @audio_playlist.finished? %>
+            | <%= link_to "Download Playlist Zip", download_playlist_zip_path(@audio_playlist.id) %>
+          <% end %>
+        </div>
+      </div>
+
       <table width="100%">
         <tbody id="audioplaylist">
         <% @accum_duration = 0 %>
-          <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |track, index| %>
-            <%= render partial: 'playlist_track_view', object: track, locals: { position: index + 1} %>
-          <% end %>
+        <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |track, index| %>
+          <%= render partial: 'playlist_track_view', object: track, locals: {position: index + 1} %>
+        <% end %>
         </tbody>
       </table>
 
@@ -80,3 +92,36 @@
                 audio_playlists_path %>
   </center>
 </div>
+
+<script type="text/javascript">
+  var $ = jQuery,
+      DownloadPoller;
+
+  DownloadPoller = {
+    poll: function () {
+      setTimeout(this.request, 3000);
+    },
+    request: function () {
+      $.ajax({
+        url: '/poll_download_data/<%= @audio_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+    }
+  };
+
+  $(function () {
+    $(document).on("click", "#download_playlist_link", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: '/download_audio_playlist/<%= @audio_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+
+      DownloadPoller.poll();
+
+    });
+  });
+</script>

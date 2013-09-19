@@ -1,0 +1,32 @@
+var $ = jQuery,
+    DownloadPoller;
+
+DownloadPoller = {
+  poll: function() {
+    setTimeout(this.request, 3000);
+  },
+  request: function() {
+    $.ajax({
+      url: '/poll_download_data/<%= @audio_playlist.id %>',
+      type: 'get',
+      dataType: 'script'
+    });
+  }
+};
+
+$(".download-info > .progress-bar").css({
+  width: "<%= "#{@audio_playlist.job_current_progress}%" %>"
+});
+
+$(".download-info > .message").html("<%= j render(partial: 'download_message',
+                                                  locals: { audio_playlist: @audio_playlist }) %>");
+
+$(".download-info > .progress").html("<%= j render(partial: 'download_info_progress',
+                                                   locals: { audio_playlist: @audio_playlist }) %>");
+
+$(".download-info > .links").html("<%= j render(partial: 'download_links',
+                                                   locals: { audio_playlist: @audio_playlist }) %>");
+
+<% if !@audio_playlist.finished? %>
+  DownloadPoller.poll();
+<% end %>

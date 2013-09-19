@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913102946) do
+ActiveRecord::Schema.define(:version => 20130919095928) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -130,6 +130,10 @@ ActiveRecord::Schema.define(:version => 20130913102946) do
     t.string   "program_cache",                           :null => false
     t.string   "airline_cache",                           :null => false
     t.string   "airline_duration"
+    t.integer  "job_id"
+    t.datetime "job_finished_at"
+    t.integer  "job_current_track"
+    t.integer  "job_current_progress"
   end
 
   create_table "categories", :force => true do |t|
@@ -165,6 +169,22 @@ ActiveRecord::Schema.define(:version => 20130913102946) do
   end
 
   add_index "covers", ["album_id", "parent_id"], :name => "index_covers_on_album_id_and_parent_id"
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0, :null => false
+    t.integer  "attempts",   :default => 0, :null => false
+    t.text     "handler",                   :null => false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "filemaker_album_playlists", :id => false, :force => true do |t|
     t.integer "id"
