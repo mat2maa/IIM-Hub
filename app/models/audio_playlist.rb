@@ -9,7 +9,7 @@ class AudioPlaylist < ActiveRecord::Base
 
   attr_accessible :client_playlist_code, :airline_id, :program_id, :in_out, :vo_id, :start_playdate,
                   :start_playdate, :start_playdate, :end_playdate, :end_playdate, :end_playdate, :airline_duration,
-                  :vo, :user_id, :airline_cache, :program_cache
+                  :vo, :user_id, :airline_cache, :program_cache, :job_id, :job_finished_at, :job_current_track, :job_current_progress
 
 	def audio_playlist_tracks_sorted
 		#self.audio_playlist_tracks.sort_by {|a| [a.position]}
@@ -60,5 +60,30 @@ class AudioPlaylist < ActiveRecord::Base
     end
     t
   end
-  
+
+  def self.download_playlist(id)
+    find(id).download_playlist
+  end
+
+  def download_playlist
+    job = Delayed::Job.enqueue(DownloadAudioPlaylist.new(audio_playlist_id: id))
+    update_attribute(:job_id, job.id)
+  end
+
+  def working?
+    job_id.present?
+  end
+
+  def finished?
+    job_finished_at.present?
+  end
+
+  def progress
+    job_current_progress
+  end
+
+  def current_track
+    job_current_track
+  end
+
 end
