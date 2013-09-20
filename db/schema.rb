@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919095928) do
+ActiveRecord::Schema.define(:version => 20130920115830) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20130919095928) do
     t.datetime "job_finished_at"
     t.integer  "job_current_track"
     t.integer  "job_current_progress"
+    t.string   "audio_playlist_zip"
   end
 
   create_table "categories", :force => true do |t|

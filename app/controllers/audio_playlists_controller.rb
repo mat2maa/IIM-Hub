@@ -493,9 +493,4 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist = AudioPlaylist.find(params[:id])
   end
 
-  def download_playlist_zip
-    @audio_playlist = AudioPlaylist.find(params[:id])
-    send_file "#{Rails.root}/tmp/#{@audio_playlist.class.to_s}/#{@audio_playlist.id}.zip", :type => "application/zip", :x_sendfile => true
-  end
-
 end

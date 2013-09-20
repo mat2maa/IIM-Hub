@@ -69,6 +69,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'select2-rails'
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
+gem 'carrierwave'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.1'

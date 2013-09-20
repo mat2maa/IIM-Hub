@@ -167,51 +167,6 @@ class AlbumsController < ApplicationController
     end
   end
 
-  def destroy
-    @album = Album.find(params[:id])
-
-    tot_albumplaylistitems =AlbumPlaylistItem.count(conditions: 'album_id=' + params[:id])
-    tot_audioplaylisttracks =AudioPlaylistTrack.count(joins: 'left join tracks on tracks.id=audio_playlist_tracks.track_id',
-                                                      conditions: 'album_id=' + params[:id])
-
-    if  tot_albumplaylistitems.zero? && tot_audioplaylisttracks.zero?
-      if permitted_to? :admin_delete,
-                       :albums
-        Track.delete_all "album_id =" + params[:id]
-
-        require 'xmlrpc/client'
-        begin
-          client = XMLRPC::Client.new2(Settings.nas_url)
-          client.timeout=10
-          result = client.call('delete_album_folder',
-                               Settings.iim_app_id,
-                               @album.id.to_s)
-            #rescue Timeout::Error => e
-        rescue Exception => e
-          flash[:notice] = 'Could not connect to NAS to delete album mp3s - ' + e.message
-        end
-
-        @album.destroy
-        @album_is_deleted = true
-
-      else
-        Track.update_all "to_delete = 1",
-                         "album_id=" + params[:id]
-        @album.to_delete = true
-        @album.save(validate: false)
-        flash[:notice] = 'Album will be deleted when approved by administrator'
-      end
-    else
-      @album_is_deleted = false
-      flash[:notice] = 'Album could not be deleted, album or track from album is in use by playlists'
-    end
-
-    respond_to do |format|
-      format.html { redirect_to(:back) }
-      format.js
-    end
-  end
-
   def add_track
     respond_to do |format|
       format.js
@@ -283,4 +238,49 @@ class AlbumsController < ApplicationController
     end
   end
 
+end
+
+def destroy
+  @album = Album.find(params[:id])
+
+  tot_albumplaylistitems =AlbumPlaylistItem.count(conditions: 'album_id=' + params[:id])
+  tot_audioplaylisttracks =AudioPlaylistTrack.count(joins: 'left join tracks on tracks.id=audio_playlist_tracks.track_id',
+                                                    conditions: 'album_id=' + params[:id])
+
+  if  tot_albumplaylistitems.zero? && tot_audioplaylisttracks.zero?
+    if permitted_to? :admin_delete,
+                     :albums
+      Track.delete_all "album_id =" + params[:id]
+
+      require 'xmlrpc/client'
+      begin
+        client = XMLRPC::Client.new2(Settings.nas_url)
+        client.timeout=10
+        result = client.call('delete_album_folder',
+                             Settings.iim_app_id,
+                             @album.id.to_s)
+          #rescue Timeout::Error => e
+      rescue Exception => e
+        flash[:notice] = 'Could not connect to NAS to delete album mp3s - ' + e.message
+      end
+
+      @album.destroy
+      @album_is_deleted = true
+
+    else
+      Track.update_all "to_delete = 1",
+                       "album_id=" + params[:id]
+      @album.to_delete = true
+      @album.save(validate: false)
+      flash[:notice] = 'Album will be deleted when approved by administrator'
+    end
+  else
+    @album_is_deleted = false
+    flash[:notice] = 'Album could not be deleted, album or track from album is in use by playlists'
+  end
+
+  respond_to do |format|
+    format.html { redirect_to(:back) }
+    format.js
+  end
 end
