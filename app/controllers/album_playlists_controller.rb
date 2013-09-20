@@ -420,39 +420,40 @@ class AlbumPlaylistsController < ApplicationController
     end
   end
 
-  def download_mp3
+  #def download_mp3
+  #
+  #  @playlist_id = params[:id]
+  #  playlist = AlbumPlaylist.find(@playlist_id)
+  #
+  #  albums_found = playlist.album_playlist_items_sorted.delete_if { |playlist_album| playlist_album.album.mp3_exists==false }
+  #
+  #  #track_names = tracks_found.map{|t| t.position.to_s + "-" + t.track.title_original }.flatten
+  #  album_positions = albums_found.map { |t| t.position.to_s }.flatten
+  #  album_ids = albums_found.map { |t| t.album_id }.flatten
+  #  total_tracks = albums_found.map { |t| t.album.tracks_count }.flatten
+  #
+  #  require 'xmlrpc/client'
+  #  client = XMLRPC::Client.new2(Settings.nas_url)
+  #  begin
+  #    result = client.call('create_albums_zip',
+  #                         Settings.iim_app_id,
+  #                         @playlist_id,
+  #                         album_positions,
+  #                         album_ids,
+  #                         total_tracks)
+  #  rescue Timeout::Error => e
+  #    flash[:notice] = 'Could not connect to NAS'
+  #  end
+  #
+  #  if result
+  #    respond_to do |format|
+  #      format.js {
+  #        render action: 'download_mp3.rhtml',
+  #               layout: false
+  #      }
+  #    end
+  #  end
+  #
+  #end
 
-    @playlist_id = params[:id]
-    playlist = AlbumPlaylist.find(@playlist_id)
-
-    albums_found = playlist.album_playlist_items_sorted.delete_if { |playlist_album| playlist_album.album.mp3_exists==false }
-
-    #track_names = tracks_found.map{|t| t.position.to_s + "-" + t.track.title_original }.flatten
-    album_positions = albums_found.map { |t| t.position.to_s }.flatten
-    album_ids = albums_found.map { |t| t.album_id }.flatten
-    total_tracks = albums_found.map { |t| t.album.tracks_count }.flatten
-
-    require 'xmlrpc/client'
-    client = XMLRPC::Client.new2(Settings.nas_url)
-    begin
-      result = client.call('create_albums_zip',
-                           Settings.iim_app_id,
-                           @playlist_id,
-                           album_positions,
-                           album_ids,
-                           total_tracks)
-    rescue Timeout::Error => e
-      flash[:notice] = 'Could not connect to NAS'
-    end
-
-    if result
-      respond_to do |format|
-        format.js {
-          render action: 'download_mp3.rhtml',
-                 layout: false
-        }
-      end
-    end
-
-  end
 end

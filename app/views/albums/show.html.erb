@@ -5,10 +5,14 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
-    <%= link_to "Edit Album |",
+    <%= link_to "Edit Album",
                 edit_album_path(@album) if permitted_to? :edit,
-                                                         :albums %> <%= link_to "Import Album from MusicBrainz",
-                                                                                controller: "import_album" %>
+                                                         :albums %>
+
+    |
+
+    <%= link_to "Import Album from MusicBrainz",
+                controller: "import_album" %>
   </div>
   <div id="content-header">Albums</div>
 </div>
