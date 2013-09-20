@@ -1,4 +1,7 @@
-class AudioPlaylist < ActiveRecord::Base  
+class AudioPlaylist < ActiveRecord::Base
+
+  mount_uploader :audio_playlist_zip, AudioPlaylistZipUploader
+
   has_many :audio_playlist_tracks, :dependent => :destroy
   has_many :tracks, :through => :audio_playlist_tracks
 

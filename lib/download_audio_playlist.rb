@@ -66,6 +66,13 @@ class DownloadAudioPlaylist < Struct.new(:options)
             end
           end
 
+          tempfile = open(zipfile_name)
+          uploader = AudioPlaylistZipUploader.new
+          uploader.store!(tempfile)
+          p = AudioPlaylist.find(playlist_id)
+          p.audio_playlist_zip = File.open(zipfile_name)
+          p.save!
+
         end # Changed to Qmultimedia directory
 
       end # Successful login

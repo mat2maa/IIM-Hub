@@ -1,3 +1,7 @@
+AWS_ACCESS_KEY_ID: AKIAJKO3GQ23WYAIYJUQ
+AWS_BUCKET: iim
+AWS_SECRET_ACCESS_KEY: 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
+
 # app/config/application.yml
   defaults: &defaults
     iim_app_id: 83u948$%@^po93kdERVsdfWRG932$%@jr3248jr2(K^!D39480^ry32HTEW984

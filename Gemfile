@@ -63,6 +63,7 @@ gem 'asset_sync'
 
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
+gem 'carrierwave'
 
 # gem 'rotten'
 
