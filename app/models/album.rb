@@ -69,5 +69,9 @@ class Album < ActiveRecord::Base
   	end
   	t
   end
-  
+
+  def self.delete_album(id)
+    Delayed::Job.enqueue(DeleteAlbum.new(album_id: id))
+  end
+
 end

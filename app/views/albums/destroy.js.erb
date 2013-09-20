@@ -1,16 +1,4 @@
-var $ = jQuery;
-
-var $element = $("#album-<%= @album.id %>");
-var notice = "<%= escape_javascript(flash[:notice]) %>";
-
-<% if @album_is_deleted %>
-    $element.fadeOut("fast");
-<% else %>
-    $('#notice').html(notice);
-<% end %>
-
-$('#spinner').addClass('transparent');
-            console.log("off");
+window.location.reload();
 
 
 /*
