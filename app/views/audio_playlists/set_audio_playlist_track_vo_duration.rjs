@@ -1,6 +1,0 @@
-page.replace_html 'playlist',
-                  partial: 'playlist',
-                  object: @audio_playlist
-page.replace_html 'duration',
-                  partial: 'duration',
-                  object: @audio_playlist

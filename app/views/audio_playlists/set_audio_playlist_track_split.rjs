@@ -1,6 +1,0 @@
-page.replace_html 'playlist',
-                  partial: 'playlist',
-                  object: @audio_playlist
-page.replace_html 'splits',
-                  partial: 'splits',
-                  object: @audio_playlist

@@ -102,7 +102,7 @@ class ImportAlbumController < ApplicationController
         album.disc_num = @album["disc_number"]
         album.release_year = @album["year"]
         album.compilation = @album["compilation"]
-        genre = Genre.find(:all, conditions: {name: @album["genre"]})
+        genre = Genre.where(name: @album["genre"])
         album.genres << genre
         album.genre = @album["genre"]
         album.to_delete = 0
@@ -121,7 +121,7 @@ class ImportAlbumController < ApplicationController
           track.artist_original = rtrack["artist"]
           track.duration = rtrack["duration"]
           track.track_num = rtrack["track_number"]
-          genre = Genre.find(:all, conditions: {:name => rtrack["genre"]})
+          genre = Genre.where(:name => rtrack["genre"])
           track.genres << genre
           track.genre = rtrack["genre"]
           track.save(validate: false)
@@ -149,10 +149,9 @@ class ImportAlbumController < ApplicationController
     album_title = params["album_title"]
     album_artist = params["album_artist"]
     release_year = params["release_year"]
-    @albums = Album.find(:all,
-                         conditions: {:title_original => album_title,
-                                      :artist_original => album_artist,
-                                      :release_year => release_year})
+    @albums = Album.where( :title_original => album_title,
+                           :artist_original => album_artist,
+                           :release_year => release_year )
     respond_to do |format|
       format.xml { render xml: @albums,
                           status: :found }
@@ -173,7 +172,7 @@ class ImportAlbumController < ApplicationController
     album.disc_num = @album["disc_number"]
     album.release_year = @album["year"]
     album.compilation = @album["compilation"]
-    genre = Genre.find(:all, conditions: {name: @album["genre"]})
+    genre = Genre.where( name: @album["genre"] )
     album.genres << genre
     album.genre = @album["genre"]
     album.to_delete = 0
@@ -193,7 +192,7 @@ class ImportAlbumController < ApplicationController
       track.artist_original = rtrack["artist"]
       track.duration = rtrack["duration"]
       track.track_num = rtrack["track_number"]
-      genre = Genre.find(:all, conditions: {:name => rtrack["genre"]})
+      genre = Genre.where( :name => rtrack["genre"] )
       track.genres << genre
       track.genre = rtrack["genre"]
       track.mp3_exists = true

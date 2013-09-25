@@ -5,14 +5,25 @@
 <center><p style="color: green"><%= flash[:notice] %></p></center>
 <div id="content-header-wrapper">
   <div id="content-header-actions">
+    <%= link_to "Show album",
+                album_path(id: @album.id) %>
+
+    |
+
     <%= link_to "Wikipedia",
                 "http://www.wikipedia.org/wiki/#{@album.artist_original.sub(/ /,
                                                                             '_')}",
-                target: "_blank" %> |
+                target: "_blank" %>
+
+    |
     <%= link_to "YesAsia",
                 "http://www.yesasia.com",
-                target: "_blank" %> | <%= link_to "Import Album from MusicBrainz",
-                                             controller: "import_album" %>
+                target: "_blank" %>
+
+    |
+
+    <%= link_to "Import Album from MusicBrainz",
+                controller: "import_album" %>
   </div>
   <div id="content-header">Edit Album : <%= @album.title_original %>
     <br/>

@@ -3,14 +3,6 @@ require 'stringio'
 
 class AudioPlaylistsController < ApplicationController
 
-=begin
-  in_place_edit_for :audio_playlist_track,
-                    :mastering
-  in_place_edit_for :audio_playlist_track,
-                    :split
-  in_place_edit_for :audio_playlist_track,
-                    :vo_duration
-=end
   layout "layouts/application",
          except: :export_to_excel
   before_filter :require_user, except: [:find_via_json]
@@ -23,23 +15,23 @@ class AudioPlaylistsController < ApplicationController
 
   def index
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-                           .ransack(params[:q])
+    .ransack(params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page)
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     else
       @audio_playlists = @search.result(distinct: true)
-                                .order("audio_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page)
+      .order("audio_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     end
     @audio_playlists_count = @audio_playlists.count
   end
 
   def show
     @audio_playlist = AudioPlaylist.includes(tracks: :origin)
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def find_via_json
@@ -51,7 +43,7 @@ class AudioPlaylistsController < ApplicationController
     album_ids = tracks_found.map { |t| t.track.album_id }.flatten
     track_nums = tracks_found.map { |t| t.track.track_num }.flatten
 
-    respond_with [ playlist_positions, album_ids, track_nums ]
+    respond_with [playlist_positions, album_ids, track_nums]
   end
 
   def print
@@ -62,19 +54,6 @@ class AudioPlaylistsController < ApplicationController
       format.html { render layout: false }
     end
   end
-
-=begin
-  def sort
-
-    params[:audioplaylist].each_with_index do |id,
-        pos|
-      AudioPlaylistTrack.find(id).update_attribute(:position,
-                                                   pos+1)
-    end
-    render nothing: true
-  end
-=end
-
 
   def new
     @audio_playlist = AudioPlaylist.new
@@ -108,12 +87,12 @@ class AudioPlaylistsController < ApplicationController
 
   def edit
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def update
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-                                   .find(params[:id])
+    .find(params[:id])
 
     respond_to do |format|
       if @audio_playlist.update_attributes(params[:audio_playlist])
@@ -204,36 +183,6 @@ class AudioPlaylistsController < ApplicationController
     end
   end
 
-  def find_track
-
-    conditions = ""
-    if !params['min_dur_min'].empty? || !params['min_dur_sec'].empty?
-      tot_dur = dur_to_ms params['min_dur_min'],
-                          params['min_dur_sec']
-      conditions = "duration > #{tot_dur}"
-    end
-    if !params['max_dur_min'].empty? || !params['max_dur_sec'].empty?
-      if conditions != ""
-        conditions += " AND "
-      end
-      tot_dur = dur_to_ms params['max_dur_min'],
-                          params['max_dur_sec']
-      conditions += "duration < #{tot_dur}"
-
-    end
-
-    if params['title'].strip.length > 0
-
-      @tracks = Track.search(params['title'],
-                             %w(tracks.title_original tracks.title_english tracks.artist_original tracks.artist_english labels.name),
-                             {conditions: conditions,
-                              from: '(tracks left join albums on albums.id=tracks.album_id) left join labels on albums.label_id=labels.id',
-                              select: 'tracks.*'})
-
-    end
-
-  end
-
   #display overlay
   def add_track_to_playlist
 
@@ -244,9 +193,9 @@ class AudioPlaylistsController < ApplicationController
 
     @search = Track.ransack(params[:q])
     @tracks = @search.result(distinct: true)
-                     .order("tracks.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("tracks.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -268,8 +217,8 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist.save
 
     @audio_playlist_track_position = AudioPlaylistTrack.where("audio_playlist_id=?", params[:id])
-                                                       .order("position ASC")
-                                                       .find(:last)
+    .order("position ASC")
+    .find(:last)
     @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
 
     @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:id],
@@ -278,7 +227,7 @@ class AudioPlaylistsController < ApplicationController
 
     #check if track has been added to a previous playlist before
     @playlists_with_track = AudioPlaylistTrack.where("track_id = ?", params[:track_id])
-                                              .group("audio_playlist_id")
+    .group("audio_playlist_id")
 
     @notice=""
 
@@ -309,8 +258,8 @@ class AudioPlaylistsController < ApplicationController
 
     track_ids.each do |track_id|
       @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
-                                                         .order('position ASC')
-                                                         .find(:last)
+      .order('position ASC')
+      .find(:last)
       @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
       @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
                                                      track_id: track_id,
@@ -323,13 +272,6 @@ class AudioPlaylistsController < ApplicationController
       end
     end # loop through audio ids
 
-  end
-
-  def export
-    headers['Content-Type'] = "application/vnd.ms-excel"
-    headers['Content-Disposition'] = 'attachment; filename="excel-export.xls"'
-    headers['Cache-Control'] = ''
-    @audio_playlist = AudioPlaylist.find(params[:id])
   end
 
   def export_to_excel
@@ -455,25 +397,8 @@ class AudioPlaylistsController < ApplicationController
               filename: 'audio_playlist.xls'
   end
 
-
-  def set_audio_playlist_track_split
-    audio_playlist_track = AudioPlaylistTrack.find(params[:id])
-    audio_playlist_track.split = params[:audio_playlist_track][:split]
-    audio_playlist_track.save
-    @audio_playlist = AudioPlaylist.find(audio_playlist_track.audio_playlist_id)
-  end
-
-  def set_audio_playlist_track_vo_duration
-    audio_playlist_track = AudioPlaylistTrack.find(params[:id])
-    audio_playlist_track.vo_duration = params[:audio_playlist_track][:vo_duration]
-    audio_playlist_track.save
-    @audio_playlist = AudioPlaylist.find(audio_playlist_track.audio_playlist_id)
-    @audio_playlist.updated_at_will_change!
-    @audio_playlist.save
-  end
-
   def splits
-    @splits = Split.all.order(:duration)
+    @splits = Split.order(:duration)
     render layout: false
   end
 

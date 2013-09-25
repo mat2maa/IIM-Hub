@@ -1,6 +1,0 @@
-page.insert_html :bottom,
-                 'tracks',
-                 partial: 'track',
-                 locals: {track: @track}
-page[:add_track_form].reset
-flash.discard
