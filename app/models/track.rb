@@ -15,7 +15,7 @@ class Track < ActiveRecord::Base
   
   attr_accessible :title_original, :title_english, :tempo, :artist_original, :tempo_intro, :artist_english,
                   :tempo_outro, :composer, :gender, :distributor, :language_id, :origin_id, :explicit_lyrics,
-                  :album_id, :genre_ids, :lyrics, :track_num, :duration, :track_num_position
+                  :album_id, :genre_ids, :lyrics, :track_num, :duration, :track_num_position, :to_delete, :mp3_exists
 
   scope :greater_than_dur_min, -> dur_min {
     where("duration > ?", dur_min)
