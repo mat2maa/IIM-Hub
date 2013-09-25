@@ -110,6 +110,7 @@ class AlbumsController < ApplicationController
   def create_from_json
     @album = Album.new(params[:album])
     @album.to_delete = 0
+    @album.mp3_exists = true
 
     respond_to do |format|
       format.json do

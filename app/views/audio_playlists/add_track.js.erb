@@ -1,7 +1,10 @@
-var notice = "<%= escape_javascript((@notice).html_safe) %>";
+var notice = "<%= escape_javascript(render partial: 'item_added',
+                                           locals: { track: @track, notice: @notice }) %>",
+    playlist = "<%= escape_javascript(render partial: 'playlist',
+                                             object: @audio_playlist) %>",
+    duration = "<%= escape_javascript(render partial: 'duration',
+                                             object: @audio_playlist) %>";
 
-if (notice !== '') {
-  alert("This track exists in other playlists");
-} else {
-  window.location.reload();
-}
+$('#item_added').html(notice);
+$('#playlist').html(playlist);
+$('#duration').html(duration);

@@ -1,12 +1,10 @@
-<% if @notice=="" %>
-  "<%= @track.title_original %>" added to playlist
+<% if notice=="" %>
+  "<%= track.title_original %>" added to playlist
 <% else %>
-  <%= @notice %>
-  <%= link_to_remote "Continue adding to playlist",
-                     url: {controller: "audio_playlists",
-                           action: "add_track",
-                           id: params[:id],
-                           track_id: @track.id,
-                           add: 1},
-                     class: 'spinner-trigger' %>
+  <%= notice.html_safe %>
+  <%= link_to "Continue adding to playlist",
+              add_track_audio_playlist_path(@audio_playlist, track_id: track.id, add: 1),
+              method: :post,
+              remote: true,
+              class: 'spinner-trigger' %>
 <% end %>

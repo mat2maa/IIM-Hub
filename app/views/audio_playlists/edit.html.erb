@@ -35,20 +35,6 @@
 
     <div id="playlist">
 
-      <div class="download-info">
-        <div class="progress-bar" style="width:0%;"></div>
-        <div class="message"></div>
-        <div class="progress"></div>
-        <div class="links">
-          <%= link_to 'Create Playlist Zip',
-                      download_audio_playlist_path(@audio_playlist.id),
-                      id: 'download_playlist_link' %>
-          <% if @audio_playlist.finished? %>
-            | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
-          <% end %>
-        </div>
-      </div>
-
       <%= render partial: 'playlist',
                  object: @audio_playlist %>
     </div>
