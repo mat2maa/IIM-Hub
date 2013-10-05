@@ -48,6 +48,9 @@ Iim::Application.configure do
     Bullet.rails_logger = true
   end
 
+  config.after_initialize do
+    Delayed::Job.scaler = :local
+  end
 end
 
 #PDFKit.configure do |config|
