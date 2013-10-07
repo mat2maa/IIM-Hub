@@ -1,6 +1,6 @@
 <tr id="album-<%= album.id %>">
   <td data-title="ID"><%= link_to album.id,
-                  album_path(id: album.id) %>&nbsp;</td>
+                                  album_path(id: album.id) %>&nbsp;</td>
   <td data-title="Title">
     <%= album.title_original %>
     <br/>
@@ -12,7 +12,6 @@
   <td data-title="Label"><%= album.label.name if !album.label_id.nil? || !album.label.nil? %>&nbsp;</td>
   <td data-title="Release Year"><%= album.release_year %>&nbsp;</td>
   <td data-title="CD Code"><%= album.cd_code %>&nbsp;</td>
-
   <% if params[:playlist_id] || params["action"]=="add_album_to_playlist" %>
     <td>
       <% if !album.to_delete %>

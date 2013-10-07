@@ -1,7 +1,7 @@
 <tr id="movie-<%= movie.id %>">
   <td data-title="ID"><%= link_to(movie.id,
-                  movie_path(id: movie.id),
-                  target: "_blank") %></td>
+                                  movie_path(id: movie.id),
+                                  target: "_blank") %></td>
   <td data-title="Movie Title"><%= movie.movie_title %></td>
   <td data-title="Movie Distributor"><%= movie.movie_distributor.company_name if movie.movie_distributor.present? %>&nbsp;</td>
   <td data-title="Movie Type"><%= movie.movie_type.name if movie.movie_type.present? %>&nbsp;</td>

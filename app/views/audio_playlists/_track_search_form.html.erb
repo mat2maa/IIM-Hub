@@ -1,88 +1,88 @@
-<% cache 'track_search_form' do %>
-  <fieldset>
-    <legend>Search Tracks</legend>
-    <%= search_form_for @search,
-                        url: add_track_to_playlist_path(id: @audio_playlist.id),
-                        remote: true,
-                        class: 'spinner-trigger',
-                        id: "track_search_form" do |tracks| %>
+<%# cache 'track_search_form' do %>
+<fieldset>
+  <legend>Search Tracks</legend>
+  <%= search_form_for @search,
+                      url: add_track_to_playlist_path(id: @audio_playlist.id),
+                      remote: true,
+                      class: 'spinner-trigger',
+                      id: "track_search_form" do |tracks| %>
 
-      <%= hidden_field_tag 'id',
-                           params[:id] %>
-      <%= hidden_field_tag 'playlist_id',
-                           params[:id] %>
+    <%= hidden_field_tag 'id',
+                         params[:id] %>
+    <%= hidden_field_tag 'playlist_id',
+                         params[:id] %>
 
-      Match ANY or ALL of the conditions:
-      <%= tracks.combinator_select %>
-      <table>
-        <tr>
-          <td valign="top">
-            Title Original:<br>
-            <%= tracks.text_field :title_original_cont,
-                                  :size => 25 %>
-            <br>
-            Artist Original:<br>
-            <%= tracks.text_field :artist_original_cont,
-                                  :size => 25 %>
-            <br>
-            Duration:<br>
-            <%= text_field_tag 'dur_min_min',
-                               '',
-                               size: 3 %>
-            :
-            <%= text_field_tag 'dur_min_sec',
-                               '',
-                               size: 3 %>
-            to
-            <%= text_field_tag 'dur_max_min',
-                               '',
-                               size: 3 %>
-            :
-            <%= text_field_tag 'dur_max_sec',
-                               '',
-                               size: 3 %>
-            <br>
-          </td>
-          <td valign="top">
-            Title (Translated):<br>
-            <%= tracks.text_field :title_english_cont,
-                                  size: 15 %>
-            <br>
-            Artist (Translated):<br>
-            <%= tracks.text_field :artist_english_cont,
-                                  size: 15 %>
-            <br/>
-            Track Num:<br>
-            <%= tracks.text_field :track_num_eq,
-                                  size: 15 %>
-            <br/><br/>
-          </td>
-          <td valign="top">
+    Match ANY or ALL of the conditions:
+    <%= tracks.combinator_select %>
+    <table>
+      <tr>
+        <td valign="top">
+          Title Original:<br>
+          <%= tracks.text_field :title_original_cont,
+                                :size => 25 %>
+          <br>
+          Artist Original:<br>
+          <%= tracks.text_field :artist_original_cont,
+                                :size => 25 %>
+          <br>
+          Duration:<br>
+          <%= text_field_tag 'dur_min_min',
+                             '',
+                             size: 3 %>
+          :
+          <%= text_field_tag 'dur_min_sec',
+                             '',
+                             size: 3 %>
+          to
+          <%= text_field_tag 'dur_max_min',
+                             '',
+                             size: 3 %>
+          :
+          <%= text_field_tag 'dur_max_sec',
+                             '',
+                             size: 3 %>
+          <br>
+        </td>
+        <td valign="top">
+          Title (Translated):<br>
+          <%= tracks.text_field :title_english_cont,
+                                size: 15 %>
+          <br>
+          Artist (Translated):<br>
+          <%= tracks.text_field :artist_english_cont,
+                                size: 15 %>
+          <br/>
+          Track Num:<br>
+          <%= tracks.text_field :track_num_eq,
+                                size: 15 %>
+          <br/><br/>
+        </td>
+        <td valign="top">
 
-            Album Title Original:
-            <br>
+          Album Title Original:
+          <br>
 
-            <%= tracks.text_field :album_title_original_cont,
-                                  size: 25 %>
-            <br>
-            Label:
-            <br>
-            <%= tracks.select :album_label_id_eq,
-                              Label.all.collect { |p| [p.name,
-                                                       p.id] },
-                              {include_blank: true} %>
+          <%= tracks.text_field :album_title_original_cont,
+                                size: 25 %>
+          <br>
+          Label:
+          <br>
+          <%= tracks.select :album_label_id_eq,
+                            Label.all.collect { |p| [p.name,
+                                                     p.id] },
+                            {include_blank: true} %>
 
-            <br>
+          <br>
 
-            CD Code:<br>
-            <%= tracks.text_field :album_cd_code_cont,
-                                  :size => 10 %>
+          CD Code:<br>
+          <%= tracks.text_field :album_cd_code_cont,
+                                :size => 10 %>
 
-            <%= tracks.submit "Search" %>
-            <input type="reset" value="Reset">
-          </td>
-        </tr>
-      </table>
-    <% end %>
-  </fieldset>
-<% end %>
+          <%= tracks.submit "Search" %>
+          <input type="reset" value="Reset">
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</fieldset>
+<%# end %>

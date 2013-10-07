@@ -51,7 +51,7 @@ params_scope: :audio_playlists  %></th>
 
         <% @track=track %>
         <tr class="playlist-entry">
-          <% cache([track,
+          <%# cache([track,
                     track.album,
                     "audio_playlists"]) do %>
             <td class="checkable">
@@ -69,7 +69,7 @@ params_scope: :audio_playlists  %></th>
             <td><%= track.label_cached if !track.album.label_id.nil? %></td>
             <td><%= track.album.cd_code %>&nbsp;</td>
             <td><%= duration(track.duration) %></td>
-          <% end %>
+          <%# end %>
           <td><%= check_box(:track,
                             :explicit_lyrics,
                             disabled: true) %></td>

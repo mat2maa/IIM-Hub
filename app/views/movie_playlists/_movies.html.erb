@@ -47,7 +47,7 @@
       </tr>
       <% @movies.each do |movie| %>
         <tr class="playlist-entry">
-          <% cache([movie]) do %>
+          <%# cache([movie]) do %>
             <td><%= check_box_tag "movie_ids[]",
                                   movie.id %></td>
             <td><%= link_to movie.id,
@@ -56,7 +56,7 @@
             <td><%= movie.movie_title %></td>
             <td><%= movie.movie_type.name if movie.movie_type.present? %></td>
             <td><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date.nil? %></td>
-          <% end %>
+          <%# end %>
           <td>
                     <span id="exists">
                         <% if (movie.in_playlists!="" && !movie.in_playlists.nil?) %>
