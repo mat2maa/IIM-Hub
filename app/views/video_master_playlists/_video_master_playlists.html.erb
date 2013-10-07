@@ -22,7 +22,7 @@
       </tr>
       <% @video_master_playlists.each do |video_master_playlist| %>
           <tr id="video_master_playlist-<%= video_master_playlist.id %>">
-            <% cache([video_master_playlist]) do %>
+            <%# cache([video_master_playlist]) do %>
                 <td><%= link_to video_master_playlist.id,
                                 video_master_playlist_path(id: video_master_playlist.id),
                                 target: "_blank" %></td>
@@ -46,7 +46,7 @@
                                 duplicate_video_master_playlist_path(video_master_playlist),
                                 confirm: 'Are you sure?',
                                 method: :post %></td>
-            <% end %>
+            <%# end %>
             <td>
               <% if permitted_to? :lock,
                                   :video_playlists %>

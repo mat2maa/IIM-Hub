@@ -39,7 +39,7 @@
       </tr>
       <% @audio_playlists.each do |audio_playlist| %>
           <tr id="audio_playlist-<%= audio_playlist.id %>">
-            <% cache([audio_playlist]) do %>
+            <%# cache([audio_playlist]) do %>
                 <td>
                   <%= link_to audio_playlist.id,
                               audio_playlist_path(id: audio_playlist.id) %>
@@ -62,7 +62,7 @@
                 <td>
                   <%= audio_playlist.total_duration_cached if !audio_playlist.total_duration.nil? %>
                 </td>
-            <% end %>
+            <%# end %>
             <% if permitted_to? :edit,
                                 :audio_playlists %>
                 <td>

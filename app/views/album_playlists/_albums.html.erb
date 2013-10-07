@@ -42,7 +42,7 @@
       </tr>
       <% @albums.each do |album| %>
           <tr>
-            <% cache([album]) do %>
+            <%# cache([album]) do %>
                 <td><%= link_to album.id,
                                 album_path(id: album.id) %></td>
                 <td><%= album.title_original %>
@@ -53,7 +53,7 @@
 								<td><%#=h album.label.name if !album.label_id.nil? %></td>-->
                 <td><%= album.release_year %>&nbsp;</td>
                 <td><%= album.cd_code %>&nbsp;</td>
-            <% end %>
+            <%# end %>
             <td>
               <%= link_to "add to playlist",
                           add_album_album_playlist_path(@album_playlist, album_id: album.id),

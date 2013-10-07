@@ -1,90 +1,90 @@
 <tr id="item_<%= playlist_track.id %>" class="sortable" data-id="<%= playlist_track.id %>">
   <td>
     <% if playlist_track.track.nil? %>
-        Missing Track <%= playlist_track.track_id %>
+      Missing Track <%= playlist_track.track_id %>
     <% else %>
-        <table width="100%" class="playlist">
-          <tr>
-            <th width="130">(<%= position %>)Track
-              Title <%= link_to 'Edit',
-                                edit_track_path(playlist_track.track_id),
-                                target: '_blank' %>:
-            </th>
-            <% cache([playlist_track,
+      <table width="100%" class="playlist">
+        <tr>
+          <th width="130">(<%= position %>)Track
+            Title <%= link_to 'Edit',
+                              edit_track_path(playlist_track.track_id),
+                              target: '_blank' %>:
+          </th>
+          <%# cache([playlist_track,
                       playlist_track.track,
                       playlist_track.track.album,
                       playlist_track.track.album.label]) do %>
-                <td width="180">
-                  <% if playlist_track.track.mp3_exists == true %>
+          <td width="180">
+            <% if playlist_track.track.mp3_exists == true %>
 
-                      <%= link_to playlist_track.track.title_original,
-                                  Settings.nas_mp3_url + playlist_track.track.album.id.to_s + "/" + playlist_track.track.track_num.to_s + ".mp3",
-                                  :title => playlist_track.track.artist_original + " - " + playlist_track.track.title_original %>
+              <%= link_to playlist_track.track.title_original,
+                          Settings.nas_mp3_url + playlist_track.track.album.id.to_s + "/" + playlist_track.track.track_num.to_s + ".mp3",
+                          :title => playlist_track.track.artist_original + " - " + playlist_track.track.title_original %>
 
-                  <% else %>
-                      <%= playlist_track.track.title_original %>
-                  <% end %>
-                  <%= "<strong class='alert'>(EXPLICIT)</strong>" if playlist_track.track.explicit_lyrics %>
-                </td>
-                <th width="103">Intro Tempo:</th>
-                <td width="27"><%= playlist_track.track.tempo_intro %></td>
-                <th width="90" <%= is_nil_alert(playlist_track.track.composer) %>>Composer:</th>
-                <td width="183"><%= playlist_track.track.composer %></td>
-                <th width="140">Label:</th>
-                <td width="114"><%= playlist_track.track.album.label.name if !playlist_track.track.album.label_id.nil? %></td>
-                </tr>
-                <tr>
-                  <th width="130">Track Title(Translated):</th>
-                  <td width="180"><%= playlist_track.track.title_english %></td>
-                  <th width="103" <%= is_nil_alert(playlist_track.track.tempo) %>>Tempo</th>
-                  <td width="27"><%= playlist_track.track.tempo %></td>
-                  <th width="90">Track Num:</th>
-                  <td width="183"><%= playlist_track.track.track_num %></td>
-                  <th>Origin:</th>
-                  <td width="114"><%= playlist_track.track.origin.name if !playlist_track.track.origin_id.nil? && playlist_track.track.origin_id!=0 %></td>
-                </tr>
-                <tr>
-                  <th width="130">Artist:</th>
-                  <td width="180"><%= playlist_track.track.artist_original %></td>
-                  <th width="103">Outro Tempo:</th>
-                  <td width="27"><%= playlist_track.track.tempo_outro %></td>
-                  <th width="90">Duration:</th>
-                  <td width="183"><%= duration(playlist_track.track.duration) %></td>
-                  <th>CD Code:</th>
-                  <td width="114"><%= playlist_track.track.album.cd_code %></td>
-                </tr>
-                <% @audio_playlist_track = playlist_track %>
-                <tr>
-                  <th align="LEFT">Mastering :</th>
-                  <td>
-                    <%= best_in_place @audio_playlist_track,
-                                      :mastering,
-                                      type: :textarea %>
-                  </td>
-                  <th>Split:</th>
-                  <td width="114" <%= split_alert(playlist_track.split.to_i,
-                                                  @accum_duration) %>>
-                    <%= best_in_place @audio_playlist_track,
-                                      :split,
-                                      type: :select,
-                                      collection: Split.order("duration ASC")
-                                                       .collect { |p| [p.name, p.duration] },
-                                      include_blank: true %>
-                  </td>
-                  <th>VO Duration (sec):</th>
-                  <td>
-                    <%= best_in_place @audio_playlist_track,
-                                      :vo_duration,
-                                      type: :select,
-                                      collection: VoDuration.order("duration ASC")
-                                                            .collect { |p| [p.name, p.duration] },
-                                      include_blank: true %>
-                  </td>
-                  <th <%= is_nil_alert(playlist_track.track.genre) %>>Genre:</th>
-                  <td><%#=h show_genres(playlist_track.track.genres) if !playlist_track.track.genres.count.zero? %><%= playlist_track.track.genre %></td>
-                </tr>
-                </table>
+            <% else %>
+              <%= playlist_track.track.title_original %>
             <% end %>
+            <%= "<strong class='alert'>(EXPLICIT)</strong>" if playlist_track.track.explicit_lyrics %>
+          </td>
+          <th width="103">Intro Tempo:</th>
+          <td width="27"><%= playlist_track.track.tempo_intro %></td>
+          <th width="90" <%= is_nil_alert(playlist_track.track.composer) %>>Composer:</th>
+          <td width="183"><%= playlist_track.track.composer %></td>
+          <th width="140">Label:</th>
+          <td width="114"><%= playlist_track.track.album.label.name if !playlist_track.track.album.label_id.nil? %></td>
+        </tr>
+        <tr>
+          <th width="130">Track Title(Translated):</th>
+          <td width="180"><%= playlist_track.track.title_english %></td>
+          <th width="103" <%= is_nil_alert(playlist_track.track.tempo) %>>Tempo</th>
+          <td width="27"><%= playlist_track.track.tempo %></td>
+          <th width="90">Track Num:</th>
+          <td width="183"><%= playlist_track.track.track_num %></td>
+          <th>Origin:</th>
+          <td width="114"><%= playlist_track.track.origin.name if !playlist_track.track.origin_id.nil? && playlist_track.track.origin_id!=0 %></td>
+        </tr>
+        <tr>
+          <th width="130">Artist:</th>
+          <td width="180"><%= playlist_track.track.artist_original %></td>
+          <th width="103">Outro Tempo:</th>
+          <td width="27"><%= playlist_track.track.tempo_outro %></td>
+          <th width="90">Duration:</th>
+          <td width="183"><%= duration(playlist_track.track.duration) %></td>
+          <th>CD Code:</th>
+          <td width="114"><%= playlist_track.track.album.cd_code %></td>
+        </tr>
+        <% @audio_playlist_track = playlist_track %>
+        <tr>
+          <th align="LEFT">Mastering :</th>
+          <td>
+            <%= best_in_place @audio_playlist_track,
+                              :mastering,
+                              type: :textarea %>
+          </td>
+          <th>Split:</th>
+          <td width="114" <%= split_alert(playlist_track.split.to_i,
+                                          @accum_duration) %>>
+            <%= best_in_place @audio_playlist_track,
+                              :split,
+                              type: :select,
+                              collection: Split.order("duration ASC")
+                              .collect { |p| [p.name, p.duration] },
+                              include_blank: true %>
+          </td>
+          <th>VO Duration (sec):</th>
+          <td>
+            <%= best_in_place @audio_playlist_track,
+                              :vo_duration,
+                              type: :select,
+                              collection: VoDuration.order("duration ASC")
+                              .collect { |p| [p.name, p.duration] },
+                              include_blank: true %>
+          </td>
+          <th <%= is_nil_alert(playlist_track.track.genre) %>>Genre:</th>
+          <td><%#=h show_genres(playlist_track.track.genres) if !playlist_track.track.genres.count.zero? %><%= playlist_track.track.genre %></td>
+        </tr>
+      </table>
+      <%# end %>
     <% end %>
   </td>
   <td><%= image_tag("arrow_move.png") %></td>
@@ -104,14 +104,14 @@
                 method: 'delete' %>
     <br/>
     <% if !playlist_track.track.nil? %>
-        Accumulated<br/>Duration: <%= duration(@accum_duration + playlist_track.track.duration + (vo_duration*1000)) %>
-        <%
-           if !playlist_track.split.nil? && playlist_track.split!=0 && playlist_track.split!=""
-             @accum_duration = 0
-           else
-             @accum_duration += playlist_track.track.duration + (vo_duration*1000)
-           end
-        %>
+      Accumulated<br/>Duration: <%= duration(@accum_duration + playlist_track.track.duration + (vo_duration*1000)) %>
+      <%
+         if !playlist_track.split.nil? && playlist_track.split!=0 && playlist_track.split!=""
+           @accum_duration = 0
+         else
+           @accum_duration += playlist_track.track.duration + (vo_duration*1000)
+         end
+      %>
     <% end %>
 
   </td>

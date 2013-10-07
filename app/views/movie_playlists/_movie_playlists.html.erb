@@ -34,7 +34,7 @@
 
       <% @movie_playlists.each do |movie_playlist| %>
           <tr id="movie_playlist-<%= movie_playlist.id %>">
-            <% cache([movie_playlist]) do %>
+            <%# cache([movie_playlist]) do %>
                 <td>
                   <%= link_to movie_playlist.id,
                               movie_playlist_path(id: movie_playlist.id),
@@ -52,7 +52,7 @@
                 <td>
                   <%= movie_playlist.movie_playlist_type.name if movie_playlist.movie_playlist_type.present? %>&nbsp;
                 </td>
-            <% end %>
+            <%# end %>
             <td>
               <%= link_to('Edit',
                           edit_movie_playlist_path(movie_playlist),

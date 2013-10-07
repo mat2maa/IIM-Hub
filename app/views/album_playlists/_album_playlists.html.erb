@@ -37,7 +37,7 @@
       </tr>
       <% @album_playlists.each do |album_playlist| %>
           <tr id="album_playlist-<%= album_playlist.id %>">
-            <% cache([album_playlist]) do %>
+            <%# cache([album_playlist]) do %>
                 <td>
                   <%= link_to album_playlist.id,
                               album_playlist_path(id: album_playlist.id) %>
@@ -57,7 +57,7 @@
                 <td>
                   <%= album_playlist.end_playdate.strftime("%B %Y") if !album_playlist.end_playdate.nil? %>&nbsp;
                 </td>
-            <% end %>
+            <%# end %>
             <% if permitted_to? :edit,
                                 :album_playlists %>
                 <td>

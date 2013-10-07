@@ -22,7 +22,7 @@
       </tr>
       <% @screener_playlists.each do |screener_playlist| %>
           <tr id="screener_playlist-<%= screener_playlist.id %>">
-            <% cache([screener_playlist]) do %>
+            <%# cache([screener_playlist]) do %>
                 <td><%= link_to screener_playlist.id,
                                 screener_playlist_path(id: screener_playlist.id),
                                 target: "_blank" %></td>
@@ -30,7 +30,7 @@
                 <td><%= screener_playlist.start_cycle.strftime("%m-%Y") if !screener_playlist.start_cycle.nil? %>&nbsp;</td>
                 <td><%= screener_playlist.end_cycle.strftime("%m-%Y") if !screener_playlist.end_cycle.nil? %>&nbsp;</td>
                 <td><%= screener_playlist.video_playlist_type.name if !screener_playlist.video_playlist_type.nil? %>&nbsp;</td>
-            <% end %>
+            <%# end %>
             <td><%= link_to('Edit',
                             edit_screener_playlist_path(screener_playlist),
                             target: "_blank") if screener_playlist.locked!=true %></td>

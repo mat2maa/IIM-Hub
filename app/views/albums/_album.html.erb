@@ -1,5 +1,5 @@
 <tr id="album-<%= album.id %>">
-  <% cache([album,
+  <%# cache([album,
             "album_playlists"]) do %>
       <td>
         <%= link_to album.id,
@@ -23,7 +23,7 @@
       </td>
       <td>
         <%= album.cd_code %>&nbsp;</td>
-  <% end %>
+  <%# end %>
 
   <% if params[:playlist_id] || params["action"]=="add_album_to_playlist" %>
       <td>
