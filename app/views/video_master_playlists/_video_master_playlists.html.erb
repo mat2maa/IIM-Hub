@@ -30,7 +30,7 @@
                 <td><%= video_master_playlist.start_cycle.strftime("%m-%Y") if !video_master_playlist.start_cycle.nil? %>&nbsp;</td>
                 <td><%= video_master_playlist.end_cycle.strftime("%m-%Y") if !video_master_playlist.end_cycle.nil? %>&nbsp;</td>
                 <td><%= video_master_playlist.master_playlist_type.name if !video_master_playlist.master_playlist_type.nil? %>&nbsp;</td>
-            <% end %>
+            <%# end %>
             <td><%= link_to('Edit',
                             edit_video_master_playlist_path(video_master_playlist),
                             target: "_blank") if video_master_playlist.locked!=true %></td>
@@ -46,7 +46,7 @@
                                 duplicate_video_master_playlist_path(video_master_playlist),
                                 confirm: 'Are you sure?',
                                 method: :post %></td>
-            <%# end %>
+            <% end %>
             <td>
               <% if permitted_to? :lock,
                                   :video_playlists %>
