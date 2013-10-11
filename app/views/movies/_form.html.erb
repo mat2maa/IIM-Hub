@@ -1,325 +1,328 @@
 <%= semantic_form_for @movie,
                       html: {multipart: true} do |f| %>
 
-    <%= error_messages_for(f.object) %><br/>
+  <%= error_messages_for(f.object) %><br/>
 
-    <div id="poster-thumbnail">
-      <%= link_to(image_tag(@movie.poster.url(:small)),
-                  @movie.poster.url,
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search Box Office Mojo",
-                  "http://www.boxofficemojo.com/search/?q=" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search Yahoo Movies",
-                  "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search Taiwan Yahoo Movies",
-                  "http://tw.movie.yahoo.com/moviesearch_result.html?qmv=" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search Rotten Tomatoes",
-                  "http://www.rottentomatoes.com/search/full_search.php?search=" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search IMDB",
-                  "http://www.imdb.com/find?s=all&q=" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <%= link_to("Search Mtime",
-                  "http://www.mtime.com/search/?" + CGI.escape(@movie.movie_title.to_s),
-                  target: "_blank") %>
-      <br/>
-      <br/>
-      <%= f.input :poster,
-                  label: "Poster Image",
-                  as: :file,
-                  input_html: {tabindex: autotab, size: 6} %>
-      <br/>
-      <a href="http://images.google.com/images?hl=en&q=movie+<%= CGI.escape(@movie.movie_title.to_s) %>" target="_blank">
-        Search Google Images
-      </a>
-      <br/>
-      <br/>
-      <%= f.actions %>
-      <%= link_to "Add EPK",
-                  new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
-      <br/>
-      <%= link_to "Add Trailer",
-                  new_video_path(id: params[:id], video_type: CGI.escape("Movie Trailer")) %>
-      <br/>
-      <%= link_to "Add Master",
-                  new_video_path(id: params[:id], video_type: CGI.escape("Movie Master")) %>
-      <br/>
-      <%= link_to "Add TV Special",
-                  new_video_path(id: params[:id], video_type: CGI.escape("TV Special")) %>
-    </div>
+  <div id="poster-thumbnail">
+    <%= link_to(image_tag(@movie.poster.url(:small)),
+                @movie.poster.url,
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search Box Office Mojo",
+                "http://www.boxofficemojo.com/search/?q=" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search Yahoo Movies",
+                "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search Taiwan Yahoo Movies",
+                "http://tw.movie.yahoo.com/moviesearch_result.html?qmv=" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search Rotten Tomatoes",
+                "http://www.rottentomatoes.com/search/full_search.php?search=" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search IMDB",
+                "http://www.imdb.com/find?s=all&q=" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <%= link_to("Search Mtime",
+                "http://www.mtime.com/search/?" + CGI.escape(@movie.movie_title.to_s),
+                target: "_blank") %>
+    <br/>
+    <br/>
+    <%= f.input :poster,
+                label: "Poster Image",
+                as: :file,
+                input_html: {tabindex: autotab, size: 6} %>
+    <br/>
+    <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+    <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
+    <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
+    <a href="<%= href %>" target="_blank" id="google-images-link">
+      Search Google Images
+    </a>
+    <br/>
+    <br/>
+    <%= f.actions %>
+    <%= link_to "Add EPK",
+                new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
+    <br/>
+    <%= link_to "Add Trailer",
+                new_video_path(id: params[:id], video_type: CGI.escape("Movie Trailer")) %>
+    <br/>
+    <%= link_to "Add Master",
+                new_video_path(id: params[:id], video_type: CGI.escape("Movie Master")) %>
+    <br/>
+    <%= link_to "Add TV Special",
+                new_video_path(id: params[:id], video_type: CGI.escape("TV Special")) %>
+  </div>
 
-    <%= f.inputs do %>
+  <%= f.inputs do %>
 
-        <div id="movie-fields">
-        <%= f.input :movie_title,
-                    label: "Movie Title",
-                    input_html: {tabindex: autotab},
-                    size: 5 %>
-        <%= f.input :chinese_movie_title,
-                    label: "Chinese Movie Title",
-                    input_html: {tabindex: autotab},
-                    size: 5 %>
-        <!-- TODO: Update to Rails 3 -->
-        <%= f.input :movie_type,
-                    label: (link_to("[edit]",
-                                    movie_types_path,
-                                    target: "_blank") + " Movie Type").html_safe,
-                    as: :select,
-                    collection: MovieType.order("name")
-                                         .collect { |p| [p.name,
-                                                         p.id] },
-                    include_blank: true,
-                    input_html: {tabindex: autotab} %>
+    <div id="movie-fields">
+    <%= f.input :movie_title,
+                label: "Movie Title",
+                input_html: {tabindex: autotab},
+                size: 5 %>
+    <%= f.input :chinese_movie_title,
+                label: "Chinese Movie Title",
+                input_html: {tabindex: autotab},
+                size: 5 %>
+    <!-- TODO: Update to Rails 3 -->
+    <%= f.input :movie_type,
+                label: (link_to("[edit]",
+                                movie_types_path,
+                                target: "_blank") + " Movie Type").html_safe,
+                as: :select,
+                collection: MovieType.order("name")
+                .collect { |p| [p.name,
+                                p.id] },
+                include_blank: true,
+                input_html: {tabindex: autotab} %>
 
-        <% if @movie.movie_type.name=="Hollywood Movie" %>
-            <%= f.input :foreign_language_title,
-                        label: "Foreign Language Title",
-                        input_html: {disabled: true,
-                                     tabindex: autotab} %>
-        <% else %>
-            <%= f.input :foreign_language_title,
-                        label: "Foreign Language Title",
-                        input_html: {tabindex: autotab} %>
-        <% end %>
-
-        <table border="0" cellpadding="0" cellspacing="0">
-          <tr>
-            <td valign="top">
-              <%= f.input :movie_distributor,
-                          include_blank: true,
-                          input_html: {tabindex: autotab},
-                          label: ("Distributor " + link_to("[edit]",
-                                                           suppliers_path,
-                                                           target: "_blank")).html_safe,
-                          collection: Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                                 p.id] } %>
-            </td>
-            <td>
-              <%= f.input :production_studio,
-                          input_html: {tabindex: autotab},
-                          include_blank: true,
-                          label: ("Production Studio " + link_to("[edit]",
-                                                                 suppliers_path,
-                                                                 target: "_blank")).html_safe,
-                          collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                                 p.id] } %>
-            </td>
-            <td>
-              <%= f.input :laboratory,
-                          input_html: {tabindex: autotab},
-                          include_blank: true,
-                          label: ("Laboratory " + link_to("[edit]",
-                                                          suppliers_path,
-                                                          target: "_blank")).html_safe,
-                          collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                           p.id] } %>
-            </td>
-          </tr>
-          <tr>
-            <td>Airline Release Date
-              <%= f.input :airline_release_date,
-                          input_html: {tabindex: autotab},
-                          label: false,
-                          labels: {month: false,
-                                   year: false},
-                          order: [:month,
-                                  :year],
-                          discard_day: true,
-                          include_blank: true,
-                          use_month_numbers: true,
-                          start_year: Date.today.year + 2,
-                          end_year: 1900 %>
-            </td>
-            <td>
-              Personal Video Date
-              <%= f.input :personal_video_date,
-                          input_html: {tabindex: autotab},
-                          label: false,
-                          labels: {month: false,
-                                   year: false},
-                          order: [:month,
-                                  :year],
-                          discard_day: true,
-                          include_blank: true,
-                          use_month_numbers: true,
-                          start_year: Date.today.year + 2,
-                          end_year: 1900 %>
-            </td>
-            <td valign="top">
-              <%= f.input :theatrical_release_year,
-                          input_html: {tabindex: autotab},
-                          label: "Theatrical Release Year" %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Screener Received Date
-              <%= link_to '[today]',
-                          update_date_path("movie_screener_received_date"),
-                          remote: true %>
-              <%= f.input :screener_received_date,
-                          input_html: {tabindex: autotab},
-                          label: false,
-                          labels: {day: false,
-                                   month: false,
-                                   year: false},
-                          include_blank: true,
-                          order: [:day,
-                                  :month,
-                                  :year],
-                          use_short_month: true %>
-            </td>
-            <td>
-              Screener Destroyed Date
-              <%= link_to '[today]',
-                          update_date_path("movie_screener_destroyed_date"),
-                          remote: true %>
-              <%= f.input :screener_destroyed_date,
-                          input_html: {tabindex: autotab},
-                          order: [:day,
-                                  :month,
-                                  :year],
-                          label: false,
-                          labels: {day: false,
-                                   month: false,
-                                   year: false},
-                          use_short_month: true,
-                          include_blank: true %>
-            </td>
-            <td>
-              <%= f.input :has_press_kit,
-                          input_html: {tabindex: autotab},
-                          label: "Photo CD/Press Kit" %>
-              <%= f.input :has_poster,
-                          input_html: {tabindex: autotab},
-                          label: "Poster" %>
-              <%= f.input :poster_quantity,
-                          input_html: {tabindex: autotab,
-                                       size: 3},
-                          label: ",
- &nbsp;Qty" %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.input :rating,
-                          input_html: {tabindex: autotab},
-                          label: "Rating",
-                          as: :select,
-                          collection: %w(NR G PG PG-13 R NC-17),
-                          include_blank: false %>
-            </td>
-            <td>
-              <%= f.input :theatrical_runtime,
-                          input_html: {tabindex: autotab},
-                          label: "Theatrical R/T (min)" %>
-            </td>
-            <td>
-              <%= f.input :edited_runtime,
-                          label: "Edited R/T (min)",
-                          input_html: {tabindex: autotab} %>
-            </td>
-          </tr>
-        </table>
-        <%= f.input :release_versions,
-                    input_html: {tabindex: autotab},
-                    label: "Release Versions",
-                    as: :check_boxes,
-                    collection: Movie::RELEASE_VERSIONS %>
-
-        <!-- TODO: Update to Rails 3 -->
-        <%= f.input :screener_remarks,
-                    label: "Screener Remarks",
-                    as: :check_boxes,
-                    collection: Movie::SCREENER_REMARKS,
-                    input_html: {tabindex: autotab} %>
-        <%= f.input :screener_remarks_other,
-                    input_html: {tabindex: autotab},
-                    label: "Other",
-                    id: 'movie_screener_remarks_other_other',
-                    input_html: @movie.screener_remarks.include?("Other") ? {disabled: false} : {disabled: true} %>
-        <%= f.input :gapp_number,
-                    label: "GAPP Number",
-                    input_html: {tabindex: autotab},
-                    size: 5 %>
-
-
-        <div class="clear"></div>
-
-        <!-- TODO: Update to Rails 3 -->
-        <%= f.input :airline_rights,
-                    label: "Airline Rights",
-                    as: :select,
-                    collection: ["Worldwide",
-                                 "Worldwide Excluding",
-                                 "International Including",
-                                 "North America",
-                                 "Limited"],
-                    include_blank: true,
-                    input_html: {tabindex: autotab} %>
-        <%= f.input :airline_countries,
-                    input_html: {disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
-                                 tabindex: autotab} %>
-        <%= f.input :language_tracks,
-                    input_html: {tabindex: autotab},
-                    label: ("Available Language<br/>Tracks").html_safe,
-                    as: :check_boxes,
-                    collection: @languages %>
-        <%= f.input :language_subtitles,
-                    input_html: {tabindex: autotab},
-                    label: ("Available Language<br/>Subtitles").html_safe,
-                    as: :check_boxes,
-                    collection: @languages %>
-        <%= f.input :movie_genres,
-                    collection: MovieGenre.order("name"),
-                    input_html: {tabindex: autotab},
-                    label: "Movie Genre",
-                    as: :check_boxes %>
-
-        <%= f.input :cast,
-                    input_html: {tabindex: autotab} %>
-        <%= f.input :chinese_cast,
-                    input_html: {tabindex: autotab},
-                    label: "Cast (Chinese)" %>
-        <%= f.input :director,
-                    input_html: {tabindex: autotab} %>
-        <%= f.input :chinese_director,
-                    input_html: {tabindex: autotab},
-                    label: "Director (Chinese)" %>
-        <%= f.input :synopsis,
-                    input_html: {tabindex: autotab},
-                    hint: ("(<span id='char_count' ></span > characters)").html_safe %>
-        <%= f.input :chinese_synopsis,
-                    input_html: {tabindex: autotab},
-                    label: "Chinese Synopsis",
-                    hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
-        <%= f.input :imdb_synopsis,
-                    input_html: {tabindex: autotab},
-                    label: "IMDB Synopsis",
-                    hint: ("(<span id='imdb_char_count' ></span > characters)").html_safe %>
-
-        <%= f.input :critics_review,
-                    input_html: {tabindex: autotab},
-                    label: ("Critics Review") %>
-
-        <%= f.input :remarks,
-                    input_html: {tabindex: autotab,
-                                 rows: 3},
-                    hint: 'Only use this remarks field as a last resort' %>
-
-        </div>
+    <% if @movie.movie_type.name=="Hollywood Movie" %>
+      <%= f.input :foreign_language_title,
+                  label: "Foreign Language Title",
+                  input_html: {disabled: true,
+                               tabindex: autotab} %>
+    <% else %>
+      <%= f.input :foreign_language_title,
+                  label: "Foreign Language Title",
+                  input_html: {tabindex: autotab} %>
     <% end %>
 
-    <center><%= f.actions %></center>
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="top">
+          <%= f.input :movie_distributor,
+                      include_blank: true,
+                      input_html: {tabindex: autotab},
+                      label: ("Distributor " + link_to("[edit]",
+                                                       suppliers_path,
+                                                       target: "_blank")).html_safe,
+                      collection: Supplier.movie_distributors.collect { |p| [p.company_name,
+                                                                             p.id] } %>
+        </td>
+        <td>
+          <%= f.input :production_studio,
+                      input_html: {tabindex: autotab},
+                      include_blank: true,
+                      label: ("Production Studio " + link_to("[edit]",
+                                                             suppliers_path,
+                                                             target: "_blank")).html_safe,
+                      collection: Supplier.production_studios.collect { |p| [p.company_name,
+                                                                             p.id] } %>
+        </td>
+        <td>
+          <%= f.input :laboratory,
+                      input_html: {tabindex: autotab},
+                      include_blank: true,
+                      label: ("Laboratory " + link_to("[edit]",
+                                                      suppliers_path,
+                                                      target: "_blank")).html_safe,
+                      collection: Supplier.laboratories.collect { |p| [p.company_name,
+                                                                       p.id] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Airline Release Date
+          <%= f.input :airline_release_date,
+                      input_html: {tabindex: autotab},
+                      label: false,
+                      labels: {month: false,
+                               year: false},
+                      order: [:month,
+                              :year],
+                      discard_day: true,
+                      include_blank: true,
+                      use_month_numbers: true,
+                      start_year: Date.today.year + 2,
+                      end_year: 1900 %>
+        </td>
+        <td>
+          Personal Video Date
+          <%= f.input :personal_video_date,
+                      input_html: {tabindex: autotab},
+                      label: false,
+                      labels: {month: false,
+                               year: false},
+                      order: [:month,
+                              :year],
+                      discard_day: true,
+                      include_blank: true,
+                      use_month_numbers: true,
+                      start_year: Date.today.year + 2,
+                      end_year: 1900 %>
+        </td>
+        <td valign="top">
+          <%= f.input :theatrical_release_year,
+                      input_html: {tabindex: autotab},
+                      label: "Theatrical Release Year" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Screener Received Date
+          <%= link_to '[today]',
+                      update_date_path("movie_screener_received_date"),
+                      remote: true %>
+          <%= f.input :screener_received_date,
+                      input_html: {tabindex: autotab},
+                      label: false,
+                      labels: {day: false,
+                               month: false,
+                               year: false},
+                      include_blank: true,
+                      order: [:day,
+                              :month,
+                              :year],
+                      use_short_month: true %>
+        </td>
+        <td>
+          Screener Destroyed Date
+          <%= link_to '[today]',
+                      update_date_path("movie_screener_destroyed_date"),
+                      remote: true %>
+          <%= f.input :screener_destroyed_date,
+                      input_html: {tabindex: autotab},
+                      order: [:day,
+                              :month,
+                              :year],
+                      label: false,
+                      labels: {day: false,
+                               month: false,
+                               year: false},
+                      use_short_month: true,
+                      include_blank: true %>
+        </td>
+        <td>
+          <%= f.input :has_press_kit,
+                      input_html: {tabindex: autotab},
+                      label: "Photo CD/Press Kit" %>
+          <%= f.input :has_poster,
+                      input_html: {tabindex: autotab},
+                      label: "Poster" %>
+          <%= f.input :poster_quantity,
+                      input_html: {tabindex: autotab,
+                                   size: 3},
+                      label: ",
+ &nbsp;Qty" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.input :rating,
+                      input_html: {tabindex: autotab},
+                      label: "Rating",
+                      as: :select,
+                      collection: %w(NR G PG PG-13 R NC-17),
+                      include_blank: false %>
+        </td>
+        <td>
+          <%= f.input :theatrical_runtime,
+                      input_html: {tabindex: autotab},
+                      label: "Theatrical R/T (min)" %>
+        </td>
+        <td>
+          <%= f.input :edited_runtime,
+                      label: "Edited R/T (min)",
+                      input_html: {tabindex: autotab} %>
+        </td>
+      </tr>
+    </table>
+    <%= f.input :release_versions,
+                input_html: {tabindex: autotab},
+                label: "Release Versions",
+                as: :check_boxes,
+                collection: Movie::RELEASE_VERSIONS %>
+
+    <!-- TODO: Update to Rails 3 -->
+    <%= f.input :screener_remarks,
+                label: "Screener Remarks",
+                as: :check_boxes,
+                collection: Movie::SCREENER_REMARKS,
+                input_html: {tabindex: autotab} %>
+    <%= f.input :screener_remarks_other,
+                input_html: {tabindex: autotab},
+                label: "Other",
+                id: 'movie_screener_remarks_other_other',
+                input_html: @movie.screener_remarks.include?("Other") ? {disabled: false} : {disabled: true} %>
+    <%= f.input :gapp_number,
+                label: "GAPP Number",
+                input_html: {tabindex: autotab},
+                size: 5 %>
+
+
+    <div class="clear"></div>
+
+    <!-- TODO: Update to Rails 3 -->
+    <%= f.input :airline_rights,
+                label: "Airline Rights",
+                as: :select,
+                collection: ["Worldwide",
+                             "Worldwide Excluding",
+                             "International Including",
+                             "North America",
+                             "Limited"],
+                include_blank: true,
+                input_html: {tabindex: autotab} %>
+    <%= f.input :airline_countries,
+                input_html: {disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
+                             tabindex: autotab} %>
+    <%= f.input :language_tracks,
+                input_html: {tabindex: autotab},
+                label: ("Available Language<br/>Tracks").html_safe,
+                as: :check_boxes,
+                collection: @languages %>
+    <%= f.input :language_subtitles,
+                input_html: {tabindex: autotab},
+                label: ("Available Language<br/>Subtitles").html_safe,
+                as: :check_boxes,
+                collection: @languages %>
+    <%= f.input :movie_genres,
+                collection: MovieGenre.order("name"),
+                input_html: {tabindex: autotab},
+                label: "Movie Genre",
+                as: :check_boxes %>
+
+    <%= f.input :cast,
+                input_html: {tabindex: autotab} %>
+    <%= f.input :chinese_cast,
+                input_html: {tabindex: autotab},
+                label: "Cast (Chinese)" %>
+    <%= f.input :director,
+                input_html: {tabindex: autotab} %>
+    <%= f.input :chinese_director,
+                input_html: {tabindex: autotab},
+                label: "Director (Chinese)" %>
+    <%= f.input :synopsis,
+                input_html: {tabindex: autotab},
+                hint: ("(<span id='char_count' ></span > characters)").html_safe %>
+    <%= f.input :chinese_synopsis,
+                input_html: {tabindex: autotab},
+                label: "Chinese Synopsis",
+                hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
+    <%= f.input :imdb_synopsis,
+                input_html: {tabindex: autotab},
+                label: "IMDB Synopsis",
+                hint: ("(<span id='imdb_char_count' ></span > characters)").html_safe %>
+
+    <%= f.input :critics_review,
+                input_html: {tabindex: autotab},
+                label: ("Critics Review") %>
+
+    <%= f.input :remarks,
+                input_html: {tabindex: autotab,
+                             rows: 3},
+                hint: 'Only use this remarks field as a last resort' %>
+
+    </div>
+  <% end %>
+
+  <center><%= f.actions %></center>
 <% end %>
 
 <div id="add_review_dialog" style="display:none;">
@@ -329,69 +332,99 @@
 
 <script>
 
-    var $ = jQuery;
+  var $ = jQuery;
 
-    $(document).ready(function() {
-    	
-    	var chars,
-      		chineseChars,
-            imdbChars;
-    	
-    	chars = $('#movie_synopsis').val().length;
-    	chineseChars = $('#movie_chinese_synopsis').val().length;
-        imdbChars = $('#movie_imdb_synopsis').val().length;
-    	
-    	$('#char_count').html(chars);
-    	$('#chinese_char_count').html(chineseChars);
-        $('#imdb_char_count').html(imdbChars);
-    	
-    	$('#movie_synopsis').on("keyup change", function() {
-	    	chars = $('#movie_synopsis').val().length;
-	    	$('#char_count').html(chars);
-    	});
+  $(document).ready(function () {
 
-    	$('#movie_chinese_synopsis').on("keyup change", function() {
-	    	chineseChars = $('#movie_chinese_synopsis').val().length;
-	    	$('#chinese_char_count').html(chineseChars);
-    	});
+    var chars,
+        chineseChars,
+        imdbChars;
 
-        $('#movie_imdb_synopsis').on("keyup change", function() {
-        imdbChars = $('#movie_imdb_synopsis').val().length;
-        $('#imdb_char_count').html(imdbChars);
-        });
+    chars = $('#movie_synopsis').val().length;
+    chineseChars = $('#movie_chinese_synopsis').val().length;
+    imdbChars = $('#movie_imdb_synopsis').val().length;
 
-        $(document).on("click", "#add_review_to_movie", function (review) {
-            review.preventDefault();
-            $('#add_review_dialog').dialog({
-                title: 'Add Review',
-                modal: true,
-                width: 912,
-                height: 540,
-                position: ['center', 100],
-                close: function (review, ui) {
-                    $('#add_review_dialog').dialog('destroy');
-                }
-            });
-            $.ajax({ url: '/add_review_to_movie/<%= @movie.id %>',
-                type: 'get',
-                dataType: 'script'
-            });
-        });
+    $('#char_count').html(chars);
+    $('#chinese_char_count').html(chineseChars);
+    $('#imdb_char_count').html(imdbChars);
 
-        $(document).on("click", ".expand-link", function (e) {
-            e.preventDefault();
-            link = $(this).attr('data-link');
-            $('.expandable-row[data-link = ' + link + ']').toggle();
-        });
-
-        $(document).on("click", ".choice-link", function (e) {
-            e.preventDefault();
-            link = $(this).attr('data-review');
-            text = $('.choice-content[data-review = ' + link + ']').text();
-            $('#movie_critics_review').text(text);
-            $('#add_review_dialog').dialog('destroy');
-        });
+    $('#movie_synopsis').on("keyup change", function () {
+      chars = $('#movie_synopsis').val().length;
+      $('#char_count').html(chars);
     });
 
+    $('#movie_chinese_synopsis').on("keyup change", function () {
+      chineseChars = $('#movie_chinese_synopsis').val().length;
+      $('#chinese_char_count').html(chineseChars);
+    });
+
+    $('#movie_imdb_synopsis').on("keyup change", function () {
+      imdbChars = $('#movie_imdb_synopsis').val().length;
+      $('#imdb_char_count').html(imdbChars);
+    });
+
+    $(document).on("click", "#add_review_to_movie", function (review) {
+      review.preventDefault();
+      $('#add_review_dialog').dialog({
+        title: 'Add Review',
+        modal: true,
+        width: 912,
+        height: 540,
+        position: ['center', 100],
+        close: function (review, ui) {
+          $('#add_review_dialog').dialog('destroy');
+        }
+      });
+      $.ajax({ url: '/add_review_to_movie/<%= @movie.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+    });
+
+    $(document).on("click", ".expand-link", function (e) {
+      e.preventDefault();
+      link = $(this).attr('data-link');
+      $('.expandable-row[data-link = ' + link + ']').toggle();
+    });
+
+    $(document).on("click", ".choice-link", function (e) {
+      e.preventDefault();
+      link = $(this).attr('data-review');
+      text = $('.choice-content[data-review = ' + link + ']').text();
+      $('#movie_critics_review').text(text);
+      $('#add_review_dialog').dialog('destroy');
+    });
+
+    var $title = $('#movie_movie_title'),
+        $f_title = $('#movie_foreign_language_title'),
+        $year = $('#movie_theatrical_release_year'),
+        $link = $('#google-images-link'),
+        title, year, href;
+
+    $title
+        .keyup(function () {
+          title = $f_title.val() == "" ? $(this).val().toLowerCase() : $f_title.val().toLowerCase();
+          year = $year.val();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+    $f_title
+        .keyup(function () {
+          title = $f_title.val() == "" ? $title.val().toLowerCase() : $(this).val().toLowerCase();
+          year = $year.val();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+    $year
+        .change(function () {
+          year = $(this).val();
+          title = $f_title.val() == "" ? $title.val().toLowerCase() : $f_title.val().toLowerCase();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+  });
 
 </script>

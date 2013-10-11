@@ -20,7 +20,8 @@ true]] %>
         <tr>
           <td valign="top">
             Movie Title:<br/>
-            <%= movies.text_field :movie_title_cont %>
+            <%= movies.text_field :movie_title_or_foreign_language_title_cont_any,
+                                  value: @original %>
             <br/>
             Cast:<br/>
             <%= movies.text_field :cast_cont %>
