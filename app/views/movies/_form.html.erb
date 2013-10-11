@@ -38,7 +38,10 @@
                 as: :file,
                 input_html: {tabindex: autotab, size: 6} %>
     <br/>
-    <a href="http://images.google.com/images?hl=en&q=movie+<%= CGI.escape(@movie.movie_title.to_s) %>" target="_blank">
+    <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+    <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
+    <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
+    <a href="<%= href %>" target="_blank" id="google-images-link">
       Search Google Images
     </a>
     <br/>
@@ -330,7 +333,6 @@
 <script>
 
   var $ = jQuery;
-
   $(document).ready(function () {
 
     var chars,
@@ -391,7 +393,37 @@
       $('#movie_critics_review').text(text);
       $('#add_review_dialog').dialog('destroy');
     });
-  });
 
+    var $title = $('#movie_movie_title'),
+        $f_title = $('#movie_foreign_language_title'),
+        $year = $('#movie_theatrical_release_year'),
+        $link = $('#google-images-link'),
+        title, year, href;
+
+    $title
+        .keyup(function () {
+          title = $f_title.val() == "" ? $(this).val().toLowerCase() : $f_title.val().toLowerCase();
+          year = $year.val();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+    $f_title
+        .keyup(function () {
+          title = $f_title.val() == "" ? $title.val().toLowerCase() : $(this).val().toLowerCase();
+          year = $year.val();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+    $year
+        .change(function () {
+          year = $(this).val();
+          title = $f_title.val() == "" ? $title.val().toLowerCase() : $f_title.val().toLowerCase();
+          href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster+" + title + "+" + year;
+          $link.attr('href', href);
+        });
+
+  });
 
 </script>

@@ -8,8 +8,18 @@ class MoviesController < ApplicationController
   def index
     @languages = IIM::MOVIE_LANGUAGES
 
+    if params[:q].present?
+      @original = params[:q][:movie_title_or_foreign_language_title_cont_any]
+      @the = params[:q][:movie_title_or_foreign_language_title_cont_any][0..3].downcase
+      @title = params[:q][:movie_title_or_foreign_language_title_cont_any][4..-1].downcase
+      if @the == 'the '
+        params[:q][:movie_title_or_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      end
+    end
+
     @search = Movie.includes(:movie_distributor, :movie_type)
                    .ransack(params[:q])
+
     @movies = @search.result(distinct: true)
                      .order("movies.id DESC")
                      .paginate(page: params[:page],
