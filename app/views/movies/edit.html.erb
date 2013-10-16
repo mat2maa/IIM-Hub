@@ -1,46 +1,28 @@
 <%= render partial: 'layouts/movie_header' %>
-<center>
-  <p style="color: green">
-    <%= flash[:notice] %>
-  </p>
-</center>
 
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= "[" if !@prev_id.nil? || !@next_id.nil? %>
-    <%= link_to "Prev",
-                edit_movie_path(@prev_id) if !@prev_id.nil? %>
-    <%= link_to "Next",
-                edit_movie_path(@next_id) if !@next_id.nil? %>
-    <%= "]" if !@prev_id.nil? || !@next_id.nil? %>
-    <%= link_to 'View Movie',
-                movie_path(@movie) %> |
-    <%= link_to "New Movie",
-                new_movie_path %> |
-    <% if permitted_to? :admin_delete,
-                        :movies %>
-      <%= link_to 'Delete',
-                  movie_url(@movie),
-                  method: :delete,
-                  confirm: 'Are you sure?' %>
-    <% end %>
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <%= bootstrap_flash %>
+    </div>
+    <!--/span-->
   </div>
-  <div id="content-header">
-    Edit Movie<br/>
-  </div>
-</div>
+  <!--/row-->
 
-<div id="content">
-  <center>
-    <h1>Edit Movie</h1>
-
-    <%= render partial: 'search_form',
-               object: @search %>
-    <br/><br/>
+  <div class="row">
 
     <%= render partial: 'form' %>
 
-  </center>
-  <br/>
-  <br/>
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
 </div>
+<!--/container-->
+
+

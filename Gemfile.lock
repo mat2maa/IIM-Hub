@@ -62,6 +62,8 @@ GEM
       rails (~> 3.1)
     bootstrap-datepicker-rails (1.1.0.1)
       railties (>= 3.0)
+    bootstrap-wysihtml5-rails (0.3.1.21)
+      railties (>= 3.0)
     builder (3.0.4)
     bullet (4.6.0)
       uniform_notifier
@@ -149,6 +151,7 @@ GEM
     multi_json (1.7.7)
     mysql (2.9.1)
     mysql2 (0.3.11)
+    nested_form (0.3.2)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
@@ -235,6 +238,9 @@ GEM
       fattr
     settingslogic (2.0.9)
     sexp_processor (4.2.1)
+    simple_form (2.1.0)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
     sinatra (1.4.3)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -287,6 +293,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.1)
   best_in_place
   bootstrap-datepicker-rails
+  bootstrap-wysihtml5-rails
   bullet
   carrierwave
   coffee-rails (~> 3.2.1)
@@ -303,6 +310,7 @@ DEPENDENCIES
   less-rails
   mime-types
   mysql2
+  nested_form
   newrelic_rpm
   nilify_blanks
   nokogiri
@@ -320,6 +328,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   select2-rails
   settingslogic
+  simple_form
   spreadsheet
   test-unit
   therubyracer

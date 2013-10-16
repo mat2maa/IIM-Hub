@@ -16,3 +16,5 @@
 
 *.rails2
 .idea
+
+/config/local_env.yml

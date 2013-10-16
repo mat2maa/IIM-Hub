@@ -16,6 +16,8 @@
 //= require jquery.ui.all
 //= require jquery.purr
 //= require best_in_place
+//= require jquery_nested_form
 //= require select2
+//= require bootstrap-wysihtml5
 //= require bootstrap-datepicker
 //= require scripts.js

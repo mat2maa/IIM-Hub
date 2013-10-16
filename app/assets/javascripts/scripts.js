@@ -243,11 +243,11 @@ $(document).ready(function () {
         }
     });
 
-    $('#movie_screener_remarks_other').on("change", function() {
-        if($(this).prop('checked')) {
-            $('#movie_screener_remarks_other_input').find('input').prop('disabled', false);
+    $('#movie_screener_remarks').on("change", function() {
+        if($.inArray("Other", $('#movie_screener_remarks').val()) !== -1) {
+            $('#movie_screener_remarks_other').prop('disabled', false);
         } else {
-            $('#movie_screener_remarks_other_input').find('input').prop('disabled', true);
+            $('#movie_screener_remarks_other').prop('disabled', true);
         }
     });
 
@@ -310,4 +310,7 @@ $(document).ready(function () {
         autoclose: true
     });
 
+    $('.wysihtml5').each(function(i, elem) {
+        $(elem).wysihtml5();
+    });
 });

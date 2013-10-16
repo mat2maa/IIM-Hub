@@ -1,334 +1,521 @@
-<%= semantic_form_for @movie,
-                      html: {multipart: true} do |f| %>
+<%= minimal_form_for @movie,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
+  <div class="span3">
+    <div id="poster-thumbnail">
+      <%= link_to(image_tag(@movie.poster.url, class: 'poster-image'),
+                  @movie.poster.url,
+                  target: "_blank") %>
+      <div class="poster-title poster-info">
+        Search tools
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info">
+            <%= link_to("Search Box Office Mojo",
+                        "http://www.boxofficemojo.com/search/?q=" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+          <li class="poster-info">
+            <%= link_to("Search Yahoo Movies",
+                        "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+          <li class="poster-info">
+            <%= link_to("Search Taiwan Yahoo Movies",
+                        "http://tw.movie.yahoo.com/moviesearch_result.html?qmv=" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+          <li class="poster-info">
+            <%= link_to("Search Rotten Tomatoes",
+                        "http://www.rottentomatoes.com/search/full_search.php?search=" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+          <li class="poster-info">
+            <%= link_to("Search IMDB",
+                        "http://www.imdb.com/find?s=all&q=" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+          <li class="poster-info">
+            <%= link_to("Search Mtime",
+                        "http://www.mtime.com/search/?" + CGI.escape(@movie.movie_title.to_s),
+                        target: "_blank") %>
+          </li>
+        </ul>
+      </div>
+      <div class="poster-title poster-info">
+        Poster image
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info">
+            <div class="controls controls-row">
+              <div class="input-append span2 file-input">
+                <input id="movie_poster_input" type="text">
+                <a class="btn" onclick="$('input[id=movie_poster]').click();"><i class="icon-search"></i></a>
+              </div>
 
-  <%= error_messages_for(f.object) %><br/>
+              <%= f.input_field :poster,
+                                as: :file,
+                                label: 'Poster Image',
+                                class: 'hidden-input',
+                                tabindex: autotab,
+                                size: 6 %>
+            </div>
+          </li>
+          <li class="poster-info">
+            <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+            <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
+            <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
+            <a href="<%= href %>" target="_blank" id="google-images-link">
+              Search Google Images
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="poster-title poster-info">
+        Video tools
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info">
+            <%= link_to "Add EPK",
+                        new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
+          </li>
+          <li class="poster-info">
+            <%= link_to "Add Trailer",
+                        new_video_path(id: params[:id], video_type: CGI.escape("Movie Trailer")) %>
+          </li>
+          <li class="poster-info">
+            <%= link_to "Add Master",
+                        new_video_path(id: params[:id], video_type: CGI.escape("Movie Master")) %>
+          </li>
+          <li class="poster-info">
+            <%= link_to "Add TV Special",
+                        new_video_path(id: params[:id], video_type: CGI.escape("TV Special")) %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--/span-->
 
-  <div id="poster-thumbnail">
-    <%= link_to(image_tag(@movie.poster.url(:small)),
-                @movie.poster.url,
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search Box Office Mojo",
-                "http://www.boxofficemojo.com/search/?q=" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search Yahoo Movies",
-                "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search Taiwan Yahoo Movies",
-                "http://tw.movie.yahoo.com/moviesearch_result.html?qmv=" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search Rotten Tomatoes",
-                "http://www.rottentomatoes.com/search/full_search.php?search=" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search IMDB",
-                "http://www.imdb.com/find?s=all&q=" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <%= link_to("Search Mtime",
-                "http://www.mtime.com/search/?" + CGI.escape(@movie.movie_title.to_s),
-                target: "_blank") %>
-    <br/>
-    <br/>
-    <%= f.input :poster,
-                label: "Poster Image",
-                as: :file,
-                input_html: {tabindex: autotab, size: 6} %>
-    <br/>
-    <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
-    <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
-    <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
-    <a href="<%= href %>" target="_blank" id="google-images-link">
-      Search Google Images
-    </a>
-    <br/>
-    <br/>
-    <%= f.actions %>
-    <%= link_to "Add EPK",
-                new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
-    <br/>
-    <%= link_to "Add Trailer",
-                new_video_path(id: params[:id], video_type: CGI.escape("Movie Trailer")) %>
-    <br/>
-    <%= link_to "Add Master",
-                new_video_path(id: params[:id], video_type: CGI.escape("Movie Master")) %>
-    <br/>
-    <%= link_to "Add TV Special",
-                new_video_path(id: params[:id], video_type: CGI.escape("TV Special")) %>
+  <div class="span6">
+  <div class="content">
+  <div class="tabbable">
+    <ul class="nav nav-tabs pre-nav-below">
+      <li>
+        <%= link_to "Previous",
+                    edit_movie_path(@movie.previous.id) if @movie.previous.present? %>
+      </li>
+      <li>
+        <%= link_to "Next",
+                    edit_movie_path(@movie.next.id) if @movie.next.present? %>
+      </li>
+      <li>
+        <%= link_to 'View Movie',
+                    movie_path(@movie) %>
+      </li>
+      <li>
+        <%= link_to "New Movie",
+                    new_movie_path %>
+      </li>
+      <% if permitted_to? :admin_delete,
+                          :movies %>
+        <li>
+          <%= link_to 'Delete',
+                      movie_url(@movie),
+                      method: :delete,
+                      confirm: 'Are you sure?' %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 
-  <%= f.inputs do %>
+  <br>
 
-    <div id="movie-fields">
-    <%= f.input :movie_title,
-                label: "Movie Title",
-                input_html: {tabindex: autotab},
-                size: 5 %>
-    <%= f.input :chinese_movie_title,
-                label: "Chinese Movie Title",
-                input_html: {tabindex: autotab},
-                size: 5 %>
-    <!-- TODO: Update to Rails 3 -->
-    <%= f.input :movie_type,
-                label: (link_to("[edit]",
-                                movie_types_path,
-                                target: "_blank") + " Movie Type").html_safe,
-                as: :select,
-                collection: MovieType.order("name")
-                .collect { |p| [p.name,
-                                p.id] },
-                include_blank: true,
-                input_html: {tabindex: autotab} %>
+  <div class="controls controls-row">
+    <%= f.input_field :movie_title,
+                      placeholder: "Movie Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+    <%= f.input_field :chinese_movie_title,
+                      placeholder: "Chinese Movie Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+
+
+    <div class="input-prepend prepend-select2">
+      <%= link_to raw("<i class='icon-edit'></i>"),
+                  movie_types_path,
+                  target: "_blank",
+                  class: 'btn' %>
+    </div>
+    <%= f.input_field :movie_type_id,
+                      placeholder: "Movie Type",
+                      as: :select,
+                      collection: MovieType.order("name").collect { |p| [p.name, p.id] },
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span3' %>
 
     <% if @movie.movie_type.name=="Hollywood Movie" %>
-      <%= f.input :foreign_language_title,
-                  label: "Foreign Language Title",
-                  input_html: {disabled: true,
-                               tabindex: autotab} %>
+      <%= f.input_field :foreign_language_title,
+                        placeholder: "Foreign Language Title",
+                        disabled: true,
+                        tabindex: autotab,
+                        class: 'span3' %>
     <% else %>
-      <%= f.input :foreign_language_title,
-                  label: "Foreign Language Title",
-                  input_html: {tabindex: autotab} %>
+      <%= f.input_field :foreign_language_title,
+                        placeholder: "Foreign Language Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
     <% end %>
+  </div>
 
-    <table border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td valign="top">
-          <%= f.input :movie_distributor,
+  <div class="controls controls-row">
+    <div class="input-append calendar span3" id="theatrical_release_year_datepicker" data-date-format="yyyy"
+         data-date-viewmode="years" data-date-minviewmode="years">
+      <%= f.text_field :theatrical_release_year,
+                       data: {behaviour: 'datepicker-years'},
+                       placeholder: 'Theatrical Release Year',
+                       class: 'span3',
+                       tabindex: autotab,
+                       value: @movie.theatrical_release_year.present? ? @movie.theatrical_release_year : "" %>
+      <span class="add-on">
+          <i class="icon-calendar"></i>
+        </span>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+
+    <div class="input-prepend prepend-select2">
+      <%= link_to raw("<i class='icon-edit'></i>"),
+                  suppliers_path,
+                  target: "_blank",
+                  class: 'btn' %>
+    </div>
+    <%= f.input_field :movie_distributor_id,
+                      placeholder: "Distributor",
+                      as: :select,
+                      collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
                       include_blank: true,
-                      input_html: {tabindex: autotab},
-                      label: ("Distributor " + link_to("[edit]",
-                                                       suppliers_path,
-                                                       target: "_blank")).html_safe,
-                      collection: Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                             p.id] } %>
-        </td>
-        <td>
-          <%= f.input :production_studio,
-                      input_html: {tabindex: autotab},
+                      tabindex: autotab,
+                      class: 'select2 span6' %>
+
+    <div class="input-prepend prepend-select2">
+      <%= link_to raw("<i class='icon-edit'></i>"),
+                  suppliers_path,
+                  target: "_blank",
+                  class: 'btn' %>
+    </div>
+    <%= f.input_field :production_studio_id,
+                      tabindex: autotab,
                       include_blank: true,
-                      label: ("Production Studio " + link_to("[edit]",
-                                                             suppliers_path,
-                                                             target: "_blank")).html_safe,
-                      collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                             p.id] } %>
-        </td>
-        <td>
-          <%= f.input :laboratory,
-                      input_html: {tabindex: autotab},
+                      placeholder: "Production Studio",
+                      collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                      class: 'select2 span6' %>
+
+    <div class="input-prepend prepend-select2">
+      <%= link_to raw("<i class='icon-edit'></i>"),
+                  suppliers_path,
+                  target: "_blank",
+                  class: 'btn' %>
+    </div>
+    <%= f.input_field :laboratory_id,
+                      tabindex: autotab,
                       include_blank: true,
-                      label: ("Laboratory " + link_to("[edit]",
-                                                      suppliers_path,
-                                                      target: "_blank")).html_safe,
-                      collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                       p.id] } %>
-        </td>
-      </tr>
-      <tr>
-        <td>Airline Release Date
-          <%= f.input :airline_release_date,
-                      input_html: {tabindex: autotab},
-                      label: false,
-                      labels: {month: false,
-                               year: false},
-                      order: [:month,
-                              :year],
-                      discard_day: true,
-                      include_blank: true,
-                      use_month_numbers: true,
-                      start_year: Date.today.year + 2,
-                      end_year: 1900 %>
-        </td>
-        <td>
-          Personal Video Date
-          <%= f.input :personal_video_date,
-                      input_html: {tabindex: autotab},
-                      label: false,
-                      labels: {month: false,
-                               year: false},
-                      order: [:month,
-                              :year],
-                      discard_day: true,
-                      include_blank: true,
-                      use_month_numbers: true,
-                      start_year: Date.today.year + 2,
-                      end_year: 1900 %>
-        </td>
-        <td valign="top">
-          <%= f.input :theatrical_release_year,
-                      input_html: {tabindex: autotab},
-                      label: "Theatrical Release Year" %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Screener Received Date
-          <%= link_to '[today]',
-                      update_date_path("movie_screener_received_date"),
-                      remote: true %>
-          <%= f.input :screener_received_date,
-                      input_html: {tabindex: autotab},
-                      label: false,
-                      labels: {day: false,
-                               month: false,
-                               year: false},
-                      include_blank: true,
-                      order: [:day,
-                              :month,
-                              :year],
-                      use_short_month: true %>
-        </td>
-        <td>
-          Screener Destroyed Date
-          <%= link_to '[today]',
-                      update_date_path("movie_screener_destroyed_date"),
-                      remote: true %>
-          <%= f.input :screener_destroyed_date,
-                      input_html: {tabindex: autotab},
-                      order: [:day,
-                              :month,
-                              :year],
-                      label: false,
-                      labels: {day: false,
-                               month: false,
-                               year: false},
-                      use_short_month: true,
-                      include_blank: true %>
-        </td>
-        <td>
-          <%= f.input :has_press_kit,
-                      input_html: {tabindex: autotab},
-                      label: "Photo CD/Press Kit" %>
-          <%= f.input :has_poster,
-                      input_html: {tabindex: autotab},
-                      label: "Poster" %>
-          <%= f.input :poster_quantity,
-                      input_html: {tabindex: autotab,
-                                   size: 3},
-                      label: ",
- &nbsp;Qty" %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= f.input :rating,
-                      input_html: {tabindex: autotab},
-                      label: "Rating",
+                      placeholder: "Laboratory",
+                      collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                      class: 'select2 span6' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="input-append calendar span3" id="airline_release_date_datepicker" data-date-format="mm/yyyy"
+         data-date-viewmode="years" data-date-minviewmode="months">
+      <%= f.text_field :airline_release_date,
+                       data: {behaviour: 'datepicker-months'},
+                       placeholder: 'Airline Release Date',
+                       class: 'span3',
+                       tabindex: autotab,
+                       value: @movie.airline_release_date.present? ? @movie.airline_release_date.strftime("%Y-%m-%d") : "" %>
+      <span class="add-on">
+          <i class="icon-calendar"></i>
+        </span>
+    </div>
+
+    <div class="input-append calendar span3" id="personal_video_date_datepicker" data-date-format="mm/yyyy"
+         data-date-viewmode="years" data-date-minviewmode="months">
+      <%= f.text_field :personal_video_date,
+                       data: {behaviour: 'datepicker-months'},
+                       placeholder: 'Personal Video Date',
+                       class: 'span3',
+                       tabindex: autotab,
+                       value: @movie.personal_video_date.present? ? @movie.personal_video_date.strftime("%Y-%m-%d") : "" %>
+      <span class="add-on">
+          <i class="icon-calendar"></i>
+        </span>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="input-append calendar span3" id="screener_received_date" data-date-format="dd/mm/yyyy"
+         data-date-viewmode="days" data-date-minviewmode="days">
+      <%= f.text_field :screener_received_date,
+                       data: {behaviour: 'datepicker-days'},
+                       placeholder: 'Screener Recieved Date',
+                       class: 'span3',
+                       tabindex: autotab,
+                       value: @movie.screener_received_date.present? ? @movie.screener_received_date.strftime("%Y-%m-%d") : "" %>
+      <span class="add-on">
+          <i class="icon-calendar"></i>
+        </span>
+    </div>
+
+    <div class="input-append calendar span3" id="screener_destroyed_date" data-date-format="dd/mm/yyyy"
+         data-date-viewmode="days" data-date-minviewmode="days">
+      <%= f.text_field :screener_destroyed_date,
+                       data: {behaviour: 'datepicker-days'},
+                       placeholder: 'Screener Destroyed Date',
+                       class: 'span3',
+                       tabindex: autotab,
+                       value: @movie.screener_destroyed_date.present? ? @movie.screener_destroyed_date.strftime("%Y-%m-%d") : "" %>
+      <span class="add-on">
+          <i class="icon-calendar"></i>
+        </span>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :has_press_kit,
+                      :as => :boolean,
+                      tabindex: autotab,
+                      :inline_label => "Photo CD/Press Kit" %>
+
+    <%= f.input_field :has_poster,
+                      :as => :boolean,
+                      tabindex: autotab,
+                      :inline_label => "Poster" %>
+
+    <label class="number-input-label">
+      &nbsp; Poster Quantity
+      <%= f.input_field :poster_quantity,
+                        :type => :number,
+                        :placeholder => "Quantity",
+                        tabindex: autotab,
+                        :class => 'span1' %>
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :rating,
+                      placeholder: "Rating",
                       as: :select,
                       collection: %w(NR G PG PG-13 R NC-17),
-                      include_blank: false %>
-        </td>
-        <td>
-          <%= f.input :theatrical_runtime,
-                      input_html: {tabindex: autotab},
-                      label: "Theatrical R/T (min)" %>
-        </td>
-        <td>
-          <%= f.input :edited_runtime,
-                      label: "Edited R/T (min)",
-                      input_html: {tabindex: autotab} %>
-        </td>
-      </tr>
-    </table>
-    <%= f.input :release_versions,
-                input_html: {tabindex: autotab},
-                label: "Release Versions",
-                as: :check_boxes,
-                collection: Movie::RELEASE_VERSIONS %>
-
-    <!-- TODO: Update to Rails 3 -->
-    <%= f.input :screener_remarks,
-                label: "Screener Remarks",
-                as: :check_boxes,
-                collection: Movie::SCREENER_REMARKS,
-                input_html: {tabindex: autotab} %>
-    <%= f.input :screener_remarks_other,
-                input_html: {tabindex: autotab},
-                label: "Other",
-                id: 'movie_screener_remarks_other_other',
-                input_html: @movie.screener_remarks.include?("Other") ? {disabled: false} : {disabled: true} %>
-    <%= f.input :gapp_number,
-                label: "GAPP Number",
-                input_html: {tabindex: autotab},
-                size: 5 %>
-
-
-    <div class="clear"></div>
-
-    <!-- TODO: Update to Rails 3 -->
-    <%= f.input :airline_rights,
-                label: "Airline Rights",
-                as: :select,
-                collection: ["Worldwide",
-                             "Worldwide Excluding",
-                             "International Including",
-                             "North America",
-                             "Limited"],
-                include_blank: true,
-                input_html: {tabindex: autotab} %>
-    <%= f.input :airline_countries,
-                input_html: {disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
-                             tabindex: autotab} %>
-    <%= f.input :language_tracks,
-                input_html: {tabindex: autotab},
-                label: ("Available Language<br/>Tracks").html_safe,
-                as: :check_boxes,
-                collection: @languages %>
-    <%= f.input :language_subtitles,
-                input_html: {tabindex: autotab},
-                label: ("Available Language<br/>Subtitles").html_safe,
-                as: :check_boxes,
-                collection: @languages %>
-    <%= f.input :movie_genres,
-                collection: MovieGenre.order("name"),
-                input_html: {tabindex: autotab},
-                label: "Movie Genre",
-                as: :check_boxes %>
-
-    <%= f.input :cast,
-                input_html: {tabindex: autotab} %>
-    <%= f.input :chinese_cast,
-                input_html: {tabindex: autotab},
-                label: "Cast (Chinese)" %>
-    <%= f.input :director,
-                input_html: {tabindex: autotab} %>
-    <%= f.input :chinese_director,
-                input_html: {tabindex: autotab},
-                label: "Director (Chinese)" %>
-    <%= f.input :synopsis,
-                input_html: {tabindex: autotab},
-                hint: ("(<span id='char_count' ></span > characters)").html_safe %>
-    <%= f.input :chinese_synopsis,
-                input_html: {tabindex: autotab},
-                label: "Chinese Synopsis",
-                hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
-    <%= f.input :imdb_synopsis,
-                input_html: {tabindex: autotab},
-                label: "IMDB Synopsis",
-                hint: ("(<span id='imdb_char_count' ></span > characters)").html_safe %>
-
-    <%= f.input :critics_review,
-                input_html: {tabindex: autotab},
-                label: ("Critics Review") %>
-
-    <%= f.input :remarks,
-                input_html: {tabindex: autotab,
-                             rows: 3},
-                hint: 'Only use this remarks field as a last resort' %>
-
-    </div>
-  <% end %>
-
-  <center><%= f.actions %></center>
-<% end %>
-
-<div id="add_review_dialog" style="display:none;">
-  <div id="add_review">
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span3' %>
   </div>
-</div>
+
+  <div class="controls controls-row">
+    <label class="number-input-label">
+      &nbsp; Theatrical Runtime
+      <%= f.input_field :theatrical_runtime,
+                        :type => :number,
+                        :placeholder => "Theatrical Runtime",
+                        tabindex: autotab,
+                        :class => 'span2' %>
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="number-input-label">
+      &nbsp; Edited Runtime
+      <%= f.input_field :edited_runtime,
+                        :type => :number,
+                        :placeholder => "Edited Runtime",
+                        tabindex: autotab,
+                        :class => 'span2' %>
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="select2-container-outer span3">
+      <%= f.input_field :release_versions,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => Movie::RELEASE_VERSIONS,
+                        :placeholder => "Release Versions",
+                        :class => 'select2 span3' %>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="select2-container-outer span3">
+      <%= f.input_field :screener_remarks,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => Movie::SCREENER_REMARKS,
+                        :placeholder => "Screener Remarks",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+    <%= f.input_field :screener_remarks_other,
+                      tabindex: autotab,
+                      placeholder: "Screener Remarks Other",
+                      disabled: @movie.screener_remarks.include?("Other") ? false : true,
+                      :class => 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :gapp_number,
+                      placeholder: "GAPP Number",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :airline_rights,
+                      placeholder: "Airline Rights",
+                      as: :select,
+                      collection: ['Worldwide',
+                                   'Worldwide Excluding',
+                                   'International Including',
+                                   'North America',
+                                   'Limited'],
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :airline_countries,
+                      placeholder: "Airline Countries",
+                      disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
+                      tabindex: autotab,
+                      class: 'span6',
+                      rows: 3 %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="select2-container-outer span3">
+      <%= f.input_field :language_tracks,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => @languages,
+                        :placeholder => "Available Language Tracks",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+
+    <div class="select2-container-outer span3">
+      <%= f.input_field :language_subtitles,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => @languages,
+                        :placeholder => "Available Language Subtitles",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="select2-container-outer span3">
+      <%= f.input_field :movie_genre_ids,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => MovieGenre.order("name"),
+                        :placeholder => "Movie Genres",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :cast,
+                      placeholder: "Cast",
+                      tabindex: autotab,
+                      class: 'span6',
+                      rows: 3 %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :chinese_cast,
+                      placeholder: "Chinese Cast",
+                      tabindex: autotab,
+                      class: 'span6',
+                      rows: 3 %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :director,
+                      class: 'span3',
+                      tabindex: autotab,
+                      placeholder: "Director" %>
+    <%= f.input_field :chinese_director,
+                      tabindex: autotab,
+                      class: 'span3',
+                      placeholder: "Director (Chinese)" %>
+  </div>
+
+  <div class="controls controls-row">
+    <span id='char_count' ></span > characters
+    <%= f.input_field :synopsis,
+                      tabindex: autotab,
+                      placeholder: "Synopsis",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <div class="controls controls-row">
+    <span id='chinese_char_count' ></span > characters
+    <%= f.input_field :chinese_synopsis,
+                      tabindex: autotab,
+                      placeholder: "Chinese Synopsis",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <div class="controls controls-row">
+    <span id='imdb_char_count' ></span > characters
+    <%= f.input_field :imdb_synopsis,
+                      tabindex: autotab,
+                      placeholder: "IMDB Synopsis",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <div class="controls controls-row">
+  <%= f.input_field :critics_review,
+                    tabindex: autotab,
+                    placeholder: "Critics Review",
+                    class: 'wysihtml5 span6' %>
+  </div>
+
+  <div class="controls controls-row">
+    Only use this remarks field as a last resort
+    <%= f.input_field :remarks,
+                      tabindex: autotab,
+                      placeholder: "Remarks",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <%= f.button :submit, class: 'btn' %>
+  <br><br><br>
+
+  <div id="add_review_dialog" style="display:none;">
+    <div id="add_review">
+    </div>
+  </div>
+
+  </div>
+  <!--/span-->
+  </div>
+<% end %>
 
 <script>
 

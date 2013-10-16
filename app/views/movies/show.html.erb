@@ -2,249 +2,259 @@
 
 <div class="container">
 
-  <div class="row">
-    <div class="span12">
-      <%= bootstrap_flash %>
-    </div>
-    <!--/span-->
+<div class="row">
+  <div class="span12">
+    <%= bootstrap_flash %>
   </div>
-  <!--/row-->
+  <!--/span-->
+</div>
+<!--/row-->
 
-  <div class="row">
-    <div class="span3">
-      <div id="poster-thumbnail">
-        <%= link_to(image_tag("42761.jpeg", class: 'poster-image'),
-                    @movie.poster.url,
-                    target: "_blank") %>
-        <div class="poster-title poster-info">
-          <%= @movie.movie_title %> (<%= @movie.theatrical_release_year %>)
-          <% if @movie.foreign_language_title.present? && @movie.foreign_language_title != @movie.movie_title %>
-            <br>
-            (<%= @movie.foreign_language_title %>)
-          <% end %>
-        </div>
-        <% if @movie.cast.present? %>
-          <div class="poster-subtitle poster-info">
-            Cast
-          </div>
-          <div class="poster-list">
-            <ul>
-              <% @movie.cast.split(',').map { |cast| cast.strip }.each do |member| %>
-                <li class="poster-info"><%= member %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-        <% if @movie.director.present? %>
-          <div class="poster-subtitle poster-info">
-            Director
-          </div>
-          <div class="poster-list">
-            <ul>
-              <li class="poster-info"><%= @movie.director %></li>
-            </ul>
-          </div>
-        <% end %>
-        <div class="poster-other poster-info">
-          <%= @movie.rating %>
-          <% if @movie.theatrical_runtime.present? %>
-            <br>
-            <%= @movie.theatrical_runtime %> minutes
-          <% end %>
-          <% if @movie.edited_runtime.present? %>
-            <br>
-            <%= @movie.edited_runtime %> minutes (edited)
-          <% end %>
-        </div>
-
-        <br/><br/>
-        <%= link_to("Search Box Office Mojo",
-                    "http://www.boxofficemojo.com/search/?q=" + @movie.movie_title.to_s,
-                    target: "_blank") %>
-        <br/>
-        <%= link_to("Search Yahoo Movies",
-                    "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + @movie.movie_title.to_s,
-                    target: "_blank") %>
-        <br/>
-        <%= link_to("Search Rotten Tomatoes",
-                    "http://www.rottentomatoes.com/search/full_search.php?search=" + @movie.movie_title.to_s,
-                    target: "_blank") %>
-        <br/>
-        <%= link_to("Search IMDB",
-                    "http://www.imdb.com/find?s=all&q=" + @movie.movie_title.to_s,
-                    target: "_blank") %>
-        <br/>
-      </div>
+<div class="row">
+<div class="span3">
+  <div id="poster-thumbnail">
+    <%= link_to(image_tag(@movie.poster.url, class: 'poster-image'),
+                @movie.poster.url,
+                target: "_blank") %>
+    <div class="poster-title poster-info">
+      <%= @movie.movie_title %> (<%= @movie.theatrical_release_year %>)
+      <% if @movie.foreign_language_title.present? && @movie.foreign_language_title != @movie.movie_title %>
+        <br>
+        (<%= @movie.foreign_language_title %>)
+      <% end %>
     </div>
-    <!--/span-->
+    <% if @movie.cast.present? %>
+      <div class="poster-subtitle poster-info">
+        Cast
+      </div>
+      <div class="poster-list">
+        <ul>
+          <% @movie.cast.split(',').map { |cast| cast.strip }.each do |member| %>
+            <li class="poster-info"><%= member %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if @movie.director.present? %>
+      <div class="poster-subtitle poster-info">
+        Director
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info"><%= @movie.director %></li>
+        </ul>
+      </div>
+    <% end %>
+    <div class="poster-other poster-info">
+      <%= @movie.rating %>
+      <% if @movie.theatrical_runtime.present? %>
+        <br>
+        <%= @movie.theatrical_runtime %> minutes
+      <% end %>
+      <% if @movie.edited_runtime.present? %>
+        <br>
+        <%= @movie.edited_runtime %> minutes (edited)
+      <% end %>
+    </div>
+  </div>
+  <br>
+</div>
+<!--/span-->
 
-    <div class="span6">
-      <div id="content">
-        <% if @movie.synopsis.present? || @movie.chinese_synopsis.present? || @movie.imdb_synopsis.present? %>
-          <div class="tabbable">
-            <ul class="nav nav-tabs pre-nav-below">
-              <% if @movie.synopsis.present? %>
-                <li class="<%= "active" if @movie.synopsis.present? %>"><a href="#synopsis" data-toggle="tab">Synopsis</a></li>
-              <% end %>
-              <% if @movie.chinese_synopsis.present? %>
-                <li class="<%= "active" if @movie.synopsis.blank? && @movie.chinese_synopsis.present? %>">
-                  <a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a>
-                </li>
-              <% end %>
-              <% if @movie.imdb_synopsis.present? %>
-                <li><a href="#imdb_synopsis" data-toggle="tab">IMDB Synopsis</a></li>
-              <% end %>
-              <% if @movie.critics_review.present? %>
-                <li><a href="#critics_review" data-toggle="tab">Critics Review</a></li>
-              <% end %>
-              <% if @movie.remarks.present? %>
-                <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="tabbable tabs-below">
-            <ul class="nav nav-tabs pull-right">
-              <li>
-                <%= link_to "Previous",
-                            movie_path(@movie.previous) if @movie.previous.present? %>
-              </li>
-              <li>
-                <%= link_to "Next",
-                            movie_path(@movie.next) if @movie.next.present? %>
-              </li>
-              <li>
-                <%= link_to 'Edit Movie',
-                            edit_movie_path(@movie) if permitted_to? :edit,
-                                                                     :movies %>
-              </li>
-              <li>
-                <%= link_to "New Movie",
-                            new_movie_path %>
-              </li>
-            </ul>
-          </div>
-          <div class="tabbable">
-            <div class="tab-content">
-              <% if @movie.synopsis.present? %>
-                <div class="tab-pane fade active in" id="synopsis">
-                  <p><%= simple_format(@movie.synopsis) %></p>
-                </div>
-              <% end %>
-              <% if @movie.chinese_synopsis.present? %>
-                <div class="tab-pane fade" id="chinese_synopsis">
-                  <p><%= simple_format(@movie.chinese_synopsis) %></p>
-                </div>
-              <% end %>
-              <% if @movie.imdb_synopsis.present? %>
-                <div class="tab-pane fade" id="imdb_synopsis">
-                  <p><%= simple_format(@movie.imdb_synopsis) %></p>
-                </div>
-              <% end %>
-              <% if @movie.critics_review.present? %>
-                <div class="tab-pane fade" id="critics_review">
-                  <p><%= simple_format(@movie.critics_review) %></p>
-                </div>
-              <% end %>
-              <% if @movie.remarks.present? %>
-                <div class="tab-pane fade" id="remarks">
-                  <p><%= simple_format(@movie.remarks) %></p>
-                </div>
-              <% end %>
+<div class="span6">
+  <div id="content">
+    <% if @movie.synopsis.present? || @movie.chinese_synopsis.present? || @movie.imdb_synopsis.present? %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <% if @movie.synopsis.present? %>
+            <li class="<%= "active" if @movie.synopsis.present? %>"><a href="#synopsis" data-toggle="tab">Synopsis</a>
+            </li>
+          <% end %>
+          <% if @movie.chinese_synopsis.present? %>
+            <li class="<%= "active" if @movie.synopsis.blank? && @movie.chinese_synopsis.present? %>">
+              <a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a>
+            </li>
+          <% end %>
+          <% if @movie.imdb_synopsis.present? %>
+            <li><a href="#imdb_synopsis" data-toggle="tab">IMDB Synopsis</a></li>
+          <% end %>
+          <% if @movie.critics_review.present? %>
+            <li><a href="#critics_review" data-toggle="tab">Critics Review</a></li>
+          <% end %>
+          <% if @movie.remarks.present? %>
+            <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="tabbable tabs-below">
+        <ul class="nav nav-tabs pull-right">
+          <li>
+            <%= link_to "Previous",
+                        movie_path(@movie.previous) if @movie.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        movie_path(@movie.next) if @movie.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'Edit Movie',
+                        edit_movie_path(@movie) if permitted_to? :edit,
+                                                                 :movies %>
+          </li>
+          <li>
+            <%= link_to "New Movie",
+                        new_movie_path %>
+          </li>
+        </ul>
+      </div>
+      <div class="tabbable">
+        <div class="tab-content">
+          <% if @movie.synopsis.present? %>
+            <div class="tab-pane fade active in" id="synopsis">
+              <p><%= simple_format(@movie.synopsis) %></p>
             </div>
-          </div>
-        <% else %>
-          <div class="tabbable">
-            <ul class="nav nav-tabs">
-              <li>
-                <%= link_to "Previous",
-                            movie_path(@movie.previous) if @movie.previous.present? %>
-              </li>
-              <li>
-                <%= link_to "Next",
-                            movie_path(@movie.next) if @movie.next.present? %>
-              </li>
-              <li>
-                <%= link_to 'Edit Movie',
-                            edit_movie_path(@movie) if permitted_to? :edit,
-                                                                     :movies %>
-              </li>
-              <li>
-                <%= link_to "New Movie",
-                            new_movie_path %>
-              </li>
-            </ul>
-          </div>
-        <% end %>
-      </div>
-      <!--/content-->
-    </div>
-    <!--/span-->
-
-    <div class="span3">
-      <div class="content">
-        <% if @movie.chinese_cast.present? || @movie.chinese_director.present? %>
-          <div class="info info-title">Chinese Information</div>
-          <div class="info-list">
-            <ul>
-              <% if @movie.chinese_movie_title.present? && @movie.chinese_movie_title != @movie.movie_title %>
-                <li class="info">Title: <%= @movie.chinese_movie_title %></li>
-              <% end %>
-              <% if @movie.chinese_cast.present? %>
-                <li class="info">Cast: <%= @movie.chinese_cast %></li>
-              <% end %>
-              <% if @movie.chinese_director.present? %>
-                <li class="info">Director: <%= @movie.chinese_director %></li>
-              <% end %>
-            </ul>
-          </div>
-          <br>
-        <% end %>
-        <div class="info info-title">Technical Information</div>
-        <div class="info-list">
-          <ul>
-            <% if @movie.movie_type.present? %>
-              <li class="info">Movie Type: <%= @movie.movie_type.name %></li>
-            <% end %>
-            <% if @movie.movie_distributor.present? %>
-              <li class="info">Distributor: <%= @movie.movie_distributor.company_name %></li>
-            <% end %>
-            <% if @movie.laboratory.present? %>
-              <li class="info">Laboratory: <%= @movie.laboratory.company_name %></li>
-            <% end %>
-            <% if @movie.movie_genres.present? %>
-              <li class="info">Genres: <%= @movie.movie_genres.collect { |genre| genre.name }.join(', ') %></li>
-            <% end %>
-            <% if @movie.language_tracks.present? %>
-              <li class="info">Language Tracks: <%= @movie.language_tracks.collect { |r| r }.to_sentence %></li>
-            <% end %>
-            <% if @movie.language_subtitles.present? %>
-              <li class="info">Language Subtitles: <%= @movie.language_subtitles.collect { |r| r }.to_sentence %></li>
-            <% end %>
-            <% if @movie.airline_release_date.present? %>
-              <li class="info">Airline Release Date: <%= @movie.airline_release_date.strftime("%m-%Y") %></li>
-            <% end %>
-            <% if @movie.airline_rights.present? %>
-              <li class="info">Airline Rights: <%= @movie.airline_rights %></li>
-            <% end %>
-            <% if @movie.airline_countries.present? %>
-              <li class="info">Airline Countries: <%= @movie.airline_countries %></li>
-            <% end %>
-            <% if @movie.release_versions.present? %>
-              <li class="info">Release Versions: <%= @movie.release_versions.collect { |r| r }.to_sentence %></li>
-            <% end %>
-            <% if @movie.gapp_number.present? %>
-              <li class="info">GAPP Number: <%= @movie.gapp_number %></li>
-            <% end %>
-            <li class="info">Screener Held: <%= @movie.screener_received_date == nil ? "No" : "Yes" %></li>
-            <li class="info">Screener Destroyed: <%= @movie.screener_destroyed_date == nil ? "No" : "Yes" %></li>
-          </ul>
+          <% end %>
+          <% if @movie.chinese_synopsis.present? %>
+            <div class="tab-pane fade" id="chinese_synopsis">
+              <p><%= simple_format(@movie.chinese_synopsis) %></p>
+            </div>
+          <% end %>
+          <% if @movie.imdb_synopsis.present? %>
+            <div class="tab-pane fade" id="imdb_synopsis">
+              <p><%= simple_format(@movie.imdb_synopsis) %></p>
+            </div>
+          <% end %>
+          <% if @movie.critics_review.present? %>
+            <div class="tab-pane fade" id="critics_review">
+              <p><%= simple_format(@movie.critics_review) %></p>
+            </div>
+          <% end %>
+          <% if @movie.remarks.present? %>
+            <div class="tab-pane fade" id="remarks">
+              <p><%= simple_format(@movie.remarks) %></p>
+            </div>
+          <% end %>
         </div>
       </div>
-      <!--/content-->
-    </div>
-    <!--/span-->
+    <% else %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        movie_path(@movie.previous) if @movie.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        movie_path(@movie.next) if @movie.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'Edit Movie',
+                        edit_movie_path(@movie) if permitted_to? :edit,
+                                                                 :movies %>
+          </li>
+          <li>
+            <%= link_to "New Movie",
+                        new_movie_path %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
   </div>
-  <!--/row-->
+  <!--/content-->
+</div>
+<!--/span-->
+
+<div class="span3">
+  <div class="content">
+    <% if @movie.chinese_cast.present? || @movie.chinese_director.present? %>
+      <div class="info info-title">Chinese Information</div>
+      <div class="info-list">
+        <ul>
+          <% if @movie.chinese_movie_title.present? && @movie.chinese_movie_title != @movie.movie_title %>
+            <li class="info">Title: <%= @movie.chinese_movie_title %></li>
+          <% end %>
+          <% if @movie.chinese_cast.present? %>
+            <li class="info">Cast: <%= @movie.chinese_cast %></li>
+          <% end %>
+          <% if @movie.chinese_director.present? %>
+            <li class="info">Director: <%= @movie.chinese_director %></li>
+          <% end %>
+        </ul>
+      </div>
+      <br>
+    <% end %>
+    <div class="info info-title">Technical Information</div>
+    <div class="info-list">
+      <ul>
+        <% if @movie.movie_type.present? %>
+          <li class="info">Movie Type: <%= @movie.movie_type.name %></li>
+        <% end %>
+        <% if @movie.movie_distributor.present? %>
+          <li class="info">Distributor: <%= @movie.movie_distributor.company_name %></li>
+        <% end %>
+        <% if @movie.laboratory.present? %>
+          <li class="info">Laboratory: <%= @movie.laboratory.company_name %></li>
+        <% end %>
+        <% if @movie.movie_genres.present? %>
+          <li class="info">Genres: <%= @movie.movie_genres.collect { |genre| genre.name }.join(', ') %></li>
+        <% end %>
+        <% if @movie.language_tracks.present? %>
+          <li class="info">Language Tracks: <%= @movie.language_tracks.collect { |r| r }.to_sentence %></li>
+        <% end %>
+        <% if @movie.language_subtitles.present? %>
+          <li class="info">Language Subtitles: <%= @movie.language_subtitles.collect { |r| r }.to_sentence %></li>
+        <% end %>
+        <% if @movie.airline_release_date.present? %>
+          <li class="info">Airline Release Date: <%= @movie.airline_release_date.strftime("%m-%Y") %></li>
+        <% end %>
+        <% if @movie.airline_rights.present? %>
+          <li class="info">Airline Rights: <%= @movie.airline_rights %></li>
+        <% end %>
+        <% if @movie.airline_countries.present? %>
+          <li class="info">Airline Countries: <%= @movie.airline_countries %></li>
+        <% end %>
+        <% if @movie.release_versions.present? %>
+          <li class="info">Release Versions: <%= @movie.release_versions.collect { |r| r }.to_sentence %></li>
+        <% end %>
+        <% if @movie.gapp_number.present? %>
+          <li class="info">GAPP Number: <%= @movie.gapp_number %></li>
+        <% end %>
+        <li class="info">Screener Held: <%= @movie.screener_received_date == nil ? "No" : "Yes" %></li>
+        <li class="info">Screener Destroyed: <%= @movie.screener_destroyed_date == nil ? "No" : "Yes" %></li>
+      </ul>
+    </div>
+    <br>
+    <div class="info info-title">Tools</div>
+    <div class="info-list">
+      <ul>
+        <li class="info">
+          <%= link_to("Search Box Office Mojo",
+                      "http://www.boxofficemojo.com/search/?q=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Yahoo Movies",
+                      "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Rotten Tomatoes",
+                      "http://www.rottentomatoes.com/search/full_search.php?search=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search IMDB",
+                      "http://www.imdb.com/find?s=all&q=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--/content-->
+</div>
+<!--/span-->
+</div>
+<!--/row-->
 </div>
 <!-- /container -->
 
