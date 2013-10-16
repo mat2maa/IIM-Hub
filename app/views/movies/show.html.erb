@@ -22,10 +22,6 @@
             <br>
             (<%= @movie.foreign_language_title %>)
           <% end %>
-          <% if @movie.chinese_movie_title.present? && @movie.chinese_movie_title != @movie.movie_title %>
-            <br>
-            <%= @movie.chinese_movie_title %>
-          <% end %>
         </div>
         <% if @movie.cast.present? %>
           <div class="poster-subtitle poster-info">
@@ -88,10 +84,12 @@
           <div class="tabbable">
             <ul class="nav nav-tabs pre-nav-below">
               <% if @movie.synopsis.present? %>
-                <li class="active"><a href="#synopsis" data-toggle="tab">Synopsis</a></li>
+                <li class="<%= "active" if @movie.synopsis.present? %>"><a href="#synopsis" data-toggle="tab">Synopsis</a></li>
               <% end %>
               <% if @movie.chinese_synopsis.present? %>
-                <li><a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a></li>
+                <li class="<%= "active" if @movie.synopsis.blank? && @movie.chinese_synopsis.present? %>">
+                  <a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a>
+                </li>
               <% end %>
               <% if @movie.imdb_synopsis.present? %>
                 <li><a href="#imdb_synopsis" data-toggle="tab">IMDB Synopsis</a></li>
@@ -154,6 +152,28 @@
               <% end %>
             </div>
           </div>
+        <% else %>
+          <div class="tabbable">
+            <ul class="nav nav-tabs">
+              <li>
+                <%= link_to "Previous",
+                            movie_path(@movie.previous) if @movie.previous.present? %>
+              </li>
+              <li>
+                <%= link_to "Next",
+                            movie_path(@movie.next) if @movie.next.present? %>
+              </li>
+              <li>
+                <%= link_to 'Edit Movie',
+                            edit_movie_path(@movie) if permitted_to? :edit,
+                                                                     :movies %>
+              </li>
+              <li>
+                <%= link_to "New Movie",
+                            new_movie_path %>
+              </li>
+            </ul>
+          </div>
         <% end %>
       </div>
       <!--/content-->
@@ -162,6 +182,23 @@
 
     <div class="span3">
       <div class="content">
+        <% if @movie.chinese_cast.present? || @movie.chinese_director.present? %>
+          <div class="info info-title">Chinese Information</div>
+          <div class="info-list">
+            <ul>
+              <% if @movie.chinese_movie_title.present? && @movie.chinese_movie_title != @movie.movie_title %>
+                <li class="info">Title: <%= @movie.chinese_movie_title %></li>
+              <% end %>
+              <% if @movie.chinese_cast.present? %>
+                <li class="info">Cast: <%= @movie.chinese_cast %></li>
+              <% end %>
+              <% if @movie.chinese_director.present? %>
+                <li class="info">Director: <%= @movie.chinese_director %></li>
+              <% end %>
+            </ul>
+          </div>
+          <br>
+        <% end %>
         <div class="info info-title">Technical Information</div>
         <div class="info-list">
           <ul>
@@ -202,20 +239,6 @@
             <li class="info">Screener Destroyed: <%= @movie.screener_destroyed_date == nil ? "No" : "Yes" %></li>
           </ul>
         </div>
-
-        <% if @movie.chinese_cast.present? || @movie.chinese_director.present? %>
-          <div class="info info-title">Chinese Information</div>
-          <div class="info-list">
-            <ul>
-              <% if @movie.chinese_cast.present? %>
-                <li class="info">Cast: <%= @movie.chinese_cast %></li>
-              <% end %>
-              <% if @movie.chinese_director.present? %>
-                <li class="info">Director: <%= @movie.chinese_director %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
       </div>
       <!--/content-->
     </div>

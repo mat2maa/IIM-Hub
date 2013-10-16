@@ -321,11 +321,11 @@ body {
 /* Posters */
 .poster-image {
   width: 100%;
-  max-width: 250px;
+//  max-width: 250px;
 }
 .poster-info {
   width: 100%;
-  max-width: 250px;
+//  max-width: 250px;
   padding: 5px 10px;
   .box-sizing (border-box);
 }
@@ -363,12 +363,59 @@ body {
 }
 
 /* Information */
-.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+.pre-nav-below {
+  margin-bottom: -1px;
+  border-bottom: 1px solid #000000;
+}
+
+.nav-tabs > li > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 20px;
+  border: none;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: rgba(0, 255, 255, 0.3);
   color: white;
 }
 
-.pre-nav-below {
-  margin-bottom: -1px;
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+  border-color: transparent;
+  background-color: rgba(0, 255, 255, 0.5);
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+  color: white;
+  background-color: #000000;
+  border: none;
+  border-bottom: 1px solid #000000;
+  cursor: default;
+}
+
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #000000;
+}
+
+.tabs-below > .nav-tabs > li > a {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-top: 1px solid #000000;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top: 1px solid #000000;
 }
 
 .info {
