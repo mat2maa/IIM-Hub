@@ -289,21 +289,21 @@ $(document).ready(function () {
     $('.select2').select2();
 
     // initialize datepicker for different date formats
-    $('[data-behaviour~=datepicker-days]').datepicker({
+    $('[data-behaviour~=datepicker-days]').closest('.input-append.date').datepicker({
         format: "yyyy-mm-dd",
         viewMode: "days",
         minViewMode: "days",
         autoclose: true
     });
 
-    $('[data-behaviour~=datepicker-months]').datepicker({
+    $('[data-behaviour~=datepicker-months]').closest('.input-append.date').datepicker({
         format: "yyyy-mm-dd",
         viewMode: "months",
         minViewMode: "months",
         autoclose: true
     });
 
-    $('[data-behaviour~=datepicker-years]').datepicker({
+    $('[data-behaviour~=datepicker-years]').closest('.input-append.date').datepicker({
         format: "yyyy",
         viewMode: "years",
         minViewMode: "years",
@@ -312,5 +312,11 @@ $(document).ready(function () {
 
     $('.wysihtml5').each(function(i, elem) {
         $(elem).wysihtml5();
+    });
+
+    $('.form-reset').on("click", function() {
+        $(this).closest('form').find('select.select2-offscreen').each(function() {
+            $(this).select2("val", "");
+        });
     });
 });

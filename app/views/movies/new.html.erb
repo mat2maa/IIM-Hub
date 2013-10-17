@@ -1,20 +1,26 @@
 <%= render partial: 'layouts/movie_header' %>
-<center>
-  <p style="color: green">
-    <%= flash[:notice] %>
-  </p>
-</center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
+
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <%= bootstrap_flash %>
+    </div>
+    <!--/span-->
   </div>
-  <div id="content-header">New Movie<br/>
+  <!--/row-->
+
+  <div class="row">
+
+    <%= render partial: 'form' %>
+
+    <div class="span3">
+    </div>
+    <!--/span-->
   </div>
+  <!--/row-->
+
 </div>
-<div id="content">
-  <center>
-    <h1>New Movie</h1>
-    <%= render 'form' %>
-  </center>
-  <br/>
-  <br/>
-</div>
+<!--/container-->
+
+
