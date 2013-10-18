@@ -1,5 +1,8 @@
-#require 'rotten'
-#Rotten.api_key = 'snr4rshxrz9cqgpfsswebhb7'
+require 'rottentomatoes'
+include RottenTomatoes
+
+# setup your API key
+Rotten.api_key = "snr4rshxrz9cqgpfsswebhb7"
 
 class MoviesController < ApplicationController
   before_filter :require_user
@@ -112,18 +115,18 @@ class MoviesController < ApplicationController
   end
 
   #display overlay
-  #def add_review_to_movie
-  #
-  #  @movie = Movie.find(params[:id])
-  #
-  #  @movies = Rotten::Movie.search(@movie.movie_title)
-  #
-  #  @movies_count = @movies.count
-  #
-  #  respond_to do |format|
-  #    format.js { render layout: false }
-  #  end
-  #end
+  def add_review_to_movie
+
+    @movie = Movie.find(params[:id])
+
+    @movies = RottenMovie.find(:title => "#{@movie.movie_title}")
+
+    @movies_count = @movies.count
+
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
 
   def update
     @search = Movie.ransack(params[:q])
