@@ -51,6 +51,12 @@ Iim::Application.configure do
   config.after_initialize do
     Delayed::Job.scaler = :local
   end
+
+  Rails.application.middleware.use Oink::Middleware
+
+  config.after_initialize do
+    Delayed::Job.scaler = :local
+  end
 end
 
 #PDFKit.configure do |config|

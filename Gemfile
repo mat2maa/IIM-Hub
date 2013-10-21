@@ -21,8 +21,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+# Unicorn Server
+gem 'unicorn'
+
 gem 'mysql2'
-gem 'ransack'
+gem 'ransack', github: 'ernie/ransack'
 gem 'activerecord-mysql-adapter'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -66,6 +69,14 @@ gem 'delayed_job_web'
 gem 'daemons'
 gem 'workless'
 gem 'carrierwave'
+
+group :development do
+  gem 'oink'
+  gem 'quiet_assets'
+  gem 'rack-mini-profiler'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
 
 # gem 'rotten'
 

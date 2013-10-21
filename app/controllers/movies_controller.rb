@@ -9,6 +9,10 @@ class MoviesController < ApplicationController
     @languages = IIM::MOVIE_LANGUAGES
 
     if params[:q].present?
+      puts @q = params[:q].delete_if { |k, v| v.blank? && v != false }
+    end
+
+    if params[:q].present?
       @original = params[:q][:movie_title_or_foreign_language_title_cont_any]
       @the = params[:q][:movie_title_or_foreign_language_title_cont_any][0..3].downcase if params[:q][:movie_title_or_foreign_language_title_cont_any].present?
       if @the == 'the ' && params[:q][:movie_title_or_foreign_language_title_cont_any].present?
@@ -18,7 +22,7 @@ class MoviesController < ApplicationController
     end
 
     @search = Movie.includes(:movie_distributor, :movie_type)
-                   .ransack(params[:q])
+                   .ransack(@q)
 
     @movies = @search.result(distinct: true)
                      .order("movies.id DESC")
@@ -178,20 +182,20 @@ class MoviesController < ApplicationController
       @movie_is_deleted = true
 
       #flash[:notice] = 'Movie could not be deleted, movie is in use for by playlists '
-    end	
-  	
+    end
+
     respond_to do |format|
       format.html { redirect_to(movies_url) }
       format.js
     end
   end
-  
+
   def update_date
     respond_to do |format|
         format.js
     end
   end
-  
+
   def restore
     @movie = Movie.find(params[:id])
     @movie.to_delete = false
