@@ -5,7 +5,7 @@
     nas_url: http://imagesinmotion.no-ip.biz/index.php
     nas_mp3_url: http://192.168.0.35/MP3/
     nas_zip_url: http://192.168.0.35/zip/
-    
+
   development:
     <<: *defaults
     iim_domain: localhost:3000

@@ -10,11 +10,11 @@ class MoviePlaylistsController < ApplicationController
 
   def index
     @search = MoviePlaylist.includes(:airline)
-                           .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @movie_playlists = @search.result(distinct: true)
-                              .order("movie_playlists.id DESC")
-                              .paginate(page: params[:page],
-                                        per_page: items_per_page)
+    .order("movie_playlists.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @movie_playlists_count = @movie_playlists.count
   end
@@ -71,7 +71,7 @@ class MoviePlaylistsController < ApplicationController
 
   def show
     @movie_playlist = MoviePlaylist.includes(movie_playlist_items: :movie)
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def show_chinese
@@ -84,14 +84,14 @@ class MoviePlaylistsController < ApplicationController
 
     @movie_playlist = MoviePlaylist.find(params[:id])
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
-    @search = Movie.ransack(params[:q])
+    @search = Movie.ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-                     .where("to_delete = ?", "0")
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .where("to_delete = ?", "0")
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @movies = @movies.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -114,8 +114,8 @@ class MoviePlaylistsController < ApplicationController
     @movie_playlist = MoviePlaylist.find(params[:id])
 
     @movie_playlist_item_position = MoviePlaylistItem.where("movie_playlist_id=?", params[:id])
-                                                     .order("position ASC")
-                                                     .find(:last)
+    .order("position ASC")
+    .find(:last)
     @movie_playlist_item_position = @movie_playlist_item_position.nil? ? 1 : @movie_playlist_item_position.position + 1
 
     @movie_playlist_item = MoviePlaylistItem.new(movie_playlist_id: params[:id],
@@ -138,8 +138,8 @@ class MoviePlaylistsController < ApplicationController
 
     movie_ids.each do |movie_id|
       @movie_playlist_item_position = MoviePlaylistItem.where("movie_playlist_id=?", params[:playlist_id])
-                                                       .order("position ASC")
-                                                       .find(:last)
+      .order("position ASC")
+      .find(:last)
       @movie_playlist_item_position = @movie_playlist_item_position.nil? ? 1 : @movie_playlist_item_position.position + 1
       @movie_playlist_item = MoviePlaylistItem.new(movie_playlist_id: params[:playlist_id],
                                                    movie_id: movie_id,
@@ -409,7 +409,7 @@ class MoviePlaylistsController < ApplicationController
         content['name'] = movie_playlist_item.movie.movie_title.gsub(/\W+/, '').downcase.capitalize
         content['altId'] = rand(10 ** 20).to_s
         content['exhibitionStartDate'] = start_cycle_year + '-' + start_cycle_month + '-' + start_cycle_day + 'T' +
-time
+            time
         content['exhibitionEndDate'] = end_cycle_year + '-' + end_cycle_month + '-' + end_cycle_day + 'T' + time
         content['commonTitleId'] = movie_playlist_item.movie.movie_title.gsub(/\W+/, '').downcase.capitalize
 
@@ -516,7 +516,7 @@ time
 
         thales_tracks = %w(ara dan deu ell eng spa spn fas fin cfr fra hin ind ita heb jpn kor msa nld nor por rus
 swe tha zho yue tam)
-        iim_tracks = movie_playlist_item.movie.language_tracks.map!{ |c| c.downcase }
+        iim_tracks = movie_playlist_item.movie.language_tracks.map! { |c| c.downcase }
         tracks = thales_tracks & iim_tracks
         tracks.each do |track|
           fld_audio_language = Nokogiri::XML::Node.new 'fld_AudioLanguage', @movies

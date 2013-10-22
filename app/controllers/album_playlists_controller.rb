@@ -18,7 +18,7 @@ class AlbumPlaylistsController < ApplicationController
 
   def index
     @search = AlbumPlaylist.includes(:airline)
-                           .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @album_playlists = @search.result(distinct: true)
       .paginate(page: params[:page],
@@ -57,7 +57,7 @@ class AlbumPlaylistsController < ApplicationController
 
   def edit
     @album_playlist = AlbumPlaylist.includes(album_playlist_items: :album)
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def update
@@ -77,7 +77,7 @@ class AlbumPlaylistsController < ApplicationController
 
   def show
     @album_playlist = AlbumPlaylist.includes([:album_playlist_items, {album_playlist_items: :album}, {album_playlist_items: :category}])
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def print
@@ -94,12 +94,12 @@ class AlbumPlaylistsController < ApplicationController
 
     @album_playlist = AlbumPlaylist.find(params[:id])
 
-    @search = Album.ransack(params[:q])
+    @search = Album.ransack(view_context.empty_blank_params params[:q])
     @albums = @search.result(distinct: true)
-                     .where("to_delete = ?", "0")
-                     .order("albums.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .where("to_delete = ?", "0")
+    .order("albums.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @albums_count = @albums.count
 
@@ -113,8 +113,8 @@ class AlbumPlaylistsController < ApplicationController
     @album_playlist = AlbumPlaylist.find(params[:id])
 
     @album_playlist_item_position = AlbumPlaylistItem.where("album_playlist_id=?", params[:id])
-                                                     .order("position ASC")
-                                                     .find(:last)
+    .order("position ASC")
+    .find(:last)
     @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
 
     @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:id],

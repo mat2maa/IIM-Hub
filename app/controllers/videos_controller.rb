@@ -6,11 +6,11 @@ class VideosController < ApplicationController
     @languages = IIM::MOVIE_LANGUAGES
 
     @search = Video.includes(:video_distributor, :commercial_run_time, :video_genres)
-                   .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
-                     .order("videos.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("videos.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -31,7 +31,7 @@ class VideosController < ApplicationController
     end
 
     session[:videos_search] = collection_to_id_array(@videos)
- end
+  end
 
 
   def show
@@ -100,19 +100,19 @@ class VideosController < ApplicationController
     # if production studio is empty, set it to the same as movie distributor supplier
     if @video.production_studio_id.nil?
       count_suppliers = SupplierCategory.joins(:suppliers)
-                                        .where("supplier_id = ? and supplier_categories.name = ? ",
-                                               @video.video_distributor_id,
-                                               "Production Studios")
-                                        .count('supplier_id')
+      .where("supplier_id = ? and supplier_categories.name = ? ",
+             @video.video_distributor_id,
+             "Production Studios")
+      .count('supplier_id')
       @video.production_studio_id = @video.video_distributor_id if !count_suppliers.zero?
     end
 
     if @video.laboratory_id.nil?
       count_suppliers = SupplierCategory.joins(:suppliers)
-                                        .where("supplier_id = ? and supplier_categories.name = ? ",
-                                               @video.video_distributor_id,
-                                               "Laboratories")
-                                        .count('supplier_id')
+      .where("supplier_id = ? and supplier_categories.name = ? ",
+             @video.video_distributor_id,
+             "Laboratories")
+      .count('supplier_id')
       @video.laboratory_id = @video.video_distributor_id if !count_suppliers.zero?
     end
 
@@ -128,10 +128,10 @@ class VideosController < ApplicationController
 
   def edit
     @search = Video.includes(:video_genres)
-                   .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .paginate(page: params[:page],
+              per_page: items_per_page)
     @videos_count = @videos.count
 
     @languages = IIM::MOVIE_LANGUAGES
@@ -205,24 +205,24 @@ class VideosController < ApplicationController
 
       # flash[:notice] = 'Video could not be deleted, video is in use by playlists '
       # @video_is_deleted = false
-      
+
     end
 
     respond_to do |format|
       format.html { redirect_to(videos_url) }
       format.js
     end
-    
-  end  
-  
+
+  end
+
   def restore
     @video = Video.find(params[:id])
     @video.to_delete = false
     @video.save(validate: false)
     flash.now[:notice] = ' Video has been restored '
     respond_to do |format|
-        format.html { redirect_to(:back) }
-        format.js
+      format.html { redirect_to(:back) }
+      format.js
     end
   end
 

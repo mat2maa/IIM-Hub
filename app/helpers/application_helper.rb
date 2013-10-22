@@ -32,4 +32,12 @@ module ApplicationHelper
     @current_tab ||= 0
     @current_tab += 1
   end
+
+  def empty_blank_params(hash)
+    if hash.present?
+      hash.delete_if { |k, v| v.blank? && v != false }
+    else
+      hash
+    end
+  end
 end

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   filter_access_to :all
 
   def index
-    @search = User.ransack(params[:q])
+    @search = User.ransack(view_context.empty_blank_params params[:q])
 
     @users = @search.result(distinct: true)
     .paginate(page: params[:page],

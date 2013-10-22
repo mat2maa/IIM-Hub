@@ -15,7 +15,7 @@ class AudioPlaylistsController < ApplicationController
 
   def index
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-    .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
       .paginate(page: params[:page],
@@ -191,7 +191,7 @@ class AudioPlaylistsController < ApplicationController
     dur_min = (params[:dur_min_min].to_i * 60 *1000) + (params[:dur_min_sec].to_i * 1000)
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
-    @search = Track.ransack(params[:q])
+    @search = Track.ransack(view_context.empty_blank_params params[:q])
     @tracks = @search.result(distinct: true)
     .order("tracks.id DESC")
     .paginate(page: params[:page],

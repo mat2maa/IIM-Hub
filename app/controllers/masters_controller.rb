@@ -4,14 +4,14 @@ class MastersController < ApplicationController
 
   def index
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
     @search = Master.includes(:video)
-                    .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @masters = @search.result(distinct: true)
-                      .order("masters.id DESC")
-                      .paginate(page: params[:page],
-                                per_page: items_per_page)
+    .order("masters.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @masters = params[:active] == '1' ? @masters.where(active: false) : @masters.where(active: true)
 
@@ -26,7 +26,7 @@ class MastersController < ApplicationController
 
   def new
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
     @master = Master.new
     @master.video_id = params[:id]
@@ -63,17 +63,17 @@ class MastersController < ApplicationController
     .collect { |language| language.name }
 
     if !params[:q].nil?
-      @search = Master.ransack(params[:q])
+      @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
       .paginate(page: params[:page],
                 per_page: items_per_page)
     else
       #no search made yet
-      @search = Master.ransack(params[:q])
+      @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
-                        .order("masters.id DESC")
-                        .paginate(page: params[:page],
-                                  per_page: items_per_page)
+      .order("masters.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     end
     @masters_count = @masters.count
 
@@ -136,31 +136,31 @@ class MastersController < ApplicationController
 
       # flash[:notice] = 'Master could not be deleted, master is in use by playlists '
       @master_is_deleted = true
-    end	
-    respond_to do |format|    
-      format.html {  redirect_to(masters_url)  }
-      format.js { render layout:  false}
+    end
+    respond_to do |format|
+      format.html { redirect_to(masters_url) }
+      format.js { render layout: false }
     end
   end
-  
+
   def duplicate
-    @master = Master.find(params[:id])  
+    @master = Master.find(params[:id])
     @duplicated_master = Master.create(@master.attributes)
-       
+
     respond_to do |format|
-      format.html { redirect_to edit_video_url(@master.video.id) } 
-      format.js { render layout:  false}
-    end    
+      format.html { redirect_to edit_video_url(@master.video.id) }
+      format.js { render layout: false }
+    end
   end
-  
+
   def restore
     @master = Master.find(params[:id])
     #@master.to_delete = false
     @master.save(validate: false)
     flash[:notice] = ' Master has been restored '
     respond_to do |format|
-        format.html { redirect_to(:back) }
-        format.js
+      format.html { redirect_to(:back) }
+      format.js
     end
   end
 end

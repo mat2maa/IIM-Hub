@@ -16,11 +16,11 @@ class VideoMasterPlaylistsController < ApplicationController
 
   def index
     @search = VideoMasterPlaylist.includes(:airline, :master_playlist_type)
-                                 .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @video_master_playlists = @search.result(distinct: true)
-                                     .order("video_master_playlists.id DESC")
-                                     .paginate(page: params[:page],
-                                               per_page: items_per_page)
+    .order("video_master_playlists.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @video_master_playlists_count = @video_master_playlists.count
   end
@@ -50,7 +50,7 @@ class VideoMasterPlaylistsController < ApplicationController
 
   def edit
     @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
-                                                .find(params[:id])
+    .find(params[:id])
     session[:masters_search] = collection_to_id_array(@video_master_playlist.masters)
 
   end
@@ -72,7 +72,7 @@ class VideoMasterPlaylistsController < ApplicationController
 
   def show
     @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
-                                                .find(params[:id])
+    .find(params[:id])
   end
 
   def show_chinese
@@ -85,13 +85,13 @@ class VideoMasterPlaylistsController < ApplicationController
 
     @video_master_playlist = VideoMasterPlaylist.find(params[:id])
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
-    @search = Master.ransack(params[:q])
+    @search = Master.ransack(view_context.empty_blank_params params[:q])
     @masters = @search.result(distinct: true)
-                      .order("masters.id DESC")
-                      .paginate(page: params[:page],
-                                per_page: items_per_page)
+    .order("masters.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @masters = @masters.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -110,8 +110,8 @@ class VideoMasterPlaylistsController < ApplicationController
 
     @video_master_playlist = VideoMasterPlaylist.find(params[:id])
     @video_master_playlist_item_position = VideoMasterPlaylistItem.where("video_master_playlist_id=?", params[:id])
-                                                                  .order("position ASC")
-                                                                  .find(:last)
+    .order("position ASC")
+    .find(:last)
     @video_master_playlist_item_position = @video_master_playlist_item_position.nil? ? 1 : @video_master_playlist_item_position.position + 1
     @video_master_playlist_item = VideoMasterPlaylistItem.new(video_master_playlist_id: params[:id],
                                                               master_id: params[:master_id],
@@ -136,8 +136,8 @@ class VideoMasterPlaylistsController < ApplicationController
 
     master_ids.each do |master_id|
       @video_master_playlist_item_position = VideoMasterPlaylistItem.where("video_master_playlist_id=?", params[:playlist_id])
-                                                                    .order("position ASC")
-                                                                    .find(:last)
+      .order("position ASC")
+      .find(:last)
       @video_master_playlist_item_position = @video_master_playlist_item_position.nil? ? 1 : @video_master_playlist_item_position.position + 1
       @video_master_playlist_item = VideoMasterPlaylistItem.new(video_master_playlist_id: params[:playlist_id],
                                                                 master_id: master_id,
