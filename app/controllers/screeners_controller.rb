@@ -4,14 +4,14 @@ class ScreenersController < ApplicationController
 
   def index
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
     @search = Screener.includes(:video)
-                      .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @screeners = @search.result(distinct: true)
-                        .order("screeners.id DESC")
-                        .paginate(page: params[:page],
-                                  per_page: items_per_page)
+    .order("screeners.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @screeners = params[:active] == '1' ? @screeners.where(active: false) : @screeners.where(active: true)
 
@@ -26,7 +26,7 @@ class ScreenersController < ApplicationController
 
   def new
     @languages = MasterLanguage.order("name")
-                               .collect {|language| language.name}
+    .collect { |language| language.name }
 
     @screener = Screener.new
     @screener.video_id = params[:id]
@@ -56,31 +56,31 @@ class ScreenersController < ApplicationController
 
   def edit
     @languages = MasterLanguage.order("name")
-                               .collect {|language| language.name}
+    .collect { |language| language.name }
 
     if !params[:q].nil?
-      @search = Screener.ransack(params[:q])
+      @search = Screener.ransack(view_context.empty_blank_params params[:q])
       @screeners = @search.result(distinct: true)
-                          .paginate(page: params[:page],
-                                    per_page: items_per_page)
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     else
       #no search made yet
-      @search = Screener.ransack(params[:q])
+      @search = Screener.ransack(view_context.empty_blank_params params[:q])
       @screeners = @search.result(distinct: true)
-                          .order("screeners.id DESC")
-                          .paginate(page: params[:page],
-                                    per_page: items_per_page)
+      .order("screeners.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     end
     @screeners_count = @screeners.count,
 
-    if !session[:screeners_search].nil?
-      ids = session[:screeners_search]
-      id = ids.index(params[:id].to_i)
-      if !id.nil?
-        @next_id = ids[id+1] if (id+1 < ids.count)
-        @prev_id = ids[id-1] if (id-1 >= 0)
-      end
-    end
+        if !session[:screeners_search].nil?
+          ids = session[:screeners_search]
+          id = ids.index(params[:id].to_i)
+          if !id.nil?
+            @next_id = ids[id+1] if (id+1 < ids.count)
+            @prev_id = ids[id-1] if (id-1 >= 0)
+          end
+        end
 
     @screener = Screener.find(params[:id])
     respond_to do |format|
@@ -132,24 +132,24 @@ class ScreenersController < ApplicationController
 
         # flash[:notice] = 'Screener could not be deleted, screener is in use by playlists '
         @screener_is_deleted = true
-      end	
-      
+      end
+
     end
 
-    respond_to do |format|    
+    respond_to do |format|
       format.html { redirect_to(screeners_url) }
       format.js { render layout: false }
     end
   end
-  
+
   def duplicate
-    @screener = Screener.find(params[:id])  
+    @screener = Screener.find(params[:id])
     @duplicated_screener = Screener.create(@screener.attributes)
-       
+
     respond_to do |format|
-      format.html { redirect_to edit_video_url(@screener.video.id) } 
-      format.js { render layout:  false}
-    end    
+      format.html { redirect_to edit_video_url(@screener.video.id) }
+      format.js { render layout: false }
+    end
   end
-  
+
 end

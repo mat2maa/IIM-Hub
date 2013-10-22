@@ -15,7 +15,7 @@ class AlbumsController < ApplicationController
 
   def index
     @search = Album.includes(:label)
-    .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @albums = @search.result(distinct: true)
     .order("albums.id DESC")
     .paginate(page: params[:page],

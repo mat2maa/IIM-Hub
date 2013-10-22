@@ -9,8 +9,8 @@ class MovieTypesController < ApplicationController
 
   def index
     @movie_types = MovieType.order("name asc")
-                            .paginate(page: params[:page],
-                                            per_page: items_per_page)
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -33,15 +33,15 @@ class MovieTypesController < ApplicationController
     respond_to do |format|
       if @movie_type.save
         format.html { redirect_to @movie_type,
-                      notice: 'Movie type was successfully created.' }
+                                  notice: 'Movie type was successfully created.' }
         format.json { render json: @movie_type,
-                      status: :created,
-                      location: @movie_type }
+                             status: :created,
+                             location: @movie_type }
         format.js
       else
         format.html { render action: "new" }
         format.json { render json: @movie_type.errors,
-                      status: :unprocessable_entity }
+                             status: :unprocessable_entity }
         format.js
       end
     end

@@ -7,11 +7,11 @@ class TracksController < ApplicationController
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
     @search = Track.includes(album: :label)
-                   .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @tracks = @search.result(distinct: true)
-                     .order("tracks.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("tracks.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -56,7 +56,7 @@ class TracksController < ApplicationController
   def show
     @track = Track.find(params[:id])
     @genres = Genre.all
-    @playlists = AudioPlaylistTrack.where('track_id=?',params[:id])
+    @playlists = AudioPlaylistTrack.where('track_id=?', params[:id])
     respond_to do |format|
       format.html
       format.xml { render xml: @track }
@@ -70,7 +70,7 @@ class TracksController < ApplicationController
 
   def update
     @track = Track.find(params[:id])
-    @playlists = AudioPlaylistTrack.where('track_id=?',params[:id])
+    @playlists = AudioPlaylistTrack.where('track_id=?', params[:id])
     @playlists.each do |audio_playlist_track|
       audio_playlist_track.audio_playlist.updated_at_will_change!
       audio_playlist_track.audio_playlist.save
@@ -153,8 +153,8 @@ class TracksController < ApplicationController
 
   def show_playlists
     @track = Track.find(params[:id])
-    @playlists = AudioPlaylistTrack.where('track_id=?',params[:id])
-                                   .group(:audio_playlist_id)
+    @playlists = AudioPlaylistTrack.where('track_id=?', params[:id])
+    .group(:audio_playlist_id)
   end
 
   def restore

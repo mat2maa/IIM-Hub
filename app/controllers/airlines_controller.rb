@@ -6,7 +6,7 @@ class AirlinesController < ApplicationController
                        :new] do
     @airline = Airline.new
   end
-  
+
   def index
     @airlines = Airline.paginate(page: params[:page],
                                  per_page: items_per_page)

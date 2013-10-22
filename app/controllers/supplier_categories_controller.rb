@@ -8,8 +8,8 @@ class SupplierCategoriesController < ApplicationController
 
   def index
     @categories = SupplierCategory.order("name asc")
-                                  .paginate(page: params[:page],
-                                            per_page: items_per_page)
+    .paginate(page: params[:page],
+              per_page: items_per_page)
     respond_to do |format|
       format.html # index.html.erb
     end
@@ -64,7 +64,7 @@ class SupplierCategoriesController < ApplicationController
 
     count = Supplier.where("supplier_category_id=?",
                            params[:id])
-                    .count(from: "supplier_categories_suppliers")
+    .count(from: "supplier_categories_suppliers")
 
     if count.zero?
 

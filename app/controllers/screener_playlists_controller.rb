@@ -16,11 +16,11 @@ class ScreenerPlaylistsController < ApplicationController
 
   def index
     @search = ScreenerPlaylist.includes(:airline, :video_playlist_type)
-                              .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @screener_playlists = @search.result(distinct: true)
-                        .order("screener_playlists.id DESC")
-                        .paginate(page: params[:page],
-                                  per_page: items_per_page)
+    .order("screener_playlists.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @screener_playlists_count = @screener_playlists.count
   end
@@ -50,7 +50,7 @@ class ScreenerPlaylistsController < ApplicationController
 
   def edit
     @screener_playlist = ScreenerPlaylist.includes(screener_playlist_items: :screener)
-                                         .find(params[:id])
+    .find(params[:id])
     session[:screeners_search] = collection_to_id_array(@screener_playlist.screeners)
   end
 
@@ -71,7 +71,7 @@ class ScreenerPlaylistsController < ApplicationController
 
   def show
     @screener_playlist = ScreenerPlaylist.includes(screener_playlist_items: :screener)
-                                         .find(params[:id])
+    .find(params[:id])
   end
 
   def show_chinese
@@ -84,13 +84,13 @@ class ScreenerPlaylistsController < ApplicationController
 
     @screener_playlist = ScreenerPlaylist.find(params[:id])
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
-    @search = Screener.ransack(params[:q])
+    @search = Screener.ransack(view_context.empty_blank_params params[:q])
     @screeners = @search.result(distinct: true)
-                        .order("screeners.id DESC")
-                        .paginate(page: params[:page],
-                                  per_page: items_per_page)
+    .order("screeners.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @screeners = @screeners.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -109,8 +109,8 @@ class ScreenerPlaylistsController < ApplicationController
 
     @screener_playlist = ScreenerPlaylist.find(params[:id])
     @screener_playlist_item_position = ScreenerPlaylistItem.where("screener_playlist_id=?", params[:id])
-                                                           .order("position ASC")
-                                                           .find(:last)
+    .order("position ASC")
+    .find(:last)
     @screener_playlist_item_position = @screener_playlist_item_position.nil? ? 1 : @screener_playlist_item_position.position + 1
     @screener_playlist_item = ScreenerPlaylistItem.new(screener_playlist_id: params[:id],
                                                        screener_id: params[:screener_id],
@@ -135,8 +135,8 @@ class ScreenerPlaylistsController < ApplicationController
 
     screener_ids.each do |screener_id|
       @screener_playlist_item_position = ScreenerPlaylistItem.where("screener_playlist_id=?", params[:playlist_id])
-                                                             .order("position ASC")
-                                                             .find(:last)
+      .order("position ASC")
+      .find(:last)
       @screener_playlist_item_position = @screener_playlist_item_position.nil? ? 1 : @screener_playlist_item_position.position + 1
       @screener_playlist_item = ScreenerPlaylistItem.new(screener_playlist_id: params[:playlist_id],
                                                          screener_id: screener_id,
@@ -319,7 +319,7 @@ class ScreenerPlaylistsController < ApplicationController
         media_instruction: @playlist.media_instruction
     )
     @screener_playlist_items = ScreenerPlaylistItem.where("screener_playlist_id=#{@playlist.id}")
-                                                   .order("position ASC")
+    .order("position ASC")
 
     @screener_playlist_items.each do |item|
 

@@ -10,11 +10,11 @@ class VideoPlaylistsController < ApplicationController
 
   def index
     @search = VideoPlaylist.includes(:airline, :video_playlist_type)
-                           .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @video_playlists = @search.result(distinct: true)
-                              .order("video_playlists.id DESC")
-                              .paginate(page: params[:page],
-                                        per_page: items_per_page)
+    .order("video_playlists.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     @video_playlists_count = @video_playlists.count
   end
@@ -66,7 +66,7 @@ class VideoPlaylistsController < ApplicationController
 
   def show
     @video_playlist = VideoPlaylist.includes(video_playlist_items: :video)
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def show_chinese
@@ -79,14 +79,14 @@ class VideoPlaylistsController < ApplicationController
 
     @video_playlist = VideoPlaylist.find(params[:id])
     @languages = MasterLanguage.order("name")
-                               .collect { |language| language.name }
+    .collect { |language| language.name }
 
-    @search = Video.ransack(params[:q])
+    @search = Video.ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
-                     .where("to_delete = ?", "0")
-                     .order("videos.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .where("to_delete = ?", "0")
+    .order("videos.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -106,8 +106,8 @@ class VideoPlaylistsController < ApplicationController
 
     @video_playlist = VideoPlaylist.find(params[:id])
     @video_playlist_item_position = VideoPlaylistItem.where("video_playlist_id=?", params[:id])
-                                                     .order("position ASC")
-                                                     .find(:last)
+    .order("position ASC")
+    .find(:last)
     @video_playlist_item_position = @video_playlist_item_position.nil? ? 1 : @video_playlist_item_position.position + 1
     @video_playlist_item = VideoPlaylistItem.new(video_playlist_id: params[:id],
                                                  video_id: params[:video_id],
@@ -132,8 +132,8 @@ class VideoPlaylistsController < ApplicationController
 
     video_ids.each do |video_id|
       @video_playlist_item_position = VideoPlaylistItem.where("video_playlist_id=?", params[:playlist_id])
-                                                       .order("position ASC")
-                                                       .find(:last)
+      .order("position ASC")
+      .find(:last)
       @video_playlist_item_position = @video_playlist_item_position.nil? ? 1 : @video_playlist_item_position.position + 1
       @video_playlist_item = VideoPlaylistItem.new(video_playlist_id: params[:playlist_id],
                                                    video_id: video_id,

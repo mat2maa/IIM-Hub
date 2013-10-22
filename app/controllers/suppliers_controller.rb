@@ -10,10 +10,10 @@ class SuppliersController < ApplicationController
   def index
     #@suppliers = Supplier.find(:all,order : "company_name asc")
     @search = Supplier.includes(:supplier_categories)
-                      .ransack(params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @suppliers = @search.result(distinct: true)
-                        .paginate(page: params[:page],
-                                  per_page: items_per_page)
+    .paginate(page: params[:page],
+              per_page: items_per_page)
     @suppliers_count = @suppliers.count
 
     respond_to do |format|
@@ -38,7 +38,7 @@ class SuppliersController < ApplicationController
       @supplier = Supplier.new params[:supplier]
       if @supplier.save
         flash[:notice] = 'Supplier was successfully created.'
-        format.html  { redirect_to(suppliers_path) }
+        format.html { redirect_to(suppliers_path) }
         format.js
       else
       end

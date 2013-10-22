@@ -12,10 +12,6 @@ class MoviesController < ApplicationController
     @languages = IIM::MOVIE_LANGUAGES
 
     if params[:q].present?
-      puts @q = params[:q].delete_if { |k, v| v.blank? && v != false }
-    end
-
-    if params[:q].present?
       @original = params[:q][:movie_title_or_foreign_language_title_cont_any]
       @the = params[:q][:movie_title_or_foreign_language_title_cont_any][0..3].downcase if params[:q][:movie_title_or_foreign_language_title_cont_any].present?
       if @the == 'the ' && params[:q][:movie_title_or_foreign_language_title_cont_any].present?
@@ -25,12 +21,12 @@ class MoviesController < ApplicationController
     end
 
     @search = Movie.includes(:movie_distributor, :movie_type)
-                   .ransack(@q)
+    .ransack(view_context.empty_blank_params params[:q])
 
     @movies = @search.result(distinct: true)
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
 
     if params[:language].present?
       @movies = @movies.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -100,11 +96,11 @@ class MoviesController < ApplicationController
   def edit
     @languages = IIM::MOVIE_LANGUAGES
 
-    @search = Movie.ransack(params[:q])
+    @search = Movie.ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
     @movies_count = @movies.count
 
     @movie = Movie.find(params[:id])
@@ -133,11 +129,11 @@ class MoviesController < ApplicationController
   end
 
   def update
-    @search = Movie.ransack(params[:q])
+    @search = Movie.ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page)
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
     @movies_count = @movies.count
 
     @movie = Movie.find(params[:id])
@@ -195,7 +191,7 @@ class MoviesController < ApplicationController
 
   def update_date
     respond_to do |format|
-        format.js
+      format.js
     end
   end
 
@@ -205,8 +201,8 @@ class MoviesController < ApplicationController
     @movie.save(validate: false)
     flash[:notice] = 'Movie has been restored '
     respond_to do |format|
-        format.html { redirect_to(:back) }
-        format.js
+      format.html { redirect_to(:back) }
+      format.js
     end
   end
 

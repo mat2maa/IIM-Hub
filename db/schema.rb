@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130920115830) do
+ActiveRecord::Schema.define(:version => 20131022100950) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -540,6 +540,8 @@ ActiveRecord::Schema.define(:version => 20130920115830) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "supplier_categories_suppliers", ["supplier_category_id", "supplier_id"], :name => "supplier_index"
 
   create_table "suppliers", :force => true do |t|
     t.string   "company_name"

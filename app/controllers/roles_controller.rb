@@ -3,7 +3,7 @@ class RolesController < ApplicationController
   filter_access_to :all
 
   def index
-    @search = Role.ransack(params[:q])
+    @search = Role.ransack(view_context.empty_blank_params params[:q])
     @roles = @search.result(distinct: true)
     .paginate(page: params[:page],
               per_page: items_per_page)
