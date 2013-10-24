@@ -24,6 +24,9 @@ end
 # Unicorn Server
 gem 'unicorn'
 
+# Memcachier
+gem 'memcachier'
+
 gem 'mysql2'
 gem 'ransack', github: 'ernie/ransack'
 gem 'activerecord-mysql-adapter'
