@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 gem 'rails', '3.2.14'
 
@@ -79,6 +80,10 @@ group :development do
   gem 'rack-mini-profiler'
   gem 'better_errors'
   gem 'binding_of_caller'
+end
+
+group :development do
+  gem 'rails_12factor'
 end
 
 # gem 'rotten'
