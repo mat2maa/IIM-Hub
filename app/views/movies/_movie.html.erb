@@ -1,6 +1,11 @@
 <tr id="movie-<%= movie.id %>">
   <%# cache([movie,
             "movie_playlists"]) do %>
+      <td>
+        <%= link_to(image_tag(movie.poster.url(:small), width: '50'),
+                    edit_movie_path(movie.id),
+                    target: "_blank") %>
+      </td>
       <td><%= link_to(movie.id,
                       movie_path(id: movie.id),
                       target: "_blank") %></td>

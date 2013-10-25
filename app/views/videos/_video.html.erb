@@ -1,5 +1,10 @@
 <tr id="video-<%= video.id %>">
   <%# cache([video, "videos"]) do %>
+  <td>
+    <%= link_to(image_tag(video.poster.url(:small), width: '50'),
+                edit_movie_path(video.id),
+                target: "_blank") %>
+  </td>
   <td><%= link_to video.id,
                   video_path(id: video.id),
                   target: "_blank" %></td>
