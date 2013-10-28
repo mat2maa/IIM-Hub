@@ -1,0 +1,31 @@
+<% movie_models = %w(movies movie_playlists videos video_playlists masters_master_playlists screeners screener_playlists) %>
+<% if movie_models.include?(controller_name) %>
+  <%= render partial: "layouts/movie_header" %>
+<% else %>
+  <%= render partial: "layouts/audio_nav" %>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      &nbsp;
+    </div>
+    <div class="span9">
+      <%= link_to "Create a #{controller_name.singularize.split('_').join(' ')}",
+                  self.send("new_#{controller_name.singularize}_path"),
+                  class: 'btn btn-create' %>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: 'search_form',
+                 object: @search %>
+    </div>
+    <!--/span-->
+    <div class="span9" id="no-more-tables">
+      <%= bootstrap_flash %>
+      <%= render partial: "#{controller_name}" %>
+    </div>
+  </div>
+  <!--/row-->
+</div> <!-- /container -->
