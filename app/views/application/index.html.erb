@@ -1,9 +1,4 @@
-<% movie_models = %w(movies movie_playlists videos video_playlists masters_master_playlists screeners screener_playlists) %>
-<% if movie_models.include?(controller_name) %>
-  <%= render partial: "layouts/movie_header" %>
-<% else %>
-  <%= render partial: "layouts/audio_nav" %>
-<% end %>
+<%= render partial: 'header' %>
 
 <div class="container-fluid">
   <div class="row-fluid">

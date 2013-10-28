@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022100950) do
+ActiveRecord::Schema.define(:version => 20131023112105) do
 
   create_table "airline_rights_countries", :force => true do |t|
     t.string   "name"
@@ -517,6 +517,16 @@ ActiveRecord::Schema.define(:version => 20131022100950) do
   end
 
   add_index "screeners", ["video_id"], :name => "index_screeners_on_video_id"
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "splits", :force => true do |t|
     t.string   "name"

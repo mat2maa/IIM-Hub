@@ -1,4 +1,4 @@
-<%= render partial: 'layouts/movie_header' %>
+<%= render partial: 'header' %>
 
 <div class="container">
 
@@ -15,8 +15,7 @@
     <%= render partial: 'form' %>
 
     <div class="span3">
-      <div class="tabbable" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: -20px;'
-      %>">
+      <div class="tabbable" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: -20px;' %>">
         <ul class="nav nav-tabs pre-nav-below">
           <li>
             <a>Search Form</a>
