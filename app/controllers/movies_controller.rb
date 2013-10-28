@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
     end
 
     @search = Movie.includes(:movie_distributor, :movie_type)
-    .ransack(view_context.empty_blank_params params[:q])
+                   .ransack(view_context.empty_blank_params params[:q])
 
     @movies = @search.result(distinct: true)
     .order("movies.id DESC")
@@ -96,21 +96,19 @@ class MoviesController < ApplicationController
   def edit
     @languages = IIM::MOVIE_LANGUAGES
 
-    @search = Movie.ransack(view_context.empty_blank_params params[:q])
+    @search = Movie.includes(:movie_distributor, :movie_type)
+                   .ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-    .order("movies.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                     .order("movies.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
     @movies_count = @movies.count
 
     @movie = Movie.find(params[:id])
-    if !session[:movies_search].nil?
-      ids = session[:movies_search]
-      id = ids.index(params[:id].to_i)
-      if !id.nil?
-        @next_id = ids[id+1] if (id+1 < ids.count)
-        @prev_id = ids[id-1] if (id-1 >= 0)
-      end
+
+    session[:movies_search] = collection_to_id_array(@movies)
+    respond_to do |format|
+      format.html {}
     end
   end
 

@@ -1,0 +1,21 @@
+<div class="controls controls-row">
+  <div class="input-append <%= span %> file-input">
+    <input id="<%= input_id %>" type="text" placeholder="<%= placeholder %>">
+    <a class="btn" onclick="$('input[id=<%= hidden_id %>]').click();"><i class="icon-upload"></i></a>
+  </div>
+
+  <%= f.input_field field,
+                    as: :file,
+                    placeholder: placeholder,
+                    id: hidden_id,
+                    class: 'hidden-input',
+                    tabindex: autotab,
+                    size: 6 %>
+</div>
+
+<script type="text/javascript">
+  $('input[id=<%= hidden_id %>]').change(function () {
+    var path = $(this).val().split('\\');
+    $('#<%= input_id %>').val(path[path.length - 1]);
+  });
+</script>

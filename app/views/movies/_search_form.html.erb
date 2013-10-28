@@ -5,8 +5,7 @@
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
                     class: 'spinner-trigger' do |movies| %>
-  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;'
-  %>">
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
     <!--<div class="controls combinator-select-container">-->
     <%#= movies.combinator_select %>
@@ -71,33 +70,31 @@
     </div>
 
     <div class="controls controls-row">
-      <div class="input-append date calendar <%= "#{@span_size}" %>" id="airline_release_date_gteq_datepicker"
-           data-date-format="mm/yyyy" data-date-viewmode="months" data-date-minviewmode="months">
-        <%= movies.input_field :airline_release_date_gteq,
-                         data: {behaviour: 'datepicker-months'},
-                         placeholder: 'Airline Release Date From',
-                         class: "datepicker #{@span_size}",
-                         disabled: true,
-                         readonly: true %>
-        <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-      </div>
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: { f: movies,
+                           field: :airline_release_date_gteq,
+                           value: '',
+                           input_id: 'airline_release_date_gteq_datepicker',
+                           date_format: 'mm/yyyy',
+                           date_viewmode: 'months',
+                           date_minviewmode: 'months',
+                           datepicker_behaviour: 'datepicker-months',
+                           placeholder: 'Airline Release Date From',
+                           span: @span_size} %>
     </div>
 
     <div class="controls controls-row">
-      <div class="input-append date calendar <%= "#{@span_size}" %>" id="airline_release_date_lteq_datepicker"
-           data-date-format="mm/yyyy" data-date-viewmode="months" data-date-minviewmode="months">
-        <%= movies.input_field :airline_release_date_lteq,
-                               data: {behaviour: 'datepicker-months'},
-                               placeholder: 'Airline Release Date To',
-                               class: "datepicker #{@span_size}",
-                               disabled: true,
-                               readonly: true %>
-        <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-      </div>
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: { f: movies,
+                           field: :airline_release_date_lteq,
+                           value: '',
+                           input_id: 'airline_release_date_lteq_datepicker',
+                           date_format: 'mm/yyyy',
+                           date_viewmode: 'months',
+                           date_minviewmode: 'months',
+                           datepicker_behaviour: 'datepicker-months',
+                           placeholder: 'Airline Release Date To',
+                           span: @span_size} %>
     </div>
 
     <div class="controls controls-row">
@@ -121,18 +118,17 @@
     </div>
 
     <div class="controls controls-row">
-      <div class="input-append date calendar <%= "#{@span_size}" %>" id="theatrical_release_year_eq_datepicker"
-           data-date-format="yyyy" data-date-viewmode="years" data-date-minviewmode="years">
-        <%= movies.input_field :theatrical_release_year_eq,
-                               data: {behaviour: 'datepicker-years'},
-                               placeholder: 'Theatrical Release Year',
-                               class: "datepicker #{@span_size}",
-                               disabled: true,
-                               readonly: true %>
-        <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-      </div>
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: { f: movies,
+                           field: :theatrical_release_year_eq,
+                           value: '',
+                           input_id: 'theatrical_release_year_eq_datepicker',
+                           date_format: 'yyyy',
+                           date_viewmode: 'years',
+                           date_minviewmode: 'years',
+                           datepicker_behaviour: 'datepicker-years',
+                           placeholder: 'Theatrical Release Year',
+                           span: @span_size} %>
     </div>
 
     <div class="controls controls-row">

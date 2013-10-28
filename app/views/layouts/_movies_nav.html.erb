@@ -1,3 +1,6 @@
+<% content_for :title do %> - <%= controller_name.split('_').map(&:capitalize).join(' ') %>
+<% end %>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container-fluid">
@@ -6,50 +9,50 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to options = {controller: "dashboard"}, html_options = {class: 'brand'} do %>
+      <%= link_to options = {controller: 'dashboard'}, html_options = {class: 'brand'} do %>
         <div id="logo">
-          <%= image_tag "text-logo.png" %>
+          <%= image_tag 'text-logo.png' %>
         </div>
       <% end %>
       <a class="brand" href="#">Movie/Video Playlist Maker</a>
 
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class="<%= 'active' if params[:controller] == 'movies' %>">
-            <%= link_to "Movies",
-                        controller: "movies" %>
+          <li class="<%= 'active' if controller_name == 'movies' %>">
+            <%= link_to 'Movies',
+                        controller: 'movies' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'movie_playlists' %>">
-            <%= link_to "Movie Playlists",
-                        controller: "movie_playlists" %>
+          <li class="<%= 'active' if controller_name == 'movie_playlists' %>">
+            <%= link_to 'Movie Playlists',
+                        controller: 'movie_playlists' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'videos' %>">
-            <%= link_to "Videos",
-                        controller: "videos" %>
+          <li class="<%= 'active' if controller_name == 'videos' %>">
+            <%= link_to 'Videos',
+                        controller: 'videos' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'video_playlists' %>">
-            <%= link_to "Video Playlists",
-                        controller: "video_playlists" %>
+          <li class="<%= 'active' if controller_name == 'video_playlists' %>">
+            <%= link_to 'Video Playlists',
+                        controller: 'video_playlists' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'masters' %>">
-            <%= link_to "Masters",
-                        controller: "masters" %>
+          <li class="<%= 'active' if controller_name == 'masters' %>">
+            <%= link_to 'Masters',
+                        controller: 'masters' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'video_master_playlists' %>">
-            <%= link_to "Master Playlists",
-                        controller: "video_master_playlists" %>
+          <li class="<%= 'active' if controller_name == 'video_master_playlists' %>">
+            <%= link_to 'Master Playlists',
+                        controller: 'video_master_playlists' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'screeners' %>">
-            <%= link_to "Screeners",
-                        controller: "screeners" %>
+          <li class="<%= 'active' if controller_name == 'screeners' %>">
+            <%= link_to 'Screeners',
+                        controller: 'screeners' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'screener_playlists' %>">
-            <%= link_to "Screener Playlists",
-                        controller: "screener_playlists" %>
+          <li class="<%= 'active' if controller_name == 'screener_playlists' %>">
+            <%= link_to 'Screener Playlists',
+                        controller: 'screener_playlists' %>
           </li>
-          <li class="<%= 'active' if params[:controller] == 'settings' %>">
-            <%= link_to "Settings",
-                        controller: "settings" %>
+          <li class="<%= 'active' if controller_name == 'settings' %>">
+            <%= link_to 'Settings',
+                        controller: 'settings' %>
           </li>
         </ul>
       </div>

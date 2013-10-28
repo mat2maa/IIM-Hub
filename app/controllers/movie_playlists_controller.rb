@@ -10,11 +10,11 @@ class MoviePlaylistsController < ApplicationController
 
   def index
     @search = MoviePlaylist.includes(:airline)
-    .ransack(view_context.empty_blank_params params[:q])
+                           .ransack(view_context.empty_blank_params params[:q])
     @movie_playlists = @search.result(distinct: true)
-    .order("movie_playlists.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                              .order("movie_playlists.id DESC")
+                              .paginate(page: params[:page],
+                                        per_page: items_per_page)
 
     @movie_playlists_count = @movie_playlists.count
   end
@@ -43,14 +43,20 @@ class MoviePlaylistsController < ApplicationController
   end
 
   def edit
-    @movie_playlist = MoviePlaylist.find(params[:id], include: [:movie_playlist_items, :movies])
-    session[:movies_search] = collection_to_id_array(@movie_playlist.movies)
+    @search = MoviePlaylist.includes(:airline)
+                           .ransack(view_context.empty_blank_params params[:q])
+    @movie_playlists = @search.result(distinct: true)
+                              .order("movie_playlists.id DESC")
+                              .paginate(page: params[:page],
+                                        per_page: items_per_page)
 
+    @movie_playlists_count = @movie_playlists.count
+
+    @movie_playlist = MoviePlaylist.find(params[:id], include: [:movie_playlist_items, :movies])
+
+    session[:movies_search] = collection_to_id_array(@movie_playlist.movies)
     respond_to do |format|
       format.html {}
-      #format.pdf { render text: PDFKit.new(edit_movie_playlist_url(@movie_playlist),
-      #                                     orientation: 'Landscape').to_pdf }
-
     end
   end
 

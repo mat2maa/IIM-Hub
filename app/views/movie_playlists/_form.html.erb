@@ -1,79 +1,231 @@
-<%= form_for @movie_playlist, html: {multipart: true} do |form| %>
+<%= minimal_form_for @movie_playlist,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
 
-  <%= error_messages_for(form.object) %>
+  <div class="span3">
+    <div class="content">
+      <% if @movie_playlist.user_id.present? %>
+        <div class="info info-title">Programmer</div>
+        <div class="info-list">
+          <ul>
+            <li class="info"><%= @movie_playlist.user.login %>&nbsp;</li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+      <% if controller.action_name != 'new' %>
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Print Playlist",
+                          {controller: "movie_playlists",
+                           action: "show",
+                           id: @movie_playlist},
+                          id: 'print_playlist',
+                          target: '_blank' %>
+            </li>
+            <li class="info">
+              <%= link_to "Download English PDF",
+                          {controller: "movie_playlists",
+                           action: "show",
+                           id: @movie_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Download Chinese PDF",
+                          {controller: "movie_playlists",
+                           action: "show_chinese",
+                           id: @movie_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "movie_playlists",
+                          action: "export_to_excel",
+                          id: @movie_playlist %>
+            </li>
+            <% if @movie_playlist.thales_schema_package_file_name.present? %>
+              <li class="info">
+                <%= link_to "Download Thales Schema Package",
+                            controller: "movie_playlists",
+                            action: "download_thales_schema_package",
+                            id: @movie_playlist %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+      <% permitted_to? :download_thales_schema_package, :movie_playlists do %>
+        <div class="info info-title">Thales Schema Package</div>
+        <div class="info-list">
+          <ul>
+            <% if @movie_playlist.thales_schema_package_file_name.present? %>
+              <li class="info"><%= @movie_playlist.thales_schema_package_file_name %></li>
+            <% end %>
+            <li class="info">
+              <%= render partial: 'application/bootstrap_file_field',
+                         locals: {f: f,
+                                  field: :thales_schema_package,
+                                  hidden_id: 'thales_schema_package',
+                                  input_id: 'thales_schema_package_input',
+                                  span: 'span2',
+                                  placeholder: 'Thales Schema Package'} %>
+            </li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+    </div>
+  </div>
 
-  <table class="edit">
-    <tr>
-      <td class="pl-title">Airline :</td>
-      <td>
-        <%= select("movie_playlist",
-                   "airline_id",
-                   Airline.order("name asc")
-                   .collect { |p| [p.name + " - " + p.code,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    airlines_path,
-                    id: "add",
-                    target: "_blank" %>
-      </td>
-      <td class="pl-title">Start Cycle :</td>
-      <td>
-        <%= form.date_select :start_cycle,
-                             discard_day: true,
-                             order: [:month,
-                                     :year],
-                             use_month_numbers: true,
-                             start_year: Date.today.year + 2,
-                             end_year: 1900 %>
-        <strong>End Cycle:</strong>
-        <%= form.date_select :end_cycle,
-                             discard_day: true,
-                             order: [:month,
-                                     :year],
-                             use_month_numbers: true,
-                             start_year: Date.today.year + 2,
-                             end_year: 1900 %>
-      </td>
-    </tr>
-    <tr>
-      <td class="pl-title">Movie Playlist Type :</td>
-      <td>
-        <%= select("movie_playlist",
-                   "movie_playlist_type_id",
-                   MoviePlaylistType.order("name asc")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    movie_playlist_types_path,
-                    id: "add",
-                    target: "_blank" %>
-      </td>
-      <td class="pl-title">Programmer :</td>
-      <td>
-        <%= @movie_playlist.user.login if @movie_playlist.user_id.present? %></td>
-    </tr>
-    <% permitted_to? :download_thales_schema_package, :movie_playlists do %>
-      <tr>
-        <td class="pl-title">Thales Schema Package:</td>
-        <td>
-          <%= form.file_field :thales_schema_package %>
-        </td>
-        <td class="pl-title">Current Schema Package:</td>
-        <td>
-          <%= @movie_playlist.thales_schema_package_file_name.present? ?
-                  @movie_playlist.thales_schema_package_file_name : "n/a" %></td>
-      </tr>
-    <% end %>
-  </table>
+  <div class="span6">
+    <div class="content">
+      <% if controller.action_name != 'new' %>
+        <div class="tabbable">
+          <ul class="nav nav-tabs pre-nav-below">
+            <li>
+              <%= link_to "Previous",
+                          edit_movie_playlist_path(@movie_playlist.previous.id) if @movie_playlist.previous.present? %>
+            </li>
+            <li>
+              <%= link_to "Next",
+                          edit_movie_playlist_path(@movie_playlist.next.id) if @movie_playlist.next.present? %>
+            </li>
+            <li>
+              <%= link_to 'View Movie Playlist',
+                          movie_playlist_path(@movie_playlist) %>
+            </li>
+            <li>
+              <%= link_to "New Movie Playlist",
+                          new_movie_playlist_path %>
+            </li>
+            <% if permitted_to? :admin_delete,
+                                :movie_playlists %>
+              <li>
+                <%= link_to 'Delete',
+                            movie_playlist_url(@movie_playlist),
+                            method: :delete,
+                            confirm: 'Are you sure?' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <p>
-    <% if params[:action] == "new" %>
-      <%= form.submit "Next" %>
-    <% else %>
-      <%= form.submit "Update" %>
-    <% end %>
-  </p>
+      <br>
 
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :airline_id,
+                            link_path: airlines_path,
+                            collection: Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
+                            placeholder: 'Airline',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :movie_playlist_type_id,
+                            link_path: movie_playlist_types_path,
+                            collection: MoviePlaylistType.order("name asc").collect { |p| [p.name, p.id] },
+                            placeholder: 'Movie Playlist Type',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :start_cycle,
+                            value: @movie_playlist.start_cycle,
+                            input_id: 'start_cycle_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Start Cycle',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :end_cycle,
+                            value: @movie_playlist.end_cycle,
+                            input_id: 'end_cycle_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'End Cycle',
+                            span: 'span3'} %>
+      </div>
+
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+
+      <% if controller.action_name != 'new' %>
+
+        <br><br><br>
+        <%= link_to 'Add Movie',
+                    add_movie_to_playlist_path(id: @movie_playlist.id),
+                    id: 'add_movie_to_playlist',
+                    class: 'btn' %>
+
+        <br><br>
+
+        <div id="playlist">
+          <%= render partial: 'playlist',
+                     object: @movie_playlist %>
+        </div>
+
+        <div id="add_movie_dialog" style="display:none;">
+          <div id="add_movie">
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>
+
+<% if controller.action_name != 'new' %>
+  <% content_for(:head) do %>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+    <script>
+      jQuery(document).ready(function () {
+        jQuery('#print_playlist').click(function (event) {
+          if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>
+  <% end %>
+
+  <script type="text/javascript">
+    var $ = jQuery;
+
+    $(function () {
+      $(document).on("click", "#add_movie_to_playlist", function (movie) {
+        movie.preventDefault();
+        $('#add_movie_dialog').dialog({
+          title: 'Add Movie',
+          modal: true,
+          width: 912,
+          height: 540,
+          position: ['center', 100],
+          close: function (movie, ui) {
+            $('#add_movie_dialog').dialog('destroy')
+          }
+        });
+        $.ajax({ url: '/add_movie_to_playlist/<%= @movie_playlist.id %>',
+          type: 'get',
+          dataType: 'script'
+        });
+      });
+    });
+  </script>
 <% end %>

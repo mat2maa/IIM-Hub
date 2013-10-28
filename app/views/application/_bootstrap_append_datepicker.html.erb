@@ -1,0 +1,13 @@
+<div class="input-append date calendar <%= span %>" id="<%= input_id %>" data-date-format="<%= date_format %>" data-date-viewmode="<%= date_viewmode %>" data-date-minviewmode="<%= date_minviewmode %>">
+  <%= f.text_field field,
+                   data: {behaviour: datepicker_behaviour},
+                   placeholder: placeholder,
+                   class: span,
+                   tabindex: autotab,
+                   disabled: true,
+                   readonly: true,
+                   value: value.present? ? value : "" %>
+  <span class="add-on">
+    <i class="icon-calendar"></i>
+  </span>
+</div>

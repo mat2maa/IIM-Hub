@@ -315,7 +315,7 @@ $(document).ready(function () {
     });
 
     $('.form-reset').on("click", function() {
-        $(this).closest('form').find('select.select2-offscreen').each(function() {
+        $(this).closest('form').find('.select2-offscreen').each(function() {
             $(this).select2("val", "");
         });
     });

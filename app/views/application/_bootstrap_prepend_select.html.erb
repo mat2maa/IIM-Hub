@@ -1,0 +1,15 @@
+<div class="input-prepend-span">
+  <div class="input-prepend prepend-select2">
+    <%= link_to raw("<i class='icon-edit'></i>"),
+                link_path,
+                target: "_blank",
+                class: 'btn' %>
+  </div>
+  <%= f.input_field field,
+                    placeholder: placeholder,
+                    as: :select,
+                    collection: collection,
+                    include_blank: true,
+                    tabindex: autotab,
+                    class: "select2 #{span}" %>
+</div>

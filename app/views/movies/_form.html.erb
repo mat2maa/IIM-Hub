@@ -1,6 +1,30 @@
 <%= minimal_form_for @movie,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <div class="span3">
+    <div class="poster-title poster-info">
+      Poster image
+    </div>
+    <div class="poster-list">
+      <ul>
+        <li class="poster-info">
+          <%= render partial: 'application/bootstrap_file_field',
+                     locals: { f: f,
+                               field: :poster,
+                               hidden_id: 'movie_poster',
+                               input_id: 'movie_poster_input',
+                               span: 'span2',
+                               placeholder: 'Poster Image' } %>
+        </li>
+        <li class="poster-info">
+          <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+          <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
+          <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
+          <a href="<%= href %>" target="_blank" id="google-images-link">
+            Search Google Images
+          </a>
+        </li>
+      </ul>
+    </div>
     <div id="poster-thumbnail">
       <%= link_to(image_tag(@movie.poster.url, class: 'poster-image'),
                   @movie.poster.url,
@@ -39,36 +63,6 @@
             <%= link_to("Search Mtime",
                         "http://www.mtime.com/search/?" + CGI.escape(@movie.movie_title.to_s),
                         target: "_blank") %>
-          </li>
-        </ul>
-      </div>
-      <div class="poster-title poster-info">
-        Poster image
-      </div>
-      <div class="poster-list">
-        <ul>
-          <li class="poster-info">
-            <div class="controls controls-row">
-              <div class="input-append span2 file-input">
-                <input id="movie_poster_input" type="text">
-                <a class="btn" onclick="$('input[id=movie_poster]').click();"><i class="icon-search"></i></a>
-              </div>
-
-              <%= f.input_field :poster,
-                                as: :file,
-                                label: 'Poster Image',
-                                class: 'hidden-input',
-                                tabindex: autotab,
-                                size: 6 %>
-            </div>
-          </li>
-          <li class="poster-info">
-            <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
-            <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
-            <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>
-            <a href="<%= href %>" target="_blank" id="google-images-link">
-              Search Google Images
-            </a>
           </li>
         </ul>
       </div>
@@ -149,20 +143,13 @@
 
   <div class="controls controls-row">
 
-
-    <div class="input-prepend prepend-select2">
-      <%= link_to raw("<i class='icon-edit'></i>"),
-                  movie_types_path,
-                  target: "_blank",
-                  class: 'btn' %>
-    </div>
-    <%= f.input_field :movie_type_id,
-                      placeholder: "Movie Type",
-                      as: :select,
-                      collection: MovieType.order("name").collect { |p| [p.name, p.id] },
-                      include_blank: true,
-                      tabindex: autotab,
-                      class: 'select2 span3' %>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: { f: f,
+                         field: :movie_type_id,
+                         link_path: movie_types_path,
+                         collection: MovieType.order("name").collect { |p| [p.name, p.id] },
+                         placeholder: 'Movie Type',
+                         span: 'span3' } %>
 
     <% if @movie.movie_type.name=="Hollywood Movie" %>
       <%= f.input_field :foreign_language_title,
@@ -179,127 +166,99 @@
   </div>
 
   <div class="controls controls-row">
-    <div class="input-append date calendar span3" id="theatrical_release_year_datepicker" data-date-format="yyyy"
-         data-date-viewmode="years" data-date-minviewmode="years">
-      <%= f.text_field :theatrical_release_year,
-                       data: {behaviour: 'datepicker-years'},
-                       placeholder: 'Theatrical Release Year',
-                       class: 'span3',
-                       tabindex: autotab,
-                       disabled: true,
-                       readonly: true,
-                       value: @movie.theatrical_release_year.present? ? @movie.theatrical_release_year : "" %>
-      <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-    </div>
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: { f: f,
+                         field: :theatrical_release_year,
+                         value: @movie.theatrical_release_year,
+                         input_id: 'theatrical_release_year_datepicker',
+                         date_format: 'yyyy',
+                         date_viewmode: 'years',
+                         date_minviewmode: 'years',
+                         datepicker_behaviour: 'datepicker-years',
+                         placeholder: 'Theatrical Release Year',
+                         span: 'span3'} %>
   </div>
 
   <div class="controls controls-row">
-
-    <div class="input-prepend prepend-select2">
-      <%= link_to raw("<i class='icon-edit'></i>"),
-                  suppliers_path,
-                  target: "_blank",
-                  class: 'btn' %>
-    </div>
-    <%= f.input_field :movie_distributor_id,
-                      placeholder: "Distributor",
-                      as: :select,
-                      collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
-                      include_blank: true,
-                      tabindex: autotab,
-                      class: 'select2 span6' %>
-
-    <div class="input-prepend prepend-select2">
-      <%= link_to raw("<i class='icon-edit'></i>"),
-                  suppliers_path,
-                  target: "_blank",
-                  class: 'btn' %>
-    </div>
-    <%= f.input_field :production_studio_id,
-                      tabindex: autotab,
-                      include_blank: true,
-                      placeholder: "Production Studio",
-                      collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
-                      class: 'select2 span6' %>
-
-    <div class="input-prepend prepend-select2">
-      <%= link_to raw("<i class='icon-edit'></i>"),
-                  suppliers_path,
-                  target: "_blank",
-                  class: 'btn' %>
-    </div>
-    <%= f.input_field :laboratory_id,
-                      tabindex: autotab,
-                      include_blank: true,
-                      placeholder: "Laboratory",
-                      collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
-                      class: 'select2 span6' %>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: { f: f,
+                         field: :movie_distributor_id,
+                         link_path: suppliers_path,
+                         collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
+                         placeholder: 'Distributor',
+                         span: 'span6' } %>
   </div>
 
   <div class="controls controls-row">
-    <div class="input-append date calendar span3" id="airline_release_date_datepicker" data-date-format="mm/yyyy"
-         data-date-viewmode="years" data-date-minviewmode="months">
-      <%= f.text_field :airline_release_date,
-                       data: {behaviour: 'datepicker-months'},
-                       placeholder: 'Airline Release Date',
-                       class: 'span3',
-                       tabindex: autotab,
-                       disabled: true,
-                       readonly: true,
-                       value: @movie.airline_release_date.present? ? @movie.airline_release_date.strftime("%Y-%m-%d") : "" %>
-      <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-    </div>
-
-    <div class="input-append date calendar span3" id="personal_video_date_datepicker" data-date-format="mm/yyyy"
-         data-date-viewmode="years" data-date-minviewmode="months">
-      <%= f.text_field :personal_video_date,
-                       data: {behaviour: 'datepicker-months'},
-                       placeholder: 'Personal Video Date',
-                       class: 'span3',
-                       tabindex: autotab,
-                       disabled: true,
-                       readonly: true,
-                       value: @movie.personal_video_date.present? ? @movie.personal_video_date.strftime("%Y-%m-%d") : "" %>
-      <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: { f: f,
+                         field: :laboratory_id,
+                         link_path: suppliers_path,
+                         collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                         placeholder: 'Production Studio',
+                         span: 'span6' } %>
   </div>
 
   <div class="controls controls-row">
-    <div class="input-append date calendar span3" id="screener_received_date" data-date-format="dd/mm/yyyy"
-         data-date-viewmode="days" data-date-minviewmode="days">
-      <%= f.text_field :screener_received_date,
-                       data: {behaviour: 'datepicker-days'},
-                       placeholder: 'Screener Recieved Date',
-                       class: 'span3',
-                       tabindex: autotab,
-                       disabled: true,
-                       readonly: true,
-                       value: @movie.screener_received_date.present? ? @movie.screener_received_date.strftime("%Y-%m-%d") : "" %>
-      <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: { f: f,
+                         field: :production_studio_id,
+                         link_path: suppliers_path,
+                         collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                         placeholder: 'Laboratory',
+                         span: 'span6' } %>
+  </div>
 
-    <div class="input-append date calendar span3" id="screener_destroyed_date" data-date-format="dd/mm/yyyy"
-         data-date-viewmode="days" data-date-minviewmode="days">
-      <%= f.text_field :screener_destroyed_date,
-                       data: {behaviour: 'datepicker-days'},
-                       placeholder: 'Screener Destroyed Date',
-                       class: 'span3',
-                       tabindex: autotab,
-                       disabled: true,
-                       readonly: true,
-                       value: @movie.screener_destroyed_date.present? ? @movie.screener_destroyed_date.strftime("%Y-%m-%d") : "" %>
-      <span class="add-on">
-          <i class="icon-calendar"></i>
-        </span>
-    </div>
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: { f: f,
+                         field: :airline_release_date,
+                         value: @movie.airline_release_date,
+                         input_id: 'airline_release_date_datepicker',
+                         date_format: 'mm/yyyy',
+                         date_viewmode: 'years',
+                         date_minviewmode: 'months',
+                         datepicker_behaviour: 'datepicker-months',
+                         placeholder: 'Airline Release Date',
+                         span: 'span3'} %>
+
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: { f: f,
+                         field: :personal_video_date,
+                         value: @movie.personal_video_date,
+                         input_id: 'personal_video_date_datepicker',
+                         date_format: 'mm/yyyy',
+                         date_viewmode: 'years',
+                         date_minviewmode: 'months',
+                         datepicker_behaviour: 'datepicker-months',
+                         placeholder: 'Personal Video Date',
+                         span: 'span3'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: { f: f,
+                         field: :screener_received_date,
+                         value: @movie.screener_received_date,
+                         input_id: 'screener_received_date',
+                         date_format: 'dd/mm/yyyy',
+                         date_viewmode: 'days',
+                         date_minviewmode: 'days',
+                         datepicker_behaviour: 'datepicker-days',
+                         placeholder: 'Screener Recieved Date',
+                         span: 'span3'} %>
+
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: { f: f,
+                         field: :screener_destroyed_date,
+                         value: @movie.screener_destroyed_date,
+                         input_id: 'screener_destroyed_date',
+                         date_format: 'dd/mm/yyyy',
+                         date_viewmode: 'days',
+                         date_minviewmode: 'days',
+                         datepicker_behaviour: 'datepicker-days',
+                         placeholder: 'Screener Destroyed Date',
+                         span: 'span3'} %>
   </div>
 
   <div class="controls controls-row">
