@@ -3,7 +3,7 @@ var $ = jQuery;
 var title       =   '.modal-title',
     loader      =   '.ajax-loader',
     content     =   '.modal-body-content',
-    dataRemote  =   'a[data-remote=true]',
+    dataRemote  =   'a[data-remote=true], .btn[data-remote=true]',
     modal       =   '#ajax-modal',
     dataToggle  =   'a[data-toggle=modal]';
 
@@ -40,16 +40,18 @@ $(loader).fadeToggle('fast', function() {
     width: '80%',
     maxHeight: '600px'
   });
+
+  $(loader).hide();
 });
 
 //brings the loader back up + gets rid of the content when linking to another controller method etc
 $(content).on('click', dataToggle, function(){
   $(content).fadeOut('slow', function() {
     $(content).empty();
-    $(loader).fadeIn('slow');
+    $(loader).fadeIn('fast');
   });
 });
 
 $(content).on('click', dataRemote, function(){
-  $(loader).fadeIn("fast");
+  $(loader).fadeIn('fast');
 });

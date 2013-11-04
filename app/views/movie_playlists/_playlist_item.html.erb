@@ -2,53 +2,65 @@
 <% @movie_playlist_item = playlist_item %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if playlist_item.movie.nil? %>
-    <td>
+    <td data-title="Position">
   <% else %>
 
-    <td><%= position %></td>
+    <td data-title="Position">
+      <%= position %>
+      &nbsp;
+    </td>
 
-    <td>
+    <td data-title="Title">
       <%= link_to playlist_item.movie.movie_title,
                   edit_movie_path(playlist_item.movie),
                   target: "_blank" %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="(Chinese title)">
       <%= "(#{playlist_item.movie.chinese_movie_title})" if !playlist_item.movie.laboratory.blank? %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Release date">
       <%= playlist_item.movie.airline_release_date.strftime('%m-%Y') if !playlist_item.movie.airline_release_date.nil? %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Rating">
       <%= playlist_item.movie.rating %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Language tracks">
       <%= playlist_item.movie.language_tracks.class == Array ? playlist_item.movie.language_tracks.join(', ') : playlist_item.movie.language_tracks %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Language subtitles">
       <%= playlist_item.movie.language_subtitles.class == Array ? playlist_item.movie.language_subtitles.join(', ') : playlist_item.movie.language_subtitles %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Laboratory">
       <%= playlist_item.movie.laboratory.company_name if !playlist_item.movie.laboratory.nil? %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Distributor">
       <%= playlist_item.movie.movie_distributor.company_name if !playlist_item.movie.movie_distributor.nil? %>
+      &nbsp;
     </td>
 
-    <td>
-      <%= playlist_item.movie.release_versions.join(',
-  ') %>
+    <td data-title="Release versions">
+      <%= playlist_item.movie.release_versions.join(', ') %>
+      &nbsp;
     </td>
 
-    <td>
+    <td data-title="Airline rights">
       <%= playlist_item.movie.airline_rights %>
       <%= playlist_item.movie.airline_countries %>
+      &nbsp;
     </td>
 
     <td>
@@ -58,6 +70,7 @@
                   confirm: "Are you sure",
                   method: 'delete',
                   class: 'btn btn-mini' %>
+      &nbsp;
     </td>
   <% end %>
 </tr>

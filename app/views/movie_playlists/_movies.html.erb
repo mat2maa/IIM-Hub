@@ -12,11 +12,6 @@
       <thead>
       <tr>
         <th>
-          <%= check_box_tag('check_all',
-                            'check_all',
-                            false) %>
-        </th>
-        <th>
           <%= sort_link @search,
                         :id,
                         "ID",
@@ -45,7 +40,12 @@
                         {remote: true} %>
         </th>
         <th>Other airlines</th>
-        <th>&nbsp;</th>
+        <th></th>
+        <th>
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
       </tr>
       </thead>
 
@@ -53,29 +53,32 @@
       <% @movies.each do |movie| %>
         <tr class="playlist-entry">
           <%# cache([movie]) do %>
-          <td><%= check_box_tag "movie_ids[]",
-                                movie.id %></td>
-          <td><%= link_to movie.id,
+          <td data-title="ID"><%= link_to movie.id,
                           movie_path(id: movie.id),
-                          target: "_blank" %></td>
-          <td><%= movie.movie_title %></td>
-          <td><%= movie.movie_type.name if movie.movie_type.present? %></td>
-          <td><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date.nil? %></td>
+                          target: "_blank" %>&nbsp;</td>
+          <td data-title="Title"><%= movie.movie_title %>&nbsp;</td>
+          <td data-title="Type"><%= movie.movie_type.name if movie.movie_type.present? %>&nbsp;</td>
+          <td data-title="Release Date"><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date
+          .nil? %>&nbsp;</td>
           <%# end %>
-          <td>
-                    <span id="exists">
-                        <% if (movie.in_playlists!="" && !movie.in_playlists.nil?) %>
-                            <%= MoviePlaylist.with_same_airline_and_movie(movie.id,
-                                                                          (@movie_playlist.airline_id unless @movie_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}", edit_movie_playlist_path(playlist), target: "_blank") }.join(', ').html_safe %>
-                        <% end %>
-                    </span>
+          <td data-title="Other airlines">
+            <span id="exists">
+                <% if (movie.in_playlists!="" && !movie.in_playlists.nil?) %>
+                    <%= MoviePlaylist.with_same_airline_and_movie(movie.id,
+                                                                  (@movie_playlist.airline_id unless @movie_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}", edit_movie_playlist_path(playlist), target: "_blank") }.join(', ').html_safe %>
+                <% end %>
+            </span>
+            &nbsp;
           </td>
           <td>
             <%= link_to "add to playlist",
                         add_movie_movie_playlist_path(@movie_playlist, movie_id: movie.id),
                         method: :post,
                         remote: true %>
+            &nbsp;
           </td>
+          <td data-title="Select"><%= check_box_tag "movie_ids[]",
+                                                    movie.id %>&nbsp;</td>
         </tr>
       <% end %>
       </tbody>

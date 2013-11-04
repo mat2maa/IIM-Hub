@@ -169,7 +169,7 @@
 
       <% if controller.action_name != 'new' %>
 
-        <br><br><br>
+        <br><br>
         <!-- Button to trigger modal -->
         <%= link_to 'Add Movie',
                     add_movie_to_playlist_path(id: @movie_playlist.id),
@@ -177,6 +177,7 @@
                     class: 'btn',
                     role: 'btn',
                     data: { toggle: 'modal', target: '#ajax-modal' } %>
+        <br><br>
     <% end %>
 
     </div>

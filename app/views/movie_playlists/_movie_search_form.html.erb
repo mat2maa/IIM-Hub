@@ -68,7 +68,7 @@
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: movies,
                         field: :airline_release_date_gteq,
-                        value: '',
+                        value: params[:q].present? && params[:q][:airline_release_date_gteq].present? ? params[:q][:airline_release_date_gteq] : '',
                         input_id: 'airline_release_date_gteq_datepicker',
                         date_format: 'mm/yyyy',
                         date_viewmode: 'months',
@@ -82,7 +82,7 @@
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: movies,
                         field: :airline_release_date_lteq,
-                        value: '',
+                        value: params[:q].present? && params[:q][:airline_release_date_lteq].present? ? params[:q][:airline_release_date_lteq] : '',
                         input_id: 'airline_release_date_lteq_datepicker',
                         date_format: 'mm/yyyy',
                         date_viewmode: 'months',
@@ -116,7 +116,7 @@
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: movies,
                         field: :theatrical_release_year_eq,
-                        value: '',
+                        value: params[:q].present? && params[:q][:theatrical_release_year_eq].present? ? params[:q][:theatrical_release_year_eq] : '',
                         input_id: 'theatrical_release_year_eq_datepicker',
                         date_format: 'yyyy',
                         date_viewmode: 'years',
@@ -168,7 +168,7 @@
   <br>
 
   <div class="controls controls-row">
-    <%= movies.button :submit, class: 'btn' %>
+    <%= movies.submit 'Search', class: 'btn', data: { remote: true} %>
     <input class="form-reset btn" type="reset" value="Reset">
   </div>
 <% end %>
