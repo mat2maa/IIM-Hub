@@ -1,7 +1,23 @@
-<table width="100%">
+<table class="table table-hover" id="no-more-tables" width="100%">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Movie Title</th>
+      <th>(Chinese)</th>
+      <th>Release Date</th>
+      <th>Rating</th>
+      <th>Lang Tracks</th>
+      <th>Lang Subs</th>
+      <th>Laboratory</th>
+      <th>Distributor</th>
+      <th>Release Versions</th>
+      <th>Airline Rights</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
   <tbody id="movieplaylist" class="sort-list" data-url="<%= sort_movie_playlist_path %>" style="cursor: move">
-  <% @movie_playlist.movie_playlist_items_sorted.each.with_index do |item, index| %>
-    <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
-  <% end %>
+    <% @movie_playlist.movie_playlist_items_sorted.each.with_index do |item, index| %>
+      <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
+    <% end %>
   </tbody>
 </table>

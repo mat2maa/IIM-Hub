@@ -79,7 +79,9 @@
         <br>
       <% end %>
     </div>
+    <!--end of .content-->
   </div>
+  <!--end of .span-->
 
   <div class="span6">
     <div class="content">
@@ -168,30 +170,34 @@
       <% if controller.action_name != 'new' %>
 
         <br><br><br>
+        <!-- Button to trigger modal -->
         <%= link_to 'Add Movie',
                     add_movie_to_playlist_path(id: @movie_playlist.id),
                     id: 'add_movie_to_playlist',
-                    class: 'btn' %>
-
-        <br><br>
-
-        <div id="playlist">
-          <%= render partial: 'playlist',
-                     object: @movie_playlist %>
-        </div>
-
-        <div id="add_movie_dialog" style="display:none;">
-          <div id="add_movie">
-          </div>
-        </div>
-      <% end %>
+                    class: 'btn',
+                    role: 'btn',
+                    data: { toggle: 'modal', target: '#ajax-modal' } %>
+    <% end %>
 
     </div>
+    <!--end of .content-->
   </div>
-
+  <!--end of .span-->
 <% end %>
 
 <% if controller.action_name != 'new' %>
+  <%= content_for :playlist do %>
+    <div class="info info-title">Playlist</div>
+    <div id="playlist">
+      <%= render partial: 'playlist',
+                 object: @movie_playlist %>
+    </div>
+  <% end %>
+
+  <%= content_for :modal do %>
+    <%= render 'modal' %>
+  <% end %>
+
   <% content_for(:head) do %>
     <meta name="pdfkit-orientation" content="Landscape"/>
     <script>
@@ -206,26 +212,25 @@
   <% end %>
 
   <script type="text/javascript">
+
     var $ = jQuery;
 
-    $(function () {
-      $(document).on("click", "#add_movie_to_playlist", function (movie) {
-        movie.preventDefault();
-        $('#add_movie_dialog').dialog({
-          title: 'Add Movie',
-          modal: true,
-          width: 912,
-          height: 540,
-          position: ['center', 100],
-          close: function (movie, ui) {
-            $('#add_movie_dialog').dialog('destroy')
-          }
-        });
-        $.ajax({ url: '/add_movie_to_playlist/<%= @movie_playlist.id %>',
-          type: 'get',
-          dataType: 'script'
-        });
-      });
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#ajax-modal]').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote( $(this) );
     });
+
+    // removes whatever is in the modal body content div upon clicking close/outside modal
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function(e) {
+      $('.modal-body-content').empty();
+    });
+
+    $(document).on('click', '#ajax-modal', function(e) {
+      e.stopPropagation();
+    });
+
   </script>
 <% end %>

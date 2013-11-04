@@ -655,6 +655,12 @@ tr:nth-of-type(even) {
   }
 }
 
+.table-hover tbody tr:hover > td,
+.table-hover tbody tr:hover > th {
+  background-color: rgba(255, 255, 255, 0.32);
+}
+
+
 thead tr:nth-of-type(odd) {
   background: #1b1b1b;
 }
@@ -883,6 +889,30 @@ body {
   ul {
     margin: 0;
   }
+}
+
+.modal {
+}
+
+.modal-header {
+  background-color: #000000;
+  border-bottom: 1px solid #666;
+}
+.modal-body {
+  background-color: #323232;
+}
+
+.modal.fade.in {
+  top: 50%;
+}
+
+.modal-backdrop, .modal-backdrop.fade.in {
+  background-color: #000000;
+}
+
+.ajax-loader {
+  float: left;
+  margin-top: 4px;
 }
 
 /*===== Page Specific Styles =====*/

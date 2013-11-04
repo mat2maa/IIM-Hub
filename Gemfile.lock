@@ -76,6 +76,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-datepicker-rails (1.1.0.1)
       railties (>= 3.0)
+    bootstrap-modal-rails (2.1.1)
+      railties (>= 3.1)
     bootstrap-wysihtml5-rails (0.3.1.21)
       railties (>= 3.0)
     builder (3.0.4)
@@ -331,6 +333,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails
+  bootstrap-modal-rails
   bootstrap-wysihtml5-rails
   bullet
   carrierwave

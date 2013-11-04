@@ -267,7 +267,7 @@ $(document).ready(function () {
     });
 
     // Remote pagination links for UI Dialog forms
-    $('body').on('click', '.ui-dialog .pagination a', function () {
+    $('body').on('click', '.modal .pagination a', function () {
         $.rails.handleRemote($(this));
         return false;
     });

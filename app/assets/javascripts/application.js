@@ -20,4 +20,6 @@
 //= require select2
 //= require bootstrap-wysihtml5
 //= require bootstrap-datepicker
+//= require bootstrap-modal
+//= require bootstrap-modalmanager
 //= require scripts.js

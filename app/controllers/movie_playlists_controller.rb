@@ -90,14 +90,14 @@ class MoviePlaylistsController < ApplicationController
 
     @movie_playlist = MoviePlaylist.find(params[:id])
     @languages = MasterLanguage.order("name")
-    .collect { |language| language.name }
+                               .collect { |language| language.name }
 
     @search = Movie.ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-    .where("to_delete = ?", "0")
-    .order("movies.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                     .where("to_delete = ?", "0")
+                     .order("movies.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
 
     if params[:language].present?
       @movies = @movies.with_language_track(params[:language][:track]) if params[:language][:track].present?

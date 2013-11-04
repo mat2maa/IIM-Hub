@@ -5,11 +5,13 @@
                remote: true do %>
     <%= hidden_field_tag 'playlist_id',
                          params[:id] %>
-    <%= submit_tag 'Add Selected to Playlist' %><br/>
-    <%= @movies_count %> movies found
-    <table cellspacing="0" width="100%">
+    <%= submit_tag 'Add Selected to Playlist',
+                   id: 'add_selected_hidden',
+                   style: 'display: none;' %>
+    <table class="table" id="no-more-tables">
+      <thead>
       <tr>
-        <th width="8">
+        <th>
           <%= check_box_tag('check_all',
                             'check_all',
                             false) %>
@@ -24,46 +26,47 @@
         <th>
           <%= sort_link @search,
                         :movie_title,
-                        "Movie Title",
+                        "Title",
                         {},
                         {remote: true} %>
         </th>
         <th>
           <%= sort_link @search,
                         :movie_type_name,
-                        "Movie Type",
+                        "Type",
                         {},
                         {remote: true} %>
         </th>
         <th>
           <%= sort_link @search,
                         :airline_release_date,
-                        "Airline Release Date",
+                        "Release Date",
                         {},
                         {remote: true} %>
         </th>
-        <th>In Playlists With<br/>Same Airline</th>
+        <th>Other airlines</th>
         <th>&nbsp;</th>
       </tr>
+      </thead>
+
+      <tbody>
       <% @movies.each do |movie| %>
         <tr class="playlist-entry">
           <%# cache([movie]) do %>
-            <td><%= check_box_tag "movie_ids[]",
-                                  movie.id %></td>
-            <td><%= link_to movie.id,
-                            movie_path(id: movie.id),
-                            target: "_blank" %></td>
-            <td><%= movie.movie_title %></td>
-            <td><%= movie.movie_type.name if movie.movie_type.present? %></td>
-            <td><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date.nil? %></td>
+          <td><%= check_box_tag "movie_ids[]",
+                                movie.id %></td>
+          <td><%= link_to movie.id,
+                          movie_path(id: movie.id),
+                          target: "_blank" %></td>
+          <td><%= movie.movie_title %></td>
+          <td><%= movie.movie_type.name if movie.movie_type.present? %></td>
+          <td><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date.nil? %></td>
           <%# end %>
           <td>
                     <span id="exists">
                         <% if (movie.in_playlists!="" && !movie.in_playlists.nil?) %>
                             <%= MoviePlaylist.with_same_airline_and_movie(movie.id,
-                                                                          (@movie_playlist.airline_id unless @movie_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}",
-                                                                                                                                                                         edit_movie_playlist_path(playlist),
-                                                                                                                                                                         target: "_blank") }.join(', ').html_safe %>
+                                                                          (@movie_playlist.airline_id unless @movie_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}", edit_movie_playlist_path(playlist), target: "_blank") }.join(', ').html_safe %>
                         <% end %>
                     </span>
           </td>
@@ -71,15 +74,18 @@
             <%= link_to "add to playlist",
                         add_movie_movie_playlist_path(@movie_playlist, movie_id: movie.id),
                         method: :post,
-                        remote: true,
-                        class: 'spinner-trigger' %>
+                        remote: true %>
           </td>
         </tr>
       <% end %>
+      </tbody>
+
     </table>
   <% end %>
+
   <br/>
   <br/>
+
   <%= will_paginate @movies,
                     inner_window: 1,
                     renderer: BootstrapPagination::Rails,
@@ -95,6 +101,10 @@
     <%= items_per_page_select @movies %>
     <%= f.submit "Submit",
                  class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @movies_count %> movies found
+    <br>
   <% end %>
 <% else %>
   No movies were found

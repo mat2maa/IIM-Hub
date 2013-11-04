@@ -2,77 +2,62 @@
 <% @movie_playlist_item = playlist_item %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if playlist_item.movie.nil? %>
-    <td colspan="2">Missing movie <%= playlist_item.movie_id %></td>
-  <% else %>
     <td>
-      <table width="100%">
-        <tr>
-          <th width="90" valign="top">
-            (<%= position %>) Movie Title:
-          </th>
-          <td width="290" valign="top">
-            <%= link_to playlist_item.movie.movie_title,
-                        edit_movie_path(playlist_item.movie),
-                        target: "_blank" %>
-          </td>
-          <th valign="top" width="80">Lang Tracks:</th>
-          <td valign="top" width="150">
-            <%= playlist_item.movie.language_tracks.class == Array ? playlist_item.movie.language_tracks.join(',
-') : playlist_item.movie.language_tracks %>
-          </td>
-          <th width="50" valign="top">Lang Subs:</th>
-          <td width="50" valign="top">
-            <%= playlist_item.movie.language_subtitles.class == Array ? playlist_item.movie.language_subtitles.join(',
-') : playlist_item.movie.language_subtitles %>
-          </td>
-          <th width="100" valign="top">Release Date:</th>
-          <td valign="top">
-            <%= playlist_item.movie.airline_release_date.strftime('%m-%Y') if !playlist_item.movie.airline_release_date.nil? %>
-          </td>
-        </tr>
-        <tr>
-          <th width="90" valign="top">
-            Chinese Movie Title:
-          </th>
-          <td width="290" valign="top">
-            <%= playlist_item.movie.chinese_movie_title if !playlist_item.movie.laboratory.blank? %>
-          </td>
-          <th valign="top">Laboratory:</th>
-          <td valign="top">
-            <%= playlist_item.movie.laboratory.company_name if !playlist_item.movie.laboratory.nil? %>
-          </td>
-          <th valign="top">Release Versions:</th>
-          <td valign="top">
-            <%= playlist_item.movie.release_versions.join(',
-') %>
-          </td>
-          <th valign="top">Rating:</th>
-          <td valign="top">
-            <%= playlist_item.movie.rating %>
-          </td>
-        </tr>
-        <tr>
-          <th valign="top">Distributor:</th>
-          <td valign="top">
-            <%= playlist_item.movie.movie_distributor.company_name if !playlist_item.movie.movie_distributor.nil? %>
-          </td>
-          <th width="80" valign="top">Airline Rights:</th>
-          <td colspan="7" valign="top">
-            <%= playlist_item.movie.airline_rights %>
-            <%= playlist_item.movie.airline_countries %>
-          </td>
-        </tr>
-      </table>
+  <% else %>
+
+    <td><%= position %></td>
+
+    <td>
+      <%= link_to playlist_item.movie.movie_title,
+                  edit_movie_path(playlist_item.movie),
+                  target: "_blank" %>
     </td>
-    <td class="actions">
-      <%= image_tag("arrow_move.png") %>
+
+    <td>
+      <%= "(#{playlist_item.movie.chinese_movie_title})" if !playlist_item.movie.laboratory.blank? %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.airline_release_date.strftime('%m-%Y') if !playlist_item.movie.airline_release_date.nil? %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.rating %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.language_tracks.class == Array ? playlist_item.movie.language_tracks.join(', ') : playlist_item.movie.language_tracks %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.language_subtitles.class == Array ? playlist_item.movie.language_subtitles.join(', ') : playlist_item.movie.language_subtitles %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.laboratory.company_name if !playlist_item.movie.laboratory.nil? %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.movie_distributor.company_name if !playlist_item.movie.movie_distributor.nil? %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.release_versions.join(',
+  ') %>
+    </td>
+
+    <td>
+      <%= playlist_item.movie.airline_rights %>
+      <%= playlist_item.movie.airline_countries %>
+    </td>
+
+    <td>
+      <%= link_to "Delete",
+                  playlist_item,
+                  remote: true,
+                  confirm: "Are you sure",
+                  method: 'delete',
+                  class: 'btn btn-mini' %>
     </td>
   <% end %>
-  <td class="actions">
-    <%= link_to "Delete",
-                playlist_item,
-                remote: true,
-                confirm: "Are you sure",
-                method: 'delete' %>
-  </td>
 </tr>

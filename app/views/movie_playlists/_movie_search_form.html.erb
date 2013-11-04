@@ -1,118 +1,175 @@
-<%# cache 'movie_search_form' do %>
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
-<fieldset>
-  <legend>Search Movies</legend>
-  <%= search_form_for @search,
-                      url: add_movie_to_playlist_path(id: @movie_playlist.id),
-                      remote: true,
-                      id: "movie_search_form",
-                      class: 'spinner-trigger' do |movies| %>
-    <br/>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
-    <table>
-      <tr>
-        <td valign="top">
-          Movie Title:<br/>
-          <%= movies.text_field :movie_title_cont %>
-          <br/>
-          Cast:<br/>
-          <%= movies.text_field :cast_cont %>
-        </td>
-        <td valign="top">
-          Director:<br/>
-          <%= movies.text_field :director_cont,
-                                size: 17 %>
-          <br/>
-          <%= check_box :screener,
-                        :destroyed,
-                        {checked: !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false} %>
-          Screener Destroyed
-          <br/>
-          <%= check_box :screener,
-                        :held,
-                        {checked: !params[:screener].nil? && params[:screener][:held] == '1' ? true : false} %>Screener
-          Held
-        </td>
-        <td valign="top">
-          Movie Distributor:<br/>
-          <%= movies.select :movie_distributor_id_eq,
-                            Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                       p.id] },
-                            include_blank: true %>
-          <br/>
-          Laboratory:<br/>
-          <%= movies.select :laboratory_id_eq,
-                            Supplier.laboratories.collect { |p| [p.company_name,
-                                                                 p.id] },
-                            include_blank: true %>
-          <br/>
-        </td>
-        <td valign="top">
-          Movie type:<br/>
-          <%= movies.select :movie_type_id_eq,
-                            MovieType.order("name")
-                            .collect { |p| [p.name,
-                                            p.id] },
-                            include_blank: true %> <br/>
-          Genre:<br/>
-          <%= movies.select :movie_genres_id_eq,
-                            MovieGenre.all
-                            .collect { |p| [p.name,
-                                            p.id] },
-                            include_blank: true %>
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    url: add_movie_to_playlist_path(id: @movie_playlist.id),
+                    remote: true,
+                    id: "movie_search_form" do |movies| %>
 
-        </td>
-      <tr>
-        <td valign="top" colspan="2">
-          <table>
-            <tr>
-              <td>Languages:<br/>
-                <%= select :language,
-                           :track,
-                           @languages,
-                           {include_blank: true,
-                            selected: @selected_track} %></td>
-              <td>Subtitles:<br/>
-                <%= select :language,
-                           :subtitle,
-                           @languages,
-                           {include_blank: true,
-                            selected: @selected_subtitle} %></td>
-              <td>Theatrical Release Year:<br/>
-                <%= movies.select :theatrical_release_year_eq,
-                                  movie_release_years,
-                                  include_blank: true %></td>
-            </tr>
-          </table>
-        </td>
-        <td valign="top" colspan="2">
-          Airline Release Date (MM-YYYY)<br/>
-          <%= movies.date_select :airline_release_date_gteq,
-                                 order: [:month,
-                                         :year],
-                                 discard_day: true,
-                                 include_blank: true,
-                                 use_month_numbers: true,
-                                 start_year: Date.today.year + 2,
-                                 end_year: 1900 %>
-          to
-          <%= movies.date_select :airline_release_date_lteq,
-                                 order: [:month,
-                                         :year],
-                                 discard_day: true,
-                                 include_blank: true,
-                                 use_month_numbers: true,
-                                 start_year: Date.today.year + 2,
-                                 end_year: 1900 %>
-        </td>
-      </tr>
-      </tr>
-    </table>
-    <%= movies.submit "Search" %>
-  <% end %>
+  <div class="controls controls-row">
+    <%= movies.input_field :movie_title_or_foreign_language_title_cont_any,
+                           placeholder: 'Movie Title',
+                           class: 'span12',
+                           value: @original %>
+  </div>
 
-</fieldset>
+  <div class="controls controls-row">
+    <%= movies.input_field :cast_cont,
+                           placeholder: 'Cast',
+                           class: 'span12' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :director_cont,
+                           placeholder: 'Director',
+                           class: 'span12' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :movie_distributor_id_eq,
+                           placeholder: 'Movie Distributor',
+                           as: :select,
+                           collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
+                           include_blank: true,
+                           tabindex: autotab,
+                           class: 'select2 span12' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :laboratory_id_eq,
+                           collection: Supplier.laboratories.collect { |p| [p.company_name,
+                                                                            p.id] },
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Laboratory' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :movie_type_id_eq,
+                           collection: MovieType.order("name")
+                           .collect { |p| [p.name,
+                                           p.id] },
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Movie Type' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :movie_genres_id_eq,
+                           collection: MovieGenre.order("name")
+                           .collect { |p| [p.name,
+                                           p.id] },
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Genre' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: movies,
+                        field: :airline_release_date_gteq,
+                        value: '',
+                        input_id: 'airline_release_date_gteq_datepicker',
+                        date_format: 'mm/yyyy',
+                        date_viewmode: 'months',
+                        date_minviewmode: 'months',
+                        datepicker_behaviour: 'datepicker-months',
+                        placeholder: 'Airline Release Date From',
+                        span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: movies,
+                        field: :airline_release_date_lteq,
+                        value: '',
+                        input_id: 'airline_release_date_lteq_datepicker',
+                        date_format: 'mm/yyyy',
+                        date_viewmode: 'months',
+                        date_minviewmode: 'months',
+                        datepicker_behaviour: 'datepicker-months',
+                        placeholder: 'Airline Release Date To',
+                        span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= select :language,
+               :track,
+               @languages,
+               {include_blank: true,
+                selected: @selected_track},
+               {class: 'select2 span12',
+                data: {placeholder: 'Languages'}} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= select :language,
+               :subtitle,
+               @languages,
+               {include_blank: true,
+                selected: @selected_subtitle},
+               {class: 'select2 span12',
+                data: {placeholder: 'Subtitles'}} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: movies,
+                        field: :theatrical_release_year_eq,
+                        value: '',
+                        input_id: 'theatrical_release_year_eq_datepicker',
+                        date_format: 'yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'years',
+                        datepicker_behaviour: 'datepicker-years',
+                        placeholder: 'Theatrical Release Year',
+                        span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :id_eq,
+                           placeholder: 'Movie ID',
+                           class: 'span12' %>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="checkbox">
+      <%= check_box :screener,
+                    :held,
+                    {inline_label: "Screener Held",
+                     class: 'boolean optional'},
+                    !params[:screener].nil? && params[:screener][:held] == '1' ? true : false %>
+      Screener Held
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="checkbox">
+      <%= check_box :screener,
+                    :destroyed,
+                    {inline_label: "Screener Destroyed",
+                     class: 'boolean optional'},
+                    !params[:screener].nil? && params[:screener][:destroyed] == '1' ? true : false %>
+      Screener Destroyed
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="checkbox">
+      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Movie
+    </label>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="checkbox">
+      <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %> Pending Delete
+    </label>
+  </div>
+  <br>
+
+  <div class="controls controls-row">
+    <%= movies.button :submit, class: 'btn' %>
+    <input class="form-reset btn" type="reset" value="Reset">
+  </div>
+<% end %>
 <%# end %>
