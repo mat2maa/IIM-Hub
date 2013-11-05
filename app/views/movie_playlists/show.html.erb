@@ -3,66 +3,98 @@
     window.print();
   });
 </script>
+
 <%= render partial: 'layouts/movies_nav' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;
-    <span id="download_pdf_link">
-      <%= link_to "Download English PDF",
-                  {controller: "movie_playlists",
-                   action: "show",
-                   id: @movie_playlist,
-                   format: "pdf"},
-                  target: "_blank" %>
-    </span>
 
-    |
+<div class="container">
 
-    <span id="export_to_excel_link">
-      <%= link_to "Export as Excel",
-                  controller: "movie_playlists",
-                  action: "export_to_excel",
-                  id: @movie_playlist %>
-    </span>
-
-    |
-
-    <%= link_to "Edit Playlist",
-                {controller: "movie_playlists",
-                 action: "edit",
-                 id: @movie_playlist},
-                target: "_blank" %>
-
-    <% if @movie_playlist.thales_schema_package_file_name.present? then %>
-
-      |
-
-        <span id="download_thales_schema_package_link">
-          <%= link_to "Download Thales Schema Package",
-                      controller: "movie_playlists",
-                      action: "download_thales_schema_package",
-                      id: @movie_playlist %>
-        </span>
-    <% end %>
-  </div>
-  <div id="content-header">Movie Playlists</div>
-</div>
-
-<div id="content">
-  <center>
-    <h2>Movie Playlist</h2>
-    <%= "Movie Type: #{@movie_playlist.movie_playlist_type.name}s " if !@movie_playlist.movie_playlist_type.nil? %>
-    <div id="playlist_item_view_container">
-      <%= render partial: 'playlist_item_view',
-                 collection: @movie_playlist.movie_playlist_items_sorted,
-                 locals: {language: 'english'} %>
+  <div class="row">
+    <div class="span12">
+      <%= bootstrap_flash %>
     </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
 
-    <%= link_to 'Back',
-                movie_playlists_path %>
+  <div class="row">
+    <div class="span3">
+      <div class="content">
 
-  </center>
+        <span style="display:none;"><%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;</span>
+
+        <div class="info info-title">Movie Type</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= "#{@movie_playlist.movie_playlist_type.name}s " if !@movie_playlist.movie_playlist_type.nil? %>
+            </li>
+          </ul>
+        </div>
+
+        <br>
+
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Download English PDF",
+                          {controller: "movie_playlists",
+                           action: "show",
+                           id: @movie_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Download Chinese PDF",
+                          {controller: "movie_playlists",
+                           action: "show_chinese",
+                           id: @movie_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "movie_playlists",
+                          action: "export_to_excel",
+                          id: @movie_playlist %>
+            </li>
+            <li class="info">
+              <%= link_to "Edit Playlist",
+                          {controller: "movie_playlists",
+                           action: "edit",
+                           id: @movie_playlist},
+                          target: "_blank" %>
+            </li>
+            <% if @movie_playlist.thales_schema_package_file_name.present? then %>
+              <li class="info">
+                <%= link_to "Download Thales Schema Package",
+                            controller: "movie_playlists",
+                            action: "download_thales_schema_package",
+                            id: @movie_playlist %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <!--/content-->
+
+      <br>
+      <a class="btn" onclick="$('#chinese_checkbox').click();">Switch language</a>
+    </div>
+    <!--/span-->
+
+    <div class="span9">
+      <div class="info info-title">Playlist</div>
+      <div id="playlist_item_view_container">
+        <%= render partial: 'playlist_item_view',
+                   collection: @movie_playlist.movie_playlist_items_sorted,
+                   locals: {language: 'english'} %>
+      </div>
+
+      <%= link_to 'Back',
+                  movie_playlists_path %>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -71,34 +103,20 @@
 
   $(document).ready(function () {
 
-    var playlist,
-        pdfLink;
+    var playlist;
 
     $('#chinese_checkbox').on("change", function () {
       if ($(this).is(':checked')) {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                   collection: @movie_playlist.movie_playlist_items_sorted,
                                                   locals: {language: 'chinese' }) %> ";
-        pdfLink = " <%= escape_javascript(link_to "Download Chinese PDF",
-                                                  {controller: "movie_playlists",
-                                                   action: "show_chinese",
-                                                   id: @movie_playlist,
-                                                   format: "pdf"},
-                                                  target: "_blank") %> ";
       } else {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                   collection: @movie_playlist.movie_playlist_items_sorted,
                                                   locals: {language: 'english' }) %> ";
-        pdfLink = " <%= escape_javascript(link_to "Download English PDF",
-                                                  {controller: "movie_playlists",
-                                                   action: "show",
-                                                   id: @movie_playlist,
-                                                   format: "pdf"},
-                                                  target: "_blank") %> ";
       }
 
       $("#playlist_item_view_container").html(playlist);
-      $("#download_pdf_link").html(pdfLink);
     });
 
   });

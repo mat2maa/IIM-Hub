@@ -4,123 +4,131 @@
   <td colspan="2">Missing movie <%= playlist_item_view.movie_id %></td>
 
 <% else %>
-  <table width="100%" class="playlist">
-    <tr>
-      <% if (language == "english") %>
-        <td width="150"><strong>Movie Title:</strong></td>
-        <td><%= link_to playlist_item_view.movie.movie_title,
-                        edit_movie_path(playlist_item_view.movie),
-                        target: "_blank" %>
-          <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
-            (<%= playlist_item_view.movie.movie_type.name.upcase %>)
+  <div class="row">
+    <div class="span2">
+      <%= image_tag playlist_item_view.movie.poster.url(:small) %>
+    </div>
+    <div class="span7">
+      <table class="playlist table">
+        <tbody>
+        <tr>
+          <% if (language == "english") %>
+            <td width="160"><strong>Movie Title:</strong></td>
+            <td><%= link_to playlist_item_view.movie.movie_title,
+                            edit_movie_path(playlist_item_view.movie),
+                            target: "_blank" %>
+              <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
+                (<%= playlist_item_view.movie.movie_type.name.upcase %>)
+              <% end %>
+            </td>
+          <% else %>
+            <td width="160"><strong>Chinese Movie Title:</strong></td>
+            <td><%= link_to playlist_item_view.movie.chinese_movie_title.blank? ? "" : playlist_item_view.movie.chinese_movie_title,
+                            edit_movie_path(playlist_item_view.movie),
+                            target: "_blank" %>
+              <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
+                (<%= playlist_item_view.movie.movie_type.name.upcase %>)
+              <% end %>
+            </td>
           <% end %>
-        </td>
-      <% else %>
-        <td width="150"><strong>Chinese Movie Title:</strong></td>
-        <td><%= link_to playlist_item_view.movie.chinese_movie_title.blank? ? "" : playlist_item_view.movie.chinese_movie_title,
-                        edit_movie_path(playlist_item_view.movie),
-                        target: "_blank" %>
-          <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
-            (<%= playlist_item_view.movie.movie_type.name.upcase %>)
+        </tr>
+        <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
+          <tr>
+            <td>
+              <strong>Foreign Language Title:</strong>
+            </td>
+            <td
+            <% if playlist_item_view.movie.movie_type.name.upcase == "KOREAN MOVIE" %>style="font-family: 'Baekmuk Dotum';"
+            <% end %> >
+              <%= playlist_item_view.movie.foreign_language_title %>
+            </td>
+          </tr>
+        <% end %>
+        <% if !playlist_item_view.movie.production_studio.blank? %>
+          <tr>
+            <td><strong>Production Studio:</strong></td>
+            <td><%= playlist_item_view.movie.production_studio.company_name %></td>
+          </tr>
+        <% end %>
+        <% if !playlist_item_view.movie.theatrical_runtime.blank? %>
+          <tr>
+            <td><strong>Theatrical Runtime:</strong></td>
+            <td><%= playlist_item_view.movie.theatrical_runtime %> min</td>
+          </tr>
+        <% end %>
+        <% if !playlist_item_view.movie.rating.blank? %>
+          <tr>
+            <td><strong>Movie Rating:</strong></td>
+            <td><%= playlist_item_view.movie.rating %></td>
+          </tr>
+        <% end %>
+        <% if !playlist_item_view.movie.movie_genres_string.blank? %>
+          <tr>
+            <td><strong>Genres:</strong></td>
+            <td><%= playlist_item_view.movie.movie_genres_string %></td>
+          </tr>
+        <% end %>
+        <% if (language == "english") %>
+          <% if !playlist_item_view.movie.director.blank? %>
+            <tr>
+              <td><strong>Director:</strong></td>
+              <td><%= playlist_item_view.movie.director %></td>
+            </tr>
           <% end %>
-        </td>
-      <% end %>
-      <td rowspan="7" width="160" align="center"><%= image_tag(playlist_item_view.movie.poster.url(:small)) %></td>
-    </tr>
-    <% if (!playlist_item_view.movie.foreign_language_title.nil? && playlist_item_view.movie.foreign_language_title!='') %>
-      <tr>
-        <td>
-          <strong>Foreign Language Title:</strong>
-        </td>
-        <td
-        <% if playlist_item_view.movie.movie_type.name.upcase == "KOREAN MOVIE" %>style="font-family: 'Baekmuk Dotum';"
-        <% end %> >
-          <%= playlist_item_view.movie.foreign_language_title %>
-        </td>
-      </tr>
-    <% end %>
-    <% if !playlist_item_view.movie.production_studio.blank? %>
-      <tr>
-        <td><strong>Production Studio:</strong></td>
-        <td><%= playlist_item_view.movie.production_studio.company_name %></td>
-      </tr>
-    <% end %>
-    <% if !playlist_item_view.movie.theatrical_runtime.blank? %>
-      <tr>
-        <td><strong>Theatrical Runtime:</strong></td>
-        <td><%= playlist_item_view.movie.theatrical_runtime %> min</td>
-      </tr>
-    <% end %>
-    <% if !playlist_item_view.movie.rating.blank? %>
-      <tr>
-        <td><strong>Movie Rating:</strong></td>
-        <td><%= playlist_item_view.movie.rating %></td>
-      </tr>
-    <% end %>
-    <% if !playlist_item_view.movie.movie_genres_string.blank? %>
-      <tr>
-        <td><strong>Genres:</strong></td>
-        <td><%= playlist_item_view.movie.movie_genres_string %></td>
-      </tr>
-    <% end %>
-    <% if (language == "english") %>
-      <% if !playlist_item_view.movie.director.blank? %>
-        <tr>
-          <td><strong>Director:</strong></td>
-          <td><%= playlist_item_view.movie.director %></td>
-        </tr>
-      <% end %>
-    <% else %>
-      <% if !playlist_item_view.movie.chinese_director.blank? %>
-        <tr>
-          <td><strong>Director (Chinese):</strong></td>
-          <td><%= playlist_item_view.movie.chinese_director %></td>
-        </tr>
-      <% end %>
-    <% end %>
-    <% if (language == "english") %>
-      <% if !playlist_item_view.movie.cast.blank? %>
-        <tr>
-          <td><strong>Cast:</strong></td>
-          <td><%= playlist_item_view.movie.cast %></td>
-        </tr>
-      <% end %>
-    <% else %>
-      <% if !playlist_item_view.movie.chinese_cast.blank? %>
-        <tr>
-          <td><strong>Cast (Chinese):</strong></td>
-          <td><%= playlist_item_view.movie.chinese_cast %></td>
-        </tr>
-      <% end %>
-    <% end %>
-    <% if (language == "english") %>
-      <% if !playlist_item_view.movie.synopsis.blank? %>
-        <tr>
-          <td colspan="2"><strong>Synopsis:</strong><br/><%= playlist_item_view.movie.synopsis %></td>
-          <td>&nbsp;</td>
-        </tr>
-      <% end %>
-    <% else %>
-      <% if !playlist_item_view.movie.chinese_synopsis.blank? %>
-        <tr>
-          <td colspan="2"><strong>Chinese Synopsis:</strong><br/><%= playlist_item_view.movie.chinese_synopsis %></td>
-          <td>&nbsp;</td>
-        </tr>
-      <% end %>
-    <% end %>
-    <% if !playlist_item_view.movie.imdb_synopsis.blank? %>
-      <tr>
-        <td colspan="2"><strong>IMDB Synopsis:</strong><br/><%= playlist_item_view.movie.imdb_synopsis %></td>
-        <td>&nbsp;</td>
-      </tr>
-    <% end %>
-    <% if !playlist_item_view.movie.critics_review.blank? %>
-      <tr>
-        <td colspan="2"><%= playlist_item_view.movie.critics_review.html_safe if !playlist_item_view.movie.critics_review.blank? %></td>
-        <td>&nbsp;</td>
-      </tr>
-    <% end %>
-  </table>
+        <% else %>
+          <% if !playlist_item_view.movie.chinese_director.blank? %>
+            <tr>
+              <td><strong>Director (Chinese):</strong></td>
+              <td><%= playlist_item_view.movie.chinese_director %></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% if (language == "english") %>
+          <% if !playlist_item_view.movie.cast.blank? %>
+            <tr>
+              <td><strong>Cast:</strong></td>
+              <td><%= playlist_item_view.movie.cast %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <% if !playlist_item_view.movie.chinese_cast.blank? %>
+            <tr>
+              <td><strong>Cast (Chinese):</strong></td>
+              <td><%= playlist_item_view.movie.chinese_cast %></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% if (language == "english") %>
+          <% if !playlist_item_view.movie.synopsis.blank? %>
+            <tr>
+              <td><strong>Synopsis:</strong></td>
+              <td><%= playlist_item_view.movie.synopsis %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <% if !playlist_item_view.movie.chinese_synopsis.blank? %>
+            <tr>
+              <td><strong>Chinese Synopsis:</strong></td>
+              <td><%= playlist_item_view.movie.chinese_synopsis %></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% if !playlist_item_view.movie.imdb_synopsis.blank? %>
+          <tr>
+            <td><strong>IMDB Synopsis:</strong></td>
+            <td><%= playlist_item_view.movie.imdb_synopsis %></td>
+          </tr>
+        <% end %>
+        <% if !playlist_item_view.movie.critics_review.blank? %>
+          <tr>
+            <td><strong>Review:</strong></td>
+            <td><%= playlist_item_view.movie.critics_review.html_safe if !playlist_item_view.movie.critics_review.blank? %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <br/><br/>
+  <br/>
 <% end %>
