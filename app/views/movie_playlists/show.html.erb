@@ -80,11 +80,13 @@
 
       <br>
       <a class="btn" onclick="$('#chinese_checkbox').click();">Switch language</a>
+      <br>
+      <br>
     </div>
     <!--/span-->
 
     <div class="span9">
-      <div class="info info-title">Playlist</div>
+      <div class="info info-title playlist-title">Playlist</div>
       <div id="playlist_item_view_container">
         <%= render partial: 'playlist_item_view',
                    collection: @movie_playlist.movie_playlist_items_sorted,

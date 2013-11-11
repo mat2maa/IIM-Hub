@@ -1,33 +1,15 @@
-<table width="500" id="videos" cellspacing="0" cellpadding="0">
-  <tr>
-    <th width="250">
-      Episode Title
-    </th>
-    <th width="60">
-      Episode #
-    </th>
-    <th>
-      Location
-    </th>
-    <th></th>
-  </tr>
-  <% Screener.where("video_id = #{video_id} AND active=true").order("location, episode_number").each do |screener| %>
-    <tr id="screener-<%= screener.id %>">
-      <td><%= screener.episode_title %></td>
-      <td><%= screener.episode_number %></td>
-      <td><%= screener.location %></td>
-      <td width="140">
-        <%= link_to 'duplicate',
-                    duplicate_screener_path(screener),
-                    confirm: 'Are you sure?',
-                    method: :post %> |
-        <%= link_to "edit",
-                    edit_screener_path(screener),
-                    class: 'edit_screener' %> |
-        <%= link_to 'delete',
-                    screener_path(screener),
-                    class: 'delete_screener' %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<% Screener.where("video_id = #{video_id} AND active=true").order("location, episode_number").each do |screener| %>
+  <li class="poster-info">
+    <%= screener.episode_title %> (<%= screener.episode_number %>, <%= screener.location %>)<br>
+    <%= link_to 'duplicate',
+                duplicate_screener_path(screener),
+                confirm: 'Are you sure?',
+                method: :post %> |
+    <%= link_to "edit",
+                edit_screener_path(screener),
+                class: 'edit_screener' %> |
+    <%= link_to 'delete',
+                screener_path(screener),
+                class: 'delete_screener' %>
+  </li>
+<% end %>

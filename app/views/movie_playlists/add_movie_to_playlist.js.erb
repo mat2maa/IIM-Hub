@@ -12,7 +12,9 @@ $(loader).fadeToggle('fast', function() {
   $(content).hide().html('<%= j render('dialog_form') %>').show();
 
   // enable chosen js
-  $(content).find('.select2').select2();
+  $(content).find('.select2').select2({
+    allowClear: true
+  });
 
   // initialize datepicker for different date formats
   $(content).find('[data-behaviour~=datepicker-days]').closest('.input-append.date').datepicker({

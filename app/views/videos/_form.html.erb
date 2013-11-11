@@ -1,161 +1,295 @@
-<%= semantic_form_for @video,
-                      html: {multipart: true} do |f| %>
-  <%= error_messages_for(f.object) %><br/>
-
-  <div id="poster-thumbnail">
-    <%= link_to(image_tag(@video.poster.url(:small)),
-                @video.poster.url,
-                target: "_blank") %>
-    <br/>
-    <a href="http://images.google.com/images?hl=en&q=tv+still+<%= @video.programme_title %>" target="_blank">Search
-      Google Images</a><br/>
-    <a href="http://www.tv.com/search?type=11&stype=all&tag=search%3Bfrontdoor&q=<%= @video.programme_title %>&stype=program" target="_blank">Search
-      TV.com</a><br/>
-    <a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<%= @video.programme_title %>" target="_blank">Search
-      Wikipedia</a><br/>
-
-    <%= f.input :poster,
-                input_html: {tabindex: 16},
-                label: false,
-                as: :file,
-                input_html: {size: 6} %>
-    <br/>
-    <%= f.actions %>
+<%= minimal_form_for @video,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
+  <div class="span3">
+    <div id="poster-thumbnail">
+      <%= link_to(image_tag(@video.poster.url, class: 'poster-image'),
+                  @video.poster.url,
+                  target: "_blank") %>
+    </div>
+    <div class="poster-title poster-info">
+      Poster image
+    </div>
+    <div class="poster-list">
+      <ul>
+        <li class="poster-info">
+          <%= render partial: 'application/bootstrap_file_field',
+                     locals: {f: f,
+                              field: :poster,
+                              hidden_id: 'video_poster',
+                              input_id: 'video_poster_input',
+                              span: 'span2',
+                              placeholder: 'Poster Image'} %>
+        </li>
+        <li class="poster-info">
+          <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+          <% href = "#{href}+#{@video.foreign_language_title.present? ? @video.foreign_language_title.to_s.downcase : @video.programme_title.to_s.downcase}" %>
+          <% href = "#{href}+#{@video.production_year.to_s}" %>
+          <a href="<%= href %>" target="_blank" id="google-images-link">
+            Search Google Images
+          </a>
+        </li>
+        <li class="poster-info">
+          <a href="http://www.tv.com/search?type=11&stype=all&tag=search%3Bfrontdoor&q=<%= @video.programme_title %>&stype=program" target="_blank">Search
+            TV.com</a>
+        </li>
+        <li class="poster-info">
+          <a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<%= @video.programme_title %>" target="_blank">Search
+            Wikipedia</a>
+        </li>
+      </ul>
+    </div>
+    <% if controller.action_name != 'new' %>
+      <div class="poster-title poster-info">
+        Screeners <a href="/screeners/new" id="add_screener">Add Screener</a>
+      </div>
+      <div class="poster-list">
+        <ul>
+          <%= render partial: 'screeners',
+                     locals: {video_id: @video.id} %>
+        </ul>
+      </div>
+      <div class="poster-title poster-info">
+        Masters <a href="/masters/new" id="add_master">Add Master</a>
+      </div>
+      <div class="poster-list">
+         <ul>
+          <%= render partial: 'masters',
+                     locals: {video_id: @video.id} %>
+        </ul>
+      </div>
+    <% end %>
   </div>
+  <!--/span-->
 
-  <%= f.inputs do %>
-
-    <div id="video-fields">
-      <%= f.input :movie_id,
-                  as: :hidden,
-                  value: @video.movie_id %>
-      <%= f.input :programme_title,
-                  label: "Video Title",
-                  input_html: {tabindex: 1} %>
-      <%= f.input :chinese_programme_title,
-                  label: "Chinese Video Title",
-                  input_html: {tabindex: 1} %>
-      <%= f.input :foreign_language_title,
-                  label: "Foreign Language Title",
-                  input_html: {tabindex: 2},
-                  size: 2 %>
-      <%= f.input :video_type,
-                  label: "Video Type",
-                  as: :select,
-
-                  collection: Video::VIDEO_TYPES,
-
-                  include_blank: true,
-                  input_html: {tabindex: 3} %>
-
-      <table>
-        <tr>
-          <td valign="top">
-            <%= f.input :video_distributor,
-                        include_blank: true,
-                        input_html: {tabindex: 4},
-
-                        label: ("Distributor " + link_to("[edit]",
-                                                         suppliers_path,
-                                                         target: "_blank")).html_safe,
-                        collection: Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                               p.id] } %>
-
-            <%= f.input :production_year,
-                        input_html: {tabindex: 7},
-                        label: "Production Year",
-                        size: 3 %>
-
-          </td>
-          <td valign="top">
-            <%= f.input :production_studio,
-                        input_html: {tabindex: 5},
-                        include_blank: true,
-
-                        label: ("Production Studio " + link_to("[edit]",
-                                                               suppliers_path,
-                                                               target: "_blank")).html_safe,
-                        collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                               p.id] } %>
-            <%= f.input :episodes_available,
-                        input_html: {tabindex: 9},
-                        label: "&nbsp;No. of Episodes Available" %>
-
-
-          </td>
-          <td valign="top">
-            <%= f.input :laboratory,
-                        input_html: {tabindex: 6},
-                        label: "Laboratory",
-                        include_blank: true,
-
-                        label: ("Laboratory "+ link_to("[edit]",
-                                                       suppliers_path,
-                                                       target: "_blank")).html_safe,
-                        collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                         p.id] } %>
-            <%= f.input :on_going_series,
-                        input_html: {tabindex: 10},
-                        label: "On Going Series" %>
-          </td>
-        </tr>
-      </table>
-      <%= f.input :commercial_run_time,
-                  label: "Run Time (Commercial)",
-
-                  as: :select,
-
-                  include_blank: true,
-                  input_html: {tabindex: 8},
-                  collection: CommercialRunTime.all.collect { |p| [p.minutes,
-                                                                   p.id] } %>
-      Video Genres
-      <% @video_genres.each do |video_genre| %>
-        <%= f.input :video_genres,
-                    input_html: {tabindex: 11},
-                    label: video_genre.name,
-                    as: :check_boxes,
-                    collection: video_genre.video_genres %>
+  <div class="span6">
+    <div class="content">
+      <% if controller.action_name != 'new' %>
+        <div class="tabbable">
+          <ul class="nav nav-tabs pre-nav-below">
+            <li>
+              <%= link_to "Previous",
+                          edit_video_path(@video.previous.id) if @video.previous.present? %>
+            </li>
+            <li>
+              <%= link_to "Next",
+                          edit_video_path(@video.next.id) if @video.next.present? %>
+            </li>
+            <li>
+              <%= link_to 'View Movie',
+                          video_path(@video) %>
+            </li>
+            <li>
+              <%= link_to "New Movie",
+                          new_video_path %>
+            </li>
+            <% if permitted_to? :admin_delete,
+                                :videos %>
+              <li>
+                <%= link_to 'Delete',
+                            video_url(@video),
+                            method: :delete,
+                            confirm: 'Are you sure?' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
 
-      <%= f.input :language_tracks,
-                  input_html: {tabindex: 12},
-                  label: ("Available Language<br/>Tracks").html_safe,
-                  as: :check_boxes,
+      <br>
 
-                  collection: @languages %>
+      <div class="controls controls-row">
+        <%= f.hidden_field :movie_id,
+                           value: @video.movie_id %>
 
-      <%= f.input :language_subtitles,
-                  input_html: {tabindex: 13},
-                  label: ("Available Language<br/>Subtitles").html_safe,
-                  as: :check_boxes,
+        <%= f.input_field :programme_title,
+                          placeholder: "Video Title",
+                          tabindex: autotab,
+                          class: 'span3' %>
 
-                  collection: @languages %>
+        <%= f.input_field :chinese_programme_title,
+                          placeholder: "Chinese Video Title",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
 
-      <%= f.input :synopsis,
-                  label: "Programme Synopsis",
-                  input_html: {tabindex: 14},
+      <div class="controls controls-row">
+        <%= f.input_field :video_type,
+                          placeholder: "Video Type",
+                          as: :select,
+                          collection: Video::VIDEO_TYPES,
+                          include_blank: true,
+                          tabindex: autotab,
+                          class: 'select2 span3' %>
 
-                  hint: ("(<span id='char_count' ></span > characters)").html_safe %>
+        <%= f.input_field :foreign_language_title,
+                          placeholder: "Foreign Language Title",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
 
-      <%= f.input :chinese_synopsis,
-                  label: "Chinese Programme Synopsis",
-                  input_html: {tabindex: 14},
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :production_year,
+                            value: @video.production_year,
+                            input_id: 'production_year_datepicker',
+                            date_format: 'yyyy',
+                            date_viewmode: 'years',
+                            date_minviewmode: 'years',
+                            datepicker_behaviour: 'datepicker-years',
+                            placeholder: 'Production Year',
+                            span: 'span3'} %>
+      </div>
 
-                  hint: ("(<span id='chinese_char_count' ></span > characters)").html_safe %>
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :video_distributor_id,
+                            link_path: suppliers_path,
+                            collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
+                            placeholder: 'Distributor',
+                            span: 'span6'} %>
+      </div>
 
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :laboratory_id,
+                            link_path: suppliers_path,
+                            collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                            placeholder: 'Production Studio',
+                            span: 'span6'} %>
+      </div>
 
-      <%= f.input :remarks,
-                  input_html: {tabindex: 15,
-                               rows: 3},
-                  hint: 'Only use this remarks field as a last resort' %>
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :production_studio_id,
+                            link_path: suppliers_path,
+                            collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                            placeholder: 'Laboratory',
+                            span: 'span6'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :episodes_available,
+                          tabindex: autotab,
+                          placeholder: 'No. of Episodes Available',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :on_going_series,
+                          :as => :boolean,
+                          tabindex: autotab,
+                          inline_label: "On Going Series" %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :commercial_run_time,
+                          placeholder: "Run Time (Commercial)",
+                          as: :select,
+                          include_blank: true,
+                          tabindex: autotab,
+                          collection: CommercialRunTime.all.collect { |p| [p.minutes,
+                                                                           p.id] },
+                          class: 'select2 span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <div class="select2-container-outer span3">
+          <%= f.input_field :language_tracks,
+                            :as => :select,
+                            :multiple => true,
+                            :collection => @languages,
+                            :placeholder => "Available Language Tracks",
+                            tabindex: autotab,
+                            :class => 'select2 span3' %>
+        </div>
+      </div>
+
+      <div class="controls controls-row">
+        <div class="select2-container-outer span3">
+          <%= f.input_field :language_subtitles,
+                            :as => :select,
+                            :multiple => true,
+                            :collection => @languages,
+                            :placeholder => "Available Language Subtitles",
+                            tabindex: autotab,
+                            :class => 'select2 span3' %>
+        </div>
+      </div>
+
+      <div class="controls controls-row">
+        <div class="select2-container-outer span3">
+          <%= f.input_field :video_genre_ids,
+                            :as => :select,
+                            :multiple => true,
+                            :collection => VideoGenre.order("name"),
+                            :placeholder => "Video Genres",
+                            tabindex: autotab,
+                            :class => 'select2 span3' %>
+        </div>
+      </div>
+
+      <div class="controls controls-row">
+        <span id='char_count'></span> characters
+        <%= f.input_field :synopsis,
+                          tabindex: autotab,
+                          placeholder: "Synopsis",
+                          class: 'span6',
+                          rows: 6 %>
+      </div>
+
+      <div class="controls controls-row">
+        <span id='chinese_char_count'></span> characters
+        <%= f.input_field :chinese_synopsis,
+                          tabindex: autotab,
+                          placeholder: "Chinese Synopsis",
+                          class: 'span6',
+                          rows: 6 %>
+      </div>
+
+      <div class="controls controls-row">
+        Only use this remarks field as a last resort
+        <%= f.input_field :remarks,
+                          tabindex: autotab,
+                          placeholder: "Remarks",
+                          class: 'span6',
+                          rows: 6 %>
+      </div>
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+      <br><br><br>
+
     </div>
-
-  <% end %>
-
-  <%= f.actions %>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
 
 <% end %>
+
+<div id="create_screener_dialog" style="display:none;">
+  <div id="create_screener">
+  </div>
+</div>
+
+<div id="update_screener_dialog" style="display:none;">
+  <div id="update_screener">
+  </div>
+</div>
+
+<div id="create_master_dialog" style="display:none;">
+  <div id="create_master">
+  </div>
+</div>
+
+<div id="update_master_dialog" style="display:none;">
+  <div id="update_master">
+  </div>
+</div>
+
 
 <script>
 

@@ -286,7 +286,9 @@ $(document).ready(function () {
     $('input[type="file"]').attr("size", 6);
 
     // enable chosen js
-    $('.select2').select2();
+    $('.select2').select2({
+        allowClear: true
+    });
 
     // initialize datepicker for different date formats
     $('[data-behaviour~=datepicker-days]').closest('.input-append.date').datepicker({

@@ -1,121 +1,154 @@
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
 
 <%= search_form_for @search,
                     class: 'spinner-trigger' do |videos| %>
 
   <div class="control-group">
 
-    <div class="controls combinator-select-container">
-      <%= videos.combinator_select %>
+    <!--<div class="controls combinator-select-container">-->
+    <%#= videos.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= videos.text_field :programme_title_cont,
+                            placeholder: 'Video Title',
+                            class: "#{@span_size}" %>
     </div>
 
-    <%= videos.text_field :programme_title_cont,
-                          placeholder: 'Video Title' %>
+    <div class="controls controls-row">
+      <%= videos.text_field :masters_episode_title_cont,
+                            placeholder: 'Episode Title',
+                            class: "#{@span_size}" %>
+    </div>
 
-
-    <%= videos.text_field :masters_episode_title_cont,
-                          placeholder: 'Episode Title' %>
-
-    <div class="controls">
+    <div class="controls controls-row">
       <%= videos.select :video_distributor_id_eq,
                         Supplier.video_distributors
                         .collect { |p| [p.company_name,
                                         p.id] },
                         {include_blank: true},
-                        {class: 'select2',
+                        {class: "select2 #{@span_size}",
                          data: {placeholder: 'Distributor'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= videos.select :laboratory_id_eq,
                         Supplier.laboratories
                         .collect { |p| [p.company_name,
                                         p.id] },
                         {include_blank: true},
-                        {class: 'select2',
+                        {class: "select2 #{@span_size}",
                          data: {placeholder: 'Laboratory'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= select :language,
                  :track,
                  @languages,
                  {include_blank: true,
                   selected: @selected_track},
-                 {class: 'select2',
+                 {class: "select2 #{@span_size}",
                   data: {placeholder: 'Language Track'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= select :language,
                  :subtitle,
                  @languages,
                  {include_blank: true,
                   selected: @selected_subtitle},
-                 {class: 'select2',
+                 {class: "select2 #{@span_size}",
                   data: {placeholder: 'Language Subtitles'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= videos.select :video_genres_video_parent_genre_id_eq,
                         VideoParentGenre.all
                         .collect { |p| [p.name,
                                         p.id] },
                         {include_blank: true},
-                        {class: 'select2',
+                        {class: "select2 #{@span_size}",
                          data: {placeholder: 'Genre'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= videos.select :video_genres_id_eq,
                         VideoGenre.all
                         .collect { |p| [p.name,
                                         p.id] },
                         {include_blank: true},
-                        {class: 'select2',
+                        {class: "select2 #{@span_size}",
                          data: {placeholder: 'Sub-genre'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= videos.select :video_type_eq,
                         Video::VIDEO_TYPES,
                         {include_blank: true},
-                        {class: 'select2',
+                        {class: "select2 #{@span_size}",
                          data: {placeholder: 'Video Type'}} %>
     </div>
 
-    <%= videos.text_field :production_year_eq,
-                          data: {behaviour: 'datepicker-years'},
-                          placeholder: 'Production Year' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: videos,
+                          field: :production_year_eq,
+                          value: params[:q].present? && params[:q][:production_year_eq].present? ?
+                              params[:q][:production_year_eq] : '',
+                          input_id: 'production_year_eq_datepicker',
+                          date_format: 'yyyy',
+                          date_viewmode: 'years',
+                          date_minviewmode: 'years',
+                          datepicker_behaviour: 'datepicker-years',
+                          placeholder: 'Production Year',
+                          span: @span_size} %>
+    </div>
 
-    <%= videos.text_field :masters_location_eq,
-                          placeholder: 'Tape Location Number' %>
+    <div class="controls controls-row">
+      <%= videos.text_field :masters_location_eq,
+                            placeholder: 'Tape Location Number',
+                            class: "#{@span_size}" %>
+    </div>
 
-    <%= videos.text_field :id_eq,
-                          placeholder: 'Video ID' %>
+    <div class="controls controls-row">
+      <%= videos.text_field :id_eq,
+                            placeholder: 'Video ID',
+                            class: "#{@span_size}" %>
+    </div>
 
-    <label class="checkbox">
-      <%= check_box_tag :masters, '1', params[:masters].to_i == 1 %> Masters Held
-    </label>
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= check_box_tag :masters, '1', params[:masters].to_i == 1 %> Masters Held
+      </label>
+    </div>
 
-    <label class="checkbox">
-      <%= check_box_tag :screeners, '1', params[:screeners].to_i == 1 %> Screeners Held
-    </label>
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= check_box_tag :screeners, '1', params[:screeners].to_i == 1 %> Screeners Held
+      </label>
+    </div>
 
-    <label class="checkbox">
-      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Video
-    </label>
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Video
+      </label>
+    </div>
 
-    <label class="checkbox">
-      <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %> Pending Delete
-    </label>
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= check_box_tag :to_delete, '1', params[:to_delete].to_i == 1 %> Pending Delete
+      </label>
+    </div>
 
     <br>
 
-    <%= videos.submit "Search",
-                      {class: 'btn'} %>
-    <input type="reset" value="Reset" class="btn">
+    <div class="controls controls-row">
+      <%= videos.submit "Search",
+                        {class: 'btn'} %>
+      <input class="form-reset btn" type="reset" value="Reset">
+    </div>
 
   </div>
 <% end %>
