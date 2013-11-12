@@ -1,6 +1,6 @@
 var $ = jQuery;
 
-$('#create_screener_dialog').dialog('destroy');
+$('#screener-modal').modal('hide');
 
 $('#screeners_list').html("<%= escape_javascript(render(partial: "/videos/screeners",
                                                         locals: { video_id: @screener.video_id })) %>");

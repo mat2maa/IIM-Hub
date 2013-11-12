@@ -10,6 +10,7 @@
                 class: 'edit_screener' %> |
     <%= link_to 'delete',
                 screener_path(screener),
+                method: :delete,
+                confirm: 'Are you sure?',
                 class: 'delete_screener' %>
-  </li>
 <% end %>

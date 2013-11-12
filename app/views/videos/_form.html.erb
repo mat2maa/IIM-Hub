@@ -40,19 +40,29 @@
     </div>
     <% if controller.action_name != 'new' %>
       <div class="poster-title poster-info">
-        Screeners <a href="/screeners/new" id="add_screener">Add Screener</a>
+        Screeners
+        <!-- Button to trigger modal -->
+        <%= link_to 'Add Screener',
+                    new_screener_path(:id => params[:id]),
+                    id: 'add_screener_to_video',
+                    data: { toggle: 'modal', target: '#screener-modal' } %>
       </div>
       <div class="poster-list">
-        <ul>
+        <ul id="screeners_list">
           <%= render partial: 'screeners',
                      locals: {video_id: @video.id} %>
         </ul>
       </div>
       <div class="poster-title poster-info">
-        Masters <a href="/masters/new" id="add_master">Add Master</a>
+        Masters
+        <!-- Button to trigger modal -->
+        <%= link_to 'Add Master',
+                    new_master_path(:id => params[:id]),
+                    id: 'add_master_to_video',
+                    data: { toggle: 'modal', target: '#master-modal' } %>
       </div>
       <div class="poster-list">
-         <ul>
+         <ul id="masters_list">
           <%= render partial: 'masters',
                      locals: {video_id: @video.id} %>
         </ul>
@@ -93,9 +103,10 @@
             <% end %>
           </ul>
         </div>
-      <% end %>
 
-      <br>
+        <br>
+
+      <% end %>
 
       <div class="controls controls-row">
         <%= f.hidden_field :movie_id,
@@ -172,20 +183,6 @@
       </div>
 
       <div class="controls controls-row">
-        <%= f.input_field :episodes_available,
-                          tabindex: autotab,
-                          placeholder: 'No. of Episodes Available',
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :on_going_series,
-                          :as => :boolean,
-                          tabindex: autotab,
-                          inline_label: "On Going Series" %>
-      </div>
-
-      <div class="controls controls-row">
         <%= f.input_field :commercial_run_time,
                           placeholder: "Run Time (Commercial)",
                           as: :select,
@@ -198,6 +195,23 @@
 
       <div class="controls controls-row">
         <div class="select2-container-outer span3">
+          <%= f.input_field :video_genre_ids,
+                            :as => :select,
+                            :multiple => true,
+                            :collection => VideoGenre.order("name"),
+                            :placeholder => "Video Genres",
+                            tabindex: autotab,
+                            :class => 'select2 span3' %>
+        </div>
+
+        <%= f.input_field :episodes_available,
+                          tabindex: autotab,
+                          placeholder: 'No. of Episodes Available',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <div class="select2-container-outer span3">
           <%= f.input_field :language_tracks,
                             :as => :select,
                             :multiple => true,
@@ -206,9 +220,7 @@
                             tabindex: autotab,
                             :class => 'select2 span3' %>
         </div>
-      </div>
 
-      <div class="controls controls-row">
         <div class="select2-container-outer span3">
           <%= f.input_field :language_subtitles,
                             :as => :select,
@@ -221,15 +233,10 @@
       </div>
 
       <div class="controls controls-row">
-        <div class="select2-container-outer span3">
-          <%= f.input_field :video_genre_ids,
-                            :as => :select,
-                            :multiple => true,
-                            :collection => VideoGenre.order("name"),
-                            :placeholder => "Video Genres",
-                            tabindex: autotab,
-                            :class => 'select2 span3' %>
-        </div>
+        <%= f.input_field :on_going_series,
+                          :as => :boolean,
+                          tabindex: autotab,
+                          inline_label: "On Going Series" %>
       </div>
 
       <div class="controls controls-row">
@@ -270,25 +277,67 @@
 
 <% end %>
 
-<div id="create_screener_dialog" style="display:none;">
-  <div id="create_screener">
-  </div>
-</div>
+<!--<div id="create_screener_dialog" style="display:none;">-->
+  <!--<div id="create_screener">-->
+  <!--</div>-->
+<!--</div>-->
 
-<div id="update_screener_dialog" style="display:none;">
-  <div id="update_screener">
-  </div>
-</div>
+<!--<div id="update_screener_dialog" style="display:none;">-->
+  <!--<div id="update_screener">-->
+  <!--</div>-->
+<!--</div>-->
 
-<div id="create_master_dialog" style="display:none;">
-  <div id="create_master">
-  </div>
-</div>
+<!--<div id="create_master_dialog" style="display:none;">-->
+  <!--<div id="create_master">-->
+  <!--</div>-->
+<!--</div>-->
 
-<div id="update_master_dialog" style="display:none;">
-  <div id="update_master">
-  </div>
-</div>
+<!--<div id="update_master_dialog" style="display:none;">-->
+  <!--<div id="update_master">-->
+  <!--</div>-->
+<!--</div>-->
+
+<% if controller.action_name != 'new' %>
+  <%= content_for :modal do %>
+    <%= render 'screener_modal' %>
+    <%= render 'master_modal' %>
+  <% end %>
+
+  <script type="text/javascript">
+
+    var $ = jQuery;
+
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#screener-modal]').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote( $(this) );
+    });
+
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#master-modal]').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote( $(this) );
+    });
+
+    // removes whatever is in the modal body content div upon clicking close/outside modal
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function(e) {
+      $('.modal-body-content').empty();
+    });
+
+    $(document).on('click', '#screener-modal', function(e) {
+      e.stopPropagation();
+    });
+
+    $(document).on('click', '#master-modal', function(e) {
+      e.stopPropagation();
+    });
+
+  </script>
+<% end %>
 
 
 <script>

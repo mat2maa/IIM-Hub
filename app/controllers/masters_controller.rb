@@ -4,14 +4,14 @@ class MastersController < ApplicationController
 
   def index
     @languages = MasterLanguage.order("name")
-    .collect { |language| language.name }
+                               .collect { |language| language.name }
 
     @search = Master.includes(:video)
-    .ransack(view_context.empty_blank_params params[:q])
+                    .ransack(view_context.empty_blank_params params[:q])
     @masters = @search.result(distinct: true)
-    .order("masters.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                      .order("masters.id DESC")
+                      .paginate(page: params[:page],
+                                per_page: items_per_page)
 
     @masters = params[:active] == '1' ? @masters.where(active: false) : @masters.where(active: true)
 
@@ -26,13 +26,10 @@ class MastersController < ApplicationController
 
   def new
     @languages = MasterLanguage.order("name")
-    .collect { |language| language.name }
+                               .collect { |language| language.name }
 
     @master = Master.new
     @master.video_id = params[:id]
-
-    # @master.language_track_1 = 'Eng'
-    # @master.language_track_2 = 'Eng'
 
     respond_to do |format|
       format.js { render layout: false }
@@ -46,12 +43,10 @@ class MastersController < ApplicationController
     if @master.save
       respond_to do |format|
         flash[:notice] = "Successfully created master."
-        format.html { redirect_to edit_cms_video_url(@master.video) }
         format.js { render layout: false }
       end
     else
       respond_to do |format|
-        format.html { render action: 'new' }
         format.js { render action: 'error.js.erb',
                            layout: false }
       end

@@ -5,7 +5,7 @@
 <%= search_form_for @search,
                     class: 'spinner-trigger' do |videos| %>
 
-  <div class="control-group">
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
     <!--<div class="controls combinator-select-container">-->
     <%#= videos.combinator_select %>
