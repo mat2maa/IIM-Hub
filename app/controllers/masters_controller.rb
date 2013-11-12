@@ -37,7 +37,6 @@ class MastersController < ApplicationController
   end
 
   def create
-
     @master = Master.new(params[:master])
 
     if @master.save
@@ -55,20 +54,20 @@ class MastersController < ApplicationController
 
   def edit
     @languages = MasterLanguage.order("name")
-    .collect { |language| language.name }
+                               .collect { |language| language.name }
 
     if !params[:q].nil?
       @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                        .paginate(page: params[:page],
+                                  per_page: items_per_page)
     else
       #no search made yet
       @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
-      .order("masters.id DESC")
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                        .order("masters.id DESC")
+                        .paginate(page: params[:page],
+                                  per_page: items_per_page)
     end
     @masters_count = @masters.count
 

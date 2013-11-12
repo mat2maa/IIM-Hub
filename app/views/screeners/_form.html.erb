@@ -40,70 +40,52 @@
 
 <%= minimal_form_for(@screener,
                      html: {class: 'form-vertical ajaxForm'}) do |f| %>
+  <div id="flash_notice"></div>
 
-  <div class='modal-header'>
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="modal-title">Add screener</h3>
+  <%= error_messages_for(f.object) %><br/>
+
+  <div class="controls controls-row">
+    <%= f.input_field :video_id,
+                      as: :hidden,
+                      value: params[:id] %>
   </div>
-  <div class='modal-body'>
-    <div class="modal-body-content">
-      <div id="flash_notice"></div>
 
-      <%= error_messages_for(f.object) %>
-
-      <br>
-
-      <div class="controls controls-row">
-        <%= f.input_field :video_id,
-                          as: :hidden,
-                          value: params[:id] %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :episode_title,
-                          class: 'span3 screener_title',
-                          placeholder: 'Episode Title' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :episode_number,
-                          placeholder: 'Episode Number',
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :remarks,
-                          as: :select,
-                          collection: ['VHS', 'B&W', 'Chinese Subs', 'Other'],
-                          include_blank: true,
-                          placeholder: 'Remarks',
-                          class: 'select2 span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :remarks_other,
-                          placeholder: 'Other',
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :location,
-                          as: :select,
-                          collection: %w(SIN BJS HKG),
-                          placeholder: 'Location',
-                          class: 'select2 span3' %>
-      </div>
-
-    </div>
+  <div class="controls controls-row">
+    <%= f.input_field :episode_title,
+                      class: 'screener_title',
+                      placeholder: 'Episode Title',
+                      class: 'span3' %>
   </div>
-  <div class='modal-footer'>
-    <div class="ajax-loader">
-      <%= image_tag 'loading-indicator.gif',
-                    id: 'loading-indicator',
-                    class: 'transparent' %>
-    </div>
-    <%= f.button :submit, class: 'btn' %>
-    <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+
+  <div class="controls controls-row">
+    <%= f.input_field :episode_number,
+                      placeholder: 'Episode Number',
+                      class: 'span3' %>
   </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :remarks,
+                      as: :select,
+                      collection: ['VHS', 'B&W', 'Chinese Subs', 'Other'],
+                      include_blank: true,
+                      placeholder: 'Remarks',
+                      class: 'select2 span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :remarks_other,
+                      placeholder: 'Other',
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :location,
+                      as: :select,
+                      collection: %w(SIN BJS HKG),
+                      placeholder: 'Location',
+                      class: 'select2 span3' %>
+  </div>
+
+  <%= f.button :submit, class: 'btn', id: 'create_screener_hidden' %>
 
 <% end %>
