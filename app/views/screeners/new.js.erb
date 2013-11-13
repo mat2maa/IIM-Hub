@@ -2,7 +2,7 @@ var $ = jQuery;
 
 var title        =   '.modal-title',
     loader       =   '.ajax-loader',
-    content      =   '.modal-body-content',
+    content      =   '.modal-inner',
     dataRemote   =   'a[data-remote=true], .btn[data-remote=true], .items_per_page_select .btn',
     modal        =   '#screener-modal',
     dataToggle   =   'a[data-toggle=modal]';
@@ -39,8 +39,6 @@ $(loader).fadeToggle('fast', function() {
   });
 
   $(modal).modal({
-    width: '80%',
-    maxHeight: '600px'
   });
 
   $(loader).hide();
