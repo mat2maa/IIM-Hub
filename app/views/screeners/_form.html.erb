@@ -47,14 +47,11 @@
   </div>
   <div class='modal-body'>
     <div class="modal-body-content">
-      <div id="flash_notice"></div>
-
-      <%= error_messages_for(f.object) %><br/>
+      <div id="screener_flash_notice"></div>
 
       <div class="controls controls-row">
         <%= f.input_field :video_id,
-                          as: :hidden,
-                          value: params[:id] %>
+                          as: :hidden %>
       </div>
 
       <div class="controls controls-row">

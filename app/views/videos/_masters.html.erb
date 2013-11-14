@@ -1,15 +1,34 @@
 <% Master.where("video_id = #{video_id} AND active=true").order("location, episode_number").each do |master| %>
-  <li class="poster-info">
+  <li class="poster-info" id="master-<%= master.id %>">
     <%= master.episode_title %> (<%= master.episode_number %>, <%= master.location %>)<br>
     <%= link_to 'duplicate',
                 duplicate_master_path(master),
                 confirm: 'Are you sure?',
-                method: :post %> |
+                method: :post,
+                remote: true %> |
     <%= link_to "edit",
                 edit_master_path(master),
-                class: 'edit_master' %> |
+                class: 'edit_master',
+                id: 'edit_master',
+                data: { toggle: 'modal', target: '#master-modal' } %> |
     <%= link_to 'delete',
                 master_path(master),
-                class: 'delete_master' %>
+                method: :delete,
+                confirm: 'Are you sure?',
+                class: 'delete_master',
+                remote: true %>
   </li>
 <% end %>
+
+<script type="text/javascript">
+
+  var $ = jQuery;
+
+  // this sets up the ajax loader, and it will stay until the method specific js removes it
+  $('a[data-target=#master-modal]').on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $('body').modalmanager('loading');
+    $.rails.handleRemote( $(this) );
+  });
+</script>

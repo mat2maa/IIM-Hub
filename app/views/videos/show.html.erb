@@ -4,7 +4,9 @@
 
 <div class="row">
   <div class="span12">
-    <%= bootstrap_flash %>
+    <div id="bootstrap-flash">
+      <%= bootstrap_flash %>
+    </div>
   </div>
   <!--/span-->
 </div>
@@ -33,136 +35,136 @@
 <!--/span-->
 
 <div class="span6">
-<div id="content">
-  <% if @video.synopsis.present? || @video.chinese_synopsis.present? %>
-    <div class="tabbable">
-      <ul class="nav nav-tabs pre-nav-below">
-        <% if @video.synopsis.present? %>
-          <li class="<%= "active" if @video.synopsis.present? %>">
-            <a href="#synopsis" data-toggle="tab">Synopsis</a>
-          </li>
-        <% end %>
-        <% if @video.chinese_synopsis.present? %>
-          <li class="<%= "active" if @video.synopsis.blank? && @video.chinese_synopsis.present? %>">
-            <a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a>
-          </li>
-        <% end %>
-        <% if @video.remarks.present? %>
-          <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
-        <% end %>
-        <% if @video.screeners.count > 0 %>
-          <li><a href="#screeners" data-toggle="tab">Screeners</a></li>
-        <% end %>
-        <% if @video.masters.count > 0 %>
-          <li><a href="#masters" data-toggle="tab">Masters</a></li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="tabbable tabs-below">
-      <ul class="nav nav-tabs pull-right">
-        <li>
-          <%= link_to 'Previous',
-                      video_path(@video.previous) if @video.previous.present? %>
-        </li>
-        <li>
-          <%= link_to 'Next',
-                      video_path(@video.next) if @video.next.present? %>
-        </li>
-        <li>
-          <%= link_to 'Edit Video',
-                      edit_video_path(@video) if permitted_to? :edit,
-                                                               :videos %>
-        </li>
-        <li>
-          <%= link_to 'New Video',
-                      new_video_path %>
-        </li>
-      </ul>
-    </div>
-    <div class="tabbable">
-      <div class="tab-content">
-        <% if @video.synopsis.present? %>
-          <div class="tab-pane fade active in" id="synopsis">
-            <p><%= simple_format(@video.synopsis) %></p>
-          </div>
-        <% end %>
-        <% if @video.chinese_synopsis.present? %>
-          <div class="tab-pane fade" id="chinese_synopsis">
-            <p><%= simple_format(@video.chinese_synopsis) %></p>
-          </div>
-        <% end %>
-        <% if @video.remarks.present? %>
-          <div class="tab-pane fade" id="remarks">
-            <p><%= simple_format(@video.remarks) %></p>
-          </div>
-        <% end %>
-        <% if @video.screeners.count > 0 %>
-          <div class="tab-pane fade" id="screeners">
-            <div class="poster-list">
-              <ul>
-                <% for screener in @video.screeners %>
-                  <li class="poster-info">Episode Title:</strong> <%= screener.episode_title %></li>
-                  <li class="poster-info">Episode Number:</strong> <%= screener.episode_number %></li>
-                  <li class="poster-info">Location:</strong> <%= screener.location %></li>
-                  <li class="poster-info">Screener Remarks:</strong> <%= screener.remarks %></li>
-                  <li class="poster-info">Other:</strong> <%= screener.remarks_other %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        <% end %>
-        <% if @video.masters.count > 0 %>
-          <div class="tab-pane fade" id="masters">
-            <div class="poster-list">
-              <ul>
-                <% for master in @video.masters %>
-                  <li class="poster-info">Episode Title: <%= master.episode_title %></li>
-                  <li class="poster-info">Episode #: <%= master.episode_number %></li>
-                  <li class="poster-info">Tape Media: <%= master.tape_media %></li>
-                  <li class="poster-info">Tape Format: <%= master.tape_format %></li>
-                  <li class="poster-info">Tape Size: <%= master.tape_size %></li>
-                  <li class="poster-info">Video Subtitles 1: <%= master.video_subtitles_1 %></li>
-                  <li class="poster-info">Video Subtitles 2: <%= master.video_subtitles_2 %></li>
-                  <li class="poster-info">Episode Synopsis: <%= master.synopsis %></li>
-                  <li class="poster-info">Lang Track 1: <%= master.language_track_1 %></li>
-                  <li class="poster-info">Lang Track 2: <%= master.language_track_2 %></li>
-                  <li class="poster-info">Lang Track 3: <%= master.language_track_3 %></li>
-                  <li class="poster-info">Lang Track 4: <%= master.language_track_4 %></li>
-                  <li class="poster-info">Aspect Ratio: <%= master.aspect_ratio %></li>
-                  <li class="poster-info">Tape Location: <%= master.location %></li>
-                  <li class="poster-info">Time In: <%= master.time_in %></li>
-                  <li class="poster-info">Time Out: <%= master.time_out %></li>
-                  <li class="poster-info">Duration: <%= master.duration %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        <% end %>
+  <div id="content">
+    <% if @video.synopsis.present? || @video.chinese_synopsis.present? %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <% if @video.synopsis.present? %>
+            <li class="<%= "active" if @video.synopsis.present? %>">
+              <a href="#synopsis" data-toggle="tab">Synopsis</a>
+            </li>
+          <% end %>
+          <% if @video.chinese_synopsis.present? %>
+            <li class="<%= "active" if @video.synopsis.blank? && @video.chinese_synopsis.present? %>">
+              <a href="#chinese_synopsis" data-toggle="tab">Chinese Synopsis</a>
+            </li>
+          <% end %>
+          <% if @video.remarks.present? %>
+            <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
+          <% end %>
+          <% if @video.screeners.count > 0 %>
+            <li><a href="#screeners" data-toggle="tab">Screeners</a></li>
+          <% end %>
+          <% if @video.masters.count > 0 %>
+            <li><a href="#masters" data-toggle="tab">Masters</a></li>
+          <% end %>
+        </ul>
       </div>
-    </div>
-  <% else %>
-    <div class="tabbable">
-      <ul class="nav nav-tabs pre-nav-below">
-        <li>
-          <%= link_to 'Previous',
-                      video_path(@video.previous) if @video.previous.present? %>
-        </li>
-        <li>
-          <%= link_to 'Next',
-                      video_path(@video.next) if @video.next.present? %>
-        </li>
-        <li>
-          <%= link_to 'Edit Video',
-                      edit_video_path(@video) if permitted_to? :edit,
-                                                               :videos %>
-        </li>
-        <li>
-          <%= link_to 'New Video',
-                      new_video_path %>
-        </li>
-      </ul>
-    </div>
-  <% end %>
+      <div class="tabbable tabs-below">
+        <ul class="nav nav-tabs pull-right">
+          <li>
+            <%= link_to 'Previous',
+                        video_path(@video.previous) if @video.previous.present? %>
+          </li>
+          <li>
+            <%= link_to 'Next',
+                        video_path(@video.next) if @video.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'Edit Video',
+                        edit_video_path(@video) if permitted_to? :edit,
+                                                                 :videos %>
+          </li>
+          <li>
+            <%= link_to 'New Video',
+                        new_video_path %>
+          </li>
+        </ul>
+      </div>
+      <div class="tabbable">
+        <div class="tab-content">
+          <% if @video.synopsis.present? %>
+            <div class="tab-pane fade active in" id="synopsis">
+              <p><%= simple_format(@video.synopsis) %></p>
+            </div>
+          <% end %>
+          <% if @video.chinese_synopsis.present? %>
+            <div class="tab-pane fade" id="chinese_synopsis">
+              <p><%= simple_format(@video.chinese_synopsis) %></p>
+            </div>
+          <% end %>
+          <% if @video.remarks.present? %>
+            <div class="tab-pane fade" id="remarks">
+              <p><%= simple_format(@video.remarks) %></p>
+            </div>
+          <% end %>
+          <% if @video.screeners.count > 0 %>
+            <div class="tab-pane fade" id="screeners">
+              <div class="poster-list">
+                <ul>
+                  <% for screener in @video.screeners %>
+                    <li class="poster-info">Episode Title:</strong> <%= screener.episode_title %></li>
+                    <li class="poster-info">Episode Number:</strong> <%= screener.episode_number %></li>
+                    <li class="poster-info">Location:</strong> <%= screener.location %></li>
+                    <li class="poster-info">Screener Remarks:</strong> <%= screener.remarks %></li>
+                    <li class="poster-info">Other:</strong> <%= screener.remarks_other %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+          <% if @video.masters.count > 0 %>
+            <div class="tab-pane fade" id="masters">
+              <div class="poster-list">
+                <ul>
+                  <% for master in @video.masters %>
+                    <li class="poster-info">Episode Title: <%= master.episode_title %></li>
+                    <li class="poster-info">Episode #: <%= master.episode_number %></li>
+                    <li class="poster-info">Tape Media: <%= master.tape_media %></li>
+                    <li class="poster-info">Tape Format: <%= master.tape_format %></li>
+                    <li class="poster-info">Tape Size: <%= master.tape_size %></li>
+                    <li class="poster-info">Video Subtitles 1: <%= master.video_subtitles_1 %></li>
+                    <li class="poster-info">Video Subtitles 2: <%= master.video_subtitles_2 %></li>
+                    <li class="poster-info">Episode Synopsis: <%= master.synopsis %></li>
+                    <li class="poster-info">Lang Track 1: <%= master.language_track_1 %></li>
+                    <li class="poster-info">Lang Track 2: <%= master.language_track_2 %></li>
+                    <li class="poster-info">Lang Track 3: <%= master.language_track_3 %></li>
+                    <li class="poster-info">Lang Track 4: <%= master.language_track_4 %></li>
+                    <li class="poster-info">Aspect Ratio: <%= master.aspect_ratio %></li>
+                    <li class="poster-info">Tape Location: <%= master.location %></li>
+                    <li class="poster-info">Time In: <%= master.time_in %></li>
+                    <li class="poster-info">Time Out: <%= master.time_out %></li>
+                    <li class="poster-info">Duration: <%= master.duration %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to 'Previous',
+                        video_path(@video.previous) if @video.previous.present? %>
+          </li>
+          <li>
+            <%= link_to 'Next',
+                        video_path(@video.next) if @video.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'Edit Video',
+                        edit_video_path(@video) if permitted_to? :edit,
+                                                                 :videos %>
+          </li>
+          <li>
+            <%= link_to 'New Video',
+                        new_video_path %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
   </div>
   <!--/content-->
 </div>

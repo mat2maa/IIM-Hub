@@ -307,22 +307,6 @@
 
     var $ = jQuery;
 
-    // this sets up the ajax loader, and it will stay until the method specific js removes it
-    $('a[data-target=#screener-modal]').on('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      $('body').modalmanager('loading');
-      $.rails.handleRemote( $(this) );
-    });
-
-    // this sets up the ajax loader, and it will stay until the method specific js removes it
-    $('a[data-target=#master-modal]').on('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      $('body').modalmanager('loading');
-      $.rails.handleRemote( $(this) );
-    });
-
     // removes whatever is in the modal body content div upon clicking close/outside modal
     $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function(e) {
       $('.modal-body-content').empty();

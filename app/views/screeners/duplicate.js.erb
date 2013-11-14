@@ -1,14 +1,11 @@
 var $ = jQuery;
 
-$('#screener-modal').modal('hide');
-
 $('#screeners_list').html("<%= j render(partial: "/videos/screeners",
-                                        locals: { video_id: @screener.video_id }) %>");
-
-$('#screener-<%= j "#{@screener.id}" %>').addClass('new');
+                                      locals: { video_id: @screener.video_id }) %>");
+$('#screener-<%= j "#{@duplicated_screener.id}" %>').addClass('duplicate');
 
 $('#bootstrap-flash')
     .html('<div class="alert fade in alert-success">' +
         '<button class="close" data-dismiss="alert">×</button>' +
-        'Successfully created screener.' +
+        'Successfully duplicated screener.' +
         '</div>');

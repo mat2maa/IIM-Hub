@@ -4,61 +4,70 @@
   <td colspan="2">Missing video <%= playlist_item_view.video_id %></td>
 
 <% else %>
-  <table width="100%" class="playlist">
-    <tr>
-      <% if (language == "english") %>
-        <td width="150"><strong>Programme Title:</strong></td>
-        <td><%= link_to playlist_item_view.video.programme_title,
-                        edit_video_path(playlist_item_view.video),
-                        target: "_blank" %> <%= playlist_item_view.video.on_going_series ? "(On-Going)" : "" %></td>
-      <% else %>
-        <td width="150"><strong>Chinese Programme Title:</strong></td>
-        <td><%= link_to playlist_item_view.video.chinese_programme_title.blank? ? "" : playlist_item_view.video.chinese_programme_title,
-                        edit_video_path(playlist_item_view.video),
-                        target: "_blank" %> <%= playlist_item_view.video.on_going_series ? "(On-Going)" : "" %></td>
-      <% end %>
-      <td rowspan="5" width="160"><%= image_tag(playlist_item_view.video.poster.url(:small)) %></td>
-    </tr>
-    <% if playlist_item_view.video.video_distributor.present? %>
-      <tr>
-        <td><strong>Distributor:</strong></td>
-        <td><%= playlist_item_view.video.video_distributor.company_name if !playlist_item_view.video.video_distributor.nil? %></td>
-      </tr>
-    <% end %>
-    <% if playlist_item_view.video.video_genres_string_with_parent.present? %>
-      <tr>
-        <td><strong>Full Genre:</strong></td>
-        <td><%= playlist_item_view.video.video_genres_string_with_parent %></td>
-      </tr>
-    <% end %>
-    <% if playlist_item_view.video.commercial_run_time.present? %>
-      <tr>
-        <td><strong>Commercial Runtime:</strong></td>
-        <td><%= playlist_item_view.video.commercial_run_time.minutes if !playlist_item_view.video.commercial_run_time.nil? %>
-          min
-        </td>
-      </tr>
-    <% end %>
-    <% if playlist_item_view.video.language_tracks.present? %>
-      <tr>
-        <td><strong>Lang Tracks:</strong></td>
-        <td><%= playlist_item_view.video.language_tracks.join(', ') if !playlist_item_view.video.language_tracks.nil? %></td>
-      </tr>
-    <% end %>
-    <% if playlist_item_view.video.language_subtitles.present? %>
-      <tr>
-        <td><strong>Lang Subtitles:</strong></td>
-        <td><%= playlist_item_view.video.language_subtitles.join(', ') if !playlist_item_view.video.language_subtitles.nil? %></td>
-      </tr>
-    <% end %>
-    <tr>
-      <% if (language == "english") %>
-        <td colspan="3"><strong>Synopsis:</strong><br/><%= playlist_item_view.video.synopsis %></td>
-      <% else %>
-        <td colspan="3"><strong>Chinese Synopsis:</strong><br/><%= playlist_item_view.video.chinese_synopsis %></td>
-      <% end %>
-    </tr>
-  </table>
+  <div class="row">
+    <div class="span2">
+      <%= image_tag playlist_item_view.video.poster.url(:small), class: 'image-border' %>
+    </div>
+    <div class="span7">
+      <table class="playlist table">
+        <tbody>
+        <tr>
+          <% if (language == "english") %>
+            <td width="150"><strong>Programme Title:</strong></td>
+            <td><%= link_to playlist_item_view.video.programme_title,
+                            edit_video_path(playlist_item_view.video),
+                            target: "_blank" %> <%= playlist_item_view.video.on_going_series ? "(On-Going)" : "" %></td>
+          <% else %>
+            <td width="150"><strong>Chinese Programme Title:</strong></td>
+            <td><%= link_to playlist_item_view.video.chinese_programme_title.blank? ? "" : playlist_item_view.video.chinese_programme_title,
+                            edit_video_path(playlist_item_view.video),
+                            target: "_blank" %> <%= playlist_item_view.video.on_going_series ? "(On-Going)" : "" %></td>
+          <% end %>
+        </tr>
+        <% if playlist_item_view.video.video_distributor.present? %>
+          <tr>
+            <td><strong>Distributor:</strong></td>
+            <td><%= playlist_item_view.video.video_distributor.company_name if !playlist_item_view.video.video_distributor.nil? %></td>
+          </tr>
+        <% end %>
+        <% if playlist_item_view.video.video_genres_string_with_parent.present? %>
+          <tr>
+            <td><strong>Full Genre:</strong></td>
+            <td><%= playlist_item_view.video.video_genres_string_with_parent %></td>
+          </tr>
+        <% end %>
+        <% if playlist_item_view.video.commercial_run_time.present? %>
+          <tr>
+            <td><strong>Commercial Runtime:</strong></td>
+            <td><%= playlist_item_view.video.commercial_run_time.minutes if !playlist_item_view.video.commercial_run_time.nil? %>
+              min
+            </td>
+          </tr>
+        <% end %>
+        <% if playlist_item_view.video.language_tracks.present? %>
+          <tr>
+            <td><strong>Lang Tracks:</strong></td>
+            <td><%= playlist_item_view.video.language_tracks.join(', ') if !playlist_item_view.video.language_tracks.nil? %></td>
+          </tr>
+        <% end %>
+        <% if playlist_item_view.video.language_subtitles.present? %>
+          <tr>
+            <td><strong>Lang Subtitles:</strong></td>
+            <td><%= playlist_item_view.video.language_subtitles.join(', ') if !playlist_item_view.video.language_subtitles.nil? %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <% if (language == "english") %>
+            <td><strong>Synopsis:</strong></td>
+            <td><%= playlist_item_view.video.synopsis %></td>
+          <% else %>
+            <td><strong>Chinese Synopsis:</strong></td>
+            <td><%= playlist_item_view.video.chinese_synopsis %></td>
+          <% end %>
+          </tbody>
+      </table>
+    </div>
+  </div>
 
-  <br/><br/>
+  <br/>
 <% end %>

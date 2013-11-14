@@ -5,12 +5,21 @@ class VideosController < ApplicationController
   def index
     @languages = IIM::MOVIE_LANGUAGES
 
+    if params[:q].present?
+      @original = params[:q][:programme_title_or_foreign_language_title_cont_any]
+      @the = params[:q][:programme_title_or_foreign_language_title_cont_any][0..3].downcase if params[:q][:programme_title_or_foreign_language_title_cont_any].present?
+      if @the == 'the ' && params[:q][:programme_title_or_foreign_language_title_cont_any].present?
+        @title = params[:q][:programme_title_or_foreign_language_title_cont_any][4..-1].downcase
+        params[:q][:programme_title_or_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      end
+    end
+
     @search = Video.includes(:video_distributor, :commercial_run_time, :video_genres)
-    .ransack(view_context.empty_blank_params params[:q])
+                   .ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
-    .order("videos.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                     .order("videos.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
 
     if params[:language].present?
       @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?

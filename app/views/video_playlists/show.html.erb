@@ -3,54 +3,93 @@
     window.print();
   });
 </script>
-<%= render partial: 'layouts/videoplaylist_header' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;
-    <span id="download_pdf_link">
-        <%= link_to "Download English PDF",
-                    {controller: "video_playlists",
-                     action: "show",
-                     id: @video_playlist,
-                     format: "pdf"},
-                    target: "_blank" %>
-    </span>
+<%= render partial: 'layouts/movies_nav' %>
 
-    |
+<div class="container">
 
-    <span id="export_to_excel_link">
-        <%= link_to "Export as Excel",
-                    controller: "video_playlists",
-                    action: "export_to_excel",
-                    id: @video_playlist %>
-    </span>
-
-    |
-
-    <%= link_to "Edit Playlist",
-                {controller: "video_playlists",
-                 action: "edit",
-                 id: @video_playlist},
-                target: "_blank" %>
-  </div>
-  <div id="content-header">Video Playlists</div>
-</div>
-
-<div id="content">
-  <center>
-    <h2>Video Playlist</h2>
-    <%= "Video Playlist Type: #{@video_playlist.video_playlist_type.name} " if !@video_playlist.video_playlist_type.nil? %>
-    <div id="playlist_item_view_container">
-      <%= render partial: 'playlist_item_view',
-                 collection: @video_playlist.video_playlist_items_sorted,
-                 locals: {language: 'english'} %>
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
     </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
 
-    <%= link_to 'Back',
-                video_playlists_path %>
+  <div class="row">
+    <div class="span3">
+      <div class="content">
 
-  </center>
+        <span style="display:none;"><%= check_box_tag "chinese_checkbox" %> Chinese? &nbsp;</span>
+
+        <div class="info info-title">Video Type</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= "#{@video_playlist.video_playlist_type.name}s " if !@video_playlist.video_playlist_type.nil? %>
+            </li>
+          </ul>
+        </div>
+
+        <br>
+
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Download English PDF",
+                          {controller: "video_playlists",
+                           action: "show",
+                           id: @video_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Download Chinese PDF",
+                          {controller: "video_playlists",
+                           action: "show_chinese",
+                           id: @video_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "video_playlists",
+                          action: "export_to_excel",
+                          id: @video_playlist %>
+            </li>
+            <li class="info">
+              <%= link_to "Edit Playlist",
+                          {controller: "video_playlists",
+                           action: "edit",
+                           id: @video_playlist},
+                          target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/content-->
+
+      <br>
+      <a class="btn" onclick="$('#chinese_checkbox').click();">Switch language</a>
+      <br>
+      <br>
+    </div>
+    <!--/span-->
+
+    <div class="span9">
+      <div class="info info-title playlist-title">Playlist</div>
+      <div id="playlist_item_view_container">
+        <%= render partial: 'playlist_item_view',
+                   collection: @video_playlist.video_playlist_items_sorted,
+                   locals: {language: 'english'} %>
+      </div>
+
+      <%= link_to 'Back',
+                  video_playlists_path %>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -59,34 +98,20 @@
 
   $(document).ready(function () {
 
-    var playlist,
-        pdfLink;
+    var playlist;
 
     $('#chinese_checkbox').on("change", function () {
       if ($(this).is(':checked')) {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                           collection: @video_playlist.video_playlist_items_sorted,
                                                           locals: {language: 'chinese' }) %> ";
-        pdfLink = " <%= escape_javascript(link_to "Download Chinese PDF",
-                                                          {controller: "video_playlists",
-                                                           action: "show_chinese",
-                                                           id: @video_playlist,
-                                                           format: "pdf"},
-                                                          target: "_blank") %> ";
       } else {
         playlist = " <%= escape_javascript(render partial: 'playlist_item_view',
                                                           collection: @video_playlist.video_playlist_items_sorted,
                                                           locals: {language: 'english' }) %> ";
-        pdfLink = " <%= escape_javascript(link_to "Download English PDF",
-                                                          {controller: "video_playlists",
-                                                           action: "show",
-                                                           id: @video_playlist,
-                                                           format: "pdf"},
-                                                          target: "_blank") %> ";
       }
 
       $("#playlist_item_view_container").html(playlist);
-      $("#download_pdf_link").html(pdfLink);
     });
 
   });

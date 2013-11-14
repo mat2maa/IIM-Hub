@@ -4,13 +4,17 @@ var $element = $("#video-<%= @video.id %>");
 var notice = "<%= escape_javascript(flash[:notice]) %>";
 
 <% if @video_is_deleted %>
-<% if @video.active %>
-$element.fadeOut("fast");
+  <% if @video.active %>
+    $element.fadeOut("fast");
+  <% else %>
+  window.location = "<%= escape_javascript(videos_url) %>";
+  <% end %>
 <% else %>
-window.location = "<%= escape_javascript(videos_url) %>";
-<% end %>
-<% else %>
-$('#notice').html(notice);
+  $('#bootstrap-flash')
+    .html('<div class="alert fade in alert-success">' +
+        '<button class="close" data-dismiss="alert">×</button>' +
+        'Video will be deleted when approved by administrator' +
+        '</div>');
 <% end %>
 
 $('#spinner').addClass('transparent');

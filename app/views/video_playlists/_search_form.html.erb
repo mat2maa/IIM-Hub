@@ -1,41 +1,68 @@
-<%= search_form_for @search,
-                    class: 'spinner-trigger' do |video_playlists| %>
-  <div class="control-group">
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
 
-    <div class="controls combinator-select-container">
-      <%= video_playlists.combinator_select %>
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    class: 'spinner-trigger' do |video_playlists| %>
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
+
+    <!--<div class="controls combinator-select-container">-->
+    <%#= video_playlists.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= video_playlists.text_field :id_eq,
+                                     class: "#{@span_size}",
+                                     placeholder: 'Playlist ID' %>
     </div>
 
-    <%= video_playlists.text_field :id_eq,
-                                   placeholder: 'Playlist ID' %>
-
-    <div class="controls">
+    <div class="controls controls-row">
       <%= video_playlists.select :airline_id_eq,
                                  Airline.order("name asc")
                                  .collect { |p| [p.name,
                                                  p.id] },
                                  {include_blank: true},
-                                 {class: 'select2',
+                                 {class: "select2 #{@span_size}",
                                   data: {placeholder: 'Airline'}} %>
     </div>
 
-    <div class="controls">
+    <div class="controls controls-row">
       <%= video_playlists.select :video_playlist_type_id_eq,
                                  VideoPlaylistType.order("name asc")
                                  .collect { |p| [p.name,
                                                  p.id] },
                                  {include_blank: true},
-                                 {class: 'select2',
+                                 {class: "select2 #{@span_size}",
                                   data: {placeholder: 'Video Playlist Type'}} %>
     </div>
 
-    <%= video_playlists.text_field :start_cycle_gteq,
-                                   data: {behaviour: 'datepicker-months'},
-                                   placeholder: 'Start Playdate' %>
 
-    <%= video_playlists.text_field :end_cycle_lteq,
-                                   data: {behaviour: 'datepicker-months'},
-                                   placeholder: 'End Playdate' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: video_playlists,
+                          field: :start_cycle_gteq,
+                          value: '',
+                          input_id: 'start_cycle_gteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'Start Playdate',
+                          span: @span_size} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: video_playlists,
+                          field: :end_cycle_lteq,
+                          value: '',
+                          input_id: 'end_cycle_lteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'End Playdate',
+                          span: @span_size} %>
+    </div>
 
   </div>
 

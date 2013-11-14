@@ -6,13 +6,13 @@
   <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
     <!--<div class="controls combinator-select-container">-->
-      <%#= movie_playlists.combinator_select %>
+    <%#= movie_playlists.combinator_select %>
     <!--</div>-->
 
     <div class="controls controls-row">
-    <%= movie_playlists.text_field :id_eq,
-                                   class: "#{@span_size}",
-                                   placeholder: 'Playlist ID' %>
+      <%= movie_playlists.text_field :id_eq,
+                                     class: "#{@span_size}",
+                                     placeholder: 'Playlist ID' %>
     </div>
 
     <div class="controls controls-row">
@@ -37,30 +37,30 @@
 
     <div class="controls controls-row">
       <%= render partial: 'application/bootstrap_append_datepicker',
-                 locals: { f: movie_playlists,
-                           field: :start_cycle_gteq,
-                           value: '',
-                           input_id: 'start_cycle_gteq_datepicker',
-                           date_format: 'mm/yyyy',
-                           date_viewmode: 'months',
-                           date_minviewmode: 'months',
-                           datepicker_behaviour: 'datepicker-months',
-                           placeholder: 'Start Playdate',
-                           span: @span_size} %>
+                 locals: {f: movie_playlists,
+                          field: :start_cycle_gteq,
+                          value: '',
+                          input_id: 'start_cycle_gteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'Start Playdate',
+                          span: @span_size} %>
     </div>
 
     <div class="controls controls-row">
       <%= render partial: 'application/bootstrap_append_datepicker',
-                 locals: { f: movie_playlists,
-                           field: :start_cycle_lteq,
-                           value: '',
-                           input_id: 'start_cycle_lteq_datepicker',
-                           date_format: 'mm/yyyy',
-                           date_viewmode: 'months',
-                           date_minviewmode: 'months',
-                           datepicker_behaviour: 'datepicker-months',
-                           placeholder: 'End Playdate',
-                           span: @span_size} %>
+                 locals: {f: movie_playlists,
+                          field: :end_cycle_lteq,
+                          value: '',
+                          input_id: 'end_cycle_lteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'End Playdate',
+                          span: @span_size} %>
     </div>
 
   </div>

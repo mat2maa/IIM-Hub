@@ -6,5 +6,8 @@ var content = "<%= escape_javascript(render(partial: "video",
 var $video = $("#video-<%= @video.id %>");
 $video.replaceWith(content);
 
-var notice = "<%= escape_javascript(flash[:notice]) %>";
-$('#notice').html(notice);
+$('#bootstrap-flash')
+    .html('<div class="alert fade in alert-success">' +
+        '<button class="close" data-dismiss="alert">×</button>' +
+        'Video has been restored' +
+        '</div>');

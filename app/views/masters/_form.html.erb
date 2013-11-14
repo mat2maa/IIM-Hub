@@ -45,10 +45,8 @@
     <h3 class="modal-title">Add master</h3>
   </div>
   <div class='modal-body'>
-    <div class="modal-body-content">
-      <div id="flash_notice"></div>
-
-      <%= error_messages_for(f.object) %>
+    <div class="modal-body-content span9">
+      <div id="master_flash_notice"></div>
 
       <div class="controls controls-row">
         <%= f.input_field :video_id,
@@ -57,11 +55,9 @@
 
       <div class="controls controls-row">
         <%= f.input_field :episode_title,
-                          class: 'span3 master_title',
+                          class: 'span3',
                           placeholder: 'Episode Title' %>
-      </div>
 
-      <div class="controls controls-row">
         <%= f.input_field :episode_number,
                           placeholder: 'Episode #',
                           class: 'span3' %>
@@ -72,20 +68,16 @@
                           as: :select,
                           collection: Video::TAPE_MEDIA,
                           placeholder: 'Tape Media',
-                          include_blank: false,
+                          include_blank: true,
                           class: 'select2 span3' %>
-      </div>
 
-      <div class="controls controls-row">
         <%= f.input_field :tape_format,
                           as: :select,
                           collection: %w(PAL NTSC),
                           placeholder: 'Tape Format',
-                          include_blank: false,
+                          include_blank: true,
                           class: 'select2 span3' %>
-      </div>
 
-      <div class="controls controls-row">
         <%= f.input_field :tape_size,
                           as: :select,
                           collection: %w(Small Large DVD),
@@ -101,9 +93,7 @@
                           include_blank: true,
                           placeholder: 'Video Subtitles 1',
                           class: 'select2 span3' %>
-      </div>
 
-      <div class="controls controls-row">
         <%= f.input_field :video_subtitles_2,
                           as: :select,
                           collection: @languages,
@@ -115,7 +105,8 @@
       <div class="controls controls-row">
         <%= f.input_field :synopsis,
                           placeholder: 'Episode synopsis',
-                          class: 'span3' %>
+                          class: 'span9',
+                          rows: 6 %>
       </div>
 
       <div class="controls controls-row">
@@ -124,41 +115,35 @@
                           collection: @languages,
                           include_blank: true,
                           placeholder: 'Lang Track 1',
-                          class: 'select2 span3' %>
-      </div>
+                          class: 'select2 span2' %>
 
-      <div class="controls controls-row">
         <%= f.input_field :language_track_2,
                           as: :select,
                           collection: @languages,
                           include_blank: true,
                           placeholder: 'Lang Track 2',
-                          class: 'select2 span3' %>
-      </div>
+                          class: 'select2 span2' %>
 
-      <div class="controls controls-row">
         <%= f.input_field :language_track_3,
                           as: :select,
                           collection: @languages,
                           include_blank: true,
                           placeholder: 'Lang Track 3',
-                          class: 'select2 span3' %>
-      </div>
+                          class: 'select2 span2' %>
 
-      <div class="controls controls-row">
         <%= f.input_field :language_track_4,
                           as: :select,
                           collection: @languages,
                           include_blank: true,
                           placeholder: 'Lang Track 4',
-                          class: 'select2 span3' %>
+                          class: 'select2 span2' %>
       </div>
 
       <div class="controls controls-row">
         <%= f.input_field :aspect_ratio,
                           as: :select,
                           collection: %w(4:3 16:9 14:9),
-                          include_blank: false,
+                          include_blank: true,
                           placeholder: 'Aspect ratio',
                           class: 'select2 span3' %>
       </div>
@@ -166,30 +151,21 @@
       <div class="controls controls-row">
         <%= f.input_field :location,
                           placeholder: 'Tape location',
-                          class: 'span3' if !f.object.id.nil? %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :location,
-                          placeholder: 'Tape location',
-                          value: @master_location,
-                          class: 'span3' if f.object.id.nil? %>
+                          value: f.object.id.nil? ? @master_location : '',
+                          class: 'span3' %>
       </div>
 
       <div class="controls controls-row">
         <%= f.input_field :time_in,
                           placeholder: 'Time in',
-                          class: 'span3 master_time' %>
-      </div>
+                          class: 'span3' %>
 
-      <div class="controls controls-row">
         <%= f.input_field :time_out,
                           placeholder: 'Time out',
-                          class: 'span3 master_time' %>
-      </div>
-
-      <div class="controls controls-row">
-        Duration: <%= f.object.duration %>
+                          class: 'span3' %>
+        <duv class="span3">
+          Duration: <%= f.object.duration %>
+        </duv>
       </div>
     </div>
   </div>

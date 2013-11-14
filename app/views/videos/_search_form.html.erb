@@ -12,9 +12,10 @@
     <!--</div>-->
 
     <div class="controls controls-row">
-      <%= videos.text_field :programme_title_cont,
+      <%= videos.text_field :programme_title_or_foreign_language_title_cont_any,
                             placeholder: 'Video Title',
-                            class: "#{@span_size}" %>
+                            class: "#{@span_size}",
+                            value: @original %>
     </div>
 
     <div class="controls controls-row">

@@ -43,10 +43,17 @@ class VideoPlaylistsController < ApplicationController
   end
 
   def edit
+    @search = VideoPlaylist.includes(:airline, :video_playlist_type)
+    .ransack(view_context.empty_blank_params params[:q])
+    @video_playlists = @search.result(distinct: true)
+    .order("video_playlists.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page)
+
+    @video_playlists_count = @video_playlists.count
 
     @video_playlist = VideoPlaylist.find(params[:id], include: [:video_playlist_items, :videos])
     session[:videos_search] = collection_to_id_array(@video_playlist.videos)
-
   end
 
   def update
