@@ -1,87 +1,121 @@
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
 
 <%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
                     class: 'spinner-trigger' do |masters| %>
 
-  <div class="control-group">
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
-    <div class="controls combinator-select-container">
-      <%= masters.combinator_select %>
+    <!--<div class="controls combinator-select-container">-->
+    <%#= masters.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= masters.input_field :video_programme_title_or_video_foreign_language_title_cont_any,
+                              class: "#{@span_size}",
+                              placeholder: 'Video Title',
+                              value: @original %>
     </div>
 
-    <%= masters.text_field :video_programme_title_cont,
-                           placeholder: 'Video Title' %>
-
-
-    <%= masters.text_field :episode_title_cont,
-                           placeholder: 'Episode Title' %>
-
-    <div class="controls">
-      <%= masters.select :video_video_distributor_id_eq,
-                         Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                    p.id] },
-                         {include_blank: true},
-                         {class: 'select2',
-                          data: {placeholder: 'Distributor'}} %>
+    <div class="controls controls-row">
+      <%= masters.input_field :episode_title_cont_any,
+                              class: "#{@span_size}",
+                              placeholder: 'Episode Title',
+                              value: @original_episode %>
     </div>
 
-    <div class="controls">
-      <%= masters.select :video_laboratory_id_eq,
-                         Supplier.laboratories.collect { |p| [p.company_name,
-                                                              p.id] },
-                         {include_blank: true},
-                         {class: 'select2',
-                          data: {placeholder: 'Laboratory'}} %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_video_distributor_id_eq,
+                              as: :select,
+                              collection: Supplier.video_distributors.collect { |p| [p.company_name,
+                                                                                     p.id] },
+                              include_blank: true,
+                              class: "select2 #{@span_size}",
+                              placeholder: 'Distributor' %>
     </div>
 
-    <div class="controls">
-      <%= masters.select :video_video_genres_video_parent_genre_id_eq,
-                         VideoParentGenre.all
-                         .collect { |p| [p.name,
-                                         p.id] },
-                         {include_blank: true},
-                         {class: 'select2',
-                          data: {placeholder: 'Genre'}} %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_laboratory_id_eq,
+                              as: :select,
+                              collection: Supplier.laboratories.collect { |p| [p.company_name,
+                                                                               p.id] },
+                              include_blank: true,
+                              class: "select2 #{@span_size}",
+                              placeholder: 'Laboratory' %>
     </div>
 
-    <div class="controls">
-      <%= masters.select :video_video_genres_id_eq,
-                         VideoGenre.all
-                         .collect { |p| [p.name,
-                                         p.id] },
-                         {include_blank: true},
-                         {class: 'select2',
-                          data: {placeholder: 'Sub-genre'}} %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_video_genres_video_parent_genre_id_eq,
+                              as: :select,
+                              collection: VideoParentGenre.all
+                              .collect { |p| [p.name,
+                                              p.id] },
+                              include_blank: true,
+                              class: "select2 #{@span_size}",
+                              placeholder: 'Genre' %>
     </div>
 
-    <div class="controls">
-      <%= masters.select :video_video_type_eq,
-                         Video::VIDEO_TYPES,
-                         {include_blank: true},
-                         {class: 'select2',
-                          data: {placeholder: 'Video Type'}} %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_video_genres_id_eq,
+                              as: :select,
+                              collection: VideoGenre.all
+                              .collect { |p| [p.name,
+                                              p.id] },
+                              include_blank: true,
+                              class: "select2 #{@span_size}",
+                              placeholder: 'Sub-genre' %>
     </div>
 
-    <%= masters.text_field :video_production_year_eq,
-                           data: {behaviour: 'datepicker-years'},
-                           placeholder: 'Production Year' %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_video_type_eq,
+                              as: :select,
+                              collection: Video::VIDEO_TYPES,
+                              include_blank: true,
+                              class: "select2 #{@span_size}",
+                              placeholder: 'Video Type' %>
+    </div>
 
-    <%= masters.text_field :video_masters_location_eq,
-                           placeholder: 'Tape Location Number' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: masters,
+                          field: :video_production_year_eq,
+                          value: params[:q].present? && params[:q][:video_production_year_eq].present? ?
+                              params[:q][:video_production_year_eq] : '',
+                          input_id: 'video_production_year_eq_datepicker',
+                          date_format: 'yyyy',
+                          date_viewmode: 'years',
+                          date_minviewmode: 'years',
+                          datepicker_behaviour: 'datepicker-years',
+                          placeholder: 'Production Year',
+                          span: @span_size} %>
+    </div>
 
-    <%= masters.text_field :video_id_eq,
-                           placeholder: 'Video ID' %>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_masters_location_eq,
+                              class: "#{@span_size}",
+                              placeholder: 'Tape Location Number' %>
+    </div>
 
-    <label class="checkbox">
-      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Master
-    </label>
+    <div class="controls controls-row">
+      <%= masters.input_field :video_id_eq,
+                              class: "#{@span_size}",
+                              placeholder: 'Video ID' %>
+    </div>
 
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Master
+      </label>
+    </div>
     <br>
 
-    <%= masters.submit "Search",
-                       {class: 'btn'} %>
-    <input type="reset" value="Reset" class="btn">
+    <div class="controls controls-row">
+      <%= masters.submit "Search",
+                         {class: 'btn'} %>
+      <input class="form-reset btn" type="reset" value="Reset">
 
+    </div>
   </div>
 <% end %>

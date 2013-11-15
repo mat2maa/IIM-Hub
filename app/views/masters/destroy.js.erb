@@ -1,7 +1,14 @@
 var $ = jQuery;
 
-$('#masters_list').html("<%= j render(partial: "/videos/masters",
-                                      locals: { video_id: @master.video_id }) %>");
+<% if controller_name == 'videos' %>
+  $('#masters_list').html("<%= j render(partial: "/videos/masters",
+                                        locals: { video_id: @master.video_id }) %>");
+<% else %>
+  var $element = $("#master-<%= @master.id %>");
+
+  $element.fadeOut("fast");
+<% end %>
+
 $('#bootstrap-flash')
     .html('<div class="alert fade in alert-success">' +
         '<button class="close" data-dismiss="alert">×</button>' +

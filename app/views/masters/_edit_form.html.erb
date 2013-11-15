@@ -1,117 +1,153 @@
-<%= semantic_form_for @master do |f| %>
-  <div id="flash_notice"></div>
+<%= minimal_form_for @master,
+                     html: {class: 'form-vertical ajaxForm'} do |f| %>
+  <div class="span9">
+    <div class="content">
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        edit_master_path(@master.previous.id) if @master.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        edit_master_path(@master.next.id) if @master.next.present? %>
+          </li>
+          <% if permitted_to? :admin_delete,
+                              :masters %>
+            <li>
+              <%= link_to 'Delete',
+                          master_url(@master),
+                          method: :delete,
+                          confirm: 'Are you sure?' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
 
-  <%= error_messages_for(f.object) %><br/>
+      <br>
 
-  <%= f.inputs do %>
+      <div class="controls controls-row">
+        <%= f.input_field :video_id,
+                          as: :hidden %>
+      </div>
 
-    <%= f.fields_for :video do |video_fields| %>
-      <%= video_fields.input :programme_title %>
-    <% end %>
-    <%= f.input :video_id,
-                as: :hidden %>
-    <table class="master">
-      <tr>
-        <td><%= f.input :episode_title,
-                        input_html: {class: "master_title"},
-                        label: "Episode Title" %></td>
-        <td>Episode #:<br/><%= f.text_field :episode_number,
-                                            size: 5 %></td>
+      <div class="controls controls-row">
+        <%= f.input_field :episode_title,
+                          class: 'span3',
+                          placeholder: 'Episode Title' %>
 
-        <td><%= f.input :tape_media,
-                        as: :select,
-                        collection: Video::TAPE_MEDIA,
-                        label: "Tape Media",
-                        include_blank: true %></td>
+        <%= f.input_field :episode_number,
+                          placeholder: 'Episode #',
+                          class: 'span3' %>
+      </div>
 
-        <td><%= f.input :tape_format,
-                        as: :select,
-                        collection: %w(PAL NTSC),
-                        label: "Tape Format",
-                        include_blank: true %></td>
-        <td><%= f.input :tape_size,
-                        as: :select,
-                        collection: %w(Small Large DVD),
-                        label: "Tape Size",
-                        include_blank: true %></td>
-        <td><%= f.input :video_subtitles_1,
-                        as: :select,
-                        collection: @languages,
-                        include_blank: true,
-                        label: "Lang Subs 1" %></td>
-        <td><%= f.input :video_subtitles_2,
-                        as: :select,
-                        collection: @languages,
-                        include_blank: true,
-                        label: "Lang Subs 2" %></td>
+      <div class="controls controls-row">
+        <%= f.input_field :tape_media,
+                          as: :select,
+                          collection: Video::TAPE_MEDIA,
+                          placeholder: 'Tape Media',
+                          include_blank: true,
+                          class: 'select2 span3' %>
 
-      </tr>
-      <tr>
-        <td rowspan="2">Episode Synopsis: <%= f.text_area :synopsis,
-                                                          size: "29x3" %></td>
-        <td>
-          <%= f.input(:language_track_1,
-                      as: :select,
-                      collection: @languages,
-                      include_blank: true,
-                      label: "Lang Track 1<br/>") if !f.object.id.nil? %>
-          <%= f.input(:language_track_1,
-                      as: :select,
-                      collection: @languages,
-                      include_blank: true,
-                      label: "Lang Track 1<br/>",
-                      selected: "Eng") if f.object.id.nil? %>
-        </td>
-        <td>
-          <%= f.input(:language_track_2,
-                      as: :select,
-                      collection: @languages,
-                      include_blank: true,
-                      label: "Lang Track 1<br/>") if !f.object.id.nil? %>
-          <%= f.input(:language_track_2,
-                      as: :select,
-                      collection: @languages,
-                      include_blank: true,
-                      label: "Lang Track 1<br/>",
-                      selected: "Eng") if f.object.id.nil? %>
-        </td>
-        <td><%= f.input :language_track_3,
-                        as: :select,
-                        collection: @languages,
-                        include_blank: true,
-                        label: "Lang Track 3<br/>" %></td>
-        <td><%= f.input :language_track_4,
-                        as: :select,
-                        collection: @languages,
-                        include_blank: true,
-                        label: "Lang Track 4<br/>" %></td>
-        <td>
-          <%= f.input(:aspect_ratio,
-                      as: :select,
-                      collection: %w(4:3 16:9 14:9),
-                      include_blank: true) %>
-        </td>
-      </tr>
-      <tr>
-        <td>Tape #: <br/>
-          <%= f.text_field(:location,
-                           size: 8) if !f.object.id.nil? %>
-          <%= f.text_field(:location,
-                           size: 8,
-                           value: @master_location) if f.object.id.nil? %>
-        </td>
-        <td><%= f.input :time_in,
-                        size: 8,
-                        input_html: {class: "master_time"},
-                        label: "Time In" %></td>
-        <td><%= f.input :time_out,
-                        size: 8,
-                        input_html: {class: "master_time"},
-                        label: "Time Out" %></td>
-        <td>Duration: <br/><%= f.object.duration %></td>
-        <td><%= f.actions %></td>
-      </tr>
-    </table>
+        <%= f.input_field :tape_format,
+                          as: :select,
+                          collection: %w(PAL NTSC),
+                          placeholder: 'Tape Format',
+                          include_blank: true,
+                          class: 'select2 span3' %>
 
-  <% end %>
+        <%= f.input_field :tape_size,
+                          as: :select,
+                          collection: %w(Small Large DVD),
+                          placeholder: 'Tape Size',
+                          include_blank: true,
+                          class: 'select2 span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :video_subtitles_1,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Video Subtitles 1',
+                          class: 'select2 span3' %>
+
+        <%= f.input_field :video_subtitles_2,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Video Subtitles 2',
+                          class: 'select2 span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :synopsis,
+                          placeholder: 'Episode synopsis',
+                          class: 'span9',
+                          rows: 6 %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :language_track_1,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Lang Track 1',
+                          class: 'select2 span2' %>
+
+        <%= f.input_field :language_track_2,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Lang Track 2',
+                          class: 'select2 span2' %>
+
+        <%= f.input_field :language_track_3,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Lang Track 3',
+                          class: 'select2 span2' %>
+
+        <%= f.input_field :language_track_4,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Lang Track 4',
+                          class: 'select2 span2' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :aspect_ratio,
+                          as: :select,
+                          collection: %w(4:3 16:9 14:9),
+                          include_blank: true,
+                          placeholder: 'Aspect ratio',
+                          class: 'select2 span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :location,
+                          placeholder: 'Tape location',
+                          value: f.object.id.nil? ? @master_location : '',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :time_in,
+                          placeholder: 'Time in',
+                          class: 'span3' %>
+
+        <%= f.input_field :time_out,
+                          placeholder: 'Time out',
+                          class: 'span3' %>
+        <duv class="span3">
+          Duration: <%= f.object.duration %>
+        </duv>
+      </div>
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+    </div>
+  </div>
 <% end %>

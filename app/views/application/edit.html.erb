@@ -14,7 +14,12 @@
 
   <div class="row">
 
-    <%= render partial: 'form' %>
+    <% models = %w(masters screeners) %>
+    <% if models.include?(controller_name) %>
+      <%= render partial: 'edit_form' %>
+    <% else %>
+      <%= render partial: 'form' %>
+    <% end %>
 
     <div class="span3">
       <div class="tabbable" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: -20px;' %>">

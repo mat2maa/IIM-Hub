@@ -6,8 +6,27 @@ class MastersController < ApplicationController
     @languages = MasterLanguage.order("name")
                                .collect { |language| language.name }
 
+    if params[:q].present?
+      @original = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any]
+      @the = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any][0..3].downcase if params[:q][:video_programme_title_or_video_foreign_language_title_cont_any].present?
+      if @the == 'the ' && params[:q][:video_programme_title_or_video_foreign_language_title_cont_any].present?
+        @title = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any][4..-1].downcase
+        params[:q][:video_programme_title_or_video_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      end
+    end
+
+    if params[:q].present?
+      @original_episode = params[:q][:episode_title_cont_any]
+      @the_episode = params[:q][:episode_title_cont_any][0..3].downcase if params[:q][:episode_title_cont_any].present?
+      if @the_episode == 'the ' && params[:q][:episode_title_cont_any].present?
+        @title_episode = params[:q][:episode_title_cont_any][4..-1].downcase
+        puts params[:q][:episode_title_cont_any] = ["#{@original_episode}", "#{@title_episode}, the"]
+      end
+    end
+
     @search = Master.includes(:video)
                     .ransack(view_context.empty_blank_params params[:q])
+
     @masters = @search.result(distinct: true)
                       .order("masters.id DESC")
                       .paginate(page: params[:page],
