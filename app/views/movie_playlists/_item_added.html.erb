@@ -2,12 +2,9 @@
   "<%= @movie_to_add.movie_title %>" added to playlist
 <% else %>
   <%= @notice %>
-  <%= link_to_remote "Continue adding to playlist",
-                     url: {controller: "movie_playlists",
-                           action: "add_movie",
-                           id: params[:id],
-                           movie_id: @movie_to_add.id,
-                           add: 1},
-                     class: 'spinner-trigger' %>
-
+  <%= link_to "Continue adding to playlist",
+              add_movie_movie_playlist_path(@movie_playlist, movie_id: @movie_to_add.id, add: 1),
+              method: :post,
+              remote: true,
+              class: 'spinner-trigger' %>
 <% end %>

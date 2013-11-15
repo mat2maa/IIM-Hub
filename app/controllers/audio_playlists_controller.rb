@@ -217,8 +217,8 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist.save
 
     @audio_playlist_track_position = AudioPlaylistTrack.where("audio_playlist_id=?", params[:id])
-    .order("position ASC")
-    .find(:last)
+                                                       .order("position ASC")
+                                                       .find(:last)
     @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
 
     @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:id],
@@ -227,7 +227,7 @@ class AudioPlaylistsController < ApplicationController
 
     #check if track has been added to a previous playlist before
     @playlists_with_track = AudioPlaylistTrack.where("track_id = ?", params[:track_id])
-    .group("audio_playlist_id")
+                                              .group("audio_playlist_id")
 
     @notice=""
 

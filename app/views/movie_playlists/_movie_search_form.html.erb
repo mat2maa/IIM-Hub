@@ -4,7 +4,7 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_movie_to_playlist_path(id: @movie_playlist.id),
                     remote: true,
-                    id: "movie_search_form" do |movies| %>
+                    id: 'movie_search_form' do |movies| %>
 
   <div class="controls controls-row">
     <%= movies.input_field :movie_title_or_foreign_language_title_cont_any,
@@ -172,4 +172,3 @@
     <input class="form-reset btn" type="reset" value="Reset">
   </div>
 <% end %>
-<%# end %>

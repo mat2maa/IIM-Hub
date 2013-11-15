@@ -57,3 +57,7 @@ $(content).on('click', dataToggle, function(){
 $(content).on('click', dataRemote, function(){
   $(loader).fadeIn('fast');
 });
+
+$(content).on('click', '.pagination > ul > li > a', function(){
+  $(loader).fadeIn('fast');
+});

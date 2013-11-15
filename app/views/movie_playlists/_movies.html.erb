@@ -14,33 +14,33 @@
         <th>
           <%= sort_link @search,
                         :id,
-                        "ID",
+                        'ID',
                         {},
                         {remote: true} %>
         </th>
         <th>
           <%= sort_link @search,
                         :movie_title,
-                        "Title",
+                        'Title',
                         {},
                         {remote: true} %>
         </th>
         <th>
           <%= sort_link @search,
                         :movie_type_name,
-                        "Type",
+                        'Type',
                         {},
                         {remote: true} %>
         </th>
         <th>
           <%= sort_link @search,
                         :airline_release_date,
-                        "Release Date",
+                        'Release Date',
                         {},
                         {remote: true} %>
         </th>
         <th>Other airlines</th>
-        <th></th>
+        <th>&nbsp;</th>
         <th>
           <%= check_box_tag('check_all',
                             'check_all',
@@ -52,7 +52,6 @@
       <tbody>
       <% @movies.each do |movie| %>
         <tr class="playlist-entry">
-          <%# cache([movie]) do %>
           <td data-title="ID"><%= link_to movie.id,
                           movie_path(id: movie.id),
                           target: "_blank" %>&nbsp;</td>
@@ -80,8 +79,8 @@
           <td data-title="Select"><%= check_box_tag "movie_ids[]",
                                                     movie.id %>&nbsp;</td>
         </tr>
-      <% end %>
       </tbody>
+      <% end %>
 
     </table>
   <% end %>

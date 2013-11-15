@@ -120,15 +120,17 @@ class MoviePlaylistsController < ApplicationController
     @movie_playlist = MoviePlaylist.find(params[:id])
 
     @movie_playlist_item_position = MoviePlaylistItem.where("movie_playlist_id=?", params[:id])
-    .order("position ASC")
-    .find(:last)
+                                                     .order("position ASC")
+                                                     .find(:last)
     @movie_playlist_item_position = @movie_playlist_item_position.nil? ? 1 : @movie_playlist_item_position.position + 1
 
     @movie_playlist_item = MoviePlaylistItem.new(movie_playlist_id: params[:id],
                                                  movie_id: params[:movie_id],
                                                  position: @movie_playlist_item_position)
+
     @notice=""
     @movie_to_add = Movie.find(params[:movie_id])
+
     if @movie_playlist_item.save
       flash[:notice] = 'Movie was successfully added.'
       session[:movies_search] = collection_to_id_array(@movie_playlist.movies)
