@@ -1,0 +1,124 @@
+<% @master = playlist_item.master %>
+<% @playlist_item = playlist_item %>
+<tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
+  <% if !playlist_item.master.present? %>
+    <td colspan="2">Missing master <%= playlist_item.master_id %> id
+      = <%= playlist_item.id %></td>
+  <% else %>
+
+    <td data-title="Position">
+      <%= position %>
+      &nbsp;
+    </td>
+
+    <td data-title="Programme Title">
+      <%= link_to playlist_item.master.video.programme_title,
+                  edit_video_path(playlist_item.master.video.id),
+                  target: "_blank" %>
+      &nbsp;
+    </td>
+
+    <td data-title="Episode Title">
+      <%= link_to playlist_item.master.episode_title,
+                  edit_video_path(playlist_item.master.video.id),
+                  target: "_blank" %>
+      &nbsp;
+    </td>
+
+    <td data-title="Episode Number">
+      <%= playlist_item.master.episode_number %>
+      &nbsp;
+    </td>
+
+    <td data-title="Duration">
+      <%= playlist_item.master.duration %>
+      &nbsp;
+    </td>
+
+    <td data-title="Tape #">
+      <%= playlist_item.master.location %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Track 1">
+      <%= playlist_item.master.language_track_1 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Track 2">
+      <%= playlist_item.master.language_track_2 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Track 3">
+      <%= playlist_item.master.language_track_3 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Track 4">
+      <%= playlist_item.master.language_track_4 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Subs 1">
+      <%= playlist_item.master.video_subtitles_1 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Lang Subs 2">
+      <%= playlist_item.master.video_subtitles_2 %>
+      &nbsp;
+    </td>
+
+    <td data-title="Tape Media">
+      <%= playlist_item.master.tape_media %>
+      &nbsp;
+    </td>
+
+    <td data-title="Tape Format">
+      <%= playlist_item.master.tape_format %>
+      &nbsp;
+    </td>
+
+    <td data-title="Tape Size">
+      <%= playlist_item.master.tape_size %>
+      &nbsp;
+    </td>
+
+    <td data-title="Time In">
+      <%= playlist_item.master.time_in %>
+      &nbsp;
+    </td>
+
+    <td data-title="Time Out">
+      <%= playlist_item.master.time_out %>
+      &nbsp;
+    </td>
+
+    <td data-title="Mastering">
+      <%= best_in_place @playlist_item,
+                        :mastering,
+                        nil: 'change',
+                        ok_button: 'Change Mastering',
+                        ok_button_class: 'btn btn-mini best-in-place-ok',
+                        cancel_button: 'Cancel',
+                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>
+      &nbsp;
+    </td>
+
+    <td data-title="Aspect Ratio">
+      <%= playlist_item.master.aspect_ratio %>
+      &nbsp;
+    </td>
+
+    <td>
+      <%= link_to "Delete",
+                  playlist_item,
+                  remote: true,
+                  confirm: "Are you sure",
+                  method: 'delete',
+                  class: 'btn btn-mini' %>
+      &nbsp;
+    </td>
+  <% end %>
+</tr>

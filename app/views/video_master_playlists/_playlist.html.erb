@@ -1,7 +1,31 @@
-<table width="100%">
+<table class="table table-hover" id="no-more-tables" width="100%">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Programme Title</th>
+    <th>Episode Title</th>
+    <th>Episode Number</th>
+    <th>Duration</th>
+    <th>Tape #</th>
+    <th>Lang Track 1</th>
+    <th>Lang Track 2</th>
+    <th>Lang Track 3</th>
+    <th>Lang Track 4</th>
+    <th>Lang Subs 1</th>
+    <th>Lang Subs 2</th>
+    <th>Tape Media</th>
+    <th>Tape Format</th>
+    <th>Tape Size</th>
+    <th>Time In</th>
+    <th>Time Out</th>
+    <th>Mastering</th>
+    <th>Aspect Ratio</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
   <tbody id="videoplaylist" class="sort-list" data-url="<%= sort_video_master_playlist_path %>" style="cursor: move">
   <% @video_master_playlist.video_master_playlist_items_sorted.each.with_index do |item, index| %>
-    <%= render partial: 'video_master_playlist_item', object: item, locals: {position: index + 1} %>
+    <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
   <% end %>
   </tbody>
 </table>

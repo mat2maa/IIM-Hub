@@ -1,0 +1,65 @@
+<% @screener = playlist_item.screener %>
+<% @playlist_item = playlist_item %>
+<tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
+  <% if !playlist_item.screener.present? %>
+    <td colspan="2">Missing screener <%= playlist_item.screener_id %></td>
+  <% else %>
+
+    <td data-title="Position">
+      <%= position %>
+      &nbsp;
+    </td>
+
+    <td data-title="Video Title">
+      <%= link_to playlist_item.screener.video.programme_title,
+                  edit_screener_path(playlist_item.screener.id),
+                  target: "_blank" %>
+      &nbsp;
+    </td>
+
+    <td data-title="(Chinese Title)">
+      <%= "(#{playlist_item.screener.video.chinese_programme_title})" if playlist_item.screener.video.chinese_programme_title.present? %>
+      &nbsp;
+    </td>
+
+    <td data-title="Episode Title:">
+      <%= playlist_item.screener.episode_title %>
+      &nbsp;
+    </td>
+
+    <td data-title="Episode Number">
+      <%= playlist_item.screener.episode_number %>
+      &nbsp;
+    </td>
+
+    <td data-title="Distributor">
+      <%= playlist_item.screener.video.video_distributor.company_name unless playlist_item.screener.video.video_distributor.nil? %>
+      &nbsp;
+    </td>
+
+    <td data-title="Location">
+      <%= playlist_item.screener.location %>
+      &nbsp;
+    </td>
+
+    <td data-title="Remarks">
+      <%= playlist_item.screener.remarks %>
+      &nbsp;
+    </td>
+
+    <td data-title="Other">
+      <%= playlist_item.screener.remarks_other %>
+      &nbsp;
+    </td>
+
+    <td>
+      <%= link_to "Delete",
+                  playlist_item,
+                  remote: true,
+                  confirm: "Are you sure",
+                  method: 'delete',
+                  class: 'btn btn-mini' %>
+      &nbsp;
+    </td>
+  <% end %>
+</tr>
