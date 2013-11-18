@@ -28,7 +28,7 @@
         <td class="show-title">Client Playlist Code</td>
         <td><%= @audio_playlist.client_playlist_code %></td>
         <td class="show-title">Programmer</td>
-        <td><%= @audio_playlist.user.login if !@audio_playlist.user_id.nil? && @audio_playlist.user_id!=0 %></td>
+        <td><%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? && @audio_playlist.user_id!=0 %></td>
       </tr>
       <tr>
         <td class="show-title">Program</td>

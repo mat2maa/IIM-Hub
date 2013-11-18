@@ -16,11 +16,11 @@ class ScreenerPlaylistsController < ApplicationController
 
   def index
     @search = ScreenerPlaylist.includes(:airline, :video_playlist_type)
-    .ransack(view_context.empty_blank_params params[:q])
+                              .ransack(view_context.empty_blank_params params[:q])
     @screener_playlists = @search.result(distinct: true)
-    .order("screener_playlists.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                                 .order("screener_playlists.id DESC")
+                                 .paginate(page: params[:page],
+                                           per_page: items_per_page)
 
     @screener_playlists_count = @screener_playlists.count
   end
@@ -49,8 +49,15 @@ class ScreenerPlaylistsController < ApplicationController
   end
 
   def edit
+    @search = ScreenerPlaylist.includes(:airline, :video_playlist_type)
+                              .ransack(view_context.empty_blank_params params[:q])
+    @screener_playlists = @search.result(distinct: true)
+                                 .order("screener_playlists.id DESC")
+                                 .paginate(page: params[:page],
+                                           per_page: items_per_page)
+
     @screener_playlist = ScreenerPlaylist.includes(screener_playlist_items: :screener)
-    .find(params[:id])
+                                         .find(params[:id])
     session[:screeners_search] = collection_to_id_array(@screener_playlist.screeners)
   end
 

@@ -1,4 +1,4 @@
-<% movie_models = %w(movies movie_playlists videos video_playlists masters master_playlists screeners screener_playlists) %>
+<% movie_models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners screener_playlists) %>
 <% if movie_models.include?(controller_name) %>
   <%= render partial: 'layouts/movies_nav' %>
 <% else %>

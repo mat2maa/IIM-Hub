@@ -30,7 +30,7 @@
         <td>Program</td>
         <td><%= @album_playlist.client_playlist_code %></td>
         <td>Programmer</td>
-        <td><%= @album_playlist.user.login if !@album_playlist.user_id.nil? %></td>
+        <td><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
       </tr>
       <tr>
         <td>Airline</td>

@@ -1,64 +1,218 @@
-<%= form_for(@video_master_playlist) do |form| %>
+<%= minimal_form_for @video_master_playlist,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
 
-  <%= error_messages_for form.object %>
+  <div class="span3">
+    <div class="content">
+      <% if @video_master_playlist.user_id.present? %>
+        <div class="info info-title">Programmer</div>
+        <div class="info-list">
+          <ul>
+            <li class="info"><%= @video_master_playlist.user.login.titleize if !@video_master_playlist.user_id.nil? %>&nbsp;</li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+      <% if controller.action_name != 'new' %>
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Print Playlist",
+                          {controller: "video_master_playlists",
+                           action: "show",
+                           id: @video_master_playlist},
+                          id: 'print_playlist',
+                          target: '_blank' %>
+            </li>
+            <li class="info">
+              <%= link_to "Download PDF",
+                          {controller: "video_master_playlists",
+                           action: "show",
+                           id: @video_master_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "video_master_playlists",
+                          action: "export_to_excel",
+                          id: @video_master_playlist %>
+            </li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+    </div>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
 
-  <table class="edit">
-    <tr>
-      <td class="pl-title">Airline :</td>
-      <td>
-        <%= select("video_master_playlist",
-                   "airline_id",
-                   Airline.order("name asc")
-                   .collect { |p| [p.name + " - " + p.code, p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    airlines_path,
-                    id: "add",
-                    target: "_blank" %></td>
-      <td class="pl-title">Start Cycle :</td>
-      <td><%= form.date_select :start_cycle,
-                               discard_day: true,
-                               order: [:month,
-                                       :year],
-                               use_month_numbers: true,
-                               start_year: Date.today.year + 2,
-                               end_year: 1900 %>
-        <strong>End
-          Cycle:</strong> <%= form.date_select :end_cycle,
-                                               discard_day: true,
-                                               order: [:month,
-                                                       :year],
-                                               use_month_numbers: true,
-                                               start_year: Date.today.year + 2,
-                                               end_year: 1900 %>
-      </td>
-      <td class="pl-title">Programmer :</td>
-      <td><%= @video_master_playlist.user.login if !@video_master_playlist.user_id.nil? %></td>
-    </tr>
-    <tr>
-      <td class="pl-title">Master Playlist Type :</td>
-      <td>
-        <%= select("video_master_playlist",
-                   "master_playlist_type_id",
-                   MasterPlaylistType.order("name asc")
-                   .collect { |p| [p.name, p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    master_playlist_types_path,
-                    id: "add",
-                    target: "_blank" %></td>
-      <td class="pl-title">Edit Runtime :</td>
-      <td><%= form.text_field :edit_runtime %></td>
-      <td class="pl-title">Total Runtime (hh:mm:ss):</td>
-      <td><%= @video_master_playlist.total_runtime %></td>
-    </tr>
-    <tr>
-      <td class="pl-title">Media Instruction</td>
-      <td colspan="5"><%= form.text_area :media_instruction,
-                                         size: "80x3" %></td>
-    </tr>
-  </table>
-  <p>
-    <%= submit_tag "Save Changes" %>
-  </p>
+  <div class="span6">
+    <div class="content">
+      <% if controller.action_name != 'new' %>
+        <div class="tabbable">
+          <ul class="nav nav-tabs pre-nav-below">
+            <li>
+              <%= link_to "Previous",
+                          edit_video_master_playlist_path(@video_master_playlist.previous.id) if @video_master_playlist.previous.present? %>
+            </li>
+            <li>
+              <%= link_to "Next",
+                          edit_video_master_playlist_path(@video_master_playlist.next.id) if @video_master_playlist.next.present? %>
+            </li>
+            <li>
+              <%= link_to 'View Master Playlist',
+                          video_master_playlist_path(@video_master_playlist) %>
+            </li>
+            <li>
+              <%= link_to "New Master Playlist",
+                          new_video_master_playlist_path %>
+            </li>
+            <% if permitted_to? :admin_delete,
+                                :video_master_playlists %>
+              <li>
+                <%= link_to 'Delete',
+                            video_master_playlist_url(@video_master_playlist),
+                            method: :delete,
+                            confirm: 'Are you sure?' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <br>
+
+      <% end %>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :airline_id,
+                            link_path: airlines_path,
+                            collection: Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
+                            placeholder: 'Airline',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :master_playlist_type_id,
+                            link_path: master_playlist_types_path,
+                            collection: MasterPlaylistType.order("name asc").collect { |p| [p.name, p.id] },
+                            placeholder: 'Master Playlist Type',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :start_cycle,
+                            value: @video_master_playlist.start_cycle,
+                            input_id: 'start_cycle_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Start Cycle',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :end_cycle,
+                            value: @video_master_playlist.end_cycle,
+                            input_id: 'end_cycle_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'End Cycle',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :edit_runtime,
+                          :type => :number,
+                          :placeholder => "Edited Runtime",
+                          :class => 'span3' %>
+
+        <input class="span3" readonly="readonly" disabled="disabled" id="video_master_playlist_total_runtime" maxlength="255" placeholder="Total Runtime (hh:mm:ss)" size="50" type="text" value="Total Runtime (hh:mm:ss): <%= @video_master_playlist.total_runtime %>">
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :media_instruction,
+                          placeholder: "Media Instruction",
+                          class: 'span6',
+                          rows: 6 %>
+      </div>
+
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+
+      <% if controller.action_name != 'new' %>
+
+        <br><br>
+        <!-- Button to trigger modal -->
+        <%= link_to 'Add Master',
+                    add_video_master_to_playlist_path(id: @video_master_playlist.id),
+                    id: 'add_video_to_playlist',
+                    class: 'btn',
+                    role: 'btn',
+                    data: {toggle: 'modal', target: '#ajax-modal'} %>
+        <br><br>
+      <% end %>
+
+    </div>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
+<% end %>
+
+<% if controller.action_name != 'new' %>
+  <%= content_for :playlist do %>
+    <div class="info info-title">Playlist</div>
+    <div id="playlist">
+      <%= render partial: 'playlist',
+                 object: @video_master_playlist %>
+    </div>
+  <% end %>
+
+  <%= content_for :modal do %>
+    <%= render 'modal' %>
+  <% end %>
+
+  <% content_for(:head) do %>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+    <script>
+      jQuery(document).ready(function () {
+        jQuery('#print_playlist').click(function (event) {
+          if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>
+  <% end %>
+
+  <script type="text/javascript">
+
+    var $ = jQuery;
+
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#ajax-modal]').on('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote($(this));
+    });
+
+    // removes whatever is in the modal body content div upon clicking close/outside modal
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function (e) {
+      $('.modal-body-content').empty();
+    });
+
+    $(document).on('click', '#ajax-modal', function (e) {
+      e.stopPropagation();
+    });
+
+  </script>
 <% end %>

@@ -11,7 +11,7 @@
                      in_out,
                      {include_blank: true}) %></td>
       <td class="pl-title">Programmer :</td>
-      <td><%= @album_playlist.user.login if !@album_playlist.user_id.nil? %></td>
+      <td><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
     </tr>
     <tr>
       <td class="pl-title">Play Date :</td>

@@ -1,46 +1,74 @@
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
+
 <%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
                     class: 'spinner-trigger' do |screener_playlists| %>
-  <div class="control-group">
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
-    <div class="controls combinator-select-container">
-      <%= screener_playlists.combinator_select %>
+    <!--<div class="controls combinator-select-container">-->
+    <%#= screener_playlists.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= screener_playlists.input_field :id_eq,
+                                         class: "#{@span_size}",
+                                         placeholder: 'Playlist ID' %>
     </div>
 
-    <%= screener_playlists.text_field :id_eq,
-                                      placeholder: 'Playlist ID' %>
-
-    <div class="controls">
-      <%= screener_playlists.select :airline_id_eq,
-                                    Airline.order("name asc")
-                                    .collect { |p| [p.name,
-                                                    p.id] },
-                                    {include_blank: true},
-                                    {class: 'select2',
-                                     data: {placeholder: 'Airline'}} %>
+    <div class="controls controls-row">
+      <%= screener_playlists.input_field :airline_id_eq,
+                                         as: :select,
+                                         collection: Airline.order("name asc")
+                                         .collect { |p| [p.name,
+                                                         p.id] },
+                                         include_blank: true,
+                                         class: "select2 #{@span_size}",
+                                         data: {placeholder: 'Airline'} %>
     </div>
 
-    <div class="controls">
-      <%= screener_playlists.select :video_playlist_type_id_eq,
-                                    VideoPlaylistType.order("name asc")
-                                    .collect { |p| [p.name,
-                                                    p.id] },
-                                    {include_blank: true},
-                                    {class: 'select2',
-                                     data: {placeholder: 'Screener Playlist Type'}} %>
+    <div class="controls controls-row">
+      <%= screener_playlists.input_field :video_playlist_type_id_eq,
+                                         as: :select,
+                                         collection: VideoPlaylistType.order("name asc")
+                                         .collect { |p| [p.name,
+                                                         p.id] },
+                                         include_blank: true,
+                                         class: "select2 #{@span_size}",
+                                         data: {placeholder: 'Screener Playlist Type'} %>
     </div>
 
-    <%= screener_playlists.text_field :start_cycle_gteq,
-                                      data: {behaviour: 'datepicker-months'},
-                                      placeholder: 'Start Playdate' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: screener_playlists,
+                          field: :start_cycle_gteq,
+                          value: '',
+                          input_id: 'start_cycle_gteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'Start Playdate',
+                          span: @span_size} %>
+    </div>
 
-    <%= screener_playlists.text_field :end_cycle_lteq,
-                                      data: {behaviour: 'datepicker-months'},
-                                      placeholder: 'End Playdate' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: screener_playlists,
+                          field: :end_cycle_lteq,
+                          value: '',
+                          input_id: 'end_cycle_lteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'End Playdate',
+                          span: @span_size} %>
+    </div>
 
   </div>
 
   <%= screener_playlists.submit "Search",
                                 {class: 'btn'} %>
-  <input type="reset" value="Reset" class="btn">
+  <input class="form-reset btn" type="reset" value="Reset">
 
 <% end %>

@@ -10,11 +10,11 @@ class VideoPlaylistsController < ApplicationController
 
   def index
     @search = VideoPlaylist.includes(:airline, :video_playlist_type)
-    .ransack(view_context.empty_blank_params params[:q])
+                           .ransack(view_context.empty_blank_params params[:q])
     @video_playlists = @search.result(distinct: true)
-    .order("video_playlists.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                              .order("video_playlists.id DESC")
+                              .paginate(page: params[:page],
+                                        per_page: items_per_page)
 
     @video_playlists_count = @video_playlists.count
   end
@@ -44,11 +44,11 @@ class VideoPlaylistsController < ApplicationController
 
   def edit
     @search = VideoPlaylist.includes(:airline, :video_playlist_type)
-    .ransack(view_context.empty_blank_params params[:q])
+                           .ransack(view_context.empty_blank_params params[:q])
     @video_playlists = @search.result(distinct: true)
-    .order("video_playlists.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                              .order("video_playlists.id DESC")
+                              .paginate(page: params[:page],
+                                        per_page: items_per_page)
 
     @video_playlists_count = @video_playlists.count
 

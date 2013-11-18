@@ -5,16 +5,12 @@
                remote: true do %>
     <%= hidden_field_tag 'playlist_id',
                          params[:id] %>
-    <%= submit_tag 'Add Selected to Playlist' %><br/>
-
-    <%= @screeners_count %> screeners found
-    <table cellspacing="0" width="100%" id="screeners">
+    <%= submit_tag 'Add Selected to Playlist',
+                   id: 'add_selected_hidden',
+                   style: 'display: none;' %>
+    <table class="table" id="no-more-tables">
+      <thead>
       <tr>
-        <th width="8">
-          <%= check_box_tag('check_all',
-                            'check_all',
-                            false) %>
-        </th>
         <th>
           <%= sort_link @search,
                         :id,
@@ -29,31 +25,29 @@
                         {},
                         {remote: true} %>
         </th>
-        <th><%#= remote_order_by_link :video_type,
-search_obj: @search,
-params_scope: :screener_playlists  %></th>
-        <th>In Playlists With<br/>Same Airline</th>
+        <th>In Playlists With Same Airline</th>
         <th>&nbsp;</th>
+        <th>
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
       </tr>
+      </thead>
+
+      <tbody>
       <% @screeners.each do |screener| %>
         <tr class="playlist-entry">
-          <%# cache([video]) do %>
-          <td><%= check_box_tag "screener_ids[]",
-                                screener.id %></td>
-          <td><%= screener.id %></td>
-          <td><%= screener.episode_title %></td>
-          <td><%#=h screener.video_type %></td>
-          <td>
-                    <span id="exists">
-                        <% if (screener.in_playlists!="" && !screener.in_playlists.nil?) %>
-                            <%= ScreenerPlaylist.with_same_airline_and_screener(screener.id,
-                                                                                (@screener_playlist.airline_id unless @screener_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}",
-                                                                                                                                                                                     edit_screener_playlist_path(playlist),
-                                                                                                                                                                                     target: "_blank") }.join(', ').html_safe %>
-                        <% end %>
-                    </span>
+          <td data-title="ID"><%= screener.id %></td>
+          <td data-title="Episode Title"><%= screener.episode_title %></td>
+          <td data-title="In Playlists With Same Airline">
+            <span id="exists">
+                <% if (screener.in_playlists!="" && !screener.in_playlists.nil?) %>
+                    <%= ScreenerPlaylist.with_same_airline_and_screener(screener.id,
+                                                                        (@screener_playlist.airline_id unless @screener_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}", edit_screener_playlist_path(playlist), target: "_blank") }.join(', ').html_safe %>
+                <% end %>
+            </span>
           </td>
-          <%# end %>
           <td>
             <%= link_to "add to playlist",
                         add_screener_screener_playlist_path(@screener_playlist, screener_id: screener.id),
@@ -61,12 +55,16 @@ params_scope: :screener_playlists  %></th>
                         remote: true,
                         class: 'spinner-trigger' %>
           </td>
+          <td data-title="Select"><%= check_box_tag "screener_ids[]", screener.id %></td>
         </tr>
       <% end %>
+      </tbody>
     </table>
   <% end %>
+
   <br/>
   <br/>
+
   <%= will_paginate @screeners,
                     inner_window: 1,
                     renderer: BootstrapPagination::Rails,
@@ -82,6 +80,10 @@ params_scope: :screener_playlists  %></th>
     <%= items_per_page_select @screeners %>
     <%= f.submit "Submit",
                  class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @screeners_count %> screeners found
+    <br>
   <% end %>
 <% else %>
   No screeners were found

@@ -136,7 +136,7 @@
       <td align="right" width="9%"><strong>IN/OUT:</strong></td>
       <td width="14%"><%= @album_playlist.in_out %></td>
       <td align="right" width="11%"><strong>Programmer:</strong></td>
-      <td width="32%"><%= @album_playlist.user.login if !@album_playlist.user_id.nil? %></td>
+      <td width="32%"><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
     </tr>
     <tr>
       <td align="right"><strong>Client Playlist Code:</strong></td>

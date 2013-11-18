@@ -1,36 +1,73 @@
-<%= semantic_form_for @screener do |f| %>
-  <div id="flash_notice"></div>
+<%= minimal_form_for(@screener,
+                     html: {class: 'form-vertical ajaxForm'}) do |f| %>
 
-  <%= error_messages_for(f.object) %><br/>
+  <div class="span9">
+    <div class="content">
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        edit_screener_path(@screener.previous.id) if @screener.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        edit_screener_path(@screener.next.id) if @screener.next.present? %>
+          </li>
+          <% if permitted_to? :admin_delete,
+                              :screeners %>
+            <li>
+              <%= link_to 'Delete',
+                          screener_url(@screener),
+                          method: :delete,
+                          confirm: 'Are you sure?' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
 
-  <%= f.inputs do %>
+      <br>
 
-    <%= f.input :video_id,
-                as: :hidden %>
-    <table class="screener">
-      <tr>
-        <td width="100" valign="top"><%= f.input :episode_title,
-                                                 input_html: {class: "screener_title"},
-                                                 label: "Episode Title" %></td>
-        <td width="100" valign="top">Episode Number <%= f.text_field :episode_number,
-                                                                     size: 5 %></td>
-        <td width="100" valign="top">
-          <%= f.input :remarks,
-                      as: :select,
-                      collection: ["VHS",
-                                   "B&W",
-                                   "Chinese Subs",
-                                   "Other"],
-                      include_blank: true %>
-        </td>
-        <td width="100" valign="top">Other <%= f.text_field :remarks_other,
-                                                            size: 16 %></td>
-        <td width="50" valign="top"><%= f.input :location,
-                                                as: :select,
-                                                collection: %w(SIN BJS HKG) %></td>
-        <td><%= f.actions %></td>
-      </tr>
-    </table>
+      <div class="controls controls-row">
+        <%= f.input_field :video_id,
+                          as: :hidden %>
+      </div>
 
-  <% end %>
+      <div class="controls controls-row">
+        <%= f.input_field :episode_title,
+                          class: 'screener_title',
+                          placeholder: 'Episode Title',
+                          class: 'span3' %>
+
+        <%= f.input_field :episode_number,
+                          placeholder: 'Episode Number',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :remarks,
+                          as: :select,
+                          collection: ['VHS', 'B&W', 'Chinese Subs', 'Other'],
+                          include_blank: true,
+                          placeholder: 'Remarks',
+                          class: 'select2 span3' %>
+
+        <%= f.input_field :remarks_other,
+                          placeholder: 'Other',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :location,
+                          as: :select,
+                          collection: %w(SIN BJS HKG),
+                          placeholder: 'Location',
+                          class: 'select2 span3' %>
+      </div>
+
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+
+    </div>
+  </div>
 <% end %>

@@ -1,62 +1,68 @@
 <% @master = playlist_item_view.master %>
 <% @video_master_playlist_item = playlist_item_view %>
-<tr id="item_<%= playlist_item_view.id %>">
-  <% if playlist_item_view.master.nil? %>
-    <td colspan="2">Missing video <%= playlist_item_view.master_id %></td>
+<% if playlist_item_view.master.nil? %>
+  <td colspan="2">Missing video <%= playlist_item_view.master_id %></td>
 
-  <% else %>
-
-    <table width="100%" class="videoplaylist playlist">
-      <tr>
-        <td width="200"><strong>Episode Title:</strong></td>
-        <td colspan="4"><%= playlist_item_view.master.episode_title %></td>
-      </tr>
-      <tr>
-        <td><strong>Tape Media:</strong></td>
-        <td width="300"><%= playlist_item_view.master.tape_media %></td>
-        <td width="200"><strong>Tape Format:</strong></td>
-        <td><%= playlist_item_view.master.tape_format %></td>
-      </tr>
-      <tr>
-        <td><strong>Tape Size:</strong></td>
-        <td><%= playlist_item_view.master.tape_size %></td>
-        <td><strong>Aspect Ratio:</strong></td>
-        <td><%= playlist_item_view.master.aspect_ratio %></td>
-      </tr>
-      <tr>
-        <td><strong>Video Subtitles 1:</strong></td>
-        <td><%= playlist_item_view.master.video_subtitles_1 %></td>
-        <td><strong>Video Subtitles 2:</strong></td>
-        <td><%= playlist_item_view.master.video_subtitles_2 %></td>
-      </tr>
-      <tr>
-        <td><strong>Lang Track 1:</strong></td>
-        <td><%= playlist_item_view.master.language_track_1 %></td>
-        <td><strong>Language Track 2:</strong></td>
-        <td><%= playlist_item_view.master.language_track_2 %></td>
-      </tr>
-      <tr>
-        <td><strong>Lang Track 3:</strong></td>
-        <td><%= playlist_item_view.master.language_track_3 %></td>
-        <td><strong>Lang Track 4:</strong></td>
-        <td><%= playlist_item_view.master.language_track_4 %></td>
-      </tr>
-      <tr>
-        <td><strong>Master Time In:</strong></td>
-        <td><%= playlist_item_view.master.time_in %></td>
-        <td><strong>Master Time Out:</strong></td>
-        <td><%= playlist_item_view.master.time_out %></td>
-      </tr>
-      <tr>
-        <td><strong>Duration:</strong></td>
-        <td><%= playlist_item_view.master.duration %></td>
-        <td><strong>Master Tape Location:</strong></td>
-        <td><%= playlist_item_view.master.location %></td>
-      </tr>
-      <tr>
-        <td colspan="4"><strong>Synopsis:</strong><br/><%= playlist_item_view.master.synopsis %></td>
-      </tr>
-    </table>
-    <br/><br/>
-  <% end %>
-</tr>
+<% else %>
+  <div class="row">
+    <div class="span9">
+      <table class="playlist table table-condensed">
+        <tbody>
+        <tr>
+          <td><strong>Programme Title:</strong></td>
+          <td><%= playlist_item_view.master.video.programme_title %></td>
+          <td><strong>Episode Title:</strong></td>
+          <td><%= playlist_item_view.master.episode_title %></td>
+        </tr>
+        <tr>
+          <td><strong>Tape Media:</strong></td>
+          <td><%= playlist_item_view.master.tape_media %></td>
+          <td><strong>Tape Format:</strong></td>
+          <td><%= playlist_item_view.master.tape_format %></td>
+        </tr>
+        <tr>
+          <td><strong>Tape Size:</strong></td>
+          <td><%= playlist_item_view.master.tape_size %></td>
+          <td><strong>Aspect Ratio:</strong></td>
+          <td><%= playlist_item_view.master.aspect_ratio %></td>
+        </tr>
+        <tr>
+          <td><strong>Video Subtitles 1:</strong></td>
+          <td><%= playlist_item_view.master.video_subtitles_1 %></td>
+          <td><strong>Video Subtitles 2:</strong></td>
+          <td><%= playlist_item_view.master.video_subtitles_2 %></td>
+        </tr>
+        <tr>
+          <td><strong>Lang Track 1:</strong></td>
+          <td><%= playlist_item_view.master.language_track_1 %></td>
+          <td><strong>Language Track 2:</strong></td>
+          <td><%= playlist_item_view.master.language_track_2 %></td>
+        </tr>
+        <tr>
+          <td><strong>Lang Track 3:</strong></td>
+          <td><%= playlist_item_view.master.language_track_3 %></td>
+          <td><strong>Lang Track 4:</strong></td>
+          <td><%= playlist_item_view.master.language_track_4 %></td>
+        </tr>
+        <tr>
+          <td><strong>Master Time In:</strong></td>
+          <td><%= playlist_item_view.master.time_in %></td>
+          <td><strong>Master Time Out:</strong></td>
+          <td><%= playlist_item_view.master.time_out %></td>
+        </tr>
+        <tr>
+          <td><strong>Duration:</strong></td>
+          <td><%= playlist_item_view.master.duration %></td>
+          <td><strong>Master Tape Location:</strong></td>
+          <td><%= playlist_item_view.master.location %></td>
+        </tr>
+        <tr>
+          <td><strong>Synopsis:</strong></td>
+          <td colspan="3"><%= playlist_item_view.master.synopsis %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br/><br/>
+<% end %>

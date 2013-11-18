@@ -136,7 +136,7 @@
       <td align="right"><strong>IN/OUT:</strong></td>
       <td width="20%"><%= @audio_playlist.in_out %></td>
       <td align="right"><strong>Programmer:</strong></td>
-      <td width="10%"><%= @audio_playlist.user.login if !@audio_playlist.user_id.nil? %></td>
+      <td width="10%"><%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? %></td>
     </tr>
     <tr>
       <td align="right"><strong>Client Playlist Code:</strong></td>

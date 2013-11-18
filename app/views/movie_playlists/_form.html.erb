@@ -7,7 +7,7 @@
         <div class="info info-title">Programmer</div>
         <div class="info-list">
           <ul>
-            <li class="info"><%= @movie_playlist.user.login %>&nbsp;</li>
+            <li class="info"><%= @movie_playlist.user.login.titleize if !@movie_playlist.user_id.nil? %>&nbsp;</li>
           </ul>
         </div>
         <br>

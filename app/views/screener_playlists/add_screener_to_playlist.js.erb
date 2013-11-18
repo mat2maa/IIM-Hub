@@ -1,5 +1,63 @@
 var $ = jQuery;
 
-var form = " <%= escape_javascript(render("dialog_form")) %> ";
+var title       =   '.modal-title',
+    loader      =   '.ajax-loader',
+    content     =   '.modal-body-content',
+    dataRemote  =   'a[data-remote=true], .btn[data-remote=true], .items_per_page_select .btn',
+    modal       =   '#ajax-modal',
+    dataToggle  =   'a[data-toggle=modal]';
 
-$("#add_screener").html(form);
+// hides the modal and shows the ajax content
+$(loader).fadeToggle('fast', function() {
+  $(content).hide().html('<%= j render('dialog_form') %>').show();
+
+  // enable chosen js
+  $(content).find('.select2').select2({
+    allowClear: true
+  });
+
+  // initialize datepicker for different date formats
+  $(content).find('[data-behaviour~=datepicker-days]').closest('.input-append.date').datepicker({
+    format: "yyyy-mm-dd",
+    viewMode: "days",
+    minViewMode: "days",
+    autoclose: true
+  });
+
+  $(content).find('[data-behaviour~=datepicker-months]').closest('.input-append.date').datepicker({
+    format: "yyyy-mm-dd",
+    viewMode: "months",
+    minViewMode: "months",
+    autoclose: true
+  });
+
+  $(content).find('[data-behaviour~=datepicker-years]').closest('.input-append.date').datepicker({
+    format: "yyyy",
+    viewMode: "years",
+    minViewMode: "years",
+    autoclose: true
+  });
+
+  $(modal).modal({
+    width: '80%',
+    maxHeight: '600px'
+  });
+
+  $(loader).hide();
+});
+
+//brings the loader back up + gets rid of the content when linking to another controller method etc
+$(content).on('click', dataToggle, function(){
+  $(content).fadeOut('slow', function() {
+    $(content).empty();
+    $(loader).fadeIn('fast');
+  });
+});
+
+$(content).on('click', dataRemote, function(){
+  $(loader).fadeIn('fast');
+});
+
+$(content).on('click', '.pagination > ul > li > a', function(){
+  $(loader).fadeIn('fast');
+});

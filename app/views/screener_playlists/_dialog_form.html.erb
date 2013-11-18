@@ -1,21 +1,18 @@
-<center>
-  <strong>Add Screener to Playlist</strong><br/>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3" id="search_form">
+      <%= render partial: 'screener_search_form',
+                 object: @search %>
+    </div>
 
-  <div id="search_form">
-    <%= render partial: 'screener_search_form',
-               object: @search %>
+    <div class="span9">
+      <div id="screener_flash_notice"></div>
+      <div id="screeners">
+        <%= render partial: "screeners" %>
+      </div>
+    </div>
   </div>
-  <%= image_tag 'spinner.gif',
-                id: 'spinner',
-                class: 'transparent' %>
-
-  <div id="item_added"></div>
-
-  <div id="screeners">
-    <%= render partial: "screeners" %>
-  </div>
-</center>
-
+</div>
 
 <script type="text/javascript">
   var $ = jQuery;

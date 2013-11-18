@@ -16,11 +16,11 @@ class VideoMasterPlaylistsController < ApplicationController
 
   def index
     @search = VideoMasterPlaylist.includes(:airline, :master_playlist_type)
-    .ransack(view_context.empty_blank_params params[:q])
+                                 .ransack(view_context.empty_blank_params params[:q])
     @video_master_playlists = @search.result(distinct: true)
-    .order("video_master_playlists.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                                     .order("video_master_playlists.id DESC")
+                                     .paginate(page: params[:page],
+                                               per_page: items_per_page)
 
     @video_master_playlists_count = @video_master_playlists.count
   end
@@ -49,10 +49,16 @@ class VideoMasterPlaylistsController < ApplicationController
   end
 
   def edit
-    @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
-    .find(params[:id])
-    session[:masters_search] = collection_to_id_array(@video_master_playlist.masters)
+    @search = VideoMasterPlaylist.includes(:airline, :master_playlist_type)
+                                 .ransack(view_context.empty_blank_params params[:q])
+    @video_master_playlists = @search.result(distinct: true)
+                                     .order("video_master_playlists.id DESC")
+                                     .paginate(page: params[:page],
+                                               per_page: items_per_page)
 
+    @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
+                                                .find(params[:id])
+    session[:masters_search] = collection_to_id_array(@video_master_playlist.masters)
   end
 
   def update

@@ -28,7 +28,7 @@
         Programmer:
       </td>
       <td>
-        <%= @audio_playlist.user.login if !@audio_playlist.user_id.nil? %>
+        <%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? %>
       </td>
     </tr>
     <tr>

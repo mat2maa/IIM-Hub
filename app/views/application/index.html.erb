@@ -1,16 +1,19 @@
 <%= render partial: 'header' %>
 
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span3">
-      &nbsp;
+  <% models = %w(masters screeners) %>
+  <% if !models.include?(controller_name) %>
+    <div class="row-fluid">
+      <div class="span3">
+        &nbsp;
+      </div>
+      <div class="span9">
+        <%= link_to "Create a #{controller_name.singularize.split('_').join(' ')}",
+                    self.send("new_#{controller_name.singularize}_path"),
+                    class: 'btn btn-create' %>
+      </div>
     </div>
-    <div class="span9">
-      <%= link_to "Create a #{controller_name.singularize.split('_').join(' ')}",
-                  self.send("new_#{controller_name.singularize}_path"),
-                  class: 'btn btn-create' %>
-    </div>
-  </div>
+  <% end %>
   <div class="row-fluid">
     <div class="span3">
       <%= render partial: 'search_form',

@@ -1,21 +1,18 @@
-<center>
-  <strong>Add Master to Playlist</strong><br/>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3" id="search_form">
+      <%= render partial: 'video_master_search_form',
+                 object: @search %>
+    </div>
 
-  <div id="search_form">
-    <%= render partial: 'video_master_search_form',
-               object: @search %>
+    <div class="span9">
+      <div id="video_master_flash_notice"></div>
+      <div id="video_masters">
+        <%= render partial: "video_masters" %>
+      </div>
+    </div>
   </div>
-  <%= image_tag 'spinner.gif',
-                id: 'spinner',
-                class: 'transparent' %>
-
-  <div id="item_added"></div>
-
-  <div id="masters">
-    <%= render partial: "masters" %>
-  </div>
-</center>
-
+</div>
 
 <script type="text/javascript">
   var $ = jQuery;
@@ -23,11 +20,11 @@
   $(function () {
     $("#video_master_search_form").submit(function (form) {
       form.preventDefault();
-      $.ajax({ url: '/masters',
+      $.ajax({ url: '/video_masters',
         type: 'get',
         success: function () {
-          var masters = " <%= escape_javascript(render("masters")) %> ";
-          $("#masters").html(masters);
+          var video_masters = " <%= escape_javascript(render("video_masters")) %> ";
+          $("#video_masters").html(video_masters);
         }
       });
     });

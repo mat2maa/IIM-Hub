@@ -10,29 +10,31 @@
     <!--</div>-->
 
     <div class="controls controls-row">
-      <%= movie_playlists.text_field :id_eq,
-                                     class: "#{@span_size}",
-                                     placeholder: 'Playlist ID' %>
+      <%= movie_playlists.input_field :id_eq,
+                                      class: "#{@span_size}",
+                                      placeholder: 'Playlist ID' %>
     </div>
 
     <div class="controls controls-row">
-      <%= movie_playlists.select :airline_id_eq,
-                                 Airline.order("name asc")
-                                 .collect { |p| [p.name,
-                                                 p.id] },
-                                 {include_blank: true},
-                                 {class: "select2 #{@span_size}",
-                                  data: {placeholder: 'Airline'}} %>
+      <%= movie_playlists.input_field :airline_id_eq,
+                                      as: :select,
+                                      collection: Airline.order("name asc")
+                                      .collect { |p| [p.name,
+                                                      p.id] },
+                                      include_blank: true,
+                                      class: "select2 #{@span_size}",
+                                      data: {placeholder: 'Airline'} %>
     </div>
 
     <div class="controls controls-row">
-      <%= movie_playlists.select :movie_playlist_type_id_eq,
-                                 MoviePlaylistType.order("name asc")
-                                 .collect { |p| [p.name,
-                                                 p.id] },
-                                 {include_blank: true},
-                                 {class: "select2 #{@span_size}",
-                                  data: {placeholder: 'Movie Playlist Type'}} %>
+      <%= movie_playlists.input_field :movie_playlist_type_id_eq,
+                                      as: :select,
+                                      collection: MoviePlaylistType.order("name asc")
+                                      .collect { |p| [p.name,
+                                                      p.id] },
+                                      include_blank: true,
+                                      class: "select2 #{@span_size}",
+                                      data: {placeholder: 'Movie Playlist Type'} %>
     </div>
 
     <div class="controls controls-row">

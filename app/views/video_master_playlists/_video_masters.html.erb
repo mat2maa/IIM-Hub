@@ -5,15 +5,12 @@
                remote: true do %>
     <%= hidden_field_tag 'playlist_id',
                          params[:id] %>
-    <%= submit_tag 'Add Selected to Playlist' %><br/>
-    <%= @masters_count %> masters found
-    <table cellspacing="0" width="100%" id="masters">
+    <%= submit_tag 'Add Selected to Playlist',
+                   id: 'add_selected_hidden',
+                   style: 'display: none;' %>
+    <table class="table" id="no-more-tables">
+      <thead>
       <tr>
-        <th width="8">
-          <%= check_box_tag('check_all',
-                            'check_all',
-                            false) %>
-        </th>
         <th>
           <%= sort_link @search,
                         :id,
@@ -43,30 +40,32 @@
                         {remote: true} %>
         </th>
         <th>Video Type</th>
-        <th>In Playlists With<br/>Same Airline</th>
+        <th>In Playlists With Same Airline</th>
         <th>&nbsp;</th>
+        <th>
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
       </tr>
+      </thead>
+
+      <tbody>
       <% @masters.each do |master| %>
         <tr class="playlist-entry">
-          <%# cache([video]) do %>
-          <td><%= check_box_tag "master_ids[]",
-                                master.id %></td>
-          <td><%= master.id %></td>
-          <td><%= master.video.programme_title %></td>
-          <td><%= master.episode_title %></td>
-          <td><%= master.episode_number %></td>
-          <td><%= master.video.video_type %></td>
-          <td>
-                    <span id="exists">
-                        <% if (master.in_playlists!="" && !master.in_playlists.nil?) %>
-                            <%= VideoMasterPlaylist.with_same_airline_and_master(master.id,
-                                                                                 (@video_master_playlist.airline_id unless @video_master_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}",
-                                                                                                                                                                                              edit_video_master_playlist_path(playlist),
-                                                                                                                                                                                              target: "_blank") }.join(', ').html_safe %>
-                        <% end %>
-                    </span>
+          <td data-title="ID"><%= master.id %></td>
+          <td data-title="Programme Title"><%= master.video.programme_title %></td>
+          <td data-title="Episode Title"><%= master.episode_title %></td>
+          <td data-title="Episode Number"><%= master.episode_number %></td>
+          <td data-title="Video Type"><%= master.video.video_type %></td>
+          <td data-title="In Playlists With Same Airline">
+            <span id="exists">
+                <% if (master.in_playlists!="" && !master.in_playlists.nil?) %>
+                    <%= VideoMasterPlaylist.with_same_airline_and_master(master.id,
+                                                                         (@video_master_playlist.airline_id unless @video_master_playlist.airline.nil?)).collect { |playlist| link_to("#{playlist.airline.code unless playlist.airline.nil?}#{playlist.start_cycle.strftime("%m%y") unless playlist.start_cycle.nil?}", edit_video_master_playlist_path(playlist), target: "_blank") }.join(', ').html_safe %>
+                <% end %>
+            </span>
           </td>
-          <%# end %>
           <td>
             <%= link_to "add to playlist",
                         add_video_master_video_master_playlist_path(@video_master_playlist, master_id: master.id),
@@ -74,12 +73,16 @@
                         remote: true,
                         class: 'spinner-trigger' %>
           </td>
+          <td data-title="Select"><%= check_box_tag "master_ids[]", master.id %></td>
         </tr>
       <% end %>
+      </tbody>
     </table>
   <% end %>
+
   <br/>
   <br/>
+
   <%= will_paginate @masters,
                     inner_window: 1,
                     renderer: BootstrapPagination::Rails,
@@ -95,6 +98,10 @@
     <%= items_per_page_select @masters %>
     <%= f.submit "Submit",
                  class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @masters_count %> masters found
+    <br>
   <% end %>
 <% else %>
   No masters were found

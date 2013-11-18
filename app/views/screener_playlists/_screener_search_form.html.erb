@@ -1,105 +1,114 @@
-<%# cache 'screener_search_form' do %>
 <% @selected_track = (params[:language]).nil? ? '' : params[:language][:track] %>
 <% @selected_subtitle = (params[:language]).nil? ? '' : params[:language][:subtitle] %>
-<fieldset>
-  <legend>Search Screeners</legend>
-  <%= search_form_for @search,
-                      url: add_screener_to_playlist_path(id: @screener_playlist.id),
-                      remote: true,
-                      id: "screener_search_form",
-                      class: 'spinner-trigger' do |screeners| %>
-    <br/>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
-    <table>
-      <tr>
-        <td valign="top">
-          Video Title:<br/>
-          <%= screeners.text_field :video_programme_title_cont %>
-          <br/>
-          Episode Title:<br/>
-          <%= screeners.text_field :episode_title_cont %>
-          <br/>
-          Genre:<br/>
-          <%= screeners.select :video_video_genres_video_parent_genre_id_eq,
-                               VideoParentGenre.all.collect { |p| [p.name, p.id] },
-                               {include_blank: true} %>
-          <br/>
-          Sub Genre:<br/>
-          <%= screeners.select :video_video_genres_id_eq,
-                               VideoGenre.all.collect { |p| [p.name, p.id] },
-                               {include_blank: true} %>
-        </td>
-        <td valign="top">
-          Distributor:<br/>
-          <%= screeners.select :video_video_distributor_id_eq,
-                               Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
-                               include_blank: true %>
-          <br/>
-          Laboratory:<br/>
-          <%= screeners.select :video_laboratory_id_eq,
-                               Supplier.laboratories.collect { |p| [p.company_name, p.id] },
-                               include_blank: true %>
-          <br/>
-          Video type:<br/>
-          <%= screeners.select :video_video_type_eq,
-                               Video::VIDEO_TYPES,
-                               {include_blank: true} %> <br/>
-          Production Year:<br/>
-          <%= screeners.text_field :video_production_year_eq,
-                                   size: 6 %>
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    url: add_screener_to_playlist_path(id: @screener_playlist.id),
+                    remote: true,
+                    id: "screener_search_form" do |screeners| %>
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_programme_title_or_video_foreign_language_title_cont_any,
+                              class: "span12",
+                              placeholder: 'Video Title',
+                              value: @original %>
+  </div>
 
-        </td>
-        <!--
-                    <td valign="top">
-                      Lang Track:<br/>
-        -->
-        <%#= select :language,
-                         :track,
-                         @languages,
-                         {include_blank: true,
-                          selected: @selected_track} %>
-        <!--
-                      <br/>
-                      Lang Subtitles:<br/>
-        -->
-        <%#= select :language,
-                         :subtitle,
-                         @languages,
-                         {include_blank: true,
-                          selected: @selected_subtitle} %>
-        <!--
-                      <br/>
-        -->
-        Tape Location Number:<br/>
-        <%= screeners.text_field :video_screeners_location_eq,
-                                 size: 6 %>
-        <br/>
-        Video ID:<br/>
-        <%= screeners.text_field :video_id_eq,
-                                 size: 6 %>
-        </td>
-      </tr>
-    </table>
-    <!--
-	<table>
-		<tr>
-			<td valign="top">
-				Episode Title:<br/>
-				<%= screeners.text_field :episode_title %><br/>
-			</td>
-			<td valign="top">
-			</td>
-			<td valign="top">
-				Location:<br/>
-				<%= screeners.text_field :location %><br/>
-			</td>
-		</tr>
-	</table>
-	-->
-    <%= screeners.submit "Search" %>
-  <% end %>
+  <div class="controls controls-row">
+    <%= screeners.input_field :episode_title_cont_any,
+                              class: "span12",
+                              placeholder: 'Episode Title',
+                              value: @original_episode %>
+  </div>
 
-</fieldset>
-<%# end %>
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_video_distributor_id_eq,
+                              as: :select,
+                              collection: Supplier.video_distributors.collect { |p| [p.company_name,
+                                                                                     p.id] },
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Distributor' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_laboratory_id_eq,
+                              as: :select,
+                              collection: Supplier.laboratories.collect { |p| [p.company_name,
+                                                                               p.id] },
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Laboratory' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_video_genres_video_parent_genre_id_eq,
+                              as: :select,
+                              collection: VideoParentGenre.all
+                              .collect { |p| [p.name,
+                                              p.id] },
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Genre' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_video_genres_id_eq,
+                              as: :select,
+                              collection: VideoGenre.all
+                              .collect { |p| [p.name,
+                                              p.id] },
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Sub-genre' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_video_type_eq,
+                              as: :select,
+                              collection: Video::VIDEO_TYPES,
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Video Type' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: screeners,
+                        field: :video_production_year_eq,
+                        value: params[:q].present? && params[:q][:video_production_year_eq].present? ?
+                            params[:q][:video_production_year_eq] : '',
+                        input_id: 'video_production_year_eq_datepicker',
+                        date_format: 'yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'years',
+                        datepicker_behaviour: 'datepicker-years',
+                        placeholder: 'Production Year',
+                        span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_screeners_location_eq,
+                              class: "span12",
+                              placeholder: 'Tape Location Number' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= screeners.input_field :video_id_eq,
+                              class: "span12",
+                              placeholder: 'Video ID' %>
+  </div>
+
+  <div class="controls controls-row">
+    <label class="checkbox">
+      <%= check_box_tag :active, '1', params[:active].to_i == 1 %> Deactivated Screener
+    </label>
+  </div>
+
+  <br>
+
+  <div class="controls controls-row">
+    <%= screeners.submit "Search",
+                         class: 'btn' %>
+    <input class="form-reset btn" type="reset" value="Reset">
+  </div>
+<% end %>
+

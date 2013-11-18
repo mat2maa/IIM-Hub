@@ -3,137 +3,110 @@
     window.print();
   });
 </script>
-<%= render partial: 'layouts/videomasterplaylist_header' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <span id="download_pdf_link">
-        <%= link_to "Download PDF",
-                    {controller: "video_master_playlists",
-                     action: "show",
-                     id: @video_master_playlist,
-                     format: "pdf"},
-                    target: "_blank" %>
-    </span>
+<%= render partial: 'layouts/movies_nav' %>
 
-    |
+<div class="container">
 
-    <span id="export_to_excel_link">
-        <%= link_to "Export as Excel",
-                    controller: "video_master_playlists",
-                    action: "export_to_excel",
-                    id: @video_master_playlist %>
-    </span>
-
-    |
-
-    <%= link_to "Edit Playlist",
-                {controller: "video_master_playlists",
-                 action: "edit",
-                 id: @video_master_playlist},
-                target: "_blank" %>
-  </div>
-  <div id="content-header">Video Master Playlists</div>
-</div>
-
-<div id="content">
-  <center>
-    <div class="print-hide"><h2 style="color:red;">ALERT! Please change your page layout to LANDSCAPE when printing</h2>
-      <br/></div>
-
-    <h2><%= @video_master_playlist.airline.code if !@video_master_playlist.airline_id.nil? %><%= @video_master_playlist.start_cycle.strftime("%m%y") %>
-      Video Master Playlist</h2>
-
-    <table class="edit">
-      <tr>
-        <td class="pl-title">Airline :</td>
-        <td>
-          <%= @video_master_playlist.airline.name if !@video_master_playlist.airline.nil? %>
-          <%= @video_master_playlist.airline.code if !@video_master_playlist.airline.nil? %></td>
-        <td class="pl-title">Start Cycle :</td>
-        <td><%= @video_master_playlist.start_cycle.strftime("%m-%Y") %>
-          <strong>End Cycle:</strong> <%= @video_master_playlist.end_cycle.strftime("%m-%Y") %></td>
-        <td class="pl-title">Programmer :</td>
-        <td><%= @video_master_playlist.user.login %></td>
-      </tr>
-      <tr>
-        <td class="pl-title">Master Playlist Type :</td>
-        <td><%= @video_master_playlist.master_playlist_type.name unless @video_master_playlist.master_playlist_type.nil? %></td>
-        <td class="pl-title">Edit Runtime :</td>
-        <td><%= @video_master_playlist.edit_runtime %></td>
-        <td class="pl-title">Total Runtime :</td>
-        <td><%= @video_master_playlist.total_runtime %></td>
-      </tr>
-      <tr>
-        <td class="pl-title">Media Instruction</td>
-        <td colspan="5"><%= @video_master_playlist.media_instruction.gsub(/\n/, '<br/>').html_safe %></td>
-      </tr>
-    </table>
-
-
-    <div id="playlist">
-      <table width="100%" id="videoplaylist">
-        <% @video_master_playlist.video_master_playlist_items_sorted.each_with_index do |video_master_playlist_item, index| %>
-          <tr id="item_<%= video_master_playlist_item.id %>">
-            <% if video_master_playlist_item.master.nil? %>
-              <td colspan="2">Missing master <%= video_master_playlist_item.master_id %></td>
-            <% else %>
-              <td>
-                <table width="100%">
-                  <tr>
-                    <th width="130">(<%= (index + 1) %>) Programme Title</th>
-                    <td width="200"><%= video_master_playlist_item.master.video.programme_title %></td>
-                    <th width="85">Lang Track 1:</th>
-                    <td width="50"><%= video_master_playlist_item.master.language_track_1 %></td>
-                    <th width="85">Lang Track 2:</th>
-                    <td width="85"><%= video_master_playlist_item.master.language_track_2 %></td>
-                    <th width="85">Lang Track 3:</th>
-                    <td width="85"><%= video_master_playlist_item.master.language_track_3 %></td>
-                    <th width="85">Lang Track 4:</th>
-                    <td><%= video_master_playlist_item.master.language_track_4 %></td>
-                  </tr>
-                  <tr>
-                    <th>Episode Title</th>
-                    <td><%= video_master_playlist_item.master.episode_title %></td>
-                    <th>Episode #:</th>
-                    <td><%= video_master_playlist_item.master.episode_number %></td>
-                    <th>Tape #:</th>
-                    <td><%= video_master_playlist_item.master.location %></td>
-                    <th>Lang Subs 1:</th>
-                    <td><%= video_master_playlist_item.master.video_subtitles_1 %></td>
-                    <th>Lang Subs 2:</th>
-                    <td><%= video_master_playlist_item.master.video_subtitles_2 %></td>
-                  </tr>
-                  <tr>
-                    <th>Tape Media:</th>
-                    <td><%= video_master_playlist_item.master.tape_media %></td>
-                    <th>Tape Format:</th>
-                    <td><%= video_master_playlist_item.master.tape_format %></td>
-                    <th>Tape Size:</th>
-                    <td><%= video_master_playlist_item.master.tape_size %></td>
-                    <th>Time In:</th>
-                    <td><%= video_master_playlist_item.master.time_in %></td>
-                    <th>Time Out:</th>
-                    <td><%= video_master_playlist_item.master.time_out %></td>
-                  </tr>
-                  <tr>
-                    <td valign="top"><strong>Mastering:</strong><br/>
-                    </td>
-                    <td colspan="5">
-                      <%= video_master_playlist_item.mastering.gsub(/\n/,
-                                                                    '<br/>') if !video_master_playlist_item.mastering.nil? %>
-                    </td>
-                    <th>Aspect Ratio:</th>
-                    <td><%= video_master_playlist_item.master.aspect_ratio %></td>
-                    <th>Duration:</th>
-                    <td><%= video_master_playlist_item.master.duration %></td>
-                  </tr>
-                </table>
-              </td>
-              </tr>
-            <% end %>
-        <% end %>
-      </table>
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
     </div>
-  </center>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+  <div class="row">
+    <div class="span3">
+      <div class="content">
+        <div class="info info-title">
+          Programmer
+        </div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= @video_master_playlist.user.login.titleize if !@video_master_playlist.user_id.nil? %>
+            </li>
+          </ul>
+        </div>
+        <br>
+        <div class="info info-title">
+          <%= @video_master_playlist.airline.code if !@video_master_playlist.airline_id.nil? %><%= @video_master_playlist.start_cycle.strftime("%m%y") %> Information
+        </div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              Airline: <%= @video_master_playlist.airline.name if !@video_master_playlist.airline.nil? %> <%= @video_master_playlist.airline.code if !@video_master_playlist.airline.nil? %>
+            </li>
+            <li class="info">
+              Start Cycle: <%= @video_master_playlist.start_cycle.strftime("%m-%Y") %>
+            </li>
+            <li class="info">
+              End Cycle: <%= @video_master_playlist.end_cycle.strftime("%m-%Y") %>
+            </li>
+            <li class="info">
+              Master Playlist Type: <%= @video_master_playlist.master_playlist_type.name unless @video_master_playlist.master_playlist_type.nil? %>
+            </li>
+            <li class="info">
+              Edit Runtime: <%= @video_master_playlist.edit_runtime %>
+            </li>
+            <li class="info">
+              Total Runtime: <%= @video_master_playlist.total_runtime %>
+            </li>
+            <li class="info">
+              Media Instruction: <%= @video_master_playlist.media_instruction.gsub(/\n/, '<br/>').html_safe %>
+            </li>
+          </ul>
+        </div>
+
+        <br>
+
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Download PDF",
+                          {controller: "video_master_playlists",
+                           action: "show",
+                           id: @video_master_playlist,
+                           format: "pdf"},
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "video_master_playlists",
+                          action: "export_to_excel",
+                          id: @video_master_playlist %>
+            </li>
+            <li class="info">
+              <%= link_to "Edit Playlist",
+                          {controller: "video_master_playlists",
+                           action: "edit",
+                           id: @video_master_playlist},
+                          target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+
+    <div class="span9">
+      <div class="alert fade in alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>ALERT!</strong> Please change your page layout to <i>LANDSCAPE</i> when printing
+      </div>
+
+      <div class="info info-title playlist-title">Playlist</div>
+      <div id="playlist_item_view_container">
+        <%= render partial: 'playlist_item_view',
+                   collection: @video_master_playlist.video_master_playlist_items_sorted %>
+      </div>
+
+      <%= link_to 'Back',
+                  video_master_playlists_path %>
+    </div>
+  </div>
 </div>
