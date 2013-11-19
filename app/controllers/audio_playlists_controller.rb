@@ -245,7 +245,7 @@ class AudioPlaylistsController < ApplicationController
 
     @notice=""
 
-    @track = Track.find(params[:track_id])
+    @track_to_add = Track.find(params[:track_id])
 
     if !@playlists_with_track.empty? && params[:add].nil?
       @playlists_with_track.each do |playlist_track|

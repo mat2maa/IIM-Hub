@@ -1,3 +1,3 @@
 <div class="<%= tot_dur_split_alert(@audio_playlist.airline_duration.to_i, @audio_playlist.total_duration) %>">
-  <%= @audio_playlist.duration_from_sec(@audio_playlist.total_duration) if !@audio_playlist.id.nil? %>
+  <span>Total Duration: <%= @audio_playlist.duration_from_sec(@audio_playlist.total_duration) if !@audio_playlist.id.nil? %></span>
 </div>

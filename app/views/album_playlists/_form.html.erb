@@ -1,49 +1,199 @@
-<%= form_for(@album_playlist) do |form| %>
-  <%= error_messages_for form.object %>
+<%= minimal_form_for @album_playlist,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
 
-  <table class="edit">
-    <tr>
-      <td class="pl-title">Client Playlist Code:</td>
-      <td><%= form.text_field :client_playlist_code %></td>
-      <td class="pl-title">IN/OUT :</td>
-      <td><%= select("album_playlist",
-                     "in_out",
-                     in_out,
-                     {include_blank: true}) %></td>
-      <td class="pl-title">Programmer :</td>
-      <td><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
-    </tr>
-    <tr>
-      <td class="pl-title">Play Date :</td>
-      <td><%= form.date_select :start_playdate,
-                               discard_day: true,
-                               order: [:month,
-                                       :year] %>
-        to <%= form.date_select :end_playdate,
-                                discard_day: true,
-                                order: [:month,
-                                        :year] %></td>
-      <td class="pl-title">Airline :</td>
-      <td><%= select("album_playlist",
-                     "airline_id",
-                     Airline.order("code asc").collect { |p| [p.code + " - " + p.name,
-                                                              p.id] },
-                     {include_blank: true}) %>
-        <%= link_to "+",
-                    airlines_path,
-                    id: "add",
-                    target: "_blank" %>
-      </td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
-  <p>
+  <div class="span3">
+    <div class="content">
+      <% if @album_playlist.user_id.present? %>
+        <div class="info info-title">Programmer</div>
+        <div class="info-list">
+          <ul>
+            <li class="info"><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %>&nbsp;</li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+      <% if controller.action_name != 'new' %>
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Print Playlist",
+                          {controller: "album_playlists",
+                           action: "show",
+                           id: @album_playlist},
+                          id: 'print_playlist',
+                          target: '_blank' %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "album_playlists",
+                          action: "export_to_excel",
+                          id: @album_playlist %>
+            </li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
+    </div>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
 
-    <% if params[:action] == "new" %>
-      <%= form.submit "Next" %>
-    <% else %>
-      <%= form.submit "Update" %>
-    <% end %>
-  </p>
+  <div class="span6">
+    <div class="content">
+      <% if controller.action_name != 'new' %>
+        <div class="tabbable">
+          <ul class="nav nav-tabs pre-nav-below">
+            <li>
+              <%= link_to "Previous",
+                          edit_album_playlist_path(@album_playlist.previous.id) if @album_playlist.previous.present? %>
+            </li>
+            <li>
+              <%= link_to "Next",
+                          edit_album_playlist_path(@album_playlist.next.id) if @album_playlist.next.present? %>
+            </li>
+            <li>
+              <%= link_to 'View Album Playlist',
+                          album_playlist_path(@album_playlist) %>
+            </li>
+            <li>
+              <%= link_to "New Album Playlist",
+                          new_album_playlist_path %>
+            </li>
+            <% if permitted_to? :admin_delete,
+                                :album_playlists %>
+              <li>
+                <%= link_to 'Delete',
+                            album_playlist_url(@album_playlist),
+                            method: :delete,
+                            confirm: 'Are you sure?' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <br>
+
+      <% end %>
+
+      <div class="controls controls-row">
+        <%= f.input_field :client_playlist_code,
+                          placeholder: 'Client Playlist Code',
+                          class: 'span3' %>
+
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :airline_id,
+                            link_path: airlines_path,
+                            collection: Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
+                            placeholder: 'Airline',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :start_playdate,
+                            value: @album_playlist.start_playdate,
+                            input_id: 'start_playdate_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Play Date Start',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :end_playdate,
+                            value: @album_playlist.end_playdate,
+                            input_id: 'end_playdate_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Play Date End',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :in_out,
+                          as: :select,
+                          collection: in_out,
+                          include_blank: true,
+                          class: 'select2 span3',
+                          placeholder: 'In/Out' %>
+      </div>
+
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+
+      <% if controller.action_name != 'new' %>
+
+        <br><br>
+        <!-- Button to trigger modal -->
+        <%= link_to 'Add Track',
+                    add_album_album_playlist_path(id: @album_playlist.id),
+                    id: 'add_album_to_playlist',
+                    class: 'btn',
+                    role: 'btn',
+                    data: {toggle: 'modal', target: '#ajax-modal'} %>
+        <br><br>
+      <% end %>
+
+    </div>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
+<% end %>
+
+<% if controller.action_name != 'new' %>
+  <%= content_for :playlist do %>
+    <div class="info info-title">Playlist</div>
+    <div id="playlist">
+      <%= render partial: 'playlist',
+                 object: @album_playlist %>
+    </div>
+  <% end %>
+
+  <%= content_for :modal do %>
+    <%= render 'modal' %>
+  <% end %>
+
+  <% content_for(:head) do %>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+    <script>
+      jQuery(document).ready(function () {
+        jQuery('#print_playlist').click(function (event) {
+          if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>
+  <% end %>
+
+  <script type="text/javascript">
+
+    var $ = jQuery;
+
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#ajax-modal]').on('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote($(this));
+    });
+
+    // removes whatever is in the modal body content div upon clicking close/outside modal
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function (e) {
+      $('.modal-body-content').empty();
+    });
+
+    $(document).on('click', '#ajax-modal', function (e) {
+      e.stopPropagation();
+    });
+
+  </script>
 <% end %>

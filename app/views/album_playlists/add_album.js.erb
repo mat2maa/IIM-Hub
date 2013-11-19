@@ -1,7 +1,56 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
 
 if (notice !== '') {
-  alert("This album exists in other playlists");
+  $("#album_flash_notice").html('<div class="alert fade in alert-error">' +
+      '<button class="close" data-dismiss="alert">×</button>' +
+      "This album exists in other playlists" +
+      '</div>');
 } else {
-  window.location.reload();
+  $("#album_flash_notice").html('<div class="alert fade in alert-success">' +
+      '<button class="close" data-dismiss="alert">×</button>' +
+      "<%= "#{@album_to_add.title_original} added to playlist" %>" +
+      '</div>');
+
+  var playlist = "<%= escape_javascript(render partial: 'playlist',
+                                               object: @album_playlist) %>";
+
+  $('#playlist').html(playlist);
+
+  $(window).scrollTop($('#item_<%= @album_playlist_item.id %>').offset().top);
+  $('#item_<%= @album_playlist_item.id %>').addClass("new");
+
+  $('.ajax-loader').fadeOut('fast');
+
+  //jQuery UI Sortable and Mixonic Ranked-Model to sort and submit playlist orders
+  var item_id,
+      position,
+      url;
+
+  $(".sort-list").sortable({
+    axis: 'y',
+    containment: 'parent',
+    cursor: 'crosshair',
+    items: 'tr.sortable',
+
+    stop: function(e, ui) {
+      ui.item.children('td').effect('highlight', {}, 1000);
+    },
+    update: function(e, ui) {
+      item_id = ui.item.attr('data-id');
+      position = ui.item.index();
+      url = $(this).attr('data-url');
+      console.log(item_id + " " + position + " " + url);
+      $.ajax({
+        type: 'POST',
+        url: $(this).data('url'),
+        dataType: 'json',
+
+        //the :thing hash gets passed to @thing.attributes
+        data: {
+          id: item_id,
+          position_position: position
+        }
+      });
+    }
+  });
 }

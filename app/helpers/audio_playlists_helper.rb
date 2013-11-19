@@ -61,7 +61,9 @@ module AudioPlaylistsHelper
 
     if !airline_duration.nil? && airline_duration!=0 && !split.empty?
       if (total_duration < split[0].more_than || total_duration > split[0].less_than)
-        s = 'alert'
+        s = 'alert span3 duration-alert fade in alert-danger'
+      else
+        s = 'alert span3 duration-alert fade in alert-success'
       end
     end
 

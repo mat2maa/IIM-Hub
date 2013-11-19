@@ -25,54 +25,10 @@
                           target: '_blank' %>
             </li>
             <li class="info">
-              <%= link_to "Download English PDF",
-                          {controller: "audio_playlists",
-                           action: "show",
-                           id: @audio_playlist,
-                           format: "pdf"},
-                          target: "_blank" %>
-            </li>
-            <li class="info">
-              <%= link_to "Download Chinese PDF",
-                          {controller: "audio_playlists",
-                           action: "show_chinese",
-                           id: @audio_playlist,
-                           format: "pdf"},
-                          target: "_blank" %>
-            </li>
-            <li class="info">
               <%= link_to "Export as Excel",
                           controller: "audio_playlists",
                           action: "export_to_excel",
                           id: @audio_playlist %>
-            </li>
-            <% if @audio_playlist.thales_schema_package_file_name.present? %>
-              <li class="info">
-                <%= link_to "Download Thales Schema Package",
-                            controller: "audio_playlists",
-                            action: "download_thales_schema_package",
-                            id: @audio_playlist %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <br>
-      <% end %>
-      <% permitted_to? :download_thales_schema_package, :audio_playlists do %>
-        <div class="info info-title">Thales Schema Package</div>
-        <div class="info-list">
-          <ul>
-            <% if @audio_playlist.thales_schema_package_file_name.present? %>
-              <li class="info"><%= @audio_playlist.thales_schema_package_file_name %></li>
-            <% end %>
-            <li class="info">
-              <%= render partial: 'application/bootstrap_file_field',
-                         locals: {f: f,
-                                  field: :thales_schema_package,
-                                  hidden_id: 'thales_schema_package',
-                                  input_id: 'thales_schema_package_input',
-                                  span: 'span2',
-                                  placeholder: 'Thales Schema Package'} %>
             </li>
           </ul>
         </div>
@@ -124,104 +80,80 @@
         <%= f.input_field :client_playlist_code,
                           placeholder: 'Client Playlist Code',
                           class: 'span3' %>
+
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :airline_id,
+                            link_path: airlines_path,
+                            collection: Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
+                            placeholder: 'Airline',
+                            span: 'span3'} %>
       </div>
 
       <div class="controls controls-row">
-        Airline:
-        <%= select("audio_playlist",
-                   "airline_id",
-                   Airline.order("code asc")
-                   .collect { |p| [p.code + " - " + p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    airlines_path,
-                    id: "add",
-                    target: "_blank" %>
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :start_playdate,
+                            value: @audio_playlist.start_playdate,
+                            input_id: 'start_playdate_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Play Date Start',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_append_datepicker',
+                   locals: {f: f,
+                            field: :end_playdate,
+                            value: @audio_playlist.end_playdate,
+                            input_id: 'end_playdate_datepicker',
+                            date_format: 'mm/yyyy',
+                            date_viewmode: 'months',
+                            date_minviewmode: 'months',
+                            datepicker_behaviour: 'datepicker-months',
+                            placeholder: 'Play Date End',
+                            span: 'span3'} %>
       </div>
 
       <div class="controls controls-row">
-        Programmer:
-        <%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? %>
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :program_id,
+                            link_path: programs_path,
+                            collection: Program.order("name asc").collect { |p| [p.name, p.id] },
+                            placeholder: 'Programme',
+                            span: 'span3'} %>
+
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :vo_id,
+                            link_path: vos_path,
+                            collection: Vo.order("name asc").collect { |p| [p.name, p.id] },
+                            placeholder: 'VO',
+                            span: 'span3'} %>
       </div>
 
       <div class="controls controls-row">
-        Programme:
-        <%= select("audio_playlist",
-                   "program_id",
-                   Program.order("name asc")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    programs_path,
-                    id: "add",
-                    target: "_blank" %>
+        <%= f.input_field :in_out,
+                          as: :select,
+                          collection: in_out,
+                          include_blank: true,
+                          class: 'select2 span3',
+                          placeholder: 'In/Out' %>
+
+        <%= f.input_field :airline_duration,
+                          as: :select,
+                          collection: Split.order(:duration).collect { |p| [p.name, p.duration] },
+                          include_blank: true,
+                          class: 'select2 span3',
+                          placeholder: 'Airline Duration' %>
       </div>
 
       <div class="controls controls-row">
-        IN/OUT:
-        <%= select("audio_playlist",
-                   "in_out",
-                   in_out,
-                   {include_blank: true}) %>
-      </div>
-
-      <div class="controls controls-row">
-        VO:
-        <%= select("audio_playlist",
-                   "vo_id",
-                   Vo.order("name asc").collect { |p| [p.name,
-                                                       p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    vos_path,
-                    id: "add",
-                    target: "_blank" %>
-      </div>
-
-      <div class="controls controls-row">
-        Play Date:
-        <%= form.date_select :start_playdate,
-                             discard_day: true,
-                             order: [:month,
-                                     :year] %>
-      </div>
-
-      <div class="controls controls-row">
-        to
-
-        <%= form.date_select :end_playdate,
-                             discard_day: true,
-                             order: [:month,
-                                     :year] %>
-      </div>
-
-      <div class="controls controls-row">
-        Airline Duration:
-        <%= select("audio_playlist",
-                   "airline_duration",
-                   Split.order(:duration)
-                   .collect { |p| [p.name,
-                                   p.duration] },
-                   {include_blank: true}) %>
-      </div>
-
-      <div class="controls controls-row">
-        Total Duration:
         <%= render partial: 'duration',
                    object: @audio_playlist %>
       </div>
-
-      <div class="controls controls-row">
-        Splits:
-        <%= render partial: 'splits',
-                   object: @audio_playlist %>
-        <%= link_to "View Splits",
-                    :view_splits,
-                    target: "_blank" %>
-      </div>
-
 
       <br>
 
