@@ -33,6 +33,19 @@
           </ul>
         </div>
         <br>
+
+        <div class="info info-title">Audio Player</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <audio controls>
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </li>
+          </ul>
+        </div>
+        <br>
       <% end %>
     </div>
     <!--end of .content-->
@@ -164,7 +177,7 @@
         <br><br>
         <!-- Button to trigger modal -->
         <%= link_to 'Add Track',
-                    add_track_audio_playlist_path(id: @audio_playlist.id),
+                    add_track_to_playlist_path(id: @audio_playlist.id),
                     id: 'add_track_to_playlist',
                     class: 'btn',
                     role: 'btn',
@@ -180,10 +193,25 @@
 
 <% if controller.action_name != 'new' %>
   <%= content_for :playlist do %>
-    <div class="info info-title">Playlist</div>
+    <div class="info info-title">
+      Playlist
+    </div>
     <div id="playlist">
       <%= render partial: 'playlist',
                  object: @audio_playlist %>
+    </div>
+    <div class="download-info">
+      <div class="links">
+        <%= link_to 'Create Playlist Zip',
+                    download_audio_playlist_path(@audio_playlist.id),
+                    id: 'download_playlist_link' %>
+        <% if @audio_playlist.finished? %>
+          | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
+        <% end %>
+      </div>
+      <div class="progress-bar" style="width:0%;"></div>
+      <div class="message"></div>
+      <div class="progress"></div>
     </div>
   <% end %>
 

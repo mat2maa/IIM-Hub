@@ -1,21 +1,27 @@
-<script type="text/javascript" src="http://mediaplayer.yahoo.com/js"></script>
-
-<div class="download-info">
-  <div class="progress-bar" style="width:0%;"></div>
-  <div class="message"></div>
-  <div class="progress"></div>
-  <div class="links">
-    <%= link_to 'Create Playlist Zip',
-                download_audio_playlist_path(@audio_playlist.id),
-                id: 'download_playlist_link' %>
-    <% if @audio_playlist.finished? %>
-      | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
-    <% end %>
-  </div>
-</div>
-
-
-<table width="100%">
+<table class="table table-hover" id="no-more-tables" width="100%">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Intro Tempo</th>
+    <th>Composer</th>
+    <th>Label</th>
+    <th>Track Title(Translated)</th>
+    <th>Tempo</th>
+    <th>Track Num</th>
+    <th>Origin</th>
+    <th>Artist</th>
+    <th>Outro Tempo</th>
+    <th>Duration</th>
+    <th>CD Code</th>
+    <th>Mastering</th>
+    <th>Split</th>
+    <th>VO Duration (sec)</th>
+    <th>Genre</th>
+    <th>Accumulated Duration</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
   <% @accum_duration = 0 %>
   <tbody id="audioplaylist" class="sort-list" data-url="<%= sort_audio_playlist_path %>" style="cursor: move">
   <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |track, index| %>

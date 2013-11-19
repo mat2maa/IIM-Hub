@@ -1,59 +1,78 @@
-<%# cache 'album_search_form' do %>
-<fieldset>
-  <legend>Search Albums</legend>
-  <%= search_form_for @search,
-                      url: add_album_to_playlist_path(id: @album_playlist.id),
-                      remote: true,
-                      id: "album_search_form",
-                      class: 'spinner-trigger' do |albums| %>
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    url: add_album_album_playlist_path(id: @album_playlist.id),
+                    remote: true,
+                    id: 'album_search_form' do |albums| %>
 
-    <%= hidden_field_tag 'id',
-                         params[:id] %>
-    <%= hidden_field_tag 'playlist_id',
-                         params[:id] %>
+  <div class="controls controls-row">
+    <%= albums.input_field :title_original_cont,
+                           class: 'span12',
+                           placeholder: 'Title Original' %>
+  </div>
 
-    Match ANY or ALL of the conditions:
-    <%= albums.combinator_select %>
-    <br/>
-    <table>
-      <tr>
-        <td valign="top">
-          Title Original:<br>
-          <%= albums.text_field :title_original_cont %>
-          <br>
-          Artist Original:<br>
-          <%= albums.text_field :artist_original_cont %>
-        </td>
-        <td valign="top">
-          Title (Translated):<br>
-          <%= albums.text_field :title_english_cont %>
-          <br>
-          Artist (Translated):<br>
-          <%= albums.text_field :artist_english_cont %>
-        </td>
-        <td valign="top">
-          Year:<br>
-          <%= albums.text_field :release_year_eq,
-                                size: 6 %>
-          <br>
-          CD Code:<br>
-          <%= albums.text_field :cd_code_cont,
-                                size: 6 %>
-        </td>
-        <td valign="top">
-          Label:<br>
-          <%= albums.select :label_id_eq,
-                            Label.all
-                            .collect { |p| [p.name,
-                                            p.id] },
-                            {include_blank: true} %>
-        </td>
-      </tr>
-    </table>
+  <div class="controls controls-row">
+    <%= albums.input_field :artist_original_cont,
+                           class: 'span12',
+                           placeholder: 'Artist Original' %>
+  </div>
 
-    <%= albums.submit "Search" %>
+  <div class="controls controls-row">
+    <%= albums.input_field :title_english_cont,
+                           class: 'span12',
+                           placeholder: 'Title (Translated)' %>
+  </div>
 
-    <input type="reset" value="Reset">
-  <% end %>
-</fieldset>
-<%# end %>
+  <div class="controls controls-row">
+    <%= albums.input_field :artist_english_cont,
+                           class: 'span12',
+                           placeholder: 'Artist (Translated)' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: albums,
+                        field: :release_year_eq,
+                        value: '',
+                        input_id: 'release_year_eq_datepicker',
+                        date_format: 'yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'years',
+                        datepicker_behaviour: 'datepicker-years',
+                        placeholder: 'Year',
+                        span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :cd_code_cont,
+                           class: 'span12',
+                           placeholder: 'CD Code' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :label_id_eq,
+                           collection: Label.all
+                           .collect { |p| [p.name,
+                                           p.id] },
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Label' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :genres_id_eq,
+                           collection: Genre.all
+                           .collect { |p| [p.name,
+                                           p.id] },
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Genre' %>
+  </div>
+
+  <br>
+
+  <div class="controls controls-row">
+    <%= albums.submit 'Search', class: 'btn', data: {remote: true} %>
+    <input class="form-reset btn" type="reset" value="Reset">
+    <br><br>
+  </div>
+<% end %>

@@ -1,21 +1,18 @@
-<center>
-  <strong>Add Album to Playlist</strong><br/>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3" id="search_form">
+      <%= render partial: 'album_search_form',
+                 object: @search %>
+    </div>
 
-  <div id="search_form">
-    <%= render partial: 'album_search_form',
-               object: @search %>
+    <div class="span9">
+      <div id="album_flash_notice"></div>
+      <div id="albums">
+        <%= render partial: "albums" %>
+      </div>
+    </div>
   </div>
-  <%= image_tag 'spinner.gif',
-                id: 'spinner',
-                class: 'transparent' %>
-
-  <div id="item_added"></div>
-
-  <div id="albums">
-    <%= render partial: "albums" %>
-  </div>
-</center>
-
+</div>
 
 <script type="text/javascript">
   var $ = jQuery;

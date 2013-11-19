@@ -52,9 +52,11 @@
       <tbody>
       <% @movies.each do |movie| %>
         <tr class="playlist-entry">
-          <td data-title="ID"><%= link_to movie.id,
-                          movie_path(id: movie.id),
-                          target: "_blank" %>&nbsp;</td>
+          <td data-title="ID">
+            <%= link_to movie.id,
+                        movie_path(id: movie.id),
+                        target: "_blank" %>&nbsp;
+          </td>
           <td data-title="Title"><%= movie.movie_title %>&nbsp;</td>
           <td data-title="Type"><%= movie.movie_type.name if movie.movie_type.present? %>&nbsp;</td>
           <td data-title="Release Date"><%= movie.airline_release_date.strftime("%m-%Y") if !movie.airline_release_date
@@ -76,13 +78,15 @@
                         remote: true %>
             &nbsp;
           </td>
-          <td data-title="Select"><%= check_box_tag "movie_ids[]",
-                                                    movie.id %>&nbsp;</td>
+          <td data-title="Select">
+            <%= check_box_tag "movie_ids[]",
+                              movie.id %>&nbsp;
+          </td>
         </tr>
-      </tbody>
+        </tbody>
       <% end %>
 
-    </table>
+      </table>
   <% end %>
 
   <br/>

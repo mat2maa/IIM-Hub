@@ -126,6 +126,7 @@ Iim::Application.routes.draw do
       post 'add_album'
     end
     collection do
+      post 'add_multiple_albums'
       post 'export_albums_programmed_per_airline_to_excel'
     end
   end

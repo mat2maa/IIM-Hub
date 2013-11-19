@@ -208,7 +208,8 @@ authorization do
                               :set_album_playlist_item_category_id,
                               :set_audio_playlist_track_split,
                               :export_by_airline,
-                              :set_album_synopsis]
+                              :set_album_synopsis,
+                              :add_multiple_albums]
 
     has_permission_on :users,
                       :to => [:edit_own_password,
@@ -382,7 +383,8 @@ authorization do
                               :duplicate,
                               :set_album_playlist_item_category_id,
                               :export_by_airline,
-                              :set_album_synopsis]
+                              :set_album_synopsis,
+                              :add_multiple_albums]
 
     has_permission_on :movie_playlists,
                       :to => [:manage,
@@ -600,7 +602,8 @@ authorization do
                               :duplicate,
                               :set_album_playlist_item_category_id,
                               :export_by_airline,
-                              :set_album_synopsis]
+                              :set_album_synopsis,
+                              :add_multiple_albums]
 
     has_permission_on :movie_playlists,
                       :to => [:manage,

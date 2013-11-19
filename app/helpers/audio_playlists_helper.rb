@@ -38,7 +38,7 @@ module AudioPlaylistsHelper
 
     if !split_duration.nil? && split_duration!=0 && !split.empty?
       if (accum_duration < split[0].more_than || accum_duration > split[0].less_than)
-        s = 'alert'
+        s = 'split-alert'
       end
     end
 
@@ -62,9 +62,9 @@ module AudioPlaylistsHelper
     if !airline_duration.nil? && airline_duration!=0 && !split.empty?
       if (total_duration < split[0].more_than || total_duration > split[0].less_than)
         s = 'alert span3 duration-alert fade in alert-danger'
-      else
-        s = 'alert span3 duration-alert fade in alert-success'
       end
+    else
+      s = 'alert span3 duration-alert fade in alert-success'
     end
 
     return s
@@ -79,9 +79,9 @@ module AudioPlaylistsHelper
 
 
   def is_nil_alert i
-    s = ""
-    if i.nil? || i==""
-      s = "class='alert'"
+    s = ''
+    if i.nil? || i==''
+      s = 'playlist-alert'
     end
   end
 

@@ -1,4 +1,22 @@
-<table width="100%">
+<table class="table table-hover" id="no-more-tables" width="100%">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Artist</th>
+    <th>CD Code</th>
+    <th>Duration</th>
+    <th>Tracks</th>
+    <th>Album Title (Translated)</th>
+    <th>Artist (Translated)</th>
+    <th>Label</th>
+    <th>Explicit Lyrics</th>
+    <th>Synopsis</th>
+    <th>Genre</th>
+    <th>Category</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
   <tbody id="albumplaylist" class="sort-list" data-url="<%= sort_album_playlist_path %>" style="cursor: move">
   <% @album_playlist.album_playlist_items_sorted.each.with_index do |item, index| %>
     <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>

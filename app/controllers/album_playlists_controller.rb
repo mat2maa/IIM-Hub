@@ -127,8 +127,8 @@ class AlbumPlaylistsController < ApplicationController
     @album_playlist = AlbumPlaylist.find(params[:id])
 
     @album_playlist_item_position = AlbumPlaylistItem.where("album_playlist_id=?", params[:id])
-    .order("position ASC")
-    .find(:last)
+                                                     .order("position ASC")
+                                                     .find(:last)
     @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
 
     @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:id],
@@ -137,7 +137,9 @@ class AlbumPlaylistsController < ApplicationController
                                                  position: @album_playlist_item_position)
 
     #check if album has been added to a previous playlist before    
-    @playlists_with_album = AlbumPlaylistItem.where("album_id=#{params[:album_id]}").group("album_playlist_id")
+    @playlists_with_album = AlbumPlaylistItem.where("album_id=#{params[:album_id]}")
+                                             .group("album_playlist_id")
+
     @notice=""
 
     @album_to_add = Album.find(params[:album_id])
@@ -146,12 +148,42 @@ class AlbumPlaylistsController < ApplicationController
       @playlists_with_album.each do |playlist_item|
         @notice += "<br/><div id='exists'>Note! This album #{@album_to_add.id.to_s} exists in playlist <a href='/album_playlists/#{playlist_item.album_playlist_id.to_s}' target='_blank'>#{playlist_item.album_playlist_id.to_s} (#{playlist_item.album_playlist.client_playlist_code.to_s})</a></div>" if !playlist_item.album_playlist.nil?
       end
-
     else
       if @album_playlist_item.save
         flash[:notice] = 'Album was successfully added.'
       end
     end
+
+    respond_to do |format|
+      format.html {}
+      format.js
+    end
+  end
+
+  #add selected albums to playlist
+  def add_multiple_albums
+
+    @notice = ""
+    @album_playlist = AlbumPlaylist.find(params[:playlist_id])
+    album_ids = params[:album_ids]
+
+    album_ids.each do |album_id|
+      @album_playlist_item_position = AlbumPlaylistItem.where('album_playlist_id = ?', params[:playlist_id])
+                                                       .order('position ASC')
+                                                       .find(:last)
+      @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
+      @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:playlist_id],
+                                                   category_id: 1,
+                                                   album_id: album_id,
+                                                   position: @album_playlist_item_position)
+
+      if @album_playlist_item.save
+        flash[:notice] = 'Albums were successfully added to playlist.'
+        @notice = 'Albums were successfully added to playlist.'
+        session[:albums_search] = collection_to_id_array(@album_playlist.albums)
+      end
+    end # loop through album ids
+
   end
 
   def destroy

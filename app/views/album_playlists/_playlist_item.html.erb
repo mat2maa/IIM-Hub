@@ -2,79 +2,76 @@
 <% @album_playlist_item = playlist_item %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if playlist_item.album.nil? %>
-
     <td colspan="2">Missing album <%= playlist_item.album_id %></td>
-
   <% else %>
 
-    <td>
-
-      <table width="100%">
-
-        <tr>
-          <th width="130">(<%= position %>) Album Title
-            <%= link_to 'Edit',
-                        edit_album_path(playlist_item.album),
-                        target: '_blank' %>:
-          </th>
-          <td width="180"><%= playlist_item.album.title_original %><%= "<strong class='alert'>(EXPLICIT)</strong>" if playlist_item.album.explicit_lyrics %></td>
-          <th width="130">Artist:</th>
-          <td width="180"><%= playlist_item.album.artist_original %></td>
-          <th width="100">CD Code:</th>
-          <td width="90"><%= playlist_item.album.cd_code %> </td>
-          <td width="5%"><strong>Duration:</strong> <%= playlist_item.album.duration_in_min %></td>
-          <th width="100">Tracks:</th>
-          <td><%= playlist_item.album.tracks.size %></td>
-        </tr>
-        <tr>
-          <th width="130">Album Title(Translated):</th>
-          <td width="180"><%= playlist_item.album.title_english %></td>
-          <th width="130">Artist(Translated):</th>
-          <td width="180"><%= playlist_item.album.artist_english %></td>
-          <th>Label:</th>
-          <td colspan="2"><%= playlist_item.album.label.name if !playlist_item.album.label_id.nil? %></td>
-          <th>Explicit Lyrics:</th>
-          <td class="explicit_<%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>"><%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %></td>
-        </tr>
-
-        <tr>
-          <th  <%= is_nil_alert(playlist_item.album.synopsis) %>>Synopsis:</th>
-          <td colspan="3">
-            <%= best_in_place @album,
-                              :synopsis,
-                              type: :textarea %>
-            <%#= in_place_text_area :album,
-                                     :synopsis %>
-          </td>
-          <th>Genre:</th>
-          <td colspan="2"><%= playlist_item.album.genre %></td>
-          <th><%= link_to "+",
-                          categories_path,
-                          id: "add",
-                          target: "_blank" %> Category:
-          </th>
-          <td>
-            <%= best_in_place @album_playlist_item,
-                              :category_id,
-                              type: :select,
-                              collection: Category.order("name ASC")
-                              .collect { |p| [p.id, p.name] },
-                              include_blank: true %>
-            <%#= in_place_select :album_playlist_item,
-                                    'category_id',
-                                    choices: category_options_for_select,
-                                    list_name: 'category',
-                                    list_attribute: 'name' %>
-          </td>
-
-        </tr>
-      </table>
+    <td data-title="Position">
+      <%= position %>
+      &nbsp;
     </td>
-    <td><%= image_tag("arrow_move.png") %></td>
-  <% end %>
-  <td><%= link_to "Delete",
+
+    <td data-title="Title">
+      <%= link_to playlist_item.album.title_original,
+                  edit_album_path(playlist_item.album),
+                  target: '_blank' %>&nbsp;
+    </td>
+
+    <td data-title="Artist"><%= playlist_item.album.artist_original %>&nbsp;</td>
+
+    <td data-title="CD Code:"><%= playlist_item.album.cd_code %>&nbsp;</td>
+
+    <td data-title="Duration"><%= playlist_item.album.duration_in_min %>&nbsp;</td>
+
+    <td data-title="Tracks"><%= playlist_item.album.tracks.size %>&nbsp;</td>
+
+    <td data-title="Album Title(Translated)"><%= playlist_item.album.title_english %>&nbsp;</td>
+
+    <td data-title="Artist(Translated)"><%= playlist_item.album.artist_english %>&nbsp;</td>
+
+    <td data-title="Label"><%= playlist_item.album.label.name if !playlist_item.album.label_id.nil? %>&nbsp;</td>
+
+    <td data-title="Explicit Lyrics" class="explicit_<%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>">
+      <%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>&nbsp;
+    </td>
+
+    <td class="<%= is_nil_alert(playlist_item.album.synopsis) %>" data-title="Synopsis">
+      <%= best_in_place @album,
+                        :synopsis,
+                        type: :textarea,
+                        :nil => 'change',
+                        ok_button: 'Change Synopsis',
+                        ok_button_class: 'btn btn-mini best-in-place-ok',
+                        cancel_button: 'Cancel',
+                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
+    </td>
+
+    <td data-title="Genre"><%= playlist_item.album.genre %>&nbsp;</td>
+
+    <td data-title="Category">
+      <%= link_to raw("<i class='icon icon-edit'></i>"),
+                  categories_path,
+                  id: "add",
+                  target: "_blank" %>
+      <%= best_in_place @album_playlist_item,
+                        :category_id,
+                        type: :select,
+                        collection: Category.order("name ASC").collect { |p| [p.id, p.name] },
+                        include_blank: true,
+                        :nil => 'change',
+                        ok_button: 'Change Category',
+                        ok_button_class: 'btn btn-mini best-in-place-ok',
+                        cancel_button: 'Cancel',
+                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
+    </td>
+
+    <td>
+      <%= link_to "Delete",
                   playlist_item,
                   remote: true,
                   confirm: "Are you sure",
-                  method: 'delete' %></td>
+                  method: 'delete',
+                  class: 'btn btn-mini' %>
+      &nbsp;
+    </td>
+  <% end %>
 </tr>

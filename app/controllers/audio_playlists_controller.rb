@@ -227,8 +227,6 @@ class AudioPlaylistsController < ApplicationController
   def add_track
 
     @audio_playlist = AudioPlaylist.find(params[:id])
-    @audio_playlist.updated_at_will_change!
-    @audio_playlist.save
 
     @audio_playlist_track_position = AudioPlaylistTrack.where("audio_playlist_id=?", params[:id])
                                                        .order("position ASC")
@@ -263,7 +261,7 @@ class AudioPlaylistsController < ApplicationController
     end
   end
 
-  #add selected movies to playlist
+  #add selected tracks to playlist
   def add_multiple_tracks
 
     @notice = ""
@@ -272,8 +270,8 @@ class AudioPlaylistsController < ApplicationController
 
     track_ids.each do |track_id|
       @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
-      .order('position ASC')
-      .find(:last)
+                                                         .order('position ASC')
+                                                         .find(:last)
       @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
       @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
                                                      track_id: track_id,

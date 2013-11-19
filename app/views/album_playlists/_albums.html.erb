@@ -1,71 +1,95 @@
 <% if @albums_count > 0 %>
-  <%= @albums_count %> albums found
-
-  <table cellspacing="0" width="100%">
-    <tr>
-      <th>
-        <%= sort_link @search,
-                      :id,
-                      'ID',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :title_original,
-                      'Original Title',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :artist_original,
-                      'Original Artist',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :release_year,
-                      'Release Year',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :cd_code,
-                      'CD Code',
-                      {},
-                      {remote: true} %>
-      </th>
-      <th>&nbsp;</th>
-    </tr>
-    <% @albums.each do |album| %>
+  <%= form_tag url_for(controller: "album_playlists",
+                       action: "add_multiple_albums"),
+               id: "multiple_albums",
+               remote: true do %>
+    <%= hidden_field_tag 'playlist_id',
+                         params[:id] %>
+    <%= submit_tag 'Add Selected to Playlist',
+                   id: 'add_selected_hidden',
+                   style: 'display: none;' %>
+    <table class="table" id="no-more-tables">
+      <thead>
       <tr>
-        <%# cache([album]) do %>
-        <td><%= link_to album.id,
-                        album_path(id: album.id) %></td>
-        <td><%= album.title_original %>
-          <br/><%= album.title_english %></td>
-        <td><%= album.artist_original %>
-          <br/><%= album.artist_english %></td>
-        <!--
-								<td><%#=h album.label.name if !album.label_id.nil? %></td>-->
-        <td><%= album.release_year %>&nbsp;</td>
-        <td><%= album.cd_code %>&nbsp;</td>
-        <%# end %>
-        <td>
-          <%= link_to "add to playlist",
-                      add_album_album_playlist_path(@album_playlist, album_id: album.id),
-                      method: :post,
-                      remote: true,
-                      class: 'spinner-trigger' %>
-        </td>
+        <th>
+          <%= sort_link @search,
+                        :id,
+                        'ID',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :title_original,
+                        'Original Title',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :artist_original,
+                        'Original Artist',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :release_year,
+                        'Release Year',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :cd_code,
+                        'CD Code',
+                        {},
+                        {remote: true} %>
+        </th>
+        <th>&nbsp;</th>
+        <th>
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
       </tr>
-    <% end %>
-  </table>
+      </thead>
+
+      <tbody>
+      <% @albums.each do |album| %>
+        <tr class="playlist-entry">
+          <td data-title="ID">
+            <%= link_to album.id,
+                        album_path(id: album.id),
+                        target: "_blank" %>&nbsp;
+          </td>
+          <td data-title="Title"><%= album.title_original %>
+            <br/><%= album.title_english %>&nbsp;</td>
+          <td data-title="Artist"><%= album.artist_original %>
+            <br/><%= album.artist_english %>&nbsp;</td>
+          <td data-title="Year"><%= album.release_year %>&nbsp;</td>
+          <td data-title="CD Code"><%= album.cd_code %>&nbsp;</td>
+          <td>
+            <%= link_to "add to playlist",
+                        add_album_album_playlist_path(@album_playlist, album_id: album.id),
+                        method: :post,
+                        remote: true,
+                        class: 'spinner-trigger' %>
+          </td>
+          <td data-title="Select">
+            <%= check_box_tag "album_ids[]",
+                              album.id %>&nbsp;
+          </td>
+        </tr>
+        </tbody>
+      <% end %>
+
+      </table>
+  <% end %>
+
   <br/>
   <br/>
+
   <%= will_paginate @albums,
                     inner_window: 1,
                     renderer: BootstrapPagination::Rails,
@@ -81,7 +105,33 @@
     <%= items_per_page_select @albums %>
     <%= f.submit "Submit",
                  class: 'btn btn-small' %>
+    <br>
+    <br>
+    <%= @albums_count %> albums found
+    <br>
   <% end %>
 <% else %>
   No albums were found
 <% end %>
+
+<script>
+
+  var $ = jQuery;
+
+  $(document).ready(function () {
+
+    $('#check_all').click(function () {
+      if (this.checked) {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = true;
+        });
+      } else {
+        $('.playlist-entry').find(':checkbox').each(function () {
+          this.checked = false;
+        });
+      }
+    });
+
+  });
+
+</script>
