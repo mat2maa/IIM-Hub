@@ -7,11 +7,11 @@ class TracksController < ApplicationController
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
     @search = Track.includes(album: :label)
-    .ransack(view_context.empty_blank_params params[:q])
+                   .ransack(view_context.empty_blank_params params[:q])
     @tracks = @search.result(distinct: true)
-    .order("tracks.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                     .order("tracks.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -64,6 +64,23 @@ class TracksController < ApplicationController
   end
 
   def edit
+    dur_min = (params[:dur_min_min].to_i * 60 *1000) + (params[:dur_min_sec].to_i * 1000)
+    dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
+
+    @search = Track.includes(album: :label)
+                   .ransack(view_context.empty_blank_params params[:q])
+    @tracks = @search.result(distinct: true)
+                     .order("tracks.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
+
+    unless dur_max.zero?
+      @tracks = @tracks.greater_than_dur_min(dur_min)
+      @tracks = @tracks.less_than_dur_max(dur_max)
+    end
+
+    @tracks_count = @tracks.count
+
     @track = Track.find(params[:id])
     @genres = Genre.all
   end

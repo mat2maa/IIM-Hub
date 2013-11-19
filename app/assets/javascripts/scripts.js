@@ -316,9 +316,15 @@ $(document).ready(function () {
         $(elem).wysihtml5();
     });
 
+    $('.select2-offscreen').each(function() {
+        var val = $(this).select2("val");
+        $(this).data("val", val);
+    });
+
+
     $(document).on("click", '.form-reset', function() {
         $(this).closest('form').find('.select2-offscreen').each(function() {
-            $(this).select2("val", "");
+            $(this).select2("val", $(this).data("val"));
         });
     });
 

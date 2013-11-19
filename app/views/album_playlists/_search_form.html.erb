@@ -1,38 +1,67 @@
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
+
 <%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
                     class: 'spinner-trigger' do |album_playlists| %>
 
-  <div class="control-group">
-    <div class="controls combinator-select-container">
-      <%= album_playlists.combinator_select %>
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
+    <!--<div class="controls combinator-select-container">-->
+    <%#= album_playlists.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= album_playlists.input_field :id_eq,
+                                      class: "#{@span_size}",
+                                      placeholder: 'Playlist ID' %>
     </div>
 
-    <%= album_playlists.text_field :id_eq,
-                                   placeholder: 'Playlist ID' %>
-
-    <%= album_playlists.text_field :client_playlist_code_cont,
-                                   placeholder: 'Client Playlist Code' %>
-
-    <div class="controls">
-      <%= album_playlists.select :airline_id_eq,
-                                 Airline.order("name asc")
-                                 .collect { |p| [p.name,
-                                                 p.id] },
-                                 {include_blank: true},
-                                 {class: 'select2',
-                                  data: {placeholder: 'Airline'}} %>
+    <div class="controls controls-row">
+      <%= album_playlists.input_field :client_playlist_code_cont,
+                                      class: "#{@span_size}",
+                                      placeholder: 'Client Playlist Code' %>
     </div>
 
-    <%= album_playlists.text_field :start_playdate_gteq,
-                                   data: {behaviour: 'datepicker-months'},
-                                   placeholder: 'Start Playdate' %>
+    <div class="controls controls-row">
+      <%= album_playlists.input_field :airline_id_eq,
+                                      collection: Airline.order("name asc")
+                                      .collect { |p| [p.name,
+                                                      p.id] },
+                                      include_blank: true,
+                                      class: "select2 #{@span_size}",
+                                      placeholder: 'Airline' %>
+    </div>
 
-    <%= album_playlists.text_field :end_playdate_lteq,
-                                   data: {behaviour: 'datepicker-months'},
-                                   placeholder: 'End Playdate' %>
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: album_playlists,
+                          field: :start_playdate_gteq,
+                          value: '',
+                          input_id: 'start_playdate_gteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'Start Playdate',
+                          span: @span_size} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: album_playlists,
+                          field: :end_playdate_lteq,
+                          value: '',
+                          input_id: 'end_playdate_lteq_datepicker',
+                          date_format: 'mm/yyyy',
+                          date_viewmode: 'months',
+                          date_minviewmode: 'months',
+                          datepicker_behaviour: 'datepicker-months',
+                          placeholder: 'End Playdate',
+                          span: @span_size} %>
+    </div>
 
   </div>
 
   <%= album_playlists.submit "Search",
                              {class: 'btn'} %>
-  <input type="reset" value="Reset" class="btn">
+  <input class="form-reset btn" type="reset" value="Reset">
 <% end %>

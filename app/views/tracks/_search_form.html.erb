@@ -1,64 +1,96 @@
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
+<% @small_span_size = controller.action_name == 'index' ? 'span6' : 'span1' %>
+
 <%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
                     class: 'spinner-trigger' do |tracks| %>
 
-  <div class="control-group">
-    <div class="controls combinator-select-container">
-      <%= tracks.combinator_select %>
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
+    <!--<div class="controls combinator-select-container">-->
+    <%#= tracks.combinator_select %>
+    <!--</div>-->
+
+    <div class="controls controls-row">
+      <%= tracks.input_field :title_original_cont,
+                             class: "#{@span_size}",
+                             placeholder: 'Title Original' %>
     </div>
 
-    <%= tracks.text_field :title_original_cont,
-                          placeholder: 'Title Original' %>
-
-    <%= tracks.text_field :artist_original_cont,
-                          placeholder: 'Artist Original' %>
-    <br>
-    Duration: <br>
-    <%= text_field_tag 'dur_min_min',
-                       params[:dur_min_min],
-                       placeholder: 'Minutes',
-                       class: 'small-input' %>
-    :
-    <%= text_field_tag 'dur_min_sec',
-                       params[:dur_min_sec],
-                       placeholder: 'Seconds',
-                       class: 'small-input' %> <br>
-    To: <br>
-    <%= text_field_tag 'dur_max_min',
-                       params[:dur_max_min],
-                       placeholder: 'Minutes',
-                       class: 'small-input' %>
-    :
-    <%= text_field_tag 'dur_max_sec',
-                       params[:dur_max_sec],
-                       placeholder: 'Seconds',
-                       class: 'small-input' %> <br>
-
-    <br>
-    <%= tracks.text_field :title_english_cont,
-                          placeholder: 'Title (Translated)' %>
-
-    <%= tracks.text_field :artist_english_cont,
-                          placeholder: 'Artist (Translated)' %>
-
-    <div class="controls">
-      <%= tracks.select :album_label_id_eq,
-                        Label.all.collect { |p| [p.name,
-                                                 p.id] },
-                        {include_blank: true},
-                        {class: 'select2',
-                         data: {placeholder: 'Label'}} %>
+    <div class="controls controls-row">
+      <%= tracks.input_field :artist_original_cont,
+                             class: "#{@span_size}",
+                             placeholder: 'Artist Original' %>
     </div>
 
-    <%= tracks.text_field :album_cd_code_cont,
-                          placeholder: 'CD Code' %>
+    <br>
 
-    <label class="checkbox">
-      <%= tracks.check_box :to_delete_eq %> Pending Delete
-    </label>
+    <div class="controls controls-row">
+      Duration from:
+    </div>
 
+    <div class="controls controls-row">
+      <%= text_field_tag 'dur_min_min',
+                         params[:dur_min_min],
+                         class: "#{@small_span_size}",
+                         placeholder: 'Minutes' %>
+      <%= text_field_tag 'dur_min_sec',
+                         params[:dur_min_sec],
+                         class: "#{@small_span_size}",
+                         placeholder: 'Seconds' %>
+    </div>
+
+    <div class="controls controls-row">
+      Duration to:
+    </div>
+
+    <div class="controls controls-row">
+      <%= text_field_tag 'dur_max_min',
+                         params[:dur_max_min],
+                         class: "#{@small_span_size}",
+                         placeholder: 'Minutes' %>
+      <%= text_field_tag 'dur_max_sec',
+                         params[:dur_max_sec],
+                         class: "#{@small_span_size}",
+                         placeholder: 'Seconds' %>
+    </div>
+
+    <br>
+
+    <div class="controls controls-row">
+      <%= tracks.input_field :title_english_cont,
+                             class: "#{@span_size}",
+                             placeholder: 'Title (Translated)' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= tracks.input_field :artist_english_cont,
+                             class: "#{@span_size}",
+                             placeholder: 'Artist (Translated)' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= tracks.input_field :album_label_id_eq,
+                             collection: Label.all.collect { |p| [p.name,
+                                                                  p.id] },
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             placeholder: 'Label' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= tracks.input_field :album_cd_code_cont,
+                             class: "#{@span_size}",
+                             placeholder: 'CD Code' %>
+    </div>
+
+    <div class="controls controls-row">
+      <label class="checkbox">
+        <%= tracks.check_box :to_delete_eq %> Pending Delete
+      </label>
+    </div>
   </div>
 
   <%= tracks.submit "Search",
                     {class: 'btn'} %>
-
+  <input class="form-reset btn" type="reset" value="Reset">
 <% end %>

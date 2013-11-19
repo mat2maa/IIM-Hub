@@ -15,11 +15,11 @@ class AlbumsController < ApplicationController
 
   def index
     @search = Album.includes(:label)
-    .ransack(view_context.empty_blank_params params[:q])
+                   .ransack(view_context.empty_blank_params params[:q])
     @albums = @search.result(distinct: true)
-    .order("albums.id DESC")
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                     .order("albums.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
 
     @albums_count = @albums.count
   end
@@ -32,6 +32,15 @@ class AlbumsController < ApplicationController
   end
 
   def edit
+    @search = Album.includes(:label)
+                   .ransack(view_context.empty_blank_params params[:q])
+    @albums = @search.result(distinct: true)
+                     .order("albums.id DESC")
+                     .paginate(page: params[:page],
+                               per_page: items_per_page)
+
+    @albums_count = @albums.count
+
     @album = Album.find(params[:id])
     @tracks = Track.where(album_id: params[:id]).order('track_num')
   end
@@ -253,6 +262,7 @@ class AlbumsController < ApplicationController
 
         @album.destroy
         @album_is_deleted = true
+        flash[:notice] = 'Album successfully deleted'
 
       else
         Track.update_all "to_delete = 1",

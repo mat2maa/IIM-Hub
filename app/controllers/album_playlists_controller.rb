@@ -18,16 +18,16 @@ class AlbumPlaylistsController < ApplicationController
 
   def index
     @search = AlbumPlaylist.includes(:airline)
-    .ransack(view_context.empty_blank_params params[:q])
+                           .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @album_playlists = @search.result(distinct: true)
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
     else
       @album_playlists = @search.result(distinct: true)
-      .order("album_playlists.id DESC")
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                                .order("album_playlists.id DESC")
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
     end
     @album_playlists_count = @album_playlists.count
   end
@@ -56,8 +56,22 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def edit
+    @search = AlbumPlaylist.includes(:airline)
+                           .ransack(view_context.empty_blank_params params[:q])
+    if !params[:q].nil?
+      @album_playlists = @search.result(distinct: true)
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
+    else
+      @album_playlists = @search.result(distinct: true)
+                                .order("album_playlists.id DESC")
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
+    end
+    @album_playlists_count = @album_playlists.count
+
     @album_playlist = AlbumPlaylist.includes(album_playlist_items: :album)
-    .find(params[:id])
+                                   .find(params[:id])
   end
 
   def update

@@ -15,16 +15,16 @@ class AudioPlaylistsController < ApplicationController
 
   def index
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-    .ransack(view_context.empty_blank_params params[:q])
+                           .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
     else
       @audio_playlists = @search.result(distinct: true)
-      .order("audio_playlists.id DESC")
-      .paginate(page: params[:page],
-                per_page: items_per_page)
+                                .order("audio_playlists.id DESC")
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
     end
     @audio_playlists_count = @audio_playlists.count
   end
@@ -86,8 +86,22 @@ class AudioPlaylistsController < ApplicationController
   end
 
   def edit
+    @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
+                           .ransack(view_context.empty_blank_params params[:q])
+    if !params[:q].nil?
+      @audio_playlists = @search.result(distinct: true)
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
+    else
+      @audio_playlists = @search.result(distinct: true)
+                                .order("audio_playlists.id DESC")
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page)
+    end
+    @audio_playlists_count = @audio_playlists.count
+
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-    .find(params[:id])
+                                   .find(params[:id])
   end
 
   def update

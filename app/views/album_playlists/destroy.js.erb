@@ -4,5 +4,8 @@ var $element = $("#album_playlist-<%= @album_playlist.id %>");
 
 $element.fadeOut("fast");
 
-$('#spinner').addClass('transparent');
-console.log("off");
+$('#bootstrap-flash')
+    .html('<div class="alert fade in alert-success">' +
+        '<button class="close" data-dismiss="alert">×</button>' +
+        'Successfully deleted playlist.' +
+        '</div>');
