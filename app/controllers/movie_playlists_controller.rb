@@ -43,6 +43,8 @@ class MoviePlaylistsController < ApplicationController
   end
 
   def edit
+    @columns = ['#', 'Movie Title', '(Chinese)', 'Release Date', 'Rating', 'Lang Tracks', 'Lang Subs', 'Laboratory', 'Distributor', 'Release Versions', 'Airline Rights']
+
     @search = MoviePlaylist.includes(:airline)
                            .ransack(view_context.empty_blank_params params[:q])
     @movie_playlists = @search.result(distinct: true)
@@ -686,6 +688,11 @@ swe tha zho yue tam)
     respond_to do |format|
       format.html { redirect_to(edit_movie_playlist_path(@playlist_duplicate)) }
     end
+  end
+
+  def table_column_select
+    puts session[:movie_playlist_checked] = params[:checked]
+    render nothing: true
   end
 
 end

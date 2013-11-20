@@ -1,15 +1,11 @@
 <table class="table table-hover" id="no-more-tables" width="100%">
   <thead>
   <tr>
-    <th>#</th>
-    <th>Programme Title</th>
-    <th>(Chinese)</th>
-    <th>Episode Title</th>
-    <th>Episode Number</th>
-    <th>Distributor</th>
-    <th>Location</th>
-    <th>Remarks</th>
-    <th>Other</th>
+    <% @columns.each.with_index do |column, index| %>
+      <th <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][index] == 'false' %>>
+        <%= column %>
+      </th>
+    <% end %>
     <th>&nbsp;</th>
   </tr>
   </thead>

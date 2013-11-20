@@ -9,29 +9,29 @@
       <table class="playlist table table-condensed">
         <tbody>
         <tr>
-          <td><strong>Programme Title:</strong></td>
-          <td><%= playlist_item_view.screener.video.programme_title %></td>
-          <td><strong>Episode Title:</strong></td>
-          <td><%= playlist_item_view.screener.episode_title %></td>
+          <td width="25%"><strong>Programme Title:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.video.programme_title %></td>
+          <td width="25%"><strong>Episode Title:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.episode_title %></td>
         </tr>
         <tr>
-          <td><strong>Distributor:</strong></td>
-          <td><%= playlist_item_view.screener.video.video_distributor.company_name %></td>
-          <td><strong>Full Genre:</strong></td>
-          <td><%= playlist_item_view.screener.video.video_genres_string_with_parent %></td>
+          <td width="25%"><strong>Distributor:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.video.video_distributor.company_name %></td>
+          <td width="25%"><strong>Full Genre:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.video.video_genres_string_with_parent %></td>
         </tr>
         <tr>
-          <td><strong>Lang Tracks:</strong></td>
-          <td><%= playlist_item_view.screener.video.language_tracks.join(', ') if !playlist_item_view.screener.video.language_tracks.nil? %></td>
-          <td><strong>Lang Subtitles:</strong></td>
-          <td><%= playlist_item_view.screener.video.language_subtitles.join(', ') if !playlist_item_view.screener.video.language_subtitles.nil? %></td>
+          <td width="25%"><strong>Lang Tracks:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.video.language_tracks.join(', ') if !playlist_item_view.screener.video.language_tracks.nil? %></td>
+          <td width="25%"><strong>Lang Subtitles:</strong></td>
+          <td width="25%"><%= playlist_item_view.screener.video.language_subtitles.join(', ') if !playlist_item_view.screener.video.language_subtitles.nil? %></td>
         </tr>
         <tr>
           <td width="146"><strong>Commercial Runtime:</strong></td>
           <td colspan="3"><%= playlist_item_view.screener.video.commercial_run_time.minutes if !playlist_item_view.screener.video.commercial_run_time.nil? %></td>
         </tr>
         <tr>
-          <td><strong>Synopsis:</strong></td>
+          <td width="25%"><strong>Synopsis:</strong></td>
           <td colspan="3"><%= playlist_item_view.screener.video.synopsis %></td>
         </tr>
         </tbody>

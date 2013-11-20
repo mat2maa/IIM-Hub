@@ -1,53 +1,54 @@
 <% @screener = playlist_item.screener %>
 <% @playlist_item = playlist_item %>
+<% @current_column = 0 %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if !playlist_item.screener.present? %>
     <td colspan="2">Missing screener <%= playlist_item.screener_id %></td>
   <% else %>
 
-    <td data-title="Position">
+    <td data-title="Position" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Video Title">
+    <td data-title="Video Title" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.screener.video.programme_title,
                   edit_screener_path(playlist_item.screener.id),
                   target: "_blank" %>
       &nbsp;
     </td>
 
-    <td data-title="(Chinese Title)">
+    <td data-title="(Chinese Title)" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= "(#{playlist_item.screener.video.chinese_programme_title})" if playlist_item.screener.video.chinese_programme_title.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Episode Title:">
+    <td data-title="Episode Title:" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.episode_title %>
       &nbsp;
     </td>
 
-    <td data-title="Episode Number">
+    <td data-title="Episode Number" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.episode_number %>
       &nbsp;
     </td>
 
-    <td data-title="Distributor">
+    <td data-title="Distributor" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.video.video_distributor.company_name unless playlist_item.screener.video.video_distributor.nil? %>
       &nbsp;
     </td>
 
-    <td data-title="Location">
+    <td data-title="Location" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.location %>
       &nbsp;
     </td>
 
-    <td data-title="Remarks">
+    <td data-title="Remarks" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.remarks %>
       &nbsp;
     </td>
 
-    <td data-title="Other">
+    <td data-title="Other" <%= raw("style='display: none'") if session[:screener_playlist_checked].present? && session[:screener_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.screener.remarks_other %>
       &nbsp;
     </td>

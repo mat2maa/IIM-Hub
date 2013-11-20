@@ -1,63 +1,74 @@
-<tr id="item_<%= playlist_track_view.id %>">
-  <td>
-    <% if playlist_track_view.track.nil? %>
-      Missing Track <%= playlist_track_view.track_id %>
-    <% else %>
-      <table width="100%">
+<% @track = playlist_track_view.track %>
+<% @audio_playlist_track = playlist_track_view %>
+<% if playlist_track_view.track.nil? %>
+  Missing Track <%= playlist_track_view.track_id %>
+<% else %>
+  <div class="row">
+    <div class="span9">
+      <table class="playlist table table-condensed">
+        <tbody>
         <tr>
-          <td class="pl-title" width="161">(<%= position %>)Track Title:</td>
-          <td width="221"><%= playlist_track_view.track.title_original %></td>
-          <td class="pl-title" width="115">Intro Tempo:</td>
-          <td width="46"><%= playlist_track_view.track.tempo_intro %></td>
-          <td class="pl-title" width="159">Composer:</td>
-          <td width="81"><%= playlist_track_view.track.composer %></td>
-          <td class="pl-title" width="84">Label:</td>
-          <td width="100"><%= playlist_track_view.track.album.label.name if !playlist_track_view.track.album.label_id.nil? %></td>
+          <td width="25%"><strong>(<%= position %>) Track Title:</strong></td>
+          <td width="25%"><%= playlist_track_view.track.title_original %></td>
+          <td width="25%"><strong>Track Title (Translated)</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.title_english %></td>
         </tr>
         <tr>
-          <td class="pl-title" width="161">Track Title(Translated):</td>
-          <td width="221"><%= playlist_track_view.track.title_english %></td>
-          <td class="pl-title" width="115">Tempo</td>
-          <td width="46"><%= playlist_track_view.track.tempo %></td>
-          <td class="pl-title" width="159">Track Num:</td>
-          <td width="81"><%= playlist_track_view.track.track_num %></td>
-          <td class="pl-title">Origin:</td>
-          <td width="100"><%= playlist_track_view.track.origin.name if (!playlist_track_view.track.origin_id.nil? && playlist_track_view.track.origin_id!=0) %></td>
+          <td width="25%"><strong>Artist</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.artist_original %></td>
+          <td width="25%"><strong>Composer</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.composer %></td>
         </tr>
         <tr>
-          <td class="pl-title" width="161">Artist:</td>
-          <td width="221"><%= playlist_track_view.track.artist_original %></td>
-          <td class="pl-title" width="115">Outro Tempo:</td>
-          <td width="46"><%= playlist_track_view.track.tempo_outro %></td>
-          <td class="pl-title" width="159">Duration:</td>
-          <td width="81"><%= duration(playlist_track_view.track.duration) %></td>
-          <td class="pl-title">CD Code</td>
-          <td width="100"><%= playlist_track_view.track.album.cd_code %></td>
+          <td width="25%"><strong>Track Num</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.track_num %></td>
+          <td width="25%"><strong>Origin</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.origin.name if (!playlist_track_view.track.origin_id.nil? && playlist_track_view.track.origin_id!=0) %></td>
+        </tr>
+        <tr>
+          <td width="25%"><strong>Label</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.album.label.name if !playlist_track_view.track.album.label_id.nil? %></td>
+          <td width="25%"><strong>CD Code:</strong></td>
+          <td width="25%"><%= playlist_track_view.track.album.cd_code %></td>
+        </tr>
+        <tr>
+          <td width="25%"><strong>Genre</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.genre %></td>
+          <td width="25%"><strong>Split (min)</strong>:</td>
+          <td width="25%"><%= playlist_track_view.split %></td>
+        </tr>
+        <tr>
+          <td width="25%"><strong>Tempo:</strong></td>
+          <td width="25%"><%= playlist_track_view.track.tempo %></td>
+          <td width="25%"><strong>Duration</strong>:</td>
+          <td width="25%"><%= duration(playlist_track_view.track.duration) %></td>
+        </tr>
+        <tr>
+          <td width="25%"><strong>Intro Tempo</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.tempo_intro %></td>
+          <td width="25%"><strong>Outro Tempo</strong>:</td>
+          <td width="25%"><%= playlist_track_view.track.tempo_outro %></td>
         </tr>
 
-        <%
-           if playlist_track_view.vo_duration.nil?
-             vo_duration=0
-           else
-             vo_duration = playlist_track_view.vo_duration.to_i
-           end
-        %>
+          <%
+             if playlist_track_view.vo_duration.nil?
+               vo_duration=0
+             else
+               vo_duration = playlist_track_view.vo_duration.to_i
+             end
+          %>
+
         <tr>
-          <td class="pl-title">VO Duration (sec):</td>
-          <td><%= playlist_track_view.vo_duration %></td>
-          <td class="pl-title">Split (min):</td>
-          <td><%= playlist_track_view.split %></td>
-          <td class="pl-title">Accumulated Duration:</td>
-          <td><%= duration(@accum_duration + playlist_track_view.track.duration + (vo_duration*1000)) %></td>
-          <td></td>
-          <td></td>
+          <td width="25%"><strong>VO Duration (sec)</strong>:</td>
+          <td width="25%"><%= playlist_track_view.vo_duration %></td>
+          <td width="25%"><strong>Accumulated Duration</strong>:</td>
+          <td width="25%"><%= duration(@accum_duration + playlist_track_view.track.duration + (vo_duration*1000)) %></td>
         </tr>
         <tr>
-          <td class="pl-title" align="LEFT">Mastering:</td>
-          <td colspan="5"><%= playlist_track_view.mastering %></td>
-          <td class="pl-title" width="84">Genre:</td>
-          <td width="100"><%= playlist_track_view.track.genre %></td>
+          <td width="25%"><strong>Mastering</strong>:</td>
+          <td colspan="3"><%= playlist_track_view.mastering %></td>
         </tr>
+
         <%
 
            if !playlist_track_view.split.nil? && playlist_track_view.split!=0 && playlist_track_view.split!=""
@@ -66,7 +77,10 @@
              @accum_duration += playlist_track_view.track.duration + (vo_duration*1000)
            end
         %>
+
+        </tbody>
       </table>
-    <% end %>
-  </td>
-</tr>
+    </div>
+  </div>
+  <br/><br/>
+<% end %>

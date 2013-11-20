@@ -675,6 +675,25 @@ textarea[class*="span"],
   margin: 0 0 6px 0;
 }
 
+.dropdown-menu > li {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  color: #333333;
+  white-space: nowrap;
+}
+
+#table-column-select .dropdown-toggle,
+#table-column-select button {
+  margin-bottom: 0;
+}
+
+#table-column-select button {
+  font-weight: bold;
+}
+
 /* text elements */
 a:hover {
   text-decoration: none;
@@ -706,6 +725,14 @@ tr:nth-of-type(even) {
 
 thead tr:nth-of-type(odd) {
   background: #1b1b1b;
+}
+
+#playlist {
+  overflow-x: auto;
+}
+
+#playlist table {
+  margin-bottom: 0;
 }
 
 table.playlist {

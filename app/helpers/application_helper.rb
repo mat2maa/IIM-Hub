@@ -33,6 +33,11 @@ module ApplicationHelper
     @current_tab += 1
   end
 
+  def column_counter
+    @current_column ||= 0
+    @current_column += 1
+  end
+
   def empty_blank_params(hash)
     if hash.present?
       hash.delete_if { |k, v| v.blank? && v != false }

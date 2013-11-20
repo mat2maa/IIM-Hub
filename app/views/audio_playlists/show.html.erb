@@ -1,127 +1,117 @@
-<%= render partial: 'layouts/audioplaylist_header' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= link_to 'Edit Audio Playlist',
-                edit_audio_playlist_path(@audio_playlist) if @audio_playlist.locked!=true %>
-    |
-    <%= link_to "Print Playlist",
-                {controller: "audio_playlists",
-                 action: "print",
-                 id: @audio_playlist},
-                :popup => true %>
-    |
-    <%= link_to "Export as Excel",
-                controller: "audio_playlists",
-                action: "export_to_excel",
-                id: @audio_playlist %>
+<%= render partial: 'layouts/audio_nav' %>
+
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+    <!--/span-->
   </div>
-  <div id="content-header">Songs Playlists</div>
-</div>
+  <!--/row-->
 
-<div id="content">
-  <center>
-    <h1>View Audio Playlist</h1>
+  <div class="row">
+    <div class="span3">
+      <div class="content">
+        <% if @audio_playlist.user_id.present? %>
+          <div class="info info-title">Programmer</div>
+          <div class="info-list">
+            <ul>
+              <li class="info"><%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? %>&nbsp;</li>
+            </ul>
+          </div>
+          <br>
+        <% end %>
+        <div class="info info-title"><%= @audio_playlist.client_playlist_code %> Information</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">Program: <%= @audio_playlist.program.name if !@audio_playlist.program.nil? %>
+            <li class="info">VO: <%= @audio_playlist.vo.name if !@audio_playlist.vo_id.nil? %>
+            <li class="info">Airline: <%= @audio_playlist.airline.name if !@audio_playlist.airline_id.nil? %>
+            <li class="info">In/Out: <%= @audio_playlist.in_out %>
+            <li class="info">Play Date From: <%= @audio_playlist.start_playdate.strftime("%B %Y") %></li>
+            <li class="info">Play Date To: <%= @audio_playlist.end_playdate.strftime("%B %Y") %></li>
+          </ul>
+        </div>
+        <br>
 
-    <table class="show">
-      <tr>
-        <td class="show-title">Client Playlist Code</td>
-        <td><%= @audio_playlist.client_playlist_code %></td>
-        <td class="show-title">Programmer</td>
-        <td><%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? && @audio_playlist.user_id!=0 %></td>
-      </tr>
-      <tr>
-        <td class="show-title">Program</td>
-        <td><%= @audio_playlist.program.name if !@audio_playlist.program.nil? %></td>
-        <td class="show-title">VO</td>
-        <td><%= @audio_playlist.vo.name if !@audio_playlist.vo_id.nil? %></td>
-      </tr>
-      <tr>
-        <td class="show-title">Airline</td>
-        <td><%= @audio_playlist.airline.name if !@audio_playlist.airline_id.nil? %></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="show-title">IN/OUT</td>
-        <td><%= @audio_playlist.in_out %></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="show-title">Play Date</td>
-        <td>
-          <%= @audio_playlist.start_playdate.strftime("%B %Y") %>
-          to
-          <%= @audio_playlist.end_playdate.strftime("%B %Y") %>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Print Playlist",
+                          {controller: "audio_playlists",
+                           action: "show",
+                           id: @audio_playlist},
+                          id: 'print_playlist',
+                          target: '_blank' %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "audio_playlists",
+                          action: "export_to_excel",
+                          id: @audio_playlist %>
+            </li>
+            <li class="info">
+              <%= link_to "Edit Playlist",
+                          {controller: "audio_playlists",
+                           action: "edit",
+                           id: @audio_playlist},
+                          target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+        <br>
 
-    <div id="playlist">
+        <div class="info info-title">Audio Player</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <audio controls>
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </li>
+          </ul>
+        </div>
+        <br>
+      </div>
+      <!--end of .content-->
+    </div>
+    <!--end of .span-->
 
-      <div class="download-info">
-        <div class="progress-bar" style="width:0%;"></div>
-        <div class="message"></div>
-        <div class="progress"></div>
-        <div class="links">
-          <%= link_to 'Create Playlist Zip',
-                      download_audio_playlist_path(@audio_playlist.id),
-                      id: 'download_playlist_link' %>
-          <% if @audio_playlist.finished? %>
-            | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
+    <div class="span9">
+      <div class="content">
+        <div class="info info-title playlist-title">Playlist</div>
+        <div id="playlist_item_view_container">
+          <% @accum_duration = 0 %>
+          <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |track, index| %>
+            <%= render partial: 'playlist_track_view', object: track, locals: {position: index + 1} %>
           <% end %>
         </div>
+        <div class="download-info">
+          <div class="links">
+            <%= link_to 'Create Playlist Zip',
+                        download_audio_playlist_path(@audio_playlist.id),
+                        id: 'download_playlist_link' %>
+            <% if @audio_playlist.finished? %>
+              | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
+            <% end %>
+          </div>
+          <div class="progress-bar" style="width:0%;"></div>
+          <div class="message"></div>
+          <div class="progress"></div>
+        </div>
+
+        <%= link_to 'Back',
+                    audio_playlists_path %>
       </div>
-
-      <table width="100%">
-        <tbody id="audioplaylist">
-        <% @accum_duration = 0 %>
-        <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |track, index| %>
-          <%= render partial: 'playlist_track_view', object: track, locals: {position: index + 1} %>
-        <% end %>
-        </tbody>
-      </table>
-
+      <!--end of .content-->
     </div>
-    <%= link_to 'Back',
-                audio_playlists_path %>
-  </center>
+    <!--end of .span-->
+  </div>
+  <!--end of .row-->
 </div>
-
-<script type="text/javascript">
-  var $ = jQuery,
-      DownloadPoller;
-
-  DownloadPoller = {
-    poll: function () {
-      setTimeout(this.request, 3000);
-    },
-    request: function () {
-      $.ajax({
-        url: '/poll_download_data/<%= @audio_playlist.id %>',
-        type: 'get',
-        dataType: 'script'
-      });
-    }
-  };
-
-  $(function () {
-    $(document).on("click", "#download_playlist_link", function (e) {
-      e.preventDefault();
-
-      $.ajax({
-        url: '/download_audio_playlist/<%= @audio_playlist.id %>',
-        type: 'get',
-        dataType: 'script'
-      });
-
-      DownloadPoller.poll();
-
-    });
-  });
-</script>
+<!--end of .container-->

@@ -1,24 +1,11 @@
 <table class="table table-hover" id="no-more-tables" width="100%">
   <thead>
   <tr>
-    <th>#</th>
-    <th>Title</th>
-    <th>Intro Tempo</th>
-    <th>Composer</th>
-    <th>Label</th>
-    <th>Track Title(Translated)</th>
-    <th>Tempo</th>
-    <th>Track Num</th>
-    <th>Origin</th>
-    <th>Artist</th>
-    <th>Outro Tempo</th>
-    <th>Duration</th>
-    <th>CD Code</th>
-    <th>Mastering</th>
-    <th>Split</th>
-    <th>VO Duration (sec)</th>
-    <th>Genre</th>
-    <th>Accumulated Duration</th>
+    <% @columns.each.with_index do |column, index| %>
+      <th <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][index] == 'false' %>>
+        <%= column %>
+      </th>
+    <% end %>
     <th>&nbsp;</th>
   </tr>
   </thead>

@@ -1,40 +1,41 @@
 <% @album = playlist_item.album %>
 <% @album_playlist_item = playlist_item %>
+<% @current_column = 0 %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if playlist_item.album.nil? %>
     <td colspan="2">Missing album <%= playlist_item.album_id %></td>
   <% else %>
 
-    <td data-title="Position">
+    <td data-title="Position" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Title">
+    <td data-title="Title" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.album.title_original,
                   edit_album_path(playlist_item.album),
                   target: '_blank' %>&nbsp;
     </td>
 
-    <td data-title="Artist"><%= playlist_item.album.artist_original %>&nbsp;</td>
+    <td data-title="Artist" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.artist_original %>&nbsp;</td>
 
-    <td data-title="CD Code:"><%= playlist_item.album.cd_code %>&nbsp;</td>
+    <td data-title="CD Code:" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.cd_code %>&nbsp;</td>
 
-    <td data-title="Duration"><%= playlist_item.album.duration_in_min %>&nbsp;</td>
+    <td data-title="Duration" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.duration_in_min %>&nbsp;</td>
 
-    <td data-title="Tracks"><%= playlist_item.album.tracks.size %>&nbsp;</td>
+    <td data-title="Tracks" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.tracks.size %>&nbsp;</td>
 
-    <td data-title="Album Title(Translated)"><%= playlist_item.album.title_english %>&nbsp;</td>
+    <td data-title="Album Title (Translated)" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.title_english %>&nbsp;</td>
 
-    <td data-title="Artist(Translated)"><%= playlist_item.album.artist_english %>&nbsp;</td>
+    <td data-title="Artist (Translated)" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.artist_english %>&nbsp;</td>
 
-    <td data-title="Label"><%= playlist_item.album.label.name if !playlist_item.album.label_id.nil? %>&nbsp;</td>
+    <td data-title="Label" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.label.name if !playlist_item.album.label_id.nil? %>&nbsp;</td>
 
-    <td data-title="Explicit Lyrics" class="explicit_<%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>">
+    <td data-title="Explicit Lyrics" class="explicit_<%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>>
       <%= has_explicit_lyrics(playlist_item.album.explicit_lyrics) %>&nbsp;
     </td>
 
-    <td class="<%= is_nil_alert(playlist_item.album.synopsis) %>" data-title="Synopsis">
+    <td class="<%= is_nil_alert(playlist_item.album.synopsis) %>" data-title="Synopsis" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @album,
                         :synopsis,
                         type: :textarea,
@@ -45,9 +46,9 @@
                         cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
     </td>
 
-    <td data-title="Genre"><%= playlist_item.album.genre %>&nbsp;</td>
+    <td data-title="Genre" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>><%= playlist_item.album.genre %>&nbsp;</td>
 
-    <td data-title="Category">
+    <td data-title="Category" <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to raw("<i class='icon icon-edit'></i>"),
                   categories_path,
                   id: "add",

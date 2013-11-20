@@ -136,9 +136,9 @@
                             span: 'span3'} %>
       </div>
 
-      <br>
-
-      <%= f.button :submit, class: 'btn' %>
+      <div class="controls controls-row">
+        <%= f.button :submit, class: 'btn span3' %>
+      </div>
 
       <% if controller.action_name != 'new' %>
 
@@ -146,8 +146,8 @@
         <!-- Button to trigger modal -->
         <%= link_to 'Add video',
                     add_video_to_playlist_path(id: @video_playlist.id),
-                    id: 'add_video_to_playlist',
-                    class: 'btn',
+                    id: 'add_video_to_playlist_hidden',
+                    class: 'btn hidden-input',
                     role: 'btn',
                     data: {toggle: 'modal', target: '#ajax-modal'} %>
         <br><br>
@@ -161,7 +161,27 @@
 
 <% if controller.action_name != 'new' %>
   <%= content_for :playlist do %>
-    <div class="info info-title">Playlist</div>
+    <div class="info info-title">
+      Playlist
+      <div class="btn-group pull-right" id="table-column-select">
+        <!-- Button to trigger modal -->
+        <button id="add_video_to_playlist" type="button" class="btn btn-mini btn-info" onclick="$('#add_video_to_playlist_hidden').click();">Add
+          Video
+        </button>
+        <a class="btn btn-mini btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+          Select Columns
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <% @columns.each.with_index do |column, index| %>
+            <li><%= check_box_tag column,
+                                  column,
+                                  session[:video_playlist_checked].present? ? session[:video_playlist_checked][index] == 'true' : true %> <%= column %></li>
+          <% end %>
+          <li>&nbsp;</li>
+        </ul>
+      </div>
+    </div>
     <div id="playlist">
       <%= render partial: 'playlist',
                  object: @video_playlist %>
@@ -205,6 +225,44 @@
     $(document).on('click', '#ajax-modal', function (e) {
       e.stopPropagation();
     });
+
+    // Table column select
+    $(document)
+        .on('click', '#table-column-select ul li input', function (e) {
+          e.stopPropagation();
+        })
+        .on('change', '#table-column-select ul li input', function (e) {
+
+          var checked = $(this).is(":checked");
+
+          var index = $(this).parent().index();
+
+          if (checked) {
+            $('#playlist table thead th').eq(index).show();
+          } else {
+            $('#playlist table thead th').eq(index).hide();
+          }
+
+          $('#playlist table tbody tr').each(function () {
+            if (checked) {
+              $(this).find("td").eq(index).show();
+            } else {
+              $(this).find("td").eq(index).hide();
+            }
+          });
+
+          var checkedVals = $('#table-column-select ul li input').map(function () {
+            return $(this).prop('checked');
+          }).get();
+
+          console.log(checkedVals);
+
+          $.ajax({
+            url: '/video_playlists/table_column_select',
+            type: 'post',
+            data: { checked: checkedVals }
+          });
+        });
 
   </script>
 <% end %>

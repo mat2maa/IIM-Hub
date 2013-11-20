@@ -22,4 +22,4 @@
 //= require bootstrap-datepicker
 //= require bootstrap-modal
 //= require bootstrap-modalmanager
-//= require scripts.js
+//= require scripts

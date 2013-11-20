@@ -1,76 +1,87 @@
-<%= render partial: 'layouts/albumplaylist_header' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= link_to 'Edit Album Playlist',
-                edit_album_playlist_path(@album_playlist) if @album_playlist.locked!=true %>
-    |
-    <%= link_to "Print Playlist",
-                {controller: "album_playlists",
-                 action: "print",
-                 id: @album_playlist},
-                target: "_blank" %>
+<%= render partial: 'layouts/audio_nav' %>
 
-    |
+<div class="container">
 
-    <%= link_to "Export as Excel",
-                controller: "album_playlists",
-                action: "export_to_excel",
-                id: @album_playlist %>
-  </div>
-  <div id="content-header">Album Playlists</div>
-</div>
-
-<div id="content">
-  <center>
-    <h1>Show Album Playlist</h1>
-
-    <table class="show">
-      <tr>
-        <td>Program</td>
-        <td><%= @album_playlist.client_playlist_code %></td>
-        <td>Programmer</td>
-        <td><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
-      </tr>
-      <tr>
-        <td>Airline</td>
-        <td><%= @album_playlist.airline.name if !@album_playlist.airline_id.nil? %></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>IN/OUT</td>
-        <td><%= @album_playlist.in_out %></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Play Date</td>
-        <td>
-          <%= @album_playlist.start_playdate.strftime("%B %Y") %>
-          to
-          <%= @album_playlist.end_playdate.strftime("%B %Y") %>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-
-    <div id="playlist">
-
-      <table width="100%">
-        <tbody id="audioplaylist">
-        <% @album_playlist.album_playlist_items_sorted.each.with_index do |item, index| %>
-          <%= render partial: 'playlist_item_view', object: item, locals: {position: index + 1} %>
-        <% end %>
-        </tbody>
-      </table>
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
     </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
 
-    <%= link_to 'Back',
-                album_playlists_path %>
+  <div class="row">
+    <div class="span3">
+      <div class="content">
+        <% if @album_playlist.user_id.present? %>
+          <div class="info info-title">Programmer</div>
+          <div class="info-list">
+            <ul>
+              <li class="info"><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %>&nbsp;</li>
+            </ul>
+          </div>
+          <br>
+        <% end %>
+        <div class="info info-title"><%= @album_playlist.client_playlist_code %> Information</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">In/Out: <%= @album_playlist.in_out %>
+            <li class="info">Play Date From: <%= @album_playlist.start_playdate.strftime("%B %Y") %></li>
+            <li class="info">Play Date To: <%= @album_playlist.end_playdate.strftime("%B %Y") %></li>
+          </ul>
+        </div>
+        <br>
 
-  </center>
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Print Playlist",
+                          {controller: "album_playlists",
+                           action: "show",
+                           id: @album_playlist},
+                          id: 'print_playlist',
+                          target: '_blank' %>
+            </li>
+            <li class="info">
+              <%= link_to "Export as Excel",
+                          controller: "album_playlists",
+                          action: "export_to_excel",
+                          id: @album_playlist %>
+            </li>
+            <li class="info">
+              <%= link_to "Edit Playlist",
+                          {controller: "album_playlists",
+                           action: "edit",
+                           id: @album_playlist},
+                          target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <!--end of .content-->
+    </div>
+    <!--end of .span-->
+
+    <div class="span9">
+      <div class="content">
+        <div class="info info-title playlist-title">Playlist</div>
+        <div id="playlist_item_view_container">
+          <% @album_playlist.album_playlist_items_sorted.each.with_index do |item, index| %>
+            <%= render partial: 'playlist_item_view', object: item, locals: {position: index + 1} %>
+          <% end %>
+        </div>
+
+        <%= link_to 'Back',
+                    album_playlists_path %>
+      </div>
+      <!--end of .content-->
+    </div>
+    <!--end of .span-->
+  </div>
+  <!--end of .row-->
 </div>
+<!--end of .container-->

@@ -31,8 +31,10 @@
           </ul>
         </div>
         <br>
+
         <div class="info info-title">
-          <%= @video_master_playlist.airline.code if !@video_master_playlist.airline_id.nil? %><%= @video_master_playlist.start_cycle.strftime("%m%y") %> Information
+          <%= @video_master_playlist.airline.code if !@video_master_playlist.airline_id.nil? %><%= @video_master_playlist.start_cycle.strftime("%m%y") %>
+          Information
         </div>
         <div class="info-list">
           <ul>
@@ -46,7 +48,8 @@
               End Cycle: <%= @video_master_playlist.end_cycle.strftime("%m-%Y") %>
             </li>
             <li class="info">
-              Master Playlist Type: <%= @video_master_playlist.master_playlist_type.name unless @video_master_playlist.master_playlist_type.nil? %>
+              Master Playlist
+              Type: <%= @video_master_playlist.master_playlist_type.name unless @video_master_playlist.master_playlist_type.nil? %>
             </li>
             <li class="info">
               Edit Runtime: <%= @video_master_playlist.edit_runtime %>

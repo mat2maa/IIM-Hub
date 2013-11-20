@@ -86,6 +86,8 @@ class AudioPlaylistsController < ApplicationController
   end
 
   def edit
+    @columns = ['#', 'Title', 'Intro Tempo', 'Composer', 'Label', 'Track Title (Translated)', 'Tempo', 'Track Num', 'Origin', 'Artist', 'Outro Tempo', 'Duration', 'CD Code', 'Mastering', 'Split', 'VO Duration (sec)', 'Genre', 'Accumulated Duration']
+
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
                            .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
@@ -428,6 +430,11 @@ class AudioPlaylistsController < ApplicationController
 
   def poll_download_data
     @audio_playlist = AudioPlaylist.find(params[:id])
+  end
+
+  def table_column_select
+    puts session[:audio_playlist_checked] = params[:checked]
+    render nothing: true
   end
 
 end

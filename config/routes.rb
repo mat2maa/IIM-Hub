@@ -7,81 +7,88 @@ Iim::Application.routes.draw do
   resources :movie_types
 
 
-  root to: "dashboard#index"
+  root to: 'dashboard#index'
 
-  # probably refers to "my account", we'll need to handle it differently
-  # resource :account, :controller => "users"
+  # probably refers to 'my account', we'll need to handle it differently
+  # resource :account, :controller => 'users'
 
 
-  match "/account/edit_own_password" => "users#edit_own_password", as: :change_password
-  match "/logout" => "user_sessions#destroy", as: :logout
-  match "/add_track_to_playlist/:id" => "audio_playlists#add_track_to_playlist", as: :add_track_to_playlist
-  match "/add_album_to_playlist/:id" => "album_playlists#add_album_to_playlist", as: :add_album_to_playlist
-  match "/add_movie_to_playlist/:id" => "movie_playlists#add_movie_to_playlist", as: :add_movie_to_playlist
-  match "/add_video_to_playlist/:id" => "video_playlists#add_video_to_playlist", as: :add_video_to_playlist
-  match "/add_video_master_to_playlist/:id" => "video_master_playlists#add_video_master_to_playlist", as: :add_video_master_to_playlist
-  match "/add_screener_to_playlist/:id" => "screener_playlists#add_screener_to_playlist", as: :add_screener_to_playlist
+  match '/account/edit_own_password' => 'users#edit_own_password', as: :change_password
+  match '/logout' => 'user_sessions#destroy', as: :logout
+  match '/add_track_to_playlist/:id' => 'audio_playlists#add_track_to_playlist', as: :add_track_to_playlist
+  match '/add_album_to_playlist/:id' => 'album_playlists#add_album_to_playlist', as: :add_album_to_playlist
+  match '/add_movie_to_playlist/:id' => 'movie_playlists#add_movie_to_playlist', as: :add_movie_to_playlist
+  match '/add_video_to_playlist/:id' => 'video_playlists#add_video_to_playlist', as: :add_video_to_playlist
+  match '/add_video_master_to_playlist/:id' => 'video_master_playlists#add_video_master_to_playlist', as: :add_video_master_to_playlist
+  match '/add_screener_to_playlist/:id' => 'screener_playlists#add_screener_to_playlist', as: :add_screener_to_playlist
 
-  match "/add_review_to_movie/:id" => "movies#add_review_to_movie", as: :add_review_to_movie
+  match '/add_review_to_movie/:id' => 'movies#add_review_to_movie', as: :add_review_to_movie
 
-  match "/download_audio_playlist/:id" => "audio_playlists#download_audio_playlist", as: :download_audio_playlist
-  match "/poll_download_data/:id" => "audio_playlists#poll_download_data", as: :poll_download_data
-  match "/download_playlist_zip/:id" => "audio_playlists#download_playlist_zip", as: :download_playlist_zip
+  match '/download_audio_playlist/:id' => 'audio_playlists#download_audio_playlist', as: :download_audio_playlist
+  match '/poll_download_data/:id' => 'audio_playlists#poll_download_data', as: :poll_download_data
+  match '/download_playlist_zip/:id' => 'audio_playlists#download_playlist_zip', as: :download_playlist_zip
 
-  match "/download_album_mp3/:id" => "album_playlists#download_mp3", as: :download_album_tracks_mp3
-  match "/edit_album_playlist_synopsis/:id" => "album_playlists#edit_synopsis", as: :edit_album_playlist_synopsis
-  match "/export_by_airline" => "album_playlists#export_by_airline", as: :export_by_airline
-  match "/view_splits" => "audio_playlists#splits", as: :view_splits
+  match '/download_album_mp3/:id' => 'album_playlists#download_mp3', as: :download_album_tracks_mp3
+  match '/edit_album_playlist_synopsis/:id' => 'album_playlists#edit_synopsis', as: :edit_album_playlist_synopsis
+  match '/export_by_airline' => 'album_playlists#export_by_airline', as: :export_by_airline
+  match '/view_splits' => 'audio_playlists#splits', as: :view_splits
 
-#  match "/movie_playlists/print/:id" => "movie_playlists#print", as: :print_movie_playlist
-  match "/movie_playlists/show_chinese/:id" => "movie_playlists#show_chinese", as: :show_chinese
-  match "/movie_playlists/export_to_excel/:id" => "movie_playlists#export_to_excel", as: :export_to_excel
-  match "/movie_playlists/download_thales_schema_package/:id" => "movie_playlists#download_thales_schema_package",
+#  match '/movie_playlists/print/:id' => 'movie_playlists#print', as: :print_movie_playlist
+  match '/movie_playlists/show_chinese/:id' => 'movie_playlists#show_chinese', as: :show_chinese
+  match '/movie_playlists/export_to_excel/:id' => 'movie_playlists#export_to_excel', as: :export_to_excel
+  match '/movie_playlists/download_thales_schema_package/:id' => 'movie_playlists#download_thales_schema_package',
                                                                  as: :download_thales_schema_package
 
-  match "/audio_playlists/print/:id" => "audio_playlists#print", as: :print_audio_playlist
-  match "/audio_playlists/export_to_excel/:id" => "audio_playlists#export_to_excel", as: :export_to_excel
-  match "/audio_playlists/find_via_json/:id" => "audio_playlists#find_via_json", as: :find_via_json
+  match '/audio_playlists/print/:id' => 'audio_playlists#print', as: :print_audio_playlist
+  match '/audio_playlists/export_to_excel/:id' => 'audio_playlists#export_to_excel', as: :export_to_excel
+  match '/audio_playlists/find_via_json/:id' => 'audio_playlists#find_via_json', as: :find_via_json
 
-  match "/album_playlists/print/:id" => "album_playlists#print", as: :print_album_playlist
-  match "/album_playlists/export_to_excel/:id" => "album_playlists#export_to_excel", as: :export_to_excel
+  match '/album_playlists/print/:id' => 'album_playlists#print', as: :print_album_playlist
+  match '/album_playlists/export_to_excel/:id' => 'album_playlists#export_to_excel', as: :export_to_excel
 
-  match "/albums/amazon_cd_covers" => "albums#amazon_cd_covers", as: :amazon_cd_covers
-  match "/albums/create_from_json" => "albums#create_from_json", as: :create_album_from_json
+  match '/albums/amazon_cd_covers' => 'albums#amazon_cd_covers', as: :amazon_cd_covers
+  match '/albums/create_from_json' => 'albums#create_from_json', as: :create_album_from_json
 
-#  match "/video_playlists/print/:id" => "video_playlists#print", as: :print_video_playlist
-  match "/video_playlists/show_chinese/:id" => "video_playlists#show_chinese", as: :show_chinese
-  match "/video_playlists/export_to_excel/:id" => "video_playlists#export_to_excel", as: :export_to_excel
+#  match '/video_playlists/print/:id' => 'video_playlists#print', as: :print_video_playlist
+  match '/video_playlists/show_chinese/:id' => 'video_playlists#show_chinese', as: :show_chinese
+  match '/video_playlists/export_to_excel/:id' => 'video_playlists#export_to_excel', as: :export_to_excel
 
-#  match "/video_master_playlists/print/:id" => "video_master_playlists#print", as: :print_video_master_playlist
-  match "/video_master_playlists/show_chinese/:id" => "video_master_playlists#show_chinese", as: :show_chinese
-  match "/video_master_playlists/export_to_excel/:id" => "video_master_playlists#export_to_excel", as: :export_to_excel
+#  match '/video_master_playlists/print/:id' => 'video_master_playlists#print', as: :print_video_master_playlist
+  match '/video_master_playlists/show_chinese/:id' => 'video_master_playlists#show_chinese', as: :show_chinese
+  match '/video_master_playlists/export_to_excel/:id' => 'video_master_playlists#export_to_excel', as: :export_to_excel
 
-#  match "/screener_playlists/print/:id" => "screener_playlists#print", as: :print_screener_playlist
-  match "/screener_playlists/show_chinese/:id" => "screener_playlists#show_chinese", as: :show_chinese
-  match "/screener_playlists/export_to_excel/:id" => "screener_playlists#export_to_excel", as: :export_to_excel
+#  match '/screener_playlists/print/:id' => 'screener_playlists#print', as: :print_screener_playlist
+  match '/screener_playlists/show_chinese/:id' => 'screener_playlists#show_chinese', as: :show_chinese
+  match '/screener_playlists/export_to_excel/:id' => 'screener_playlists#export_to_excel', as: :export_to_excel
 
-  match "/movies/update_date/:id" => "movies#update_date", as: :update_date
+  match '/movies/update_date/:id' => 'movies#update_date', as: :update_date
 
-  match "/albums/add_track" => "albums#add_track", as: :add_track
+  match '/albums/add_track' => 'albums#add_track', as: :add_track
 
-  match "/import_album/find_release" => "import_album#find_release", as: :find_release
-  match "/import_album/import_release" => "import_album#import_release", as: :import_release
+  match '/import_album/find_release' => 'import_album#find_release', as: :find_release
+  match '/import_album/import_release' => 'import_album#import_release', as: :import_release
 
-  match "/tracks/sort" => "tracks#sort", as: :sort_track
-  match "/audio_playlist_tracks/sort" => "audio_playlist_tracks#sort", as: :sort_audio_playlist
-  match "/album_playlist_items/sort" => "album_playlist_items#sort", as: :sort_album_playlist
-  match "/movie_playlist_items/sort" => "movie_playlist_items#sort", as: :sort_movie_playlist
-  match "/video_playlist_items/sort" => "video_playlist_items#sort", as: :sort_video_playlist
-  match "/video_master_playlist_items/sort" => "video_master_playlist_items#sort", as: :sort_video_master_playlist
-  match "/screener_playlist_items/sort" => "screener_playlist_items#sort", as: :sort_screener_playlist
+  match '/tracks/sort' => 'tracks#sort', as: :sort_track
+  match '/audio_playlist_tracks/sort' => 'audio_playlist_tracks#sort', as: :sort_audio_playlist
+  match '/album_playlist_items/sort' => 'album_playlist_items#sort', as: :sort_album_playlist
+  match '/movie_playlist_items/sort' => 'movie_playlist_items#sort', as: :sort_movie_playlist
+  match '/video_playlist_items/sort' => 'video_playlist_items#sort', as: :sort_video_playlist
+  match '/video_master_playlist_items/sort' => 'video_master_playlist_items#sort', as: :sort_video_master_playlist
+  match '/screener_playlist_items/sort' => 'screener_playlist_items#sort', as: :sort_screener_playlist
 
-  match "/albums/restore/:id" => "albums#restore", as: :restore_album
-  match "/movies/restore/:id" => "movies#restore", as: :restore_movie
-  match "/tracks/restore/:id" => "tracks#restore", as: :restore_track
-  match "/videos/restore/:id" => "videos#restore", as: :restore_video
+  match '/albums/restore/:id' => 'albums#restore', as: :restore_album
+  match '/movies/restore/:id' => 'movies#restore', as: :restore_movie
+  match '/tracks/restore/:id' => 'tracks#restore', as: :restore_track
+  match '/videos/restore/:id' => 'videos#restore', as: :restore_video
 
-  match "/delayed_job" => DelayedJobWeb, :anchor => false
+  match '/delayed_job' => DelayedJobWeb, :anchor => false
+
+  match '/movie_playlists/table_column_select', :to => 'movie_playlists#table_column_select', :as => :movie_playlist_table_column_select
+  match '/video_playlists/table_column_select', :to => 'video_playlists#table_column_select', :as => :video_playlist_table_column_select
+  match '/video_master_playlists/table_column_select', :to => 'video_master_playlists#table_column_select', :as => :video_master_playlist_table_column_select
+  match '/screener_playlists/table_column_select', :to => 'screener_playlists#table_column_select', :as => :screener_playlist_table_column_select
+  match '/audio_playlists/table_column_select', :to => 'audio_playlists#table_column_select', :as => :audio_playlist_table_column_select
+  match '/album_playlists/table_column_select', :to => 'album_playlists#table_column_select', :as => :album_playlist_table_column_select
 
   resources :users do
     member do

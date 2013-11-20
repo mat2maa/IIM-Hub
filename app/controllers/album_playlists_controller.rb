@@ -56,6 +56,8 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def edit
+    @columns = ['#', 'Title', 'Artist', 'CD Code', 'Duration', 'Tracks', 'Album Title (Translated)', 'Artist (Translated)', 'Label', 'Explicit Lyrics', 'Synopsis', 'Genre', 'Category']
+
     @search = AlbumPlaylist.includes(:airline)
                            .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
@@ -501,5 +503,10 @@ class AlbumPlaylistsController < ApplicationController
   #  end
   #
   #end
+
+  def table_column_select
+    puts session[:album_playlist_checked] = params[:checked]
+    render nothing: true
+  end
 
 end

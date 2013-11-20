@@ -49,6 +49,8 @@ class ScreenerPlaylistsController < ApplicationController
   end
 
   def edit
+    @columns = ['#', 'Programme Title', '(Chinese)', 'Episode Title', 'Episode Number', 'Distributor', 'Location', 'Remarks', 'Other']
+
     @search = ScreenerPlaylist.includes(:airline, :video_playlist_type)
                               .ransack(view_context.empty_blank_params params[:q])
     @screener_playlists = @search.result(distinct: true)
@@ -342,6 +344,11 @@ class ScreenerPlaylistsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(edit_screener_playlist_path(@playlist_duplicate)) }
     end
+  end
+
+  def table_column_select
+    puts session[:screener_playlist_checked] = params[:checked]
+    render nothing: true
   end
 
 end

@@ -1,17 +1,11 @@
 <table class="table table-hover" id="no-more-tables" width="100%">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Programme Title</th>
-      <th>(Foreign)</th>
-      <th>(Chinese)</th>
-      <th width="62px">Run-time</th>
-      <th>On-going</th>
-      <th>Lang Tracks</th>
-      <th>Lang Subs</th>
-      <th>Distributor</th>
-      <th>Available Episodes</th>
-      <th>Genres</th>
+      <% @columns.each.with_index do |column, index| %>
+        <th <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][index] == 'false' %>>
+          <%= column %>
+        </th>
+      <% end %>
       <th>&nbsp;</th>
     </tr>
   </thead>

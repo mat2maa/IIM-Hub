@@ -164,9 +164,9 @@
                             span: 'span3'} %>
       </div>
 
-      <br>
-
-      <%= f.button :submit, class: 'btn' %>
+      <div class="controls controls-row">
+        <%= f.button :submit, class: 'btn span3' %>
+      </div>
 
       <% if controller.action_name != 'new' %>
 
@@ -174,12 +174,12 @@
         <!-- Button to trigger modal -->
         <%= link_to 'Add Movie',
                     add_movie_to_playlist_path(id: @movie_playlist.id),
-                    id: 'add_movie_to_playlist',
-                    class: 'btn',
+                    id: 'add_movie_to_playlist_hidden',
+                    class: 'btn hidden-input',
                     role: 'btn',
-                    data: { toggle: 'modal', target: '#ajax-modal' } %>
+                    data: {toggle: 'modal', target: '#ajax-modal'} %>
         <br><br>
-    <% end %>
+      <% end %>
 
     </div>
     <!--end of .content-->
@@ -189,7 +189,27 @@
 
 <% if controller.action_name != 'new' %>
   <%= content_for :playlist do %>
-    <div class="info info-title">Playlist</div>
+    <div class="info info-title">
+      Playlist
+      <div class="btn-group pull-right" id="table-column-select">
+        <!-- Button to trigger modal -->
+        <button id="add_movie_to_playlist" type="button" class="btn btn-mini btn-info" onclick="$('#add_movie_to_playlist_hidden').click();">Add
+          Movie
+        </button>
+        <a class="btn btn-mini btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+          Select Columns
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <% @columns.each.with_index do |column, index| %>
+            <li><%= check_box_tag column,
+                                  column,
+                                  session[:movie_playlist_checked].present? ? session[:movie_playlist_checked][index] == 'true' : true %> <%= column %></li>
+          <% end %>
+          <li>&nbsp;</li>
+        </ul>
+      </div>
+    </div>
     <div id="playlist">
       <%= render partial: 'playlist',
                  object: @movie_playlist %>
@@ -218,21 +238,59 @@
     var $ = jQuery;
 
     // this sets up the ajax loader, and it will stay until the method specific js removes it
-    $('a[data-target=#ajax-modal]').on('click', function(e) {
+    $('a[data-target=#ajax-modal]').on('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
       $('body').modalmanager('loading');
-      $.rails.handleRemote( $(this) );
+      $.rails.handleRemote($(this));
     });
 
     // removes whatever is in the modal body content div upon clicking close/outside modal
-    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function(e) {
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function (e) {
       $('.modal-body-content').empty();
     });
 
-    $(document).on('click', '#ajax-modal', function(e) {
+    $(document).on('click', '#ajax-modal', function (e) {
       e.stopPropagation();
     });
+
+    // Table column select
+    $(document)
+        .on('click', '#table-column-select ul li input', function (e) {
+          e.stopPropagation();
+        })
+        .on('change', '#table-column-select ul li input', function (e) {
+
+          var checked = $(this).is(":checked");
+
+          var index = $(this).parent().index();
+
+          if (checked) {
+            $('#playlist table thead th').eq(index).show();
+          } else {
+            $('#playlist table thead th').eq(index).hide();
+          }
+
+          $('#playlist table tbody tr').each(function () {
+            if (checked) {
+              $(this).find("td").eq(index).show();
+            } else {
+              $(this).find("td").eq(index).hide();
+            }
+          });
+
+          var checkedVals = $('#table-column-select ul li input').map(function () {
+            return $(this).prop('checked');
+          }).get();
+
+          console.log(checkedVals);
+
+          $.ajax({
+            url: '/movie_playlists/table_column_select',
+            type: 'post',
+            data: { checked: checkedVals }
+          });
+        });
 
   </script>
 <% end %>

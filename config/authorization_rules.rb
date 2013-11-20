@@ -60,7 +60,8 @@ authorization do
                               :export_to_excel,
                               :add_multiple_movies,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_playlists,
                       :to => [:read,
@@ -73,7 +74,8 @@ authorization do
                               :export_to_excel,
                               :add_multiple_videos,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_master_playlists,
                       :to => [:read,
@@ -87,7 +89,8 @@ authorization do
                               :add_multiple_masters,
                               :set_video_master_playlist_item_mastering,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :screener_playlists,
                       :to => [:manage,
@@ -99,7 +102,8 @@ authorization do
                               :add_multiple_screeners,
                               :set_screener_playlist_item_mastering,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :users,
                       :to => [:edit_own_password,
@@ -193,7 +197,8 @@ authorization do
                               :poll_download_data,
                               :download_playlist_zip,
                               :find_via_json,
-                              :add_multiple_tracks]
+                              :add_multiple_tracks,
+                              :table_column_select]
 
     has_permission_on :album_playlists,
                       :to => [:manage,
@@ -209,7 +214,8 @@ authorization do
                               :set_audio_playlist_track_split,
                               :export_by_airline,
                               :set_album_synopsis,
-                              :add_multiple_albums]
+                              :add_multiple_albums,
+                              :table_column_select]
 
     has_permission_on :users,
                       :to => [:edit_own_password,
@@ -367,7 +373,8 @@ authorization do
                               :poll_download_data,
                               :download_playlist_zip,
                               :find_via_json,
-                              :add_multiple_tracks]
+                              :add_multiple_tracks,
+                              :table_column_select]
 
     has_permission_on :album_playlists,
                       :to => [:manage,
@@ -384,7 +391,8 @@ authorization do
                               :set_album_playlist_item_category_id,
                               :export_by_airline,
                               :set_album_synopsis,
-                              :add_multiple_albums]
+                              :add_multiple_albums,
+                              :table_column_select]
 
     has_permission_on :movie_playlists,
                       :to => [:manage,
@@ -395,7 +403,8 @@ authorization do
                               :export_to_excel,
                               :add_multiple_movies,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_playlists,
                       :to => [:manage,
@@ -406,7 +415,8 @@ authorization do
                               :export_to_excel,
                               :add_multiple_videos,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_master_playlists,
                       :to => [:manage,
@@ -418,7 +428,8 @@ authorization do
                               :add_multiple_masters,
                               :set_video_master_playlist_item_mastering,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :screener_playlists,
                       :to => [:manage,
@@ -430,7 +441,8 @@ authorization do
                               :add_multiple_screeners,
                               :set_screener_playlist_item_mastering,
                               :duplicate,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
   end
 
@@ -586,7 +598,8 @@ authorization do
                               :poll_download_data,
                               :download_playlist_zip,
                               :find_via_json,
-                              :add_multiple_tracks]
+                              :add_multiple_tracks,
+                              :table_column_select]
 
     has_permission_on :album_playlists,
                       :to => [:manage,
@@ -603,7 +616,8 @@ authorization do
                               :set_album_playlist_item_category_id,
                               :export_by_airline,
                               :set_album_synopsis,
-                              :add_multiple_albums]
+                              :add_multiple_albums,
+                              :table_column_select]
 
     has_permission_on :movie_playlists,
                       :to => [:manage,
@@ -617,7 +631,8 @@ authorization do
                               :lock,
                               :unlock,
                               :download_thales_schema_package,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_playlists,
                       :to => [:manage,
@@ -630,7 +645,8 @@ authorization do
                               :duplicate,
                               :lock,
                               :unlock,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :video_master_playlists,
                       :to => [:manage,
@@ -644,7 +660,8 @@ authorization do
                               :duplicate,
                               :lock,
                               :unlock,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
     has_permission_on :screener_playlists,
                       :to => [:manage,
@@ -658,7 +675,8 @@ authorization do
                               :duplicate,
                               :lock,
                               :unlock,
-                              :show_chinese]
+                              :show_chinese,
+                              :table_column_select]
 
   end
 end

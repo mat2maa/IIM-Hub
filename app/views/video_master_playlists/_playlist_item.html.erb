@@ -1,101 +1,102 @@
 <% @master = playlist_item.master %>
 <% @playlist_item = playlist_item %>
+<% @current_column = 0 %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if !playlist_item.master.present? %>
     <td colspan="2">Missing master <%= playlist_item.master_id %> id
       = <%= playlist_item.id %></td>
   <% else %>
 
-    <td data-title="Position">
+    <td data-title="Position" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Programme Title">
+    <td data-title="Programme Title" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.master.video.programme_title,
                   edit_video_path(playlist_item.master.video.id),
                   target: "_blank" %>
       &nbsp;
     </td>
 
-    <td data-title="Episode Title">
+    <td data-title="Episode Title" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.master.episode_title,
                   edit_video_path(playlist_item.master.video.id),
                   target: "_blank" %>
       &nbsp;
     </td>
 
-    <td data-title="Episode Number">
+    <td data-title="Episode Number" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.episode_number %>
       &nbsp;
     </td>
 
-    <td data-title="Duration">
+    <td data-title="Duration" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.duration %>
       &nbsp;
     </td>
 
-    <td data-title="Tape #">
+    <td data-title="Tape #" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.location %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Track 1">
+    <td data-title="Lang Track 1" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.language_track_1 %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Track 2">
+    <td data-title="Lang Track 2" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.language_track_2 %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Track 3">
+    <td data-title="Lang Track 3" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.language_track_3 %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Track 4">
+    <td data-title="Lang Track 4" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.language_track_4 %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Subs 1">
+    <td data-title="Lang Subs 1" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.video_subtitles_1 %>
       &nbsp;
     </td>
 
-    <td data-title="Lang Subs 2">
+    <td data-title="Lang Subs 2" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.video_subtitles_2 %>
       &nbsp;
     </td>
 
-    <td data-title="Tape Media">
+    <td data-title="Tape Media" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.tape_media %>
       &nbsp;
     </td>
 
-    <td data-title="Tape Format">
+    <td data-title="Tape Format" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.tape_format %>
       &nbsp;
     </td>
 
-    <td data-title="Tape Size">
+    <td data-title="Tape Size" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.tape_size %>
       &nbsp;
     </td>
 
-    <td data-title="Time In">
+    <td data-title="Time In" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.time_in %>
       &nbsp;
     </td>
 
-    <td data-title="Time Out">
+    <td data-title="Time Out" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.time_out %>
       &nbsp;
     </td>
 
-    <td data-title="Mastering">
+    <td data-title="Mastering" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @playlist_item,
                         :mastering,
                         :nil => 'change',
@@ -106,7 +107,7 @@
       &nbsp;
     </td>
 
-    <td data-title="Aspect Ratio">
+    <td data-title="Aspect Ratio" <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.aspect_ratio %>
       &nbsp;
     </td>
