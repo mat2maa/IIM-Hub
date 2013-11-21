@@ -1,6 +1,11 @@
 var $ = jQuery;
 
-var results = " <%= escape_javascript(render(partial: "results",
-                                             object: @results)) %> ";
+var releases = " <%= escape_javascript(render(partial: "releases",
+                                             object: @releases)) %> ",
+    query = "<%= j params[:last_query] %>";
 
-$('#results').html(results);
+$('#results').html(releases);
+
+$('#last-query').html(query);
+
+$('.ajax-loader').fadeOut("fast");

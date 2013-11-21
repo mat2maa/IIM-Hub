@@ -173,6 +173,8 @@ authorization do
     has_permission_on :import_album,
                       :to => [:read,
                               :find_release,
+                              :find_artist,
+                              :find_release_group,
                               :import_release]
     has_permission_on :album_playlist_items,
                       :to => :manage
@@ -350,6 +352,8 @@ authorization do
     has_permission_on :import_album,
                       :to => [:read,
                               :find_release,
+                              :find_artist,
+                              :find_release_group,
                               :import_release]
 
     has_permission_on :audio_playlists,
@@ -575,6 +579,8 @@ authorization do
     has_permission_on :import_album,
                       :to => [:read,
                               :find_release,
+                              :find_artist,
+                              :find_release_group,
                               :import_release]
 
     has_permission_on :audio_playlists,

@@ -1,0 +1,12 @@
+<tr>
+  <td><%= artist_result_counter + 1 %></td>
+  <td><%= artist_result[:name] %></td>
+  <td><%= artist_result[:type] %></td>
+  <td><%= link_to 'Select Artist',
+                  find_release_group_path(id: artist_result[:id],
+                                          artist: params[:artist],
+                                          artist_id: artist_result[:id]),
+                  remote: true,
+                  class: 'btn btn-mini' %>
+  </td>
+</tr>

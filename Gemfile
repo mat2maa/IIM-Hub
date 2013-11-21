@@ -50,7 +50,7 @@ gem 'spreadsheet'
 
 gem 'ruby-ole'
 gem 'ruby-aaws'
-gem 'rbrainz'
+gem 'musicbrainz'
 gem 'hirb'
 gem 'mime-types'
 gem 'will_paginate'

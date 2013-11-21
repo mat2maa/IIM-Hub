@@ -1,3 +1,0 @@
-
-require 'rbrainz'
-include MusicBrainz

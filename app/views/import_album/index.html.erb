@@ -1,5 +1,6 @@
 <%= render partial: 'layouts/audio_nav' %>
 
+
 <div class="container">
 
   <div class="row">
@@ -16,16 +17,9 @@
     <div class="span3" id="search_form">
       <div class="info info-title">Search MusicBrainz</div>
       <br>
-      <%= form_tag find_release_path,
+      <%= form_tag find_artist_path,
                    remote: true,
-                   html: {id: 'import_album_form'} do %>
-
-        <div class="controls controls-row">
-          <%= text_field_tag 'title',
-                             nil,
-                             placeholder: 'Album Title',
-                             class: 'span3' %>
-        </div>
+                   id: 'import_album_form' do %>
 
         <div class="controls controls-row">
           <%= text_field_tag 'artist',
@@ -34,16 +28,16 @@
                              class: 'span3' %>
         </div>
 
-        <div class="controls controls-row">
-          <%= text_field_tag 'query',
-                             nil,
-                             placeholder: 'Query',
-                             class: 'span3' %>
-        </div>
-
         <%= submit_tag 'Search', class: 'btn' %>
 
       <% end %>
+      <div class="ajax-loader" style="display:none;">
+        <%= image_tag 'loading-indicator.gif',
+                      id: 'loading-indicator' %>
+      </div>
+      <br><br>
+
+      <div class="query">Recent query: "<span id="last-query"></span>"</div>
       <br/>
 
     </div>
@@ -56,3 +50,18 @@
   <!--/row-->
 </div>
 <!--/container-->
+
+<script type="text/javascript">
+  $ = jQuery;
+
+  $(document).on("submit", '#import_album_form', function() {
+    $('.ajax-loader').fadeIn("fast");
+  });
+
+  var dataRemote  = 'a[data-remote=true], .btn[data-remote=true]';
+
+  $(document).on("click", dataRemote, function() {
+    $('.ajax-loader').fadeIn("fast");
+  });
+
+</script>

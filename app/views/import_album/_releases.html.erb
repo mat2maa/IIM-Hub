@@ -1,0 +1,27 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Album Title</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>Country</th>
+    <th>Date</th>
+    <th>Format</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'release',
+             collection: @releases if !@releases.nil? %>
+  </tbody>
+</table>
+<br>
+<%= @releases.count if !@releases.nil? %> Releases found
+<br><br>
+<%= link_to 'Back',
+            find_release_group_path(id: @last_query, artist: params[:artist], artist_id: params[:artist_id]),
+            remote: true,
+            class: 'btn btn-mini' %>

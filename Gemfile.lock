@@ -120,6 +120,8 @@ GEM
     excon (0.6.6)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     fattr (2.2.1)
     fog (0.9.0)
       builder
@@ -171,6 +173,10 @@ GEM
     mime-types (1.25)
     mini_portile (0.5.1)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
+    musicbrainz (0.7.6)
+      faraday
+      nokogiri
     mysql (2.9.1)
     mysql2 (0.3.11)
     nested_form (0.3.2)
@@ -242,7 +248,6 @@ GEM
     rake (10.1.0)
     ranked-model (0.2.1)
       activerecord (>= 3.0.3)
-    rbrainz (0.5.2)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
@@ -351,6 +356,7 @@ DEPENDENCIES
   less-rails
   memcachier
   mime-types
+  musicbrainz
   mysql2
   nested_form
   newrelic_rpm
@@ -366,7 +372,6 @@ DEPENDENCIES
   rails_12factor
   ranked-model
   ransack!
-  rbrainz
   rottentomatoes
   ruby-aaws
   ruby-ole

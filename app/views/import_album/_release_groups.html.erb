@@ -1,0 +1,23 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Title</th>
+    <th>Type</th>
+    <th>First Release Date</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'release_group',
+             collection: @release_groups if !@release_groups.nil? %>
+  </tbody>
+</table>
+<br>
+<%= @release_groups.count if !@release_groups.nil? %> Release groups found (only top 25 results shown)
+<br><br>
+<%= link_to 'Back',
+            find_artist_path(artist: @last_query),
+            remote: true,
+            class: 'btn btn-mini' %>

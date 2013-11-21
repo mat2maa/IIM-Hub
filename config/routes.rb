@@ -65,6 +65,8 @@ Iim::Application.routes.draw do
 
   match '/albums/add_track' => 'albums#add_track', as: :add_track
 
+  match '/import_album/find_artist' => 'import_album#find_artist', as: :find_artist
+  match '/import_album/find_release_group' => 'import_album#find_release_group', as: :find_release_group
   match '/import_album/find_release' => 'import_album#find_release', as: :find_release
   match '/import_album/import_release' => 'import_album#import_release', as: :import_release
 

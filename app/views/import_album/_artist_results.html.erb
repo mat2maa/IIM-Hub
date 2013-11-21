@@ -1,0 +1,17 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Artist Name</th>
+    <th>Artist Type</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'artist_result',
+             collection: @artist_results if !@artist_results.nil? %>
+  </tbody>
+</table>
+<br>
+<%= @artist_results.count if !@artist_results.nil? %> Artists found (only top 10 results shown)

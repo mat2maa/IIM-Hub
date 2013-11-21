@@ -15,70 +15,70 @@ class ImportAlbumController < ApplicationController
 
   end
 
+  def find_artist
+    @artist_results = MusicBrainz::Artist.search(params[:artist])
+  end
+
+  def find_release_group
+    @last_query = params[:artist]
+    if params[:release_group].present?
+      @release_groups = MusicBrainz::Artist.find(params[:id]).release_groups
+    else
+      @release_groups = MusicBrainz::Artist.find(params[:artist_id]).release_groups
+    end
+  end
+
   def find_release
-
-    @q = MusicBrainz::Webservice::Query.new
-    #rfilter = MusicBrainz::Webservice::ReleaseFilter.new(
-    #		artist:  params[:artist],
-    #		title:  params[:title])
-    rfilter = MusicBrainz::Webservice::ReleaseFilter.new(
-        query: params[:query],
-        artist: params[:artist],
-        title: params[:title],
-        limit: 100)
-
-    @results = @q.get_releases(rfilter)
-
+    @artist = params[:artist]
+    @last_query = params[:release_group]
+    @releases = MusicBrainz::ReleaseGroup.find(params[:id]).releases
   end
 
   def import_release
-    release_id = params[:id]
-
-    #get release info
-
-    q = MusicBrainz::Webservice::Query.new
-    release_id = release_id
-    release = q.get_release_by_id(release_id,
-                                  :artist => true,
-                                  :tracks => true)
+    @artist = MusicBrainz::Artist.find(params[:artist_id])
+    @release_group = MusicBrainz::ReleaseGroup.find(params[:release_group])
+    @release = MusicBrainz::Release.find(params[:id])
+    @tracks = @release.tracks
 
     #add release to database
 
     album = Album.new
-    album.title_original = release.title
-    album.artist_original = release.artist.name
-    album.musicbrainz_id = release.id.uuid
+    album.title_original = @release.title
+    album.artist_original = @artist.name
+    album.musicbrainz_id = @release.id
     album.to_delete = 0
     album.label_id = ''
+    album.release_year = @release_group.first_release_date
+    album.tracks_count = @tracks.count
+
     album.save(validate: false)
 
     #add tracks to database
 
-    release.tracks.each_with_index do |rtrack,
-        i|
+    @album_duration = 0
+
+    @tracks.each_with_index do |rtrack, i|
       track = Track.new
       track.to_delete = 0
       track.album_id = album.id
       track.title_original = rtrack.title
-      track.artist_original = release.artist.name
-      track.musicbrainz_id = rtrack.id.uuid
-      if rtrack.duration.nil?
-        duration =0
+      track.artist_original = @artist.name
+      track.musicbrainz_id = rtrack.recording_id
+      if rtrack.length.nil?
+        duration = 0
       else
-        duration = rtrack.duration
+        duration = rtrack.length
       end
       track.duration = duration
-      track.track_num = i+1
+      track.track_num = rtrack.position
       track.save(validate: false)
-
+      @album_duration += rtrack.length.to_i
     end
 
-    album.total_duration = album.duration
+    album.total_duration = @album_duration
     album.save(validate: false)
 
-    #redirect to album info
-
-    redirect_to edit_album_path(album)
+    puts @album = album
   end
 
   def update

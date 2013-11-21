@@ -1,0 +1,14 @@
+<tr>
+  <td><%= release_group_counter + 1 %></td>
+  <td><%= release_group.title %></td>
+  <td><%= release_group.type %></td>
+  <td><%= release_group.first_release_date %></td>
+  <td><%= link_to 'Select Release Group',
+                  find_release_path(id: release_group.id,
+                                    artist: params[:artist],
+                                    artist_id: params[:artist_id],
+                                    release_group: release_group.id),
+                  remote: true,
+                  class: 'btn btn-mini' %>
+  </td>
+</tr>

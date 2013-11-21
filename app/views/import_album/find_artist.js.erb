@@ -1,0 +1,11 @@
+var $ = jQuery;
+
+var artist_results = " <%= escape_javascript(render(partial: "artist_results",
+                                             object: @artist_results)) %> ",
+    query = "";
+
+$('#results').html(artist_results);
+
+$('#last-query').html(query);
+
+$('.ajax-loader').fadeOut("fast");

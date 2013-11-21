@@ -1,0 +1,11 @@
+var $ = jQuery;
+
+var release_groups = " <%= escape_javascript(render(partial: "release_groups",
+                                             object: @release_groups)) %> ",
+    query = "<%= j params[:last_query] %>";
+
+$('#results').html(release_groups);
+
+$('#last-query').html(query);
+
+$('.ajax-loader').fadeOut("fast");
