@@ -1,58 +1,58 @@
-<%= render partial: 'layouts/album_header' %>
-<center>
-  <p style="color: green">
-    <%= flash[:notice] %>
-  </p>
-</center>
+<%= render partial: 'layouts/audio_nav' %>
 
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+    <!--/span-->
   </div>
+  <!--/row-->
 
-  <div id="content-header">Import Albums</div>
+  <div class="row">
+    <div class="span3" id="search_form">
+      <div class="info info-title">Search MusicBrainz</div>
+      <br>
+      <%= form_tag find_release_path,
+                   remote: true,
+                   html: {id: 'import_album_form'} do %>
+
+        <div class="controls controls-row">
+          <%= text_field_tag 'title',
+                             nil,
+                             placeholder: 'Album Title',
+                             class: 'span3' %>
+        </div>
+
+        <div class="controls controls-row">
+          <%= text_field_tag 'artist',
+                             nil,
+                             placeholder: 'Artist',
+                             class: 'span3' %>
+        </div>
+
+        <div class="controls controls-row">
+          <%= text_field_tag 'query',
+                             nil,
+                             placeholder: 'Query',
+                             class: 'span3' %>
+        </div>
+
+        <%= submit_tag 'Search', class: 'btn' %>
+
+      <% end %>
+      <br/>
+
+    </div>
+    <!--/span-->
+
+    <div class="span9">
+      <div id="results"></div>
+    </div>
+  </div>
+  <!--/row-->
 </div>
-
-<div id="content">
-  <center>
-    <strong>Search MusicBrainz for Album</strong>
-    <br/><br/>
-
-    <%= form_tag find_release_path,
-                 remote: true,
-                 html: {id: 'import_album_form'},
-                 class: 'spinner-trigger' do %>
-
-      <table class="edit">
-        <tr>
-          <td>Album Title</td>
-          <td>
-            <%= text_field_tag 'title' %>
-          </td>
-          <td>Artist</td>
-          <td>
-            <%= text_field_tag 'artist' %>
-          </td>
-        </tr>
-        <tr>
-          <td>Query</td>
-          <td>
-            <%= text_field_tag 'query' %>
-          </td>
-          <td></td>
-          <td>
-            <%= image_tag 'spinner.gif',
-                          id: 'spinner',
-                          class: 'transparent' %>
-          </td>
-        </tr>
-      </table>
-
-      <%= submit_tag 'Search' %>
-
-    <% end %>
-    <br/>
-
-    <div id="results"></div>
-  </center>
-  <br/><br/>
-</div>
+<!--/container-->

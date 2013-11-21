@@ -1,117 +1,200 @@
-<%= render partial: 'layouts/track_header' %>
-<center><p style="color: green"><%= flash[:notice] %></p></center>
-<div id="content-header-wrapper">
-  <div id="content-header-actions">
-    <%= link_to "Edit Track |",
-                edit_track_path(@track) if permitted_to? :edit,
-                                                         :tracks %> <%= link_to "Search Baidu",
-                                                                                "http://www.baidu.com",
-                                                                                target: "_blank" %>
-  </div>
-  <div id="content-header">Track : <%= @track.title_original %>
-    <br/>
-  </div>
+<%= render partial: 'layouts/audio_nav' %>
 
-</div>
-<div id="content">
-  <center>
-    <table class="edit">
-      <tr>
-        <th>Track Title (Original)</th>
-        <td><%= @track.title_original %></td>
-        <th>Track Num</th>
-        <td><%= @track.track_num %></td>
-        <th>Playlists this track is in:</th>
-      </tr>
-      <tr>
-        <th>Track Title (Translated)</th>
-        <td><%= @track.title_english %></td>
-        <th>Tempo</th>
-        <td><%= @track.tempo %></td>
-        <td rowspan="9" valign="top">
-          <% @playlists.each do |playlist| %>
-            <%= link_to playlist.audio_playlist_id,
-                        audio_playlist_path(id: playlist.audio_playlist_id) if !playlist.audio_playlist.nil? %>
-            <%= playlist.audio_playlist.program.name if !playlist.audio_playlist.nil? && !playlist.audio_playlist.program_id.nil? %>
-            <br/>
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+  <div class="row">
+    <div class="span3">
+      <div id="poster-thumbnail">
+        <%= link_to(image_tag(@track.album.cover.url, class: 'poster-image'),
+                    @track.album.cover.url,
+                    target: "_blank") %>
+        <div class="poster-title poster-info">
+          <%= "#{@track.track_num}. #{@track.title_original}" %>
+          <% if @track.title_english.present? && @track.title_english != @track.title_original %>
+            <br>
+            (<%= @track.title_english %>)
           <% end %>
-        </td>
-      </tr>
-      <tr>
-        <th>Artist (Original)</th>
-        <td><%= @track.artist_original %></td>
-        <th>Intro Tempo</th>
-        <td><%= @track.tempo_intro %></td>
-      </tr>
-      <tr>
-        <th>Artist (Translated)</th>
-        <td><%= @track.artist_english %></td>
-        <th>Outro Tempo</th>
-        <td><%= @track.tempo_outro %></td>
-      </tr>
-      <tr>
-        <th>Composer</th>
-        <td><%= @track.composer %></td>
-        <th>Gender</th>
-        <td><%= @track.gender %></td>
-      </tr>
-      <tr>
-        <th>Distributor</th>
-        <td><%= @track.distributor %></td>
-        <th>Language</th>
-        <td><%= @track.language.name if !@track.language_id.nil? %></td>
-      </tr>
-      <tr>
-        <th>Album</th>
-        <td><%= link_to @track.album.title_original,
-                        album_path(@track.album) %></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>Publisher</th>
-        <td><%= @track.album.publisher.name if !@track.album.publisher_id.nil? %></td>
-        <th>Origin</th>
-        <td>
-          <%= @track.origin.name if !@track.origin_id.nil? %></td>
-      </tr>
-      <tr>
-        <th>Label</th>
-        <td><%= @track.album.label.name if !@track.album.label.nil? %></td>
-        <th>Duration</th>
-        <td><%= duration_min(@track.duration) %> : <%= duration_sec(@track.duration) %></td>
-      </tr>
-      <tr>
-        <th>Release Year</th>
-        <td><%= @track.album.release_year %></td>
-        <th>Explicit Lyrics</th>
-        <td><%= check_box("track",
-                          "explicit_lyrics",
-                          disabled: true) %></td>
-      </tr>
-      <tr>
-        <th>CD Code</th>
-        <td><%= @track.album.cd_code %></td>
-        <th>Genre</th>
-        <td><%= show_genres @track.genres if !@track.genres.count.zero? %></td>
-
-      </tr>
-    </table>
-    <br/>
-
-    <div class="nav-tab">
-      <%= link_to "Lyrics",
-                  remote: true,
-                  url: {action: "show_lyrics",
-                        id: @track.id} %>
-
+        </div>
+        <div class="poster-list">
+          <ul>
+            <% if @track.album.title_original.present? %>
+              <li class="poster-info"><%= link_to @track.album.title_original, album_path(@track.album) %></li>
+            <% end %>
+            <% if @track.album.release_year.present? %>
+              <li class="poster-info">Release Year: <%= @track.album.release_year %></li>
+            <% end %>
+            <% if @track.artist_original.present? %>
+              <li class="poster-info">Artist: <%= @track.artist_original if @track.artist_original.present? %></li>
+            <% end %>
+            <% if @track.artist_english.present? %>
+              <li class="poster-info">Artist
+                (Translated): <%= @track.artist_english if @track.artist_english.present? %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <br>
     </div>
-    <div id="tab-area">
-      <%= render partial: 'lyrics',
-                 locals: {track: 'track',
-                          lyrics: 'lyrics'} %>
-    </div>
+    <!--/span-->
 
-  </center>
-  <br/><br/>
+    <div class="span6">
+      <div id="content">
+        <% if @track.lyrics.present? || @playlists.present? %>
+          <div class="tabbable">
+            <ul class="nav nav-tabs pre-nav-below">
+              <% if @track.lyrics.present? %>
+                <li class="<%= "active" if @track.lyrics.present? %>">
+                  <a href="#lyrics" data-toggle="tab">Lyrics</a>
+                </li>
+              <% end %>
+              <% if @playlists.present? %>
+                <li class="<%= 'active' if !@track.lyrics.present? && @playlists.present? %>">
+                  <a href="#playlists" data-toggle="tab">Playlists</a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="tabbable tabs-below">
+            <ul class="nav nav-tabs pull-right">
+              <li>
+                <%= link_to "Previous",
+                            track_path(@track.previous) if @track.previous.present? %>
+              </li>
+              <li>
+                <%= link_to "Next",
+                            track_path(@track.next) if @track.next.present? %>
+              </li>
+              <li>
+                <%= link_to 'Edit track',
+                            edit_track_path(@track) if permitted_to? :edit,
+                                                                     :tracks %>
+              </li>
+            </ul>
+          </div>
+          <div class="tabbable">
+            <div class="tab-content">
+              <% if @track.lyrics.present? %>
+                <div class="tab-pane fade <%= 'active in' if @track.lyrics.present? %>" id="lyrics">
+                  <p>
+                    <%= @track.lyrics %>
+                  </p>
+                </div>
+              <% end %>
+              <% if @playlists.present? %>
+                <div class="tab-pane fade <%= 'active in' if !@track.lyrics.present? && @playlists.present? %>" id="playlists">
+                  <% @playlists.each do |playlist| %>
+                    <%= link_to playlist.audio_playlist_id,
+                                audio_playlist_path(id: playlist.audio_playlist_id) if !playlist.audio_playlist.nil? %>
+                    <%= playlist.audio_playlist.program.name if !playlist.audio_playlist.nil? && !playlist.audio_playlist.program_id.nil? %>
+                    <br/>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <div class="tabbable">
+            <ul class="nav nav-tabs pre-nav-below">
+              <li>
+                <%= link_to "Previous",
+                            track_path(@track.previous) if @track.previous.present? %>
+              </li>
+              <li>
+                <%= link_to "Next",
+                            track_path(@track.next) if @track.next.present? %>
+              </li>
+              <li>
+                <%= link_to 'Edit track',
+                            edit_track_path(@track) if permitted_to? :edit,
+                                                                     :tracks %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+
+    <div class="span3">
+      <div class="content">
+        <div class="info info-title">Technical Information</div>
+        <div class="info-list">
+          <ul>
+            <% if @track.genres.present? %>
+              <li class="info">Genre: <%= show_genres @track.genres if !@track.genres.count.zero? %></li>
+            <% end %>
+            <% if @track.gender.present? %>
+              <li class="info">Gender: <%= @track.gender %></li>
+            <% end %>
+            <% if @track.duration.present? %>
+              <li class="info">Duration: <%= duration_min(@track.duration) %>:<%= duration_sec(@track.duration) %></li>
+            <% end %>
+            <% if @track.tempo.present? %>
+              <li class="info">Tempo: <%= @track.tempo %></li>
+            <% end %>
+            <% if @track.tempo_intro.present? %>
+              <li class="info">Intro Tempo: <%= @track.tempo_intro %></li>
+            <% end %>
+            <% if @track.tempo_outro.present? %>
+              <li class="info">Outro Tempo: <%= @track.tempo_outro %></li>
+            <% end %>
+            <% if @track.composer.present? %>
+              <li class="info">Composer: <%= @track.composer %></li>
+            <% end %>
+            <% if @track.album.cd_code.present? %>
+              <li class="info">CD Code: <%= @track.album.cd_code %></li>
+            <% end %>
+            <% if @track.album.label.present? %>
+              <li class="info">Label: <%= @track.album.label.name if !@track.album.label.nil? %></li>
+            <% end %>
+            <% if @track.album.publisher.present? %>
+              <li class="info">Publisher: <%= @track.album.publisher.name if !@track.album.publisher_id.nil? %></li>
+            <% end %>
+            <% if @track.distributor.present? %>
+              <li class="info">Distributor: <%= @track.distributor %></li>
+            <% end %>
+            <% if @track.language.present? %>
+              <li class="info">Language: <%= @track.language.name if !@track.language_id.nil? %></li>
+            <% end %>
+            <li class="info">Explicit Lyrics: <%= @track.explicit_lyrics? ? "✓" : "✗" %>&nbsp;</li>
+            <% if @track.origin.present? %>
+              <li class="info">Origin: <%= @track.origin.name if !@track.origin_id.nil? %></li>
+            <% end %>
+          </ul>
+        </div>
+        <br>
+
+        <div class="info info-title">Tools</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <%= link_to "Search Baidu",
+                          "http://www.baidu.com",
+                          target: "_blank" %>
+            </li>
+            <li class="info">
+              <%= link_to "Search seekalyric.com",
+                          "http://www.seekalyric.com/song/#{@track.artist_original.sub(/ /, '_')}/#{@track.title_original.sub(/ /, '_')}",
+                          target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
 </div>
+<!-- /container -->

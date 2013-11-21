@@ -1,15 +1,20 @@
 <tr id="item_<%= track_view.id %>">
-  <td width="10%"><%= link_to track_view.track_num,
-                              track_path(id: track_view.id) %></td>
-  <td width="45%">
+  <td data-title="#"><%= track_view.track_num %>&nbsp;
+  </td>
+  <td data-title="Title">
     <% if track_view.mp3_exists == true %>
       <%= link_to track_view.title_original,
                   Settings.nas_mp3_url + track_view.album.id.to_s + "/" + track_view.track_num.to_s + ".mp3",
-                  :title => track_view.artist_original + " - " + track_view.title_original %>
+                  :title => track_view.artist_original + " - " + track_view.title_original %>&nbsp;
     <% else %>
-      <%= track_view.title_original %>
+      <%= track_view.title_original %>&nbsp;
     <% end %>
   </td>
-  <td width="20%"><%= track_view.artist_original %></td>
-  <td width="10%"><%= duration(track_view.duration) %></td>
+  <td data-title="Artist"><%= track_view.artist_original %>&nbsp;</td>
+  <td data-title="Duration (mm:ss)"><%= duration(track_view.duration) %>&nbsp;</td>
+  <td>
+    <%= link_to 'Show',
+                track_path(id: track_view.id),
+                class: 'btn btn-mini' %>&nbsp;
+  </td>
 </tr>
