@@ -1,10 +1,14 @@
 <tr id="airline_rights_country-row-<%= airline_rights_country.id %>">
   <td class="list-item"><%= airline_rights_country.id %></td>
   <td class="list-item"><%= airline_rights_country.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_airline_rights_country_path(airline_rights_country) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    airline_rights_country,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_airline_rights_country_path(airline_rights_country),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                airline_rights_country,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

@@ -1,15 +1,12 @@
-<%= form_for @airline_rights_country,
-             remote: true,
-             html: {id: "airline_rights_country_form"} do |f| %>
-  <table>
-    <tr>
-      <td>Airline Rights Country Name</td>
-      <td>
-        <%= f.text_field :name %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Airline Rights Country" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @airline_rights_country,
+                     remote: true,
+                     html: {id: "airline_rights_country_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Airline Rights Country Name' %>
+  </div>
+
+  <%= f.submit class: 'btn' %>
 <% end %>

@@ -1,8 +1,43 @@
+<% models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners
+screener_playlists audio_playlists album_playlists tracks albums) %>
+
 <%= render partial: 'header' %>
 
-<div class="container-fluid">
-  <% models = %w(masters screeners) %>
-  <% if !models.include?(controller_name) %>
+<% if models.include?(controller_name) %>
+
+  <div class="container-fluid">
+    <% models = %w(masters screeners) %>
+    <% if !models.include?(controller_name) %>
+      <div class="row-fluid">
+        <div class="span3">
+          &nbsp;
+        </div>
+        <div class="span9">
+          <%= link_to "Create a #{controller_name.singularize.split('_').join(' ')}",
+                      self.send("new_#{controller_name.singularize}_path"),
+                      class: 'btn btn-create' %>
+        </div>
+      </div>
+    <% end %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render partial: 'search_form',
+                   object: @search %>
+      </div>
+      <!--/span-->
+      <div class="span9" id="no-more-tables">
+        <div id="bootstrap-flash">
+          <%= bootstrap_flash %>
+        </div>
+        <%= render partial: "#{controller_name}" %>
+      </div>
+    </div>
+    <!--/row-->
+  </div> <!-- /container -->
+
+<% else %>
+
+  <div class="container-fluid">
     <div class="row-fluid">
       <div class="span3">
         &nbsp;
@@ -13,19 +48,50 @@
                     class: 'btn btn-create' %>
       </div>
     </div>
-  <% end %>
-  <div class="row-fluid">
-    <div class="span3">
-      <%= render partial: 'search_form',
-                 object: @search %>
-    </div>
-    <!--/span-->
-    <div class="span9" id="no-more-tables">
-      <div id="bootstrap-flash">
-        <%= bootstrap_flash %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render partial: 'form' %>
       </div>
-      <%= render partial: "#{controller_name}" %>
+      <!--/span-->
+      <div class="span9" id="no-more-tables">
+        <div id="bootstrap-flash">
+          <%= bootstrap_flash %>
+        </div>
+        <table class="table" id="airline_rights_countries">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Airline Rights Country Name</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <%= render partial: 'airline_rights_country',
+                     collection: @airline_rights_countries %>
+          </tbody>
+        </table>
+
+        <br/>
+        <br/>
+        <%= will_paginate @airline_rights_countries,
+                          inner_window: 1,
+                          renderer: BootstrapPagination::Rails,
+                          class: 'pagination pagination-small' %>
+        <%
+           def items_per_page_select(collection = AirlineRightsCountry)
+             select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                        class: 'items_per_page_select_menu'
+           end
+        %>
+        <%= form_for '/airline_rights_countries', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+          <span>Items per page: </span>
+          <%= items_per_page_select @airline_rights_countries %>
+          <%= f.submit "Submit",
+                       class: 'btn btn-small' %>
+        <% end %>
+      </div>
     </div>
   </div>
-  <!--/row-->
-</div> <!-- /container -->
+
+<% end %>

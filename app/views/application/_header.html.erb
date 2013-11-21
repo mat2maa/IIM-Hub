@@ -1,6 +1,9 @@
 <% movie_models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners screener_playlists) %>
+<% audio_models = %w(audio_playlists album_playlists tracks albums)%>
 <% if movie_models.include?(controller_name) %>
   <%= render partial: 'layouts/movies_nav' %>
-<% else %>
+<% elsif audio_models.include?(controller_name) %>
   <%= render partial: 'layouts/audio_nav' %>
+<% else %>
+  <%= render partial: 'layouts/movies_settings_nav' %>
 <% end %>
