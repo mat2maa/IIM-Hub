@@ -80,6 +80,9 @@ Iim::Application.configure do
   config.after_initialize do
     Delayed::Job.scaler = :heroku_cedar
   end
+
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "INFO").upcase)
 end
 
 #PDFKit.configure do |config|
