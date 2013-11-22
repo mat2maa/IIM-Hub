@@ -10,7 +10,7 @@
                 edit_screener_path(screener),
                 class: 'edit_screener',
                 id: 'edit_screener',
-                data: { toggle: 'modal', target: '#screener-modal' } %> |
+                data: {toggle: 'modal', target: '#screener-modal'} %> |
     <%= link_to 'delete',
                 screener_path(screener),
                 method: :delete,
@@ -24,10 +24,10 @@
   var $ = jQuery;
 
   // this sets up the ajax loader, and it will stay until the method specific js removes it
-  $('a[data-target=#screener-modal]').on('click', function(e) {
+  $('a[data-target=#screener-modal]').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
     $('body').modalmanager('loading');
-    $.rails.handleRemote( $(this) );
+    $.rails.handleRemote($(this));
   });
 </script>

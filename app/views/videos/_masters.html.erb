@@ -10,7 +10,7 @@
                 edit_master_path(master),
                 class: 'edit_master',
                 id: 'edit_master',
-                data: { toggle: 'modal', target: '#master-modal' } %> |
+                data: {toggle: 'modal', target: '#master-modal'} %> |
     <%= link_to 'delete',
                 master_path(master),
                 method: :delete,
@@ -25,10 +25,10 @@
   var $ = jQuery;
 
   // this sets up the ajax loader, and it will stay until the method specific js removes it
-  $('a[data-target=#master-modal]').on('click', function(e) {
+  $('a[data-target=#master-modal]').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
     $('body').modalmanager('loading');
-    $.rails.handleRemote( $(this) );
+    $.rails.handleRemote($(this));
   });
 </script>

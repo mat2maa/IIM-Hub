@@ -1,10 +1,14 @@
 <tr id="master_playlist_type-row-<%= master_playlist_type.id %>">
   <td class="list-item"><%= master_playlist_type.id %></td>
   <td class="list-item"><%= master_playlist_type.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_master_playlist_type_path(master_playlist_type) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    master_playlist_type,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_master_playlist_type_path(master_playlist_type),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                master_playlist_type,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

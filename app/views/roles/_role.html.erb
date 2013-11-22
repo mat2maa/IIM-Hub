@@ -2,7 +2,8 @@
   <td><%= role.id %></td>
   <td><%= role.name %></td>
   <td><%= link_to 'Edit',
-                  edit_role_path(role) %></td>
+                  edit_role_path(role),
+                  class: 'btn btn-mini' %></td>
   <td>
     <%= link_to 'Delete',
                 {action: "destroy",

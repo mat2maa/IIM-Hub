@@ -1,0 +1,33 @@
+<table class="table" id="commercial_run_times">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Minutes</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'commercial_run_time',
+             collection: @commercial_run_times %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+<%= will_paginate @commercial_run_times,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = CommercialRunTimes)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/commercial_run_times', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @commercial_run_times %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

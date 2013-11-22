@@ -1,15 +1,18 @@
-<%= form_for @video_playlist_type,
-             remote: true,
-             html: {id: "video_playlist_type_form"} do |f| %>
-  <table>
-    <tr>
-      <td>Video Playlist Type Name</td>
-      <td>
-        <%= f.text_field :name %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Video Playlist Type" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @video_playlist_type,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "video_playlist_type_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Video Playlist Type Name' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

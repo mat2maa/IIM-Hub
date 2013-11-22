@@ -1,10 +1,14 @@
 <tr id="movie_playlist_type-row-<%= movie_playlist_type.id %>">
   <td class="list-item"><%= movie_playlist_type.id %></td>
   <td class="list-item"><%= movie_playlist_type.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_movie_playlist_type_path(movie_playlist_type) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    movie_playlist_type,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_movie_playlist_type_path(movie_playlist_type),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                movie_playlist_type,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

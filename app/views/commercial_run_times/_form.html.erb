@@ -1,15 +1,18 @@
-<%= form_for @commercial_run_time,
-             remote: true,
-             html: {id: "commercial_run_time_form"} do |f| %>
-  <table>
-    <tr>
-      <td>Minutes</td>
-      <td>
-        <%= f.text_field :minutes %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add Minutes" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @commercial_run_time,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "commercial_run_time_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :minutes,
+                      class: 'span12',
+                      placeholder: 'Minutes' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

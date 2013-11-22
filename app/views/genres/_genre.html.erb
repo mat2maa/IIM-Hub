@@ -1,10 +1,14 @@
 <tr id="genre-row-<%= genre.id %>">
   <td class="list-item"><%= genre.id %></td>
   <td class="list-item"><%= genre.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_genre_path(genre) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    genre,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_genre_path(genre),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                genre,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

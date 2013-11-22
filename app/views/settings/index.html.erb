@@ -1,78 +1,78 @@
-<div id="header">
-  <div class="title">Settings</div>
-  <div id="nav">
-    <ul>
-      <li><%= link_to "Dashboard",
-                      controller: "dashboard" %></li>
-    </ul>
-    <div id="clear"><br/></div>
+<%= render partial: 'layouts/header' %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="well" id="dashboard-well">
+        <% if permitted_to? :edit,
+                            :airlines %>
+          <%= link_to 'Airlines',
+                      airlines_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :programs %>
+          <%= link_to 'Programs',
+                      programs_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :genres %>
+          <%= link_to 'Genres',
+                      genres_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :labels %>
+          <%= link_to 'Record Labels',
+                      labels_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :publishers %>
+          <%= link_to 'Publishers',
+                      publishers_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :languages %>
+          <%= link_to 'Languages',
+                      languages_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :origins %>
+          <%= link_to 'Origins',
+                      origins_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :categories %>
+          <%= link_to 'Categories',
+                      categories_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :vos %>
+          <%= link_to 'VOs',
+                      vos_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if has_role? :administrator %>
+          <% if permitted_to? :edit,
+                              :splits %>
+            <%= link_to 'Splits',
+                        splits_path,
+                        class: 'btn btn-large btn-block btn-inverse' %>
+          <% end %>
+          <% if permitted_to? :edit,
+                              :vo_durations %>
+            <%= link_to 'VO Durations',
+                        vo_durations_path,
+                        class: 'btn btn-large btn-block btn-inverse' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
-</div>
-<div id="content">
-  <center>
-    <br/>
-    <strong>Please select from the following options:</strong>
-    <br/><br/>
-    <table border="0" cellpadding="10">
-      <tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Airlines",
-                                          airlines_path %></td>
-        <td>Edit airlines list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Programs",
-                                          programs_path %></td>
-        <td>Edit programs list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Genres",
-                                          genres_path %></td>
-        <td>Edit genres list for albums and songs</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Record Labels",
-                                          labels_path %></td>
-        <td>Edit record labels list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Publisher",
-                                          publishers_path %></td>
-        <td>Edit publishers list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Language",
-                                          languages_path %></td>
-        <td>Edit languages list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Origin",
-                                          origins_path %></td>
-        <td>Edit origins list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Category",
-                                          categories_path %></td>
-        <td>Edit categories list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "VOs",
-                                          vos_path %></td>
-        <td>Edit VOs list</td>
-      </tr>
-      <% if has_role? :administrator %>
-        <tr>
-          <td class="dashboard"><%= link_to "Splits",
-                                            splits_path %></td>
-          <td>Edit Splits list</td>
-        </tr>
-        <tr>
-          <td class="dashboard"><%= link_to "VO Durations",
-                                            vo_durations_path %></td>
-          <td>Edit VO Durations list</td>
-        </tr>
-      <% end %>
-    </table>
-  </center>
-  <br/><br/>
-</div>
+</div> <!-- /container -->

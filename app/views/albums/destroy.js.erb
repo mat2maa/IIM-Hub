@@ -4,16 +4,16 @@ var $element = $("#album-<%= @album.id %>");
 var notice = "<%= escape_javascript(flash[:notice]) %>";
 
 <% if @album_is_deleted %>
-  $element.fadeOut("fast");
-  $('#bootstrap-flash')
-      .html('<div class="alert fade in alert-success">' +
-          '<button class="close" data-dismiss="alert">×</button>' +
-          notice +
-          '</div>');
+$element.fadeOut("fast");
+$('#bootstrap-flash')
+    .html('<div class="alert fade in alert-success">' +
+        '<button class="close" data-dismiss="alert">×</button>' +
+        notice +
+        '</div>');
 <% else %>
-  $('#bootstrap-flash')
-      .html('<div class="alert fade in alert-success">' +
-          '<button class="close" data-dismiss="alert">×</button>' +
-          notice +
-          '</div>');
+$('#bootstrap-flash')
+    .html('<div class="alert fade in alert-success">' +
+        '<button class="close" data-dismiss="alert">×</button>' +
+        notice +
+        '</div>');
 <% end %>

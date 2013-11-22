@@ -1,10 +1,14 @@
 <tr id="category-row-<%= category.id %>">
   <td class="list-item"><%= category.id %></td>
   <td class="list-item"><%= category.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_category_path(category) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    category,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_category_path(category),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                category,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

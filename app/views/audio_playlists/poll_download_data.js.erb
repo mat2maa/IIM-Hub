@@ -2,10 +2,10 @@ var $ = jQuery,
     DownloadPoller;
 
 DownloadPoller = {
-  poll: function() {
+  poll: function () {
     setTimeout(this.request, 3000);
   },
-  request: function() {
+  request: function () {
     $.ajax({
       url: '/poll_download_data/<%= @audio_playlist.id %>',
       type: 'get',
@@ -28,5 +28,5 @@ $(".download-info > .links").html("<%= j render(partial: 'download_links',
                                                    locals: { audio_playlist: @audio_playlist }) %>");
 
 <% if !@audio_playlist.finished? %>
-  DownloadPoller.poll();
+DownloadPoller.poll();
 <% end %>

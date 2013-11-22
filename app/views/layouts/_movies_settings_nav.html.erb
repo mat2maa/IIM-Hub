@@ -14,61 +14,81 @@
           <%= image_tag 'text-logo.png' %>
         </div>
       <% end %>
-      <a class="brand" href="#">Movie/Video Playlist Maker</a>
+      <a class="brand" href="#">Movie Settings</a>
 
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class='<%= 'active' if controller_name == 'dashboard' %>'>
-            <%= link_to 'Dashboard',
-                        controller: 'dashboard' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Types <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'movie_types' %>'>
+                <%= link_to 'Movie Types',
+                            controller: 'movie_types' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'movie_playlist_types' %>'>
+                <%= link_to 'Movie Playlist Types',
+                            controller: 'movie_playlist_types' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'video_playlist_types' %>'>
+                <%= link_to 'Video Playlist Types',
+                            controller: 'video_playlist_types' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'master_playlist_types' %>'>
+                <%= link_to 'Master Playlist Types',
+                            controller: 'master_playlist_types' %>
+              </li>
+            </ul>
           </li>
-          <li class='<%= 'active' if controller_name == 'movie_types' %>'>
-            <%= link_to 'Movie Types',
-                        controller: 'movie_types' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Genres <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'movie_genres' %>'>
+                <%= link_to 'Movie Genres',
+                            controller: 'movie_genres' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'video_genres' %>'>
+                <%= link_to 'Video Genres',
+                            controller: 'video_genres' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'video_parent_genres' %>'>
+                <%= link_to 'Video Parent Genres',
+                            controller: 'video_parent_genres' %>
+              </li>
+            </ul>
           </li>
-          <li class='<%= 'active' if controller_name == 'movie_playlist_types' %>'>
-            <%= link_to 'Movie Playlist Types',
-                        controller: 'movie_playlist_types' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Suppliers <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'suppliers' %>'>
+                <%= link_to 'Suppliers',
+                            controller: 'suppliers' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'supplier_categories' %>'>
+                <%= link_to 'Supplier Categories',
+                            controller: 'supplier_categories' %>
+              </li>
+            </ul>
           </li>
-          <li class='<%= 'active' if controller_name == 'video_playlist_types' %>'>
-            <%= link_to 'Video Playlist Types',
-                        controller: 'video_playlist_types' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'master_playlist_types' %>'>
-            <%= link_to 'Master Playlist Types',
-                        controller: 'master_playlist_types' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'movie_genres' %>'>
-            <%= link_to 'Movie Genres',
-                        controller: 'movie_genres' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'video_genres' %>'>
-            <%= link_to 'Video Genres',
-                        controller: 'video_genres' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'video_parent_genres' %>'>
-            <%= link_to 'Video Parent Genres',
-                        controller: 'video_parent_genres' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'suppliers' %>'>
-            <%= link_to 'Suppliers',
-                        controller: 'suppliers' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'supplier_categories' %>'>
-            <%= link_to 'Supplier Categories',
-                        controller: 'supplier_categories' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'airline_rights_countries' %>'>
-            <%= link_to 'Airline Rights Countries',
-                        controller: 'airline_rights_countries' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'commercial_run_times' %>'>
-            <%= link_to 'Commercial Run Time',
-                        controller: 'commercial_run_times' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'master_languages' %>'>
-            <%= link_to 'Languages',
-                        controller: 'master_languages' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'airlines' %>'>
+                <%= link_to 'Airlines',
+                            controller: 'airlines' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'airline_rights_countries' %>'>
+                <%= link_to 'Airline Rights Countries',
+                            controller: 'airline_rights_countries' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'commercial_run_times' %>'>
+                <%= link_to 'Commercial Run Times',
+                            controller: 'commercial_run_times' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'master_languages' %>'>
+                <%= link_to 'Languages',
+                            controller: 'master_languages' %>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

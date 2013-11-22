@@ -1,15 +1,18 @@
-<%= form_for @movie_type,
-             remote: true,
-             html: {id: "movie_type_form"} do |f| %>
-  <table>
-    <tr>
-      <td>Movie Type Name</td>
-      <td>
-        <%= f.text_field :name %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Movie Type" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @movie_type,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "movie_type_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Movie Type Name' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

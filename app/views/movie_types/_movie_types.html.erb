@@ -1,0 +1,33 @@
+<table class="table" id="movie_types">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Movie Type</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'movie_type',
+             collection: @movie_types %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+<%= will_paginate @movie_types,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = MovieTypes)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/movie_types', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @movie_types %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

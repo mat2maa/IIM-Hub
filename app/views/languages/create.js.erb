@@ -1,9 +1,0 @@
-var $ = jQuery;
-
-var newRow = " <%= escape_javascript(render(partial: "language",
-object: @language)) %> ";
-
-$("#language_form")
-    .find("input[type=text]").val("");
-
-$("#languages>tbody").append(newRow);

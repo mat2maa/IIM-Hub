@@ -1,88 +1,94 @@
-<div id="header">
-  <div class="title">Movies Settings</div>
-  <div id="nav">
-    <ul>
-      <li><%= link_to "Dashboard",
-                      controller: "dashboard" %></li>
-    </ul>
-    <div id="clear"><br/></div>
+<%= render partial: 'layouts/header' %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="well" id="dashboard-well">
+        <% if permitted_to? :edit,
+                            :airlines %>
+          <%= link_to 'Airlines',
+                      airlines_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :movie_types %>
+          <%= link_to 'Movie Types',
+                      movie_types_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :movie_playlist_types %>
+          <%= link_to 'Movie Playlist Types',
+                      movie_playlist_types_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :video_playlist_types %>
+          <%= link_to 'Video Playlist Types Labels',
+                      video_playlist_types_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :master_playlist_types %>
+          <%= link_to 'Master Playlist Types',
+                      master_playlist_types_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :screener_playlist_types %>
+          <%= link_to 'Screener Playlist Types',
+                      screener_playlist_types_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :movie_genres %>
+          <%= link_to 'Movie Genres',
+                      movie_genres_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :video_genres %>
+          <%= link_to 'Video Genres',
+                      video_genres_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :video_parent_genres %>
+          <%= link_to 'Video Parent Genres',
+                      video_parent_genres_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :suppliers %>
+          <%= link_to 'Suppliers',
+                      suppliers_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :supplier_categories %>
+          <%= link_to 'Supplier Categories',
+                      supplier_categories_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :airline_rights_countries %>
+          <%= link_to 'Airline Rights Countries',
+                      airline_rights_countries_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :commercial_run_times %>
+          <%= link_to 'Commercial Run Time',
+                      commercial_run_times_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
+                            :master_languages %>
+          <%= link_to 'Languages',
+                      master_languages_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+      </div>
+    </div>
   </div>
-</div>
-<div id="content">
-  <center>
-    <br/>
-    <strong>Please select from the following options:</strong>
-    <br/><br/>
-    <table border="0" cellpadding="10">
-      <tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Airlines",
-                                          airlines_path %></td>
-        <td>Edit airlines list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Movie Types",
-                                          movie_types_path %></td>
-        <td>Edit movie types</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Movie Playlist Types",
-                                          movie_playlist_types_path %></td>
-        <td>Edit movie playlist types</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Video Playlist Types",
-                                          video_playlist_types_path %></td>
-        <td>Edit video playlist types</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Master Playlist Types",
-                                          master_playlist_types_path %></td>
-        <td>Edit master playlist types</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Movie Genres",
-                                          movie_genres_path %></td>
-        <td>Edit genres list for movies</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Video Genres",
-                                          video_genres_path %></td>
-        <td>Edit sub genres list for videos</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Video Parent Genres",
-                                          video_parent_genres_path %></td>
-        <td>Edit genres list for videos</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Suppliers",
-                                          suppliers_path %></td>
-        <td>Edit suppliers list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Supplier Categories",
-                                          supplier_categories_path %></td>
-        <td>Edit supplier categories list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Airline Rights Countries",
-                                          airline_rights_countries_path %></td>
-        <td>Edit airline rights countries list</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Commercial Run Time",
-                                          commercial_run_times_path %></td>
-        <td>Edit commercial run times</td>
-      </tr>
-      <tr>
-        <td class="dashboard"><%= link_to "Languages",
-                                          master_languages_path %></td>
-        <td>Languages in Video Masters</td>
-      </tr>
-      <% if has_role? :administrator %>
-      <% end %>
-    </table>
-  </center>
-  <br/><br/>
-</div>
+</div> <!-- /container -->

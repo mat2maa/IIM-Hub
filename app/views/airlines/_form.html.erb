@@ -1,22 +1,24 @@
-<%= form_for @airline,
-             remote: true,
-             html: {id: "airline_form"} do |f| %>
+<%= minimal_form_for @airline,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "airline_form"} do |f| %>
 
-  <table>
-    <tr>
-      <td>Airline Name</td>
-      <td>
-        <%= f.text_field :name %>
-      </td>
-      <td>Airline Code</td>
-      <td>
-        <%= f.text_field :code %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Airline" %>
-      </td>
-    </tr>
-  </table>
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Airline Name' %>
+  </div>
 
+  <div class="controls controls-row">
+    <%= f.input_field :code,
+                      class: 'span12',
+                      placeholder: 'Airline Code' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>
-

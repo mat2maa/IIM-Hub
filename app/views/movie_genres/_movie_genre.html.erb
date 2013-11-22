@@ -1,10 +1,14 @@
 <tr id="movie_genre-row-<%= movie_genre.id %>">
   <td class="list-item"><%= movie_genre.id %></td>
   <td class="list-item"><%= movie_genre.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_movie_genre_path(movie_genre) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    movie_genre,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_movie_genre_path(movie_genre),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                movie_genre,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

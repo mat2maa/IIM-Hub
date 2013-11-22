@@ -1,14 +1,14 @@
 var $ = jQuery;
 
-var title        =   '.modal-title',
-    loader       =   '.ajax-loader',
-    content      =   '#master-modal .modal-inner',
-    dataRemote   =   'a[data-remote=true], .btn[data-remote=true], .items_per_page_select .btn',
-    modal        =   '#master-modal',
-    dataToggle   =   'a[data-toggle=modal]';
+var title = '.modal-title',
+    loader = '.ajax-loader',
+    content = '#master-modal .modal-inner',
+    dataRemote = 'a[data-remote=true], .btn[data-remote=true], .items_per_page_select .btn',
+    modal = '#master-modal',
+    dataToggle = 'a[data-toggle=modal]';
 
 // hides the modal and shows the ajax content
-$(loader).fadeToggle('fast', function() {
+$(loader).fadeToggle('fast', function () {
   $(content).hide().html('<%= j render('form') %>').show();
 
   // enable chosen js
@@ -46,13 +46,13 @@ $(loader).fadeToggle('fast', function() {
 });
 
 //brings the loader back up + gets rid of the content when linking to another controller method etc
-$(content).on('click', dataToggle, function(){
-  $(content).fadeOut('slow', function() {
+$(content).on('click', dataToggle, function () {
+  $(content).fadeOut('slow', function () {
     $(content).empty();
     $(loader).fadeIn('fast');
   });
 });
 
-$(content).on('click', dataRemote, function(){
+$(content).on('click', dataRemote, function () {
   $(loader).fadeIn('fast');
 });

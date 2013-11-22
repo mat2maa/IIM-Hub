@@ -2,10 +2,14 @@
   <td class="list-item"><%= airline.id %></td>
   <td class="list-item name"><%= airline.name %></td>
   <td class="list-item code"><%= airline.code %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_airline_path(airline) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    airline,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_airline_path(airline),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                airline,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

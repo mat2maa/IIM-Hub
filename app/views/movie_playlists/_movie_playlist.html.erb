@@ -1,7 +1,7 @@
 <tr id="movie_playlist-<%= movie_playlist.id %>">
   <td data-title="ID"><%= link_to movie_playlist.id,
-                  movie_playlist_path(id: movie_playlist.id),
-                  target: "_blank" %></td>
+                                  movie_playlist_path(id: movie_playlist.id),
+                                  target: "_blank" %></td>
   <td data-title="Airline"><%= movie_playlist.airline.name if !movie_playlist.airline.nil? %>&nbsp;</td>
   <td data-title="Start Date"><%= movie_playlist.start_cycle.strftime("%m-%Y") if !movie_playlist.start_cycle.nil? %>&nbsp;</td>
   <td data-title="End Date"><%= movie_playlist.end_cycle.strftime("%m-%Y") if !movie_playlist.end_cycle.nil? %>&nbsp;</td>

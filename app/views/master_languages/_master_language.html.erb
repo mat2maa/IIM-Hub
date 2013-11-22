@@ -1,10 +1,14 @@
 <tr id="master_language-row-<%= master_language.id %>">
   <td class="list-item"><%= master_language.id %></td>
   <td class="list-item"><%= master_language.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_master_language_path(master_language) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    master_language,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_master_language_path(master_language),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                master_language,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

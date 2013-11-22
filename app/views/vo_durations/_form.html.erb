@@ -1,21 +1,24 @@
-<%= form_for @vo_duration,
-             remote: true,
-             html: {id: "vo_duration_form"} do |f| %>
-  <table>
-    <tr>
-      <th>Name</th>
-      <td>
-        <%= f.text_field :name,
-                         size: 5 %>
-      </td>
-      <th>VO Duration in seconds</th>
-      <td>
-        <%= f.text_field :duration,
-                         size: 5 %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New VO Duration" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @vo_duration,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "vo_duration_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Name' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :duration,
+                      class: 'span12',
+                      placeholder: 'VO Duration in seconds' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

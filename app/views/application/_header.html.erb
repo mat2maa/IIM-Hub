@@ -1,9 +1,12 @@
 <% movie_models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners screener_playlists) %>
-<% audio_models = %w(audio_playlists album_playlists tracks albums)%>
+<% audio_models = %w(audio_playlists album_playlists tracks albums) %>
+<% audio_settings_models = %w(airlines programs genres labels publishers languages origins categories vos splits vo_durations) %>
 <% if movie_models.include?(controller_name) %>
   <%= render partial: 'layouts/movies_nav' %>
 <% elsif audio_models.include?(controller_name) %>
   <%= render partial: 'layouts/audio_nav' %>
+<% elsif audio_settings_models.include?(controller_name) %>
+  <%= render partial: 'layouts/settings_nav' %>
 <% else %>
   <%= render partial: 'layouts/movies_settings_nav' %>
 <% end %>

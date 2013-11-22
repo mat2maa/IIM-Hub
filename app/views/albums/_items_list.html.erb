@@ -21,12 +21,15 @@
     <td class="list-item"><%= album.label.name if !album.label_id.nil? %>&nbsp;</td>
     <td class="list-item"><%= album.release_year %>&nbsp;</td>
     <td class="list-item"><%= album.cd_code %>&nbsp;</td>
-    <td class="list-item"><%= link_to 'Edit',
-                                      edit_album_path(album) %></td>
+    <td class="list-item">
+      <%= link_to 'Edit',
+                  edit_album_path(album) %></td>
     <td class="list-item"><%= link_to 'Delete',
                                       album,
                                       confirm: 'Are you sure?',
-                                      method: :delete %></td>
+                                      method: :delete,
+                                      class: 'btn btn-mini' %>
+    </td>
   </tr>
 <% end %>
 

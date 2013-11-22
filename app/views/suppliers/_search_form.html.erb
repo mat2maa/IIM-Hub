@@ -1,38 +1,35 @@
-<fieldset>
-  <legend>Search Suppliers</legend>
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
 
-  <%= search_form_for @search,
-                      class: 'spinner-trigger' do |suppliers| %>
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    class: 'spinner-trigger' do |suppliers| %>
+  <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
+    <!--<div class="controls combinator-select-container">-->
+    <%#= suppliers.combinator_select %>
+    <!--</div>-->
 
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
-    <br/>
+    <div class="controls controls-row">
+      <%= suppliers.input_field :company_name_cont,
+                                class: "#{@span_size}",
+                                placeholder: 'Company Name' %>
+    </div>
 
-    <table>
-      <tr>
-        <td valign="top">
-          Company Name:<br/>
-          <%= suppliers.text_field :company_name_cont %>
-          <br/>
-        </td>
-        <td valign="top">
-          Categories:<br/>
+    <div class="controls controls-row">
+      <%= suppliers.input_field :supplier_categories_id_eq,
+                                as: :select,
+                                collection: SupplierCategory.all
+                                                            .collect { |p| [p.name,
+                                                                            p.id] },
+                                include_blank: true,
+                                class: "select2 #{@span_size}",
+                                data: {placeholder: 'Category'} %>
+    </div>
 
-          <%= suppliers.select :supplier_categories_id_eq,
-                               SupplierCategory.all
-                               .collect { |p| [p.name,
-                                               p.id] },
-                               {include_blank: true} %>
+  </div>
 
-        </td>
-      </tr>
-    </table>
+  <%= suppliers.submit "Search",
+                       {class: 'btn'} %>
+  <input class="form-reset btn" type="reset" value="Reset">
 
-    <%= suppliers.submit "Search" %>
-
-  <% end %>
-
-
-</fieldset>
+<% end %>

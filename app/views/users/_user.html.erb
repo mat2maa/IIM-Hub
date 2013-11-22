@@ -4,7 +4,8 @@
   <td><%= user.last_login_at.strftime("%d-%m-%Y %H:%M") if !user.last_login_at.nil? %></td>
   <td><%= user.last_request_at.strftime("%d-%m-%Y %H:%M") if !user.last_request_at.nil? %></td>
   <td><%= link_to 'Edit',
-                  edit_user_path(user) %></td>
+                  edit_user_path(user),
+                  class: 'btn btn-mini' %></td>
   <td>
     <%= link_to 'Disable',
                 disable_user_path(user),

@@ -1,21 +1,24 @@
-<%= form_for @category,
-             remote: true,
-             html: {id: "category_form"} do |f| %>
+<%= minimal_form_for @supplier_category,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "supplier_category_form"} do |f| %>
 
-  <table>
-    <tr>
-      <td>Category Name</td>
-      <td>
-        <%= f.text_field :name %>
-      </td>
-      <td>Remarks</td>
-      <td>
-        <%= f.text_field :remarks %>
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Category" %>
-      </td>
-    </tr>
-  </table>
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Supplier Category Name' %>
+  </div>
 
+  <div class="controls controls-row">
+    <%= f.input_field :remarks,
+                      class: 'span12',
+                      placeholder: 'Remarks' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

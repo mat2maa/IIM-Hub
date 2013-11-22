@@ -1,39 +1,46 @@
-<%= form_for @split,
-             remote: true,
-             html: {id: "split_form"} do |f| %>
-  <table>
-    <tr>
-      <th>Split Name</th>
-      <td>
-        <%= f.text_field :name,
-                         size: 5 %>
-      </td>
-      <th>Split Dur</th>
-      <td>
-        <%= f.text_field :duration,
-                         size: 5 %>
-      </td>
-      <th>More Than</th>
-      <td>
-        <%= text_field_tag 'more_than_min',
-                           "",
-                           :size => 3 %> min
-        <%= text_field_tag 'more_than_sec',
-                           "",
-                           :size => 3 %> sec
-      </td>
-      <th>Less Than</th>
-      <td>
-        <%= text_field_tag 'less_than_min',
-                           "",
-                           :size => 3 %> min
-        <%= text_field_tag 'less_than_sec',
-                           "",
-                           :size => 3 %> sec
-      </td>
-      <td colspan="2">
-        <%= f.submit "Add New Split" %>
-      </td>
-    </tr>
-  </table>
+<%= minimal_form_for @split,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "split_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Split Name' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :duration,
+                      class: 'span12',
+                      placeholder: 'Split Duration' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= text_field_tag 'more_than_min',
+                       '',
+                       class: 'span5',
+                       placeholder: 'More Than (min)' %>
+    <%= text_field_tag 'more_than_sec',
+                       '',
+                       class: 'span5',
+                       placeholder: 'More Than (sec)' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= text_field_tag 'less_than_min',
+                       '',
+                       class: 'span5',
+                       placeholder: 'Less Than (min)' %>
+    <%= text_field_tag 'less_than_sec',
+                       '',
+                       class: 'span5',
+                       placeholder: 'Less Than (sec)' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

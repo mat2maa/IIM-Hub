@@ -1,0 +1,36 @@
+<table class="table" id="splits">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Split Name</td>
+    <td>Split Duration</td>
+    <td>More Than</td>
+    <td>Less Than</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'split',
+             collection: @splits %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+<%= will_paginate @splits,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = Splits)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/splits', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @splits %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

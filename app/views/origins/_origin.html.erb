@@ -1,10 +1,14 @@
 <tr id="origin-row-<%= origin.id %>">
   <td class="list-item"><%= origin.id %></td>
   <td class="list-item"><%= origin.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_origin_path(origin) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    origin,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_origin_path(origin),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                origin,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

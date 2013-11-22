@@ -1,10 +1,14 @@
 <tr id="commercial_run_time-row-<%= commercial_run_time.id %>">
   <td class="list-item"><%= commercial_run_time.id %></td>
   <td class="list-item"><%= commercial_run_time.minutes %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_commercial_run_time_path(commercial_run_time) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    commercial_run_time,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_commercial_run_time_path(commercial_run_time),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                commercial_run_time,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

@@ -45,7 +45,7 @@
         <%= link_to 'Add Screener',
                     new_screener_path(:id => params[:id]),
                     id: 'add_screener_to_video',
-                    data: { toggle: 'modal', target: '#screener-modal' } %>
+                    data: {toggle: 'modal', target: '#screener-modal'} %>
       </div>
       <div class="poster-list">
         <ul id="screeners_list">
@@ -59,10 +59,10 @@
         <%= link_to 'Add Master',
                     new_master_path(:id => params[:id]),
                     id: 'add_master_to_video',
-                    data: { toggle: 'modal', target: '#master-modal' } %>
+                    data: {toggle: 'modal', target: '#master-modal'} %>
       </div>
       <div class="poster-list">
-         <ul id="masters_list">
+        <ul id="masters_list">
           <%= render partial: 'masters',
                      locals: {video_id: @video.id} %>
         </ul>
@@ -72,229 +72,229 @@
   <!--/span-->
 
   <div class="span6">
-    <div class="content">
-      <% if controller.action_name != 'new' %>
-        <div class="tabbable">
-          <ul class="nav nav-tabs pre-nav-below">
+  <div class="content">
+    <% if controller.action_name != 'new' %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        edit_video_path(@video.previous.id) if @video.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        edit_video_path(@video.next.id) if @video.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'View Movie',
+                        video_path(@video) %>
+          </li>
+          <li>
+            <%= link_to "New Movie",
+                        new_video_path %>
+          </li>
+          <% if permitted_to? :admin_delete,
+                              :videos %>
             <li>
-              <%= link_to "Previous",
-                          edit_video_path(@video.previous.id) if @video.previous.present? %>
+              <%= link_to 'Delete',
+                          video_url(@video),
+                          method: :delete,
+                          confirm: 'Are you sure?' %>
             </li>
-            <li>
-              <%= link_to "Next",
-                          edit_video_path(@video.next.id) if @video.next.present? %>
-            </li>
-            <li>
-              <%= link_to 'View Movie',
-                          video_path(@video) %>
-            </li>
-            <li>
-              <%= link_to "New Movie",
-                          new_video_path %>
-            </li>
-            <% if permitted_to? :admin_delete,
-                                :videos %>
-              <li>
-                <%= link_to 'Delete',
-                            video_url(@video),
-                            method: :delete,
-                            confirm: 'Are you sure?' %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-
-        <br>
-
-      <% end %>
-
-      <div class="controls controls-row">
-        <%= f.hidden_field :movie_id,
-                           value: @video.movie_id %>
-
-        <%= f.input_field :programme_title,
-                          placeholder: "Video Title",
-                          tabindex: autotab,
-                          class: 'span3' %>
-
-        <%= f.input_field :chinese_programme_title,
-                          placeholder: "Chinese Video Title",
-                          tabindex: autotab,
-                          class: 'span3' %>
+          <% end %>
+        </ul>
       </div>
 
-      <div class="controls controls-row">
-        <%= f.input_field :video_type,
-                          placeholder: "Video Type",
-                          as: :select,
-                          collection: Video::VIDEO_TYPES,
-                          include_blank: true,
-                          tabindex: autotab,
-                          class: 'select2 span3' %>
-
-        <%= f.input_field :foreign_language_title,
-                          placeholder: "Foreign Language Title",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= render partial: 'application/bootstrap_append_datepicker',
-                   locals: {f: f,
-                            field: :production_year,
-                            value: @video.production_year,
-                            input_id: 'production_year_datepicker',
-                            date_format: 'yyyy',
-                            date_viewmode: 'years',
-                            date_minviewmode: 'years',
-                            datepicker_behaviour: 'datepicker-years',
-                            placeholder: 'Production Year',
-                            span: 'span3'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :video_distributor_id,
-                            link_path: suppliers_path,
-                            collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
-                            placeholder: 'Distributor',
-                            span: 'span6'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :laboratory_id,
-                            link_path: suppliers_path,
-                            collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
-                            placeholder: 'Production Studio',
-                            span: 'span6'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :production_studio_id,
-                            link_path: suppliers_path,
-                            collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
-                            placeholder: 'Laboratory',
-                            span: 'span6'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :commercial_run_time,
-                          placeholder: "Run Time (Commercial)",
-                          as: :select,
-                          include_blank: true,
-                          tabindex: autotab,
-                          collection: CommercialRunTime.all.collect { |p| [p.minutes,
-                                                                           p.id] },
-                          class: 'select2 span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="select2-container-outer span3">
-          <%= f.input_field :video_genre_ids,
-                            :as => :select,
-                            :multiple => true,
-                            :collection => VideoGenre.order("name"),
-                            :placeholder => "Video Genres",
-                            tabindex: autotab,
-                            :class => 'select2 span3' %>
-        </div>
-
-        <%= f.input_field :episodes_available,
-                          tabindex: autotab,
-                          placeholder: 'No. of Episodes Available',
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="select2-container-outer span3">
-          <%= f.input_field :language_tracks,
-                            :as => :select,
-                            :multiple => true,
-                            :collection => @languages,
-                            :placeholder => "Available Language Tracks",
-                            tabindex: autotab,
-                            :class => 'select2 span3' %>
-        </div>
-
-        <div class="select2-container-outer span3">
-          <%= f.input_field :language_subtitles,
-                            :as => :select,
-                            :multiple => true,
-                            :collection => @languages,
-                            :placeholder => "Available Language Subtitles",
-                            tabindex: autotab,
-                            :class => 'select2 span3' %>
-        </div>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :on_going_series,
-                          :as => :boolean,
-                          tabindex: autotab,
-                          inline_label: "On Going Series" %>
-      </div>
-
-      <div class="controls controls-row">
-        <span id='char_count'></span> characters
-        <%= f.input_field :synopsis,
-                          tabindex: autotab,
-                          placeholder: "Synopsis",
-                          class: 'span6',
-                          rows: 6 %>
-      </div>
-
-      <div class="controls controls-row">
-        <span id='chinese_char_count'></span> characters
-        <%= f.input_field :chinese_synopsis,
-                          tabindex: autotab,
-                          placeholder: "Chinese Synopsis",
-                          class: 'span6',
-                          rows: 6 %>
-      </div>
-
-      <div class="controls controls-row">
-        Only use this remarks field as a last resort
-        <%= f.input_field :remarks,
-                          tabindex: autotab,
-                          placeholder: "Remarks",
-                          class: 'span6',
-                          rows: 6 %>
-      </div>
       <br>
 
-      <%= f.button :submit, class: 'btn' %>
-      <br><br><br>
+    <% end %>
 
+    <div class="controls controls-row">
+      <%= f.hidden_field :movie_id,
+                         value: @video.movie_id %>
+
+      <%= f.input_field :programme_title,
+                        placeholder: "Video Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+
+      <%= f.input_field :chinese_programme_title,
+                        placeholder: "Chinese Video Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
     </div>
-    <!--end of .content-->
+
+    <div class="controls controls-row">
+      <%= f.input_field :video_type,
+                        placeholder: "Video Type",
+                        as: :select,
+                        collection: Video::VIDEO_TYPES,
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span3' %>
+
+      <%= f.input_field :foreign_language_title,
+                        placeholder: "Foreign Language Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_append_datepicker',
+                 locals: {f: f,
+                          field: :production_year,
+                          value: @video.production_year,
+                          input_id: 'production_year_datepicker',
+                          date_format: 'yyyy',
+                          date_viewmode: 'years',
+                          date_minviewmode: 'years',
+                          datepicker_behaviour: 'datepicker-years',
+                          placeholder: 'Production Year',
+                          span: 'span3'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :video_distributor_id,
+                          link_path: suppliers_path,
+                          collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
+                          placeholder: 'Distributor',
+                          span: 'span6'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :laboratory_id,
+                          link_path: suppliers_path,
+                          collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                          placeholder: 'Production Studio',
+                          span: 'span6'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :production_studio_id,
+                          link_path: suppliers_path,
+                          collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                          placeholder: 'Laboratory',
+                          span: 'span6'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :commercial_run_time,
+                        placeholder: "Run Time (Commercial)",
+                        as: :select,
+                        include_blank: true,
+                        tabindex: autotab,
+                        collection: CommercialRunTime.all.collect { |p| [p.minutes,
+                                                                         p.id] },
+                        class: 'select2 span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="select2-container-outer span3">
+        <%= f.input_field :video_genre_ids,
+                          :as => :select,
+                          :multiple => true,
+                          :collection => VideoGenre.order("name"),
+                          :placeholder => "Video Genres",
+                          tabindex: autotab,
+                          :class => 'select2 span3' %>
+      </div>
+
+      <%= f.input_field :episodes_available,
+                        tabindex: autotab,
+                        placeholder: 'No. of Episodes Available',
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="select2-container-outer span3">
+        <%= f.input_field :language_tracks,
+                          :as => :select,
+                          :multiple => true,
+                          :collection => @languages,
+                          :placeholder => "Available Language Tracks",
+                          tabindex: autotab,
+                          :class => 'select2 span3' %>
+      </div>
+
+      <div class="select2-container-outer span3">
+        <%= f.input_field :language_subtitles,
+                          :as => :select,
+                          :multiple => true,
+                          :collection => @languages,
+                          :placeholder => "Available Language Subtitles",
+                          tabindex: autotab,
+                          :class => 'select2 span3' %>
+      </div>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :on_going_series,
+                        :as => :boolean,
+                        tabindex: autotab,
+                        inline_label: "On Going Series" %>
+    </div>
+
+    <div class="controls controls-row">
+      <span id='char_count'></span> characters
+      <%= f.input_field :synopsis,
+                        tabindex: autotab,
+                        placeholder: "Synopsis",
+                        class: 'span6',
+                        rows: 6 %>
+    </div>
+
+    <div class="controls controls-row">
+      <span id='chinese_char_count'></span> characters
+      <%= f.input_field :chinese_synopsis,
+                        tabindex: autotab,
+                        placeholder: "Chinese Synopsis",
+                        class: 'span6',
+                        rows: 6 %>
+    </div>
+
+    <div class="controls controls-row">
+      Only use this remarks field as a last resort
+      <%= f.input_field :remarks,
+                        tabindex: autotab,
+                        placeholder: "Remarks",
+                        class: 'span6',
+                        rows: 6 %>
+    </div>
+    <br>
+
+    <%= f.button :submit, class: 'btn' %>
+    <br><br><br>
+
+  </div>
+  <!--end of .content-->
   </div>
   <!--end of .span-->
 
 <% end %>
 
 <!--<div id="create_screener_dialog" style="display:none;">-->
-  <!--<div id="create_screener">-->
-  <!--</div>-->
+<!--<div id="create_screener">-->
+<!--</div>-->
 <!--</div>-->
 
 <!--<div id="update_screener_dialog" style="display:none;">-->
-  <!--<div id="update_screener">-->
-  <!--</div>-->
+<!--<div id="update_screener">-->
+<!--</div>-->
 <!--</div>-->
 
 <!--<div id="create_master_dialog" style="display:none;">-->
-  <!--<div id="create_master">-->
-  <!--</div>-->
+<!--<div id="create_master">-->
+<!--</div>-->
 <!--</div>-->
 
 <!--<div id="update_master_dialog" style="display:none;">-->
-  <!--<div id="update_master">-->
-  <!--</div>-->
+<!--<div id="update_master">-->
+<!--</div>-->
 <!--</div>-->
 
 <% if controller.action_name != 'new' %>
@@ -308,15 +308,15 @@
     var $ = jQuery;
 
     // removes whatever is in the modal body content div upon clicking close/outside modal
-    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function(e) {
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function (e) {
       $('.modal-body-content').empty();
     });
 
-    $(document).on('click', '#screener-modal', function(e) {
+    $(document).on('click', '#screener-modal', function (e) {
       e.stopPropagation();
     });
 
-    $(document).on('click', '#master-modal', function(e) {
+    $(document).on('click', '#master-modal', function (e) {
       e.stopPropagation();
     });
 

@@ -4,7 +4,8 @@
   <td><%= right.controller %></td>
   <td><%= right.action %></td>
   <td><%= link_to 'Edit',
-                  edit_right_path(right) %></td>
+                  edit_right_path(right),
+                  class: 'btn btn-mini' %></td>
   <td>
     <%= link_to 'Delete',
                 {action: "destroy",

@@ -1,7 +1,7 @@
 <tr id="video-<%= video.id %>">
   <td data-title="ID"><%= link_to video.id,
-                  video_path(id: video.id),
-                  target: "_blank" %></td>
+                                  video_path(id: video.id),
+                                  target: "_blank" %></td>
   <td data-title="Programme Title"><%= video.programme_title %></td>
   <td data-title="Company Name"><%= video.video_distributor.company_name if !video.video_distributor.nil? %>&nbsp;</td>
   <td data-title="Video Type"><%= video.video_type %></td>

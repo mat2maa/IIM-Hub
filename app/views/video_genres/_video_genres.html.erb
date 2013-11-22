@@ -1,0 +1,33 @@
+<table class="table" id="video_genres">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Parent</td>
+    <td>Genre</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'video_genre',
+             collection: @video_genres %>
+  </tbody>
+</table>
+<br/>
+<br/>
+<%= will_paginate @video_genres,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = VideoGenres)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/video_genres', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @video_genres %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

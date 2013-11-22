@@ -1,9 +1,0 @@
-var $ = jQuery;
-
-var newRow = " <%= escape_javascript(render(partial: "movie_type",
-object: @movie_type)) %> ";
-
-$("#movie_type_form")
-    .find("input[type=text]").val("");
-
-$("#movie_types>tbody").append(newRow);

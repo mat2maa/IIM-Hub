@@ -1,10 +1,14 @@
 <tr id="program-row-<%= program.id %>">
   <td class="list-item"><%= program.id %></td>
   <td class="list-item"><%= program.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_program_path(program) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    program,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_program_path(program),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                program,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

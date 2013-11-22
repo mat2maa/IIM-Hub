@@ -1,0 +1,9 @@
+var $ = jQuery;
+
+var newRow = " <%= escape_javascript(render(partial: "#{controller_name.singularize}",
+                                            object: instance_variable_get("@#{controller_name.singularize}"))) %> ";
+
+$("#<%= controller_name.singularize %>_form")
+    .find("input[type=text]").val("");
+
+$("#<%= controller_name %> > tbody").append(newRow);

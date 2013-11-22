@@ -4,10 +4,14 @@
   <td class="list-item"><%= split.duration %></td>
   <td class="list-item"><%= duration(split.more_than) %></td>
   <td class="list-item"><%= duration(split.less_than) %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_split_path(split) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    split,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_split_path(split),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                split,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

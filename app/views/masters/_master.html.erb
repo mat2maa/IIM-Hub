@@ -6,9 +6,9 @@
   <td data-title="Location"><%= master.location %>&nbsp;</td>
   <td data-title="Actions">
     <%= link_to 'Edit',
-                  edit_master_path(master),
-                  target: "_blank",
-                  class: 'btn btn-mini' %>
+                edit_master_path(master),
+                target: "_blank",
+                class: 'btn btn-mini' %>
     <%= link_to 'Delete',
                 master_url(master),
                 remote: true,

@@ -1,5 +1,5 @@
 <%= minimal_form_for @airline_rights_country,
-                     remote: true,
+                     remote: controller.action_name == 'index' ? true : false,
                      html: {id: "airline_rights_country_form"} do |f| %>
 
   <div class="controls controls-row">
@@ -8,5 +8,11 @@
                       placeholder: 'Airline Rights Country Name' %>
   </div>
 
-  <%= f.submit class: 'btn' %>
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>

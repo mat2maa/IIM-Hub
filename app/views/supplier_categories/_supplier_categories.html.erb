@@ -1,0 +1,32 @@
+<table class="table" id="supplier_categories">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Category Name</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'supplier_category',
+             collection: @supplier_categories %>
+  </tbody>
+</table>
+<br/>
+<br/>
+<%= will_paginate @supplier_categories,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = SupplierCategories)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/supplier_categories', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @supplier_categories %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

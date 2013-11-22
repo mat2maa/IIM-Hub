@@ -1,0 +1,34 @@
+<table class="table" id="vo_durations">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>VO Duration (sec)</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'vo_duration',
+             collection: @vo_durations %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+<%= will_paginate @vo_durations,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = VoDurations)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/vo_durations', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @vo_durations %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

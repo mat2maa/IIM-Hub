@@ -1,0 +1,73 @@
+<% content_for :title do %> - <%= controller_name.split('_').map(&:capitalize).join(' ') %>
+<% end %>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to options = {controller: 'dashboard'}, html_options = {class: 'brand'} do %>
+        <div id="logo">
+          <%= image_tag 'text-logo.png' %>
+        </div>
+      <% end %>
+      <a class="brand" href="#">Audio Settings</a>
+
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class='<%= 'active' if controller_name == 'airlines' %>'>
+            <%= link_to 'Airlines',
+                        controller: 'airlines' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'programs' %>'>
+            <%= link_to 'Programs',
+                        controller: 'programs' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'genres' %>'>
+            <%= link_to 'Genres',
+                        controller: 'genres' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'labels' %>'>
+            <%= link_to 'Labels',
+                        controller: 'labels' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'publishers' %>'>
+            <%= link_to 'Publishers',
+                        controller: 'publishers' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'languages' %>'>
+            <%= link_to 'Languages',
+                        controller: 'languages' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'origins' %>'>
+            <%= link_to 'Origins',
+                        controller: 'origins' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'categories' %>'>
+            <%= link_to 'Categories',
+                        controller: 'categories' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'vos' %>'>
+            <%= link_to 'VOs',
+                        controller: 'vos' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'splits' %>'>
+            <%= link_to 'Splits',
+                        controller: 'splits' %>
+          </li>
+          <li class='<%= 'active' if controller_name == 'vo_durations' %>'>
+            <%= link_to 'VO Durations',
+                        controller: 'vo_durations' %>
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+      <div class="btn-group">
+      </div>
+    </div>
+  </div>
+</div>
+

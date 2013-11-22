@@ -1,52 +1,128 @@
-<div class="settings-forms">
+<%= minimal_form_for @supplier,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "supplier_form"} do |f| %>
 
-  <%= semantic_form_for @supplier do |form| %>
+  <div class='controls controls-row'>
+    <%= f.input_field :company_name,
+                      class: 'span4',
+                      placeholder: 'Company Name' %>
+  </div>
 
-    <%= form.semantic_errors %>
+  <div class='controls controls-row'>
+    <div class="select2-container-outer span4">
+      <%= f.input_field :supplier_category_ids,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => SupplierCategory.order('name'),
+                        :placeholder => 'Supplier Categories',
+                        :class => 'select2 span4' %>
+    </div>
+  </div>
 
-    <%= form.inputs do %>
-      <%= form.input :company_name,
-                     label: "Company Name" %>
-      <%= form.input :supplier_categories,
-                     as: :check_boxes,
-                     label: "Supplier Categories" %>
-      <%= form.input :contact_name_1,
-                     label: "Contact Name 1" %>
-      <%= form.input :position_1,
-                     label: "Position 1" %>
-      <%= form.input :tel_1 %>
-      <%= form.input :fax_1 %>
-      <%= form.input :hp_1 %>
-      <%= form.input :email_1 %>
-      <%= form.input :contact_name_2,
-                     label: "Contact Name 2" %>
-      <%= form.input :position_2 %>
-      <%= form.input :tel_2 %>
-      <%= form.input :fax_2 %>
-      <%= form.input :hp_2 %>
-      <%= form.input :email_2 %>
-      <%= form.input :address,
-                     input_html: {rows: 5} %>
-      <%= form.input :website %>
-      <%= form.input :remarks,
-                     input_html: {rows: 5} %>
-      <%= form.input :bank %>
-      <%= form.input :bank_branch,
-                     label: "Bank Branch",
-                     input_html: {rows: 3} %>
-      <%= form.input :beneficiary_name,
-                     label: "Beneficiary Name" %>
-      <%= form.input :bank_account,
-                     label: "Bank Account" %>
-      <%= form.input :aba_routing,
-                     label: "ABA Routing",
-                     input_html: {rows: 3} %>
-    <% end %>
+  <br>
+  <h5>Contact Details</h5>
+  <hr>
 
-    <%= form.actions do %>
-      <%= form.action :submit,
-                      as: :button %>
-    <% end %>
+  <div class='controls controls-row'>
+    <%= f.input_field :contact_name_1,
+                      class: 'span2',
+                      placeholder: 'Contact Name 1' %>
+    <%= f.input_field :position_1,
+                      class: 'span2',
+                      placeholder: 'Position 1' %>
+    <%= f.input_field :tel_1,
+                      class: 'span2',
+                      placeholder: 'Tel 1' %>
+    <%= f.input_field :fax_1,
+                      class: 'span2',
+                      placeholder: 'Fax 1' %>
+    <%= f.input_field :hp_1,
+                      class: 'span2',
+                      placeholder: 'HP 1' %>
+    <%= f.input_field :email_1,
+                      class: 'span2',
+                      placeholder: 'Email 1' %>
+  </div>
 
+  <div class='controls controls-row'>
+    <%= f.input_field :contact_name_2,
+                      class: 'span2',
+                      placeholder: 'Contact Name 2' %>
+    <%= f.input_field :position_2,
+                      class: 'span2',
+                      placeholder: 'Position 2' %>
+    <%= f.input_field :tel_2,
+                      class: 'span2',
+                      placeholder: 'Tel 2' %>
+    <%= f.input_field :fax_2,
+                      class: 'span2',
+                      placeholder: 'Fax 2' %>
+    <%= f.input_field :hp_2,
+                      class: 'span2',
+                      placeholder: 'HP 2' %>
+    <%= f.input_field :email_2,
+                      class: 'span2',
+                      placeholder: 'Email 2' %>
+  </div>
+
+  <div class='controls controls-row'>
+    <%= f.input_field :address,
+                      class: 'span4',
+                      rows: 5,
+                      placeholder: 'Address' %>
+  </div>
+
+  <div class='controls controls-row'>
+    <%= f.input_field :website,
+                      class: 'span4',
+                      placeholder: 'Website' %>
+  </div>
+
+  <br>
+  <h5>Bank Details</h5>
+  <hr>
+
+  <div class='controls controls-row'>
+    <%= f.input_field :beneficiary_name,
+                      class: 'span2',
+                      placeholder: 'Beneficiary Name' %>
+    <%= f.input_field :bank,
+                      class: 'span2',
+                      placeholder: 'Bank' %>
+    <%= f.input_field :bank_account,
+                      class: 'span2',
+                      placeholder: 'Bank Account' %>
+  </div>
+
+  <div class='controls controls-row'>
+    <%= f.input_field :bank_branch,
+                      class: 'span4',
+                      rows: 5,
+                      placeholder: 'Bank Branch' %>
+    <%= f.input_field :aba_routing,
+                      class: 'span4',
+                      rows: 5,
+                      placeholder: 'ABA Routing' %>
+  </div>
+
+  <br>
+  <h5>Other Details</h5>
+  <hr>
+
+  <div class='controls controls-row'>
+    <%= f.input_field :remarks,
+                      class: 'span4',
+                      rows: 5,
+                      placeholder: 'Remarks' %>
+  </div>
+
+  <br>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
   <% end %>
-</div>
+<% end %>

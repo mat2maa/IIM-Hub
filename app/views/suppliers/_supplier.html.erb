@@ -2,10 +2,14 @@
   <td class="list-item"><%= supplier.id %></td>
   <td class="list-item"><%= supplier.company_name %></td>
   <td class="list-item"><%= supplier.categories_to_s %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_supplier_path(supplier) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    supplier,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_supplier_path(supplier),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                supplier,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

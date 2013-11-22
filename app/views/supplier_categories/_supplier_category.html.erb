@@ -1,0 +1,14 @@
+<tr id="category-row-<%= supplier_category.id %>">
+  <td class="list-item"><%= supplier_category.id %></td>
+  <td class="list-item"><%= supplier_category.name %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_supplier_category_path(supplier_category),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                supplier_category,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
+</tr>

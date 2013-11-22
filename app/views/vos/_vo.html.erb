@@ -1,10 +1,14 @@
 <tr id="vo-row-<%= vo.id %>">
   <td class="list-item"><%= vo.id %></td>
   <td class="list-item"><%= vo.name %></td>
-  <td class="list-item"><%= link_to 'Edit',
-                                    edit_vo_path(vo) %></td>
-  <td class="list-item"><%= link_to 'Delete',
-                                    vo,
-                                    confirm: 'Are you sure?',
-                                    method: :delete %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_vo_path(vo),
+                class: 'btn btn-mini' %>
+    <%= link_to 'Delete',
+                vo,
+                confirm: 'Are you sure?',
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
 </tr>

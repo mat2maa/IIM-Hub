@@ -32,10 +32,10 @@ if (notice !== '') {
     cursor: 'crosshair',
     items: 'tr.sortable',
 
-    stop: function(e, ui) {
+    stop: function (e, ui) {
       ui.item.children('td').effect('highlight', {}, 1000);
     },
-    update: function(e, ui) {
+    update: function (e, ui) {
       item_id = ui.item.attr('data-id');
       position = ui.item.index();
       url = $(this).attr('data-url');

@@ -1,6 +1,6 @@
 <tr id="album_playlist-<%= album_playlist.id %>">
   <td data-title="ID"><%= link_to album_playlist.id,
-                  album_playlist_path(id: album_playlist.id) %>&nbsp;</td>
+                                  album_playlist_path(id: album_playlist.id) %>&nbsp;</td>
   <td data-title="Client Playlist Code"><%= album_playlist.client_playlist_code %>&nbsp;</td>
   <td data-title="Airline"><%= album_playlist.airline.name if !album_playlist.airline_id.nil? %>&nbsp;</td>
   <td data-title="In/Out"><%= album_playlist.in_out %>&nbsp;</td>

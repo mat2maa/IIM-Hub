@@ -1,0 +1,32 @@
+<table class="table" id="master_languages">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Language</td>
+    <td>&nbsp;</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'master_language',
+             collection: @master_languages %>
+  </tbody>
+</table>
+<br/>
+<br/>
+<%= will_paginate @master_languages,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = MasterLanguages)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/master_languages', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @master_languages %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

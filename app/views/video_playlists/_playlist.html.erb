@@ -1,17 +1,17 @@
 <table class="table table-hover" id="no-more-tables" width="100%">
   <thead>
-    <tr>
-      <% @columns.each.with_index do |column, index| %>
-        <th <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][index] == 'false' %>>
-          <%= column %>
-        </th>
-      <% end %>
-      <th>&nbsp;</th>
-    </tr>
+  <tr>
+    <% @columns.each.with_index do |column, index| %>
+      <th <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][index] == 'false' %>>
+        <%= column %>
+      </th>
+    <% end %>
+    <th>&nbsp;</th>
+  </tr>
   </thead>
   <tbody id="videoplaylist" class="sort-list" data-url="<%= sort_video_playlist_path %>" style="cursor: move">
-    <% @video_playlist.video_playlist_items_sorted.each.with_index do |item, index| %>
-      <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
-    <% end %>
+  <% @video_playlist.video_playlist_items_sorted.each.with_index do |item, index| %>
+    <%= render partial: 'playlist_item', object: item, locals: {position: index + 1} %>
+  <% end %>
   </tbody>
 </table>

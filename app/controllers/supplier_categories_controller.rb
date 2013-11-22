@@ -3,11 +3,11 @@ class SupplierCategoriesController < ApplicationController
   filter_access_to :all
 
   before_filter only: [:index, :new] do
-    @category = SupplierCategory.new
+    @supplier_category = SupplierCategory.new
   end
 
   def index
-    @categories = SupplierCategory.order("name asc")
+    @supplier_categories = SupplierCategory.order("name asc")
     .paginate(page: params[:page],
               per_page: items_per_page)
     respond_to do |format|
@@ -19,24 +19,24 @@ class SupplierCategoriesController < ApplicationController
   def new
     respond_to do |format|
       format.html # new.html.erb
-      format.xml { render xml: @category }
+      format.xml { render xml: @supplier_category }
     end
   end
 
   def create
-    @category = SupplierCategory.new params[:supplier_category]
+    @supplier_category = SupplierCategory.new params[:supplier_category]
 
     respond_to do |format|
-      if @category.save
-        format.html { redirect_to @category,
+      if @supplier_category.save
+        format.html { redirect_to @supplier_category,
                                   notice: 'Category was successfully created.' }
-        format.json { render json: @category,
+        format.json { render json: @supplier_category,
                              status: :created,
-                             location: @category }
+                             location: @supplier_category }
         format.js
       else
         format.html { render action: "new" }
-        format.json { render json: @category.errors,
+        format.json { render json: @supplier_category.errors,
                              status: :unprocessable_entity }
         format.js
       end
@@ -44,14 +44,14 @@ class SupplierCategoriesController < ApplicationController
   end
 
   def edit
-    @category = SupplierCategory.find(params[:id])
+    @supplier_category = SupplierCategory.find(params[:id])
   end
 
   def update
-    @category = SupplierCategory.find(params[:id])
+    @supplier_category = SupplierCategory.find(params[:id])
 
     respond_to do |format|
-      if @category.update_attributes(params[:supplier_category])
+      if @supplier_category.update_attributes(params[:supplier_category])
         flash[:notice] = 'Category was successfully updated.'
         format.html { redirect_to(supplier_categories_path) }
       else
@@ -68,8 +68,8 @@ class SupplierCategoriesController < ApplicationController
 
     if count.zero?
 
-      @category = SupplierCategory.find(params[:id])
-      @category.destroy
+      @supplier_category = SupplierCategory.find(params[:id])
+      @supplier_category.destroy
 
     else
       flash[:notice] = 'Category could not be deleted, category is in use in some suppliers'

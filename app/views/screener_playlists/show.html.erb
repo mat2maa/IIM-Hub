@@ -32,7 +32,9 @@
 
         <br>
 
-        <div class="info info-title"><%= @screener_playlist.airline.code if !@screener_playlist.airline_id.nil? %><%= @screener_playlist.start_cycle.strftime("%m%y") %> Information</div>
+        <div class="info info-title"><%= @screener_playlist.airline.code if !@screener_playlist.airline_id.nil? %><%= @screener_playlist.start_cycle.strftime("%m%y") %>
+          Information
+        </div>
         <div class="info-list">
           <ul>
             <li class="info">
