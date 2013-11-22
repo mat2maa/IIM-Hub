@@ -1,17 +1,17 @@
 <tr id="right-row-<%= right.id %>">
-  <td><%= right.id %></td>
-  <td><%= right.name %></td>
-  <td><%= right.controller %></td>
-  <td><%= right.action %></td>
-  <td><%= link_to 'Edit',
-                  edit_right_path(right),
-                  class: 'btn btn-mini' %></td>
-  <td>
+  <td class="list-item"><%= right.id %></td>
+  <td class="list-item"><%= right.name %></td>
+  <td class="list-item"><%= right.controller %></td>
+  <td class="list-item"><%= right.action %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_right_path(right),
+                class: 'btn btn-mini' %>
     <%= link_to 'Delete',
                 {action: "destroy",
                  id: right.id},
                 confirm: 'Are you sure?',
-                method: :delete %>
-
+                method: :delete,
+                class: 'btn btn-mini' if right.id != 1 %>
   </td>
 </tr>

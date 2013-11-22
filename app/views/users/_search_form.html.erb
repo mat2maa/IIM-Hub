@@ -1,0 +1,13 @@
+<% @span_size = controller.action_name == 'index' ? 'span12' : 'span3' %>
+
+<%= search_form_for @search,
+                    builder: MinimalNestedFormBuilder,
+                    url: users_path do |f| %>
+  <div class="controls controls-row">
+    <%= f.input_field :login_cont,
+                      class: "#{@span_size}",
+                      placeholder: 'Login' %>
+  </div>
+  <%= f.submit "Search",
+               {class: 'btn'} %>
+<% end %>

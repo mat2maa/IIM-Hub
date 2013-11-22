@@ -1,167 +1,218 @@
-<%= form_for :album,
-             url: {action: "create"} do |form| %>
-  <table class="edit">
-    <tr>
-      <th>Album Title (Original)</th>
-      <td><%= form.text_field :title_original %></td>
-      <th>Label <%= link_to "+",
-                            labels_path,
-                            id: 'add',
-                            target: "_blank" %>
-      </th>
-      <td colspan="3" width="400">
-        <%= select("album",
-                   "label_id",
-                   Label.order("name")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= link_to "YesAsia",
-                      "http://www.yesasia.com",
-                      target: "_blank" %>
-        Album Title (Translated)
-      </th>
-      <td>
-        <%= form.text_field :title_english %>
-      </td>
-      <th>Release Year</th>
-      <td colspan="3">
-        <%= form.text_field :release_year %>
-      </td>
-    </tr>
-    <tr>
-      <th>Artist (Original)</th>
-      <td>
-        <%= form.text_field :artist_original %>
-      </td>
-      <th>Publisher
-        <%= link_to "+",
-                    publishers_path,
-                    id: 'add',
-                    target: "_blank" %>
-      </th>
-      <td colspan="3">
-        <%= select("album",
-                   "publisher_id",
-                   Publisher.order("name")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        <%= link_to "YesAsia",
-                    "http://www.yesasia.com",
-                    target: "_blank" %>
-        Artist (Translated)
-      </th>
-      <td>
-        <%= form.text_field :artist_english %>
-      </td>
-      <th>Disc</th>
-      <td colspan="3">
-        <%= form.text_field :disc_num,
-                            size: 5 %>
+<%= minimal_form_for @album,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
+  <div class="span3">
+    <div class="poster-title poster-info">
+      Cover image
+    </div>
+    <div class="poster-list">
+      <ul>
+        <li class="poster-info">
+          <%= render partial: 'application/bootstrap_file_field',
+                     locals: {f: f,
+                              field: :cover,
+                              hidden_id: 'album_cover',
+                              input_id: 'album_cover_input',
+                              span: 'span2',
+                              placeholder: 'Cover Image'} %>
+        </li>
+        <li class="poster-info">
+          <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
+          <% href = "#{href}+#{@album.title_original.present? ? @album.title_original.to_s.downcase : @album.title_english.to_s.downcase}" %>
+          <% href = "#{href}+#{@album.release_year.to_s}" %>
+          <a href="<%= href %>" target="_blank" id="google-images-link">
+            Search Google Images
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div id="poster-thumbnail">
+      <%= link_to(image_tag(@album.cover.url, class: 'poster-image'),
+                  @album.cover.url,
+                  target: "_blank") %>
+      <div class="poster-title poster-info">
+        Search tools
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info">
+            <%= link_to "YesAsia",
+                        "http://www.yesasia.com",
+                        target: "_blank" %>
+          </li>
+          <li class="poster-info">
+            <%= link_to "Wikipedia",
+                        "http://www.wikipedia.org/wiki/#{@album.artist_original.sub(/ /, '_') if @album.artist_original.present?}",
+                        target: "_blank" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+  </div>
+  <!--/span-->
 
-        of
+  <div class="span6">
+    <div class="content">
+      <% if controller.action_name != 'new' %>
+        <div class="tabbable">
+          <ul class="nav nav-tabs pre-nav-below">
+            <li>
+              <%= link_to "Previous",
+                          edit_album_path(@album.previous.id) if @album.previous.present? %>
+            </li>
+            <li>
+              <%= link_to "Next",
+                          edit_album_path(@album.next.id) if @album.next.present? %>
+            </li>
+            <li>
+              <%= link_to 'View album',
+                          album_path(@album) %>
+            </li>
+            <li>
+              <%= link_to "New album",
+                          new_album_path %>
+            </li>
+            <% if permitted_to? :admin_delete,
+                                :albums %>
+              <li>
+                <%= link_to 'Delete',
+                            album_url(@album),
+                            method: :delete,
+                            confirm: 'Are you sure?' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
 
-        <%= form.text_field :disc_count,
-                            size: 5 %></td>
-    </tr>
-    <tr>
-      <th>CD Code</th>
-      <td>
-        <%= form.text_field :cd_code %>
-      </td>
-      <th>Live Album</th>
-      <td>
-        <%= check_box("album",
-                      "live_album") %>
-      </td>
-      <th>Explicit Lyrics</th>
-      <td>
-        <%= check_box("album",
-                      "explicit_lyrics") %>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        <a href="http://images.google.com/images?hl=en&q=cd+cover+<%= @album.title_original %>+<%= @album.artist_original %>"
-           target="_blank">
-          Google
-        </a>
+        <br>
 
-        |
+      <% end %>
 
-        <%= link_to 'Amazon',
-                    {controller: :albums,
-                     action: :amazon_cd_covers,
-                     id: @album},
-                    target: "_blank" %>
-        CD Cover<br>
-          <span class="hint">(JPEG,
-GIF,
-or PNG files up to 500 KB)</span>
-      </th>
-      <td>
-        <%= form.file_field :cover,
-                            size: 20 %>
-      </td>
-      <th>Gender</th>
-      <td>
-        <%= select("album",
-                   "gender",
-                   gender,
-                   {include_blank: true}) %>
-      </td>
-      <th>Language</th>
-      <td>
-        <%= select("album",
-                   "language_id",
-                   Language.order("name")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    languages_path,
-                    id: 'add',
-                    target: "_blank" %>
-      </td>
-    </tr>
-    <tr>
-      <th>Compilation</th>
-      <td>
-        <%= check_box("album",
-                      "compilation") %>
-      </td>
-      <th>Origin</th>
-      <td>
-        <%= select("album",
-                   "origin_id",
-                   Origin.order("name")
-                   .collect { |p| [p.name,
-                                   p.id] },
-                   {include_blank: true}) %>
-        <%= link_to "+",
-                    origins_path,
-                    id: 'add',
-                    target: "_blank" %>
-      </td>
-      <th>Total Duration:</th>
-      <td>
-        <%= @album.duration_in_min %>
-      </td>
-    </tr>
-  </table>
+      <div class="controls controls-row">
+        <%= f.input_field :title_original,
+                          placeholder: "Album Title",
+                          tabindex: autotab,
+                          class: 'span3' %>
+        <%= f.input_field :title_english,
+                          placeholder: "Album Title (Translated)",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
 
-  <br/>
-  <%= submit_tag "Create",
-                 class: "submit" %> &nbsp;
-  <%= link_to "cancel",
-              {action: "index"},
-              class: "Cancel" %>
+      <div class="controls controls-row">
+        <%= f.input_field :artist_original,
+                          placeholder: "Artist",
+                          tabindex: autotab,
+                          class: 'span3' %>
+        <%= f.input_field :artist_english,
+                          placeholder: "Artist (Translated)",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :label,
+                            link_path: labels_path,
+                            collection: Label.order("name").collect { |p| [p.name, p.id] },
+                            placeholder: 'Label',
+                            span: 'span3'} %>
+        <%= f.input_field :cd_code,
+                          placeholder: "CD Code",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :publisher,
+                            link_path: publishers_path,
+                            collection: Publisher.order("name").collect { |p| [p.name, p.id] },
+                            placeholder: 'Publisher',
+                            span: 'span3'} %>
+        <%= f.input_field :release_year,
+                          placeholder: "Release Year",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :disc_num,
+                          placeholder: "Disc Number",
+                          tabindex: autotab,
+                          class: 'span3' %>
+        <%= f.input_field :disc_count,
+                          placeholder: "Disc Count",
+                          tabindex: autotab,
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :language_id,
+                            link_path: languages_path,
+                            collection: Language.order("name").collect { |p| [p.name, p.id] },
+                            placeholder: 'Language',
+                            span: 'span3'} %>
+        <%= render partial: 'application/bootstrap_prepend_select',
+                   locals: {f: f,
+                            field: :origin_id,
+                            link_path: origins_path,
+                            collection: Origin.order("name").collect { |p| [p.name, p.id] },
+                            placeholder: 'Origin',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :gender,
+                          placeholder: "Gender",
+                          as: :select,
+                          collection: gender,
+                          include_blank: true,
+                          tabindex: autotab,
+                          class: 'select2 span3' %>
+        <%= render partial: 'application/bootstrap_prepend_multiselect',
+                   locals: {f: f,
+                            field: :genre_ids,
+                            link_path: genres_path,
+                            collection: Genre.order("name").collect { |p| [p.name, p.id] },
+                            placeholder: 'Genre',
+                            span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <% if controller.action_name != 'new' %>
+          <div class="alert span3 duration-alert fade in alert-success">
+            <span>Total Duration: <%= @album.duration_in_min %></span>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :live_album,
+                          :as => :boolean,
+                          tabindex: autotab,
+                          :inline_label => "Live Album" %>
+
+        <%= f.input_field :explicit_lyrics,
+                          :as => :boolean,
+                          tabindex: autotab,
+                          :inline_label => "Explicit Lyrics" %>
+        <%= f.input_field :compilation,
+                          :as => :boolean,
+                          tabindex: autotab,
+                          :inline_label => "Compilation" %>
+      </div>
+
+      <br>
+
+      <%= f.button :submit, class: 'btn' %>
+      <br><br><br>
+
+    </div>
+    <!--/span-->
+  </div>
 <% end %>

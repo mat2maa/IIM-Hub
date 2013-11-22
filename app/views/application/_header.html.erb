@@ -1,12 +1,17 @@
-<% movie_models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners screener_playlists) %>
-<% audio_models = %w(audio_playlists album_playlists tracks albums) %>
-<% audio_settings_models = %w(airlines programs genres labels publishers languages origins categories vos splits vo_durations) %>
-<% if movie_models.include?(controller_name) %>
+<% if MOVIE_MODELS.include?(controller_name) %>
   <%= render partial: 'layouts/movies_nav' %>
-<% elsif audio_models.include?(controller_name) %>
+<% elsif AUDIO_MODELS.include?(controller_name) %>
   <%= render partial: 'layouts/audio_nav' %>
-<% elsif audio_settings_models.include?(controller_name) %>
+<% elsif AUDIO_SETTINGS_MODELS.include?(controller_name) %>
   <%= render partial: 'layouts/settings_nav' %>
-<% else %>
+<% elsif MOVIE_SETTINGS_MODELS.include?(controller_name) %>
   <%= render partial: 'layouts/movies_settings_nav' %>
+<% elsif controller_name == 'airlines' %>
+  <% if (MOVIE_MODELS+MOVIE_SETTINGS_MODELS+%w(movies_settings)).include?("#{Rails.application.routes.recognize_path(request.referrer)[:controller]}") %>
+    <%= render partial: 'layouts/movies_settings_nav' %>
+  <% else %>
+    <%= render partial: 'layouts/settings_nav' %>
+  <% end %>
+<% elsif USERS_SETTINGS_MODELS.include?(controller_name) %>
+  <%= render partial: 'layouts/users_nav' %>
 <% end %>

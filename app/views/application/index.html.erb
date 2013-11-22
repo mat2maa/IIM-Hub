@@ -1,5 +1,5 @@
 <% models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners
-screener_playlists audio_playlists album_playlists tracks albums suppliers) %>
+screener_playlists audio_playlists album_playlists tracks albums suppliers users) %>
 
 <%= render partial: 'header' %>
 
@@ -13,7 +13,7 @@ screener_playlists audio_playlists album_playlists tracks albums suppliers) %>
           &nbsp;
         </div>
         <div class="span9">
-          <%= link_to "Create a #{controller_name.singularize.split('_').join(' ')}",
+          <%= link_to "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
                       self.send("new_#{controller_name.singularize}_path"),
                       class: 'btn btn-create' %>
         </div>

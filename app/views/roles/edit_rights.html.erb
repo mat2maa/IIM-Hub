@@ -1,8 +1,0 @@
-<% for right in Right.find(:all) %>
-  <div>
-    <%= check_box_tag "role[role_ids][]",
-                      right.id,
-                      @role.rights.include?(right) %>
-    <%= right.name %>
-  </div>
-<% end %>

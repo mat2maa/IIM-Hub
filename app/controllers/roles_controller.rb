@@ -2,11 +2,15 @@ class RolesController < ApplicationController
   before_filter :require_user
   filter_access_to :all
 
+  before_filter only: [:index, :new] do
+    @role = Role.new
+  end
+
   def index
     @search = Role.ransack(view_context.empty_blank_params params[:q])
     @roles = @search.result(distinct: true)
-    .paginate(page: params[:page],
-              per_page: items_per_page)
+                    .paginate(page: params[:page],
+                              per_page: items_per_page)
     @roles_count = @roles.count
   end
 

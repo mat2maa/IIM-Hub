@@ -1,14 +1,15 @@
-<tr>
-  <td><%= role.id %></td>
-  <td><%= role.name %></td>
-  <td><%= link_to 'Edit',
-                  edit_role_path(role),
-                  class: 'btn btn-mini' %></td>
-  <td>
+<tr id="role-row-<%= role.id %>">
+  <td class="list-item"><%= role.id %></td>
+  <td class="list-item"><%= role.name %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_role_path(role),
+                class: 'btn btn-mini' %>
     <%= link_to 'Delete',
                 {action: "destroy",
                  id: role.id},
                 confirm: 'Are you sure?',
-                method: :delete if role.id != 1 %>
+                method: :delete,
+                class: 'btn btn-mini' if role.id != 1 %>
   </td>
 </tr>

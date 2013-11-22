@@ -1,19 +1,21 @@
-<tr>
-  <td><%= user.id %></td>
-  <td><%= user.login %></td>
-  <td><%= user.last_login_at.strftime("%d-%m-%Y %H:%M") if !user.last_login_at.nil? %></td>
-  <td><%= user.last_request_at.strftime("%d-%m-%Y %H:%M") if !user.last_request_at.nil? %></td>
-  <td><%= link_to 'Edit',
-                  edit_user_path(user),
-                  class: 'btn btn-mini' %></td>
-  <td>
-    <%= link_to 'Disable',
-                disable_user_path(user),
-                data: {confirm: "Are you sure?"},
-                method: :post if user.id != 1 && user.enabled == true %>
-    <%= link_to 'Enable',
-                enable_user_path(user),
-                data: {confirm: "Are you sure?"},
-                method: :post if user.id != 1 && user.enabled == false %>
+<tr id="user-row-<%= user.id %>">
+  <td class="list-item"><%= user.id %></td>
+  <td class="list-item"><%= user.login %></td>
+  <td class="list-item"><%= user.last_login_at.strftime("%d-%m-%Y %H:%M") if !user.last_login_at.nil? %></td>
+  <td class="list-item"><%= user.last_request_at.strftime("%d-%m-%Y %H:%M") if !user.last_request_at.nil? %></td>
+  <td class="list-item">
+    <%= link_to 'Edit',
+                edit_user_path(user),
+                class: 'btn btn-mini' %>
+  <%= link_to 'Disable',
+              disable_user_path(user),
+              data: {confirm: "Are you sure?"},
+              method: :post,
+              class: 'btn btn-mini' if user.id != 1 && user.enabled == true %>
+  <%= link_to 'Enable',
+              enable_user_path(user),
+              data: {confirm: "Are you sure?"},
+              method: :post,
+              class: 'btn btn-mini' if user.id != 1 && user.enabled == false %>
   </td>
 </tr>

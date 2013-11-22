@@ -1,0 +1,39 @@
+<table class="table" id="users">
+  <thead>
+  <tr>
+    <th><%= sort_link @search,
+                      :id,
+                      "ID" %></th>
+    <th><%= sort_link @search,
+                      :login,
+                      "Login" %></th>
+    <th>Last Login</th>
+    <th>Last Request Date</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%= render partial: 'user',
+             collection: @users %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+<%= will_paginate @users,
+                  inner_window: 1,
+                  renderer: BootstrapPagination::Rails,
+                  class: 'pagination pagination-small' %>
+<%
+   def items_per_page_select(collection = Users)
+     select_tag :per_page, options_for_select([10, 20, 50, 100, 300], collection.per_page),
+                class: 'items_per_page_select_menu'
+   end
+%>
+<%= form_for '/users', method: :get, html: {class: 'items_per_page_select'} do |f| %>
+  <span>Items per page: </span>
+  <%= items_per_page_select @users %>
+  <%= f.submit "Submit",
+               class: 'btn btn-small' %>
+<% end %>

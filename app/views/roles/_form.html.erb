@@ -1,40 +1,39 @@
-<%= form_for @role,
-             url: {action: "create"} do |form| %>
-  <%= error_messages_for form.object %>
-  <%= form.label :name %><br />
-  <%= form.text_field :name %><br />
-  Rights
-  <input type="checkbox" id="selectAll" value="selectAll"> Select / Deselect All<br/><br/>
-  <% for right in Right.all %>
-    <div>
-      <%= check_box_tag "role[right_ids][]",
-                        right.id,
-                        @role.rights.include?(right) %>
-      <%= right.name %>
+<%= minimal_form_for @role,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "role_form"} do |f| %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Name' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="select2-container-outer span12">
+      <%= f.input_field :right_ids,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => Right.order('name'),
+                        :placeholder => 'Rights',
+                        :class => 'select2 span12',
+                        :id => 'rights-multiselect' %>
     </div>
+  </div>
+
+  <button id="select-all" class="btn">Select All Rights</button>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
   <% end %>
-  <br/>
-  <%= form.submit "Register" %>
 <% end %>
 
-<script>
-
-  var $ = jQuery;
-
-  $(document).ready(function () {
-
-    $('#selectAll').click(function () {
-      if (this.checked) {
-        $(':checkbox').each(function () {
-          this.checked = true;
-        });
-      } else {
-        $(':checkbox').each(function () {
-          this.checked = false;
-        });
-      }
-    });
-
+<script type="text/javascript">
+  $("#select-all").click(function(){
+    $("#rights-multiselect > option").prop("selected","selected");
+    $("#rights-multiselect").trigger("change");
   });
-
 </script>

@@ -1,114 +1,204 @@
-<%= form_for (@track) do |form| %>
+<%= minimal_form_for @track,
+                     html: {class: 'form-vertical', multipart: true} do |f| %>
+  <div class="span3">
+    <div id="poster-thumbnail">
+      <%= link_to(image_tag(@track.album.cover.url, class: 'poster-image'),
+                  @track.album.cover.url,
+                  target: "_blank") %>
 
-  <table class="edit">
-    <tr>
-      <th>Track Title (Original)</th>
-      <td><%= form.text_field :title_original %></td>
-      <th>Track Num</th>
-      <td><%= @track.track_num if !@track.track_num.nil? %></td>
-    </tr>
-    <tr>
-      <th>Track Title (Translated)</th>
-      <td><%= form.text_field :title_english %></td>
-      <th>Tempo</th>
-      <td><%= select("track",
-                     "tempo",
-                     Tempo.all.collect { |p| [p.name,
-                                              p.name] },
-                     {include_blank: true}) %></td>
-    </tr>
-    <tr>
-      <th>Artist (Original)</th>
-      <td><%= form.text_field :artist_original %></td>
-      <th>Intro Tempo</th>
-      <td><%= select("track",
-                     "tempo_intro",
-                     Tempo.all.collect { |p| [p.name,
-                                              p.name] },
-                     {include_blank: true}) %></td>
-    </tr>
-    <tr>
-      <th>Artist (Translated)</th>
-      <td><%= form.text_field :artist_english %></td>
-      <th>Outro Tempo</th>
-      <td><%= select("track",
-                     "tempo_outro",
-                     Tempo.all.collect { |p| [p.name,
-                                              p.name] },
-                     {include_blank: true}) %></td>
-    </tr>
-    <tr>
-      <th>Composer</th>
-      <td><%= form.text_field :composer %></td>
-      <th>Gender</th>
-      <td><%= select("track",
-                     "gender",
-                     gender,
-                     {include_blank: true}) %></td>
-    </tr>
-    <tr>
-      <th>Distributor</th>
-      <td><%= form.text_field :distributor %></td>
-      <th>Language</th>
-      <td><%= select("track",
-                     "language_id",
-                     Language.order("name asc")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-        <%= link_to "+",
-                    languages_path,
-                    id: 'add',
-                    target: "_blank" %></td>
-    </tr>
-    <tr>
-      <th>Album</th>
-      <td><%= link_to @track.album.title_original,
-                      edit_album_path(@track.album) %></td>
-      <th>Origin</th>
-      <td><%= select("track",
-                     "origin_id",
-                     Origin.order("name asc")
-                     .collect { |p| [p.name,
-                                     p.id] },
-                     {include_blank: true}) %>
-        <%= link_to "+",
-                    origins_path,
-                    id: 'add',
-                    target: "_blank" %></td>
-    </tr>
-    <tr>
-      <th>Publisher</th>
-      <td><%= @track.album.publisher.name if !@track.album.publisher.nil? %></td>
-      <th>Duration</th>
-      <td><%= text_field_tag :dur_min,
-                             duration_min(@track.duration),
-                             size: 3 %> : <%= text_field_tag :dur_sec,
-                                                             duration_sec(@track.duration),
-                                                             size: 3 %></td>
-    </tr>
-    <tr>
-      <th>Label</th>
-      <td><%= @track.album.label.name if !@track.album.label.nil? %></td>
-      <th>Explicit Lyrics</th>
-      <td><%= check_box("track",
-                        "explicit_lyrics") %></td>
-    </tr>
-    <tr>
-      <th>Release Year</th>
-      <td><%= @track.album.release_year %></td>
-      <th>CD Code</th>
-      <td><%= @track.album.cd_code %></td>
-    </tr>
-  </table>
-  <%= hidden_field_tag 'track[album_id]',
-                       @track.album_id %>
+      <div class="poster-title poster-info">
+        <%= "#{@track.track_num}. " if !@track.track_num.nil? %><%= link_to @track.album.title_original,
+                                                                            edit_album_path(@track.album) %>
+      </div>
+      <div class="poster-title poster-info">
+        Search tools
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="poster-info">
+            <%= link_to "YesAsia",
+                        "http://www.yesasia.com",
+                        target: "_blank" %>
+          </li>
+          <li class="poster-info">
+            <%= link_to "Wikipedia",
+                        "http://www.wikipedia.org/wiki/#{@track.artist_original.sub(/ /, '_') if @track.artist_original.present?}",
+                        target: "_blank" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+  </div>
+  <!--/span-->
 
+  <div class="span6">
+  <div class="content">
+    <% if controller.action_name != 'new' %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        edit_track_path(@track.previous.id) if @track.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        edit_track_path(@track.next.id) if @track.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'View track',
+                        track_path(@track) %>
+          </li>
+          <li>
+            <%= link_to "New track",
+                        new_track_path %>
+          </li>
+          <% if permitted_to? :admin_delete,
+                              :tracks %>
+            <li>
+              <%= link_to 'Delete',
+                          track_url(@track),
+                          method: :delete,
+                          confirm: 'Are you sure?' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
 
+      <br>
 
+    <% end %>
 
-  <br/>
-  <%= submit_tag "Add Track",
-                 class: "submit" %>
+    <%= hidden_field_tag 'track[album_id]',
+                         @track.album_id %>
+
+    <div class="controls controls-row">
+      <%= f.input_field :title_original,
+                        placeholder: "Track Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+      <%= f.input_field :title_english,
+                        placeholder: "Track Title (Translated)",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :label,
+                          link_path: labels_path,
+                          collection: Label.order("name").collect { |p| [p.name, p.id] },
+                          placeholder: 'Label',
+                          span: 'span3'} %>
+      <%= f.input_field :distributor,
+                        placeholder: "Distributor",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :artist_original,
+                        placeholder: "Artist",
+                        tabindex: autotab,
+                        class: 'span2' %>
+      <%= f.input_field :artist_english,
+                        placeholder: "Artist (Translated)",
+                        tabindex: autotab,
+                        class: 'span2' %>
+      <%= f.input_field :composer,
+                        placeholder: "Composer",
+                        tabindex: autotab,
+                        class: 'span2' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :tempo,
+                        placeholder: "Tempo",
+                        as: :select,
+                        collection: Tempo.all.collect { |p| [p.name,
+                                                             p.name] },
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span2' %>
+      <%= f.input_field :tempo_intro,
+                        placeholder: "Intro Tempo",
+                        as: :select,
+                        collection: Tempo.all.collect { |p| [p.name,
+                                                             p.name] },
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span2' %>
+      <%= f.input_field :tempo_outro,
+                        placeholder: "Outro Tempo",
+                        as: :select,
+                        collection: Tempo.all.collect { |p| [p.name,
+                                                             p.name] },
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span2' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :language_id,
+                          link_path: languages_path,
+                          collection: Language.order("name").collect { |p| [p.name, p.id] },
+                          placeholder: 'Language',
+                          span: 'span3'} %>
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :origin_id,
+                          link_path: origins_path,
+                          collection: Origin.order("name").collect { |p| [p.name, p.id] },
+                          placeholder: 'Origin',
+                          span: 'span3'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :gender,
+                        placeholder: "Gender",
+                        as: :select,
+                        collection: gender,
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span3' %>
+      <%= render partial: 'application/bootstrap_prepend_multiselect',
+                 locals: {f: f,
+                          field: :genre_ids,
+                          link_path: genres_path,
+                          collection: Genre.order("name").collect { |p| [p.name, p.id] },
+                          placeholder: 'Genre',
+                          span: 'span3'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :dur_min,
+                        placeholder: "Duration (min)",
+                        tabindex: autotab,
+                        class: 'span3',
+                        value: @track.duration.present? ? duration_min(@track.duration) : '' %>
+      <%= f.input_field :dur_sec,
+                        placeholder: "Duration (sec)",
+                        tabindex: autotab,
+                        class: 'span3',
+                        value: @track.duration.present? ? duration_sec(@track.duration) : '' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :explicit_lyrics,
+                        :as => :boolean,
+                        tabindex: autotab,
+                        :inline_label => "Explicit Lyrics" %>
+    </div>
+
+    <br>
+
+    <%= f.button :submit, class: 'btn' %>
+    <br><br><br>
+
+  </div>
+  <!--/span-->
+  </div>
 <% end %>
-

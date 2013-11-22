@@ -1,20 +1,30 @@
-<%= form_for @right,
-             remote: true,
-             html: {id: "right_form"} do |f| %>
+<%= minimal_form_for @right,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "right_form"} do |f| %>
 
-  <table>
-    <tr>
-      <td>Name</td>
-      <td><%= f.text_field :name,
-                           size: nil %></td>
-      <td>Controller</td>
-      <td><%= f.text_field :controller,
-                           size: nil %></td>
-      <td>Action</td>
-      <td><%= f.text_field :action,
-                           size: nil %></td>
-      <td><%= f.submit "Add Right" %></td>
-    </tr>
-  </table>
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Name' %>
+  </div>
 
+  <div class="controls controls-row">
+    <%= f.input_field :controller,
+                      class: 'span12',
+                      placeholder: 'Controller' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :action,
+                      class: 'span12',
+                      placeholder: 'Action' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
 <% end %>
