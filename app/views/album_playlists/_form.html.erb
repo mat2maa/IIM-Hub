@@ -225,15 +225,19 @@
 
           if (checked) {
             $('#playlist table thead th').eq(index).show();
+            $('#playlist table thead th').eq(index).attr('data-display', 'visible');
           } else {
             $('#playlist table thead th').eq(index).hide();
+            $('#playlist table thead th').eq(index).attr('data-display', 'none');
           }
 
           $('#playlist table tbody tr').each(function () {
             if (checked) {
               $(this).find("td").eq(index).show();
+              $(this).find("td").eq(index).attr('data-display', 'visible');
             } else {
               $(this).find("td").eq(index).hide();
+              $(this).find("td").eq(index).attr('data-display', 'none');
             }
           });
 

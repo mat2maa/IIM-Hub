@@ -2,7 +2,7 @@
   <thead>
   <tr>
     <% @columns.each.with_index do |column, index| %>
-      <th <%= raw("style='display: none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][index] == 'false' %>>
+      <th <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][index] == 'false' %>>
         <%= column %>
       </th>
     <% end %>

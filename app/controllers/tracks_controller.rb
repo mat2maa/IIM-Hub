@@ -96,20 +96,19 @@ class TracksController < ApplicationController
     @track.label = @track.album.label.name if !@track.album.label_id.nil?
     @track.save(validate: false)
 
-    respond_to do |format|
+    @genres = params[:track][:genre_ids].reject! { |c| c.empty? }
 
+    respond_to do |format|
       if @track.update_attributes(params[:track])
-        if !params[:track][:genre_ids].nil?
-          genres = params[:track][:genre_ids]
+        if @genres.present?
+          genres = @genres
           i=0
           g=""
           genres.each do |genre|
-
             if i==0
               g = Genre.find(genre).name
             else
-              g = g + ",
-" + Genre.find(genre).name
+              g = g + ", " + Genre.find(genre).name
             end
             i+=1
           end
@@ -123,7 +122,6 @@ class TracksController < ApplicationController
         @genres = Genre.all
         format.html { render action: "edit" }
       end
-
     end
   end
 

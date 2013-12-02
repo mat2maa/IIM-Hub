@@ -6,59 +6,59 @@
     <td colspan="2">Missing video <%= playlist_item.video_id %></td>
   <% else %>
 
-    <td data-title="Position" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Position" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Title" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Title" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.video.programme_title,
                   edit_video_path(playlist_item.video),
                   target: "_blank" %>
       &nbsp;
     </td>
 
-    <td data-title="(Foreign Language Title)" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="(Foreign Language Title)" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= "(#{playlist_item.video.foreign_language_title})" if playlist_item.video.foreign_language_title.present? %>
       &nbsp;
     </td>
 
-    <td data-title="(Chinese title)" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="(Chinese title)" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= "(#{playlist_item.video.chinese_programme_title})" if playlist_item.video.chinese_programme_title.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Run-time" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Run-time" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.commercial_run_time.minutes if playlist_item.video.commercial_run_time.present? %> min
       &nbsp;
     </td>
 
-    <td data-title="On-going series" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="On-going series" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.on_going_series ? "yes" : "no" %>
       &nbsp;
     </td>
 
-    <td data-title="Language tracks" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Language tracks" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.language_tracks.class == Array ? playlist_item.video.language_tracks.join(', ') : playlist_item.video.language_tracks %>
       &nbsp;
     </td>
 
-    <td data-title="Language subtitles" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Language subtitles" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.language_subtitles.class == Array ? playlist_item.video.language_subtitles.join(', ') : playlist_item.video.language_subtitles %>
       &nbsp;
     </td>
 
-    <td data-title="Distributor" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Distributor" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.video_distributor.company_name if playlist_item.video.video_distributor.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Available Episodes" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Available Episodes" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.episodes_available %>
       &nbsp;
     </td>
 
-    <td data-title="Genres" <%= raw("style='display: none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Genres" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.video.video_genres_string_with_parent %>
       &nbsp;
     </td>

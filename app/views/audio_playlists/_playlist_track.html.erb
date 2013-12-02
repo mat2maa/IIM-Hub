@@ -5,92 +5,76 @@
   <% if !playlist_track.track.present? %>
     Missing Track <%= playlist_track.track_id %>
   <% else %>
-    <td data-title="Position" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Position" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Title" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Title" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_track.track.title_original,
                   edit_track_path(playlist_track.track_id),
                   target: '_blank' %>
-      <% if playlist_track.track.mp3_exists == true %>
-        <div class="play" data-src="<%= "#{Settings.nas_mp3_url}#{playlist_track.track.album.id.to_s}/#{playlist_track.track.track_num.to_s}.mp3" %>"></div>
-      <% end %>
       &nbsp;
     </td>
 
-    <td data-title="Intro Tempo" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.tempo_intro %>&nbsp;</td>
+    <td data-title="Intro Tempo" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.tempo_intro %>&nbsp;</td>
 
-    <td class="<%= is_nil_alert(playlist_track.track.composer) %>" data-title="Composer" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td class="<%= is_nil_alert(playlist_track.track.composer) %>" data-title="Composer" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_track.track.composer %>&nbsp;
     </td>
 
-    <td data-title="Label" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.album.label.name if !playlist_track.track.album.label_id.nil? %>&nbsp;</td>
+    <td data-title="Label" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.album.label.name if !playlist_track.track.album.label_id.nil? %>&nbsp;</td>
 
-    <td data-title="Track Title (Translated)" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.title_english %>&nbsp;</td>
+    <td data-title="Track Title (Translated)" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.title_english %>&nbsp;</td>
 
-    <td class="<%= is_nil_alert(playlist_track.track.tempo) %>" data-title="Tempo" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td class="<%= is_nil_alert(playlist_track.track.tempo) %>" data-title="Tempo" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_track.track.tempo %>&nbsp;
     </td>
 
 
-    <td data-title="Track Num" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.track_num %>&nbsp;</td>
+    <td data-title="Track Num" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.track_num %>&nbsp;</td>
 
-    <td data-title="Origin" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Origin" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_track.track.origin.name if !playlist_track.track.origin_id.nil? && playlist_track.track.origin_id!=0 %>&nbsp;
     </td>
 
-    <td data-title="Artist" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.artist_original %>&nbsp;</td>
+    <td data-title="Artist" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.artist_original %>&nbsp;</td>
 
 
-    <td data-title="Outro Tempo" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.tempo_outro %>&nbsp;</td>
+    <td data-title="Outro Tempo" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.tempo_outro %>&nbsp;</td>
 
-    <td data-title="Duration" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= duration(playlist_track.track.duration) %>&nbsp;</td>
+    <td data-title="Duration" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= duration(playlist_track.track.duration) %>&nbsp;</td>
 
-    <td data-title="CD Code" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.album.cd_code %>&nbsp;</td>
+    <td data-title="CD Code" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>><%= playlist_track.track.album.cd_code %>&nbsp;</td>
 
 
-    <td data-title="Mastering" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Mastering" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @audio_playlist_track,
                         :mastering,
-                        type: :textarea,
                         :nil => 'change',
                         ok_button: 'Change Mastering',
-                        ok_button_class: 'btn btn-mini best-in-place-ok',
-                        cancel_button: 'Cancel',
-                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
+                        cancel_button: 'Cancel' %>&nbsp;
     </td>
 
 
-    <td class="<%= split_alert(playlist_track.split.to_i, @accum_duration) %>" data-title="Split" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td class="<%= split_alert(playlist_track.split.to_i, @accum_duration) %>" data-title="Split" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @audio_playlist_track,
                         :split,
                         type: :select,
                         collection: Split.order("duration ASC").collect { |p| [p.name, p.duration] },
-                        include_blank: true,
-                        :nil => 'change',
-                        ok_button: 'Change Split',
-                        ok_button_class: 'btn btn-mini best-in-place-ok',
-                        cancel_button: 'Cancel',
-                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
+                        :nil => 'change' %>&nbsp;
     </td>
 
 
-    <td data-title="VO Duration (sec)" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="VO Duration (sec)" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @audio_playlist_track,
                         :vo_duration,
                         type: :select,
                         collection: VoDuration.order("duration ASC").collect { |p| [p.name, p.duration] },
-                        include_blank: true,
-                        :nil => 'change',
-                        ok_button: 'Change VO Duration',
-                        ok_button_class: 'btn btn-mini best-in-place-ok',
-                        cancel_button: 'Cancel',
-                        cancel_button_class: 'btn btn-mini best-in-place-cancel' %>&nbsp;
+                        :nil => 'change' %>&nbsp;
     </td>
 
-    <td class="<%= is_nil_alert(playlist_track.track.genre) %>" data-title="Genre" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+    <td class="<%= is_nil_alert(playlist_track.track.genre) %>" data-title="Genre" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_track.track.genre %>&nbsp;
     </td>
 
@@ -102,7 +86,7 @@
        end
     %>
     <% if !playlist_track.track.nil? %>
-      <td data-title="Accumulated Duration" <%= raw("style='display: none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
+      <td data-title="Accumulated Duration" <%= raw("style='display: none;' data-display='none'") if session[:audio_playlist_checked].present? && session[:audio_playlist_checked][column_counter-1] == "false" %>>
         <%= duration(@accum_duration + playlist_track.track.duration + (vo_duration*1000)) %>&nbsp;
       </td>
     <% end %>
@@ -114,6 +98,12 @@
                   confirm: "Are you sure",
                   method: 'delete',
                   class: 'btn btn-mini' %>
+      &nbsp;
+    </td>
+    <td>
+      <% if playlist_track.track.mp3_exists == true %>
+        <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{Settings.nas_mp3_url}#{playlist_track.track.album.id.to_s}/#{playlist_track.track.track_num.to_s}.mp3" %>">Play</a>
+      <% end %>
       &nbsp;
     </td>
   <% end %>

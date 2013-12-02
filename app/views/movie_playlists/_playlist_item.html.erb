@@ -3,62 +3,62 @@
 <% @current_column = 0 %>
 <tr id="item_<%= playlist_item.id %>" class="sortable" data-id="<%= playlist_item.id %>">
   <% if !playlist_item.movie.present? %>
-    <td data-title="Position" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Position" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
   <% else %>
 
-    <td data-title="Position" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Position" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= position %>
       &nbsp;
     </td>
 
-    <td data-title="Title" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Title" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.movie.movie_title,
                   edit_movie_path(playlist_item.movie),
                   target: "_blank" %>
       &nbsp;
     </td>
 
-    <td data-title="(Chinese title)" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="(Chinese title)" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= "(#{playlist_item.movie.chinese_movie_title})" if playlist_item.movie.chinese_movie_title.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Release date" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Release date" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.airline_release_date.strftime('%m-%Y') if playlist_item.movie.airline_release_date.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Rating" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Rating" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.rating %>
       &nbsp;
     </td>
 
-    <td data-title="Language tracks" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Language tracks" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.language_tracks.class == Array ? playlist_item.movie.language_tracks.join(', ') : playlist_item.movie.language_tracks %>
       &nbsp;
     </td>
 
-    <td data-title="Language subtitles" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Language subtitles" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.language_subtitles.class == Array ? playlist_item.movie.language_subtitles.join(', ') : playlist_item.movie.language_subtitles %>
       &nbsp;
     </td>
 
-    <td data-title="Laboratory" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Laboratory" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.laboratory.company_name if playlist_item.movie.laboratory.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Distributor" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Distributor" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.movie_distributor.company_name if playlist_item.movie.movie_distributor.present? %>
       &nbsp;
     </td>
 
-    <td data-title="Release versions" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Release versions" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.release_versions.join(', ') %>
       &nbsp;
     </td>
 
-    <td data-title="Airline rights" <%= raw("style='display: none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
+    <td data-title="Airline rights" <%= raw("style='display: none;' data-display='none'") if session[:movie_playlist_checked].present? && session[:movie_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.movie.airline_rights %>
       <%= playlist_item.movie.airline_countries %>
       &nbsp;

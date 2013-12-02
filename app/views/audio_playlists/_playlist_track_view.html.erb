@@ -66,7 +66,13 @@
         </tr>
         <tr>
           <td width="25%"><strong>Mastering</strong>:</td>
-          <td colspan="3"><%= playlist_track_view.mastering %></td>
+          <td width="25%"><%= playlist_track_view.mastering %></td>
+          <td colspan="2">
+            <% if playlist_track_view.track.mp3_exists == true %>
+              <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{Settings.nas_mp3_url}#{playlist_track_view.track.album.id.to_s}/#{playlist_track_view.track.track_num.to_s}.mp3" %>">Play</a>
+            <% end %>
+            &nbsp;
+          </td>
         </tr>
 
         <%

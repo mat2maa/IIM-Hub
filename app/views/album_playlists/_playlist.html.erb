@@ -2,10 +2,17 @@
   <thead>
   <tr>
     <% @columns.each.with_index do |column, index| %>
-      <th <%= raw("style='display: none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][index] == 'false' %>>
+      <th <%= raw("style='display: none;' data-display='none'") if session[:album_playlist_checked].present? && session[:album_playlist_checked][index] == 'false' %>>
         <%= column %>
       </th>
     <% end %>
+    <th>
+      <%= link_to raw("<i class='icon icon-edit'></i>"),
+                          categories_path,
+                          id: "add",
+                          target: "_blank" %>
+      Category
+    </th>
     <th>&nbsp;</th>
   </tr>
   </thead>
@@ -15,3 +22,14 @@
   <% end %>
   </tbody>
 </table>
+
+<script type="text/javascript">
+  var $ = jQuery;
+  $('.best_in_place').bind("ajax:success", function () {
+    console.log($(this));
+    console.log($(this).text())
+    if($(this).text() === '') {
+      $(this).text("change");
+    }
+  });
+</script>

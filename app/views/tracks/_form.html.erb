@@ -84,13 +84,9 @@
     </div>
 
     <div class="controls controls-row">
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :label,
-                          link_path: labels_path,
-                          collection: Label.order("name").collect { |p| [p.name, p.id] },
-                          placeholder: 'Label',
-                          span: 'span3'} %>
+      <div class="alert span3 duration-alert fade in alert-success">
+        <span>Label: <%= @track.album.label.name if !@track.album.label.nil? %></span>
+      </div>
       <%= f.input_field :distributor,
                         placeholder: "Distributor",
                         tabindex: autotab,
@@ -174,16 +170,26 @@
     </div>
 
     <div class="controls controls-row">
-      <%= f.input_field :dur_min,
-                        placeholder: "Duration (min)",
+      <%= text_field_tag :dur_min,
+                         duration_min(@track.duration),
+                         placeholder: "Duration (min)",
+                         tabindex: autotab,
+                         class: 'span3',
+                         value: @track.duration.present? ? duration_min(@track.duration) : '' %>
+      <%= text_field_tag :dur_sec,
+                         duration_sec(@track.duration),
+                         placeholder: "Duration (sec)",
+                         tabindex: autotab,
+                         class: 'span3',
+                         value: @track.duration.present? ? duration_sec(@track.duration) : '' %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :lyrics,
+                        placeholder: "Lyrics",
                         tabindex: autotab,
-                        class: 'span3',
-                        value: @track.duration.present? ? duration_min(@track.duration) : '' %>
-      <%= f.input_field :dur_sec,
-                        placeholder: "Duration (sec)",
-                        tabindex: autotab,
-                        class: 'span3',
-                        value: @track.duration.present? ? duration_sec(@track.duration) : '' %>
+                        class: 'span6',
+                        rows: 3 %>
     </div>
 
     <div class="controls controls-row">

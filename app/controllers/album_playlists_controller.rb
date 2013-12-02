@@ -56,7 +56,7 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Title', 'Artist', 'CD Code', 'Duration', 'Tracks', 'Album Title (Translated)', 'Artist (Translated)', 'Label', 'Explicit Lyrics', 'Synopsis', 'Genre', 'Category']
+    @columns = ['#', 'Title', 'Artist', 'CD Code', 'Duration', 'Tracks', 'Album Title (Translated)', 'Artist (Translated)', 'Label', 'Explicit Lyrics', 'Synopsis', 'Genre']
 
     @search = AlbumPlaylist.includes(:airline)
                            .ransack(view_context.empty_blank_params params[:q])
