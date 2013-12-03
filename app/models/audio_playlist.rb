@@ -24,8 +24,8 @@ class AudioPlaylist < ActiveRecord::Base
   def total_duration_cached
     Rails.cache.fetch('AudioPlaylist.'+self.id.to_s+'.total_duration' + self.updated_at.strftime('%Y%m%d%H%M%S')){duration_from_sec total_duration}
   end
-  
-  
+
+
   def total_duration
     t = 0
     

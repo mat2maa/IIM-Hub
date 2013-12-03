@@ -7,6 +7,7 @@ class AudioPlaylistsController < ApplicationController
          except: :export_to_excel
   before_filter :require_user, except: [:find_via_json]
   before_filter :require_http_auth_user, only: [:find_via_json]
+  before_filter :get_columns
   protect_from_forgery except: :find_via_json
 
   filter_access_to :all
@@ -86,8 +87,6 @@ class AudioPlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Title', 'Intro Tempo', 'Composer', 'Label', 'Track Title (Translated)', 'Tempo', 'Track Num', 'Origin', 'Artist', 'Outro Tempo', 'Duration', 'CD Code', 'Mastering', 'Split', 'VO Duration (sec)', 'Genre', 'Accumulated Duration']
-
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
                            .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
@@ -435,6 +434,12 @@ class AudioPlaylistsController < ApplicationController
   def table_column_select
     puts session[:audio_playlist_checked] = params[:checked]
     render nothing: true
+  end
+
+  private
+
+  def get_columns
+    @columns = ['#', 'Title', 'Intro Tempo', 'Composer', 'Label', 'Track Title (Translated)', 'Tempo', 'Track Num', 'Origin', 'Artist', 'Outro Tempo', 'Duration', 'CD Code', 'Mastering', 'Split', 'VO Duration (sec)', 'Genre', 'Accumulated Duration']
   end
 
 end

@@ -1,5 +1,8 @@
 <%= minimal_form_for @album,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+
+  <%= render 'layouts/error_messages', :object => f.object %>
+
   <div class="span3">
     <div class="poster-title poster-info">
       Cover image
@@ -113,7 +116,7 @@
       <div class="controls controls-row">
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
-                            field: :label,
+                            field: :label_id,
                             link_path: labels_path,
                             collection: Label.order("name").collect { |p| [p.name, p.id] },
                             placeholder: 'Label',
@@ -127,7 +130,7 @@
       <div class="controls controls-row">
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
-                            field: :publisher,
+                            field: :publisher_id,
                             link_path: publishers_path,
                             collection: Publisher.order("name").collect { |p| [p.name, p.id] },
                             placeholder: 'Publisher',
@@ -181,6 +184,14 @@
                             collection: Genre.order("name").collect { |p| [p.name, p.id] },
                             placeholder: 'Genre',
                             span: 'span3'} %>
+      </div>
+
+      <div class="controls controls-row">
+        <%= f.input_field :synopsis,
+                          placeholder: "Synopsis",
+                          tabindex: autotab,
+                          class: 'span6',
+                          rows: 3 %>
       </div>
 
       <div class="controls controls-row">

@@ -11,6 +11,7 @@ class ScreenerPlaylistsController < ApplicationController
   layout "layouts/application",
          except: :export
   before_filter :require_user
+  before_filter :get_columns
   filter_access_to :all
 
 
@@ -49,7 +50,6 @@ class ScreenerPlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Programme Title', '(Chinese)', 'Episode Title', 'Episode Number', 'Distributor', 'Location', 'Remarks', 'Other']
 
     @search = ScreenerPlaylist.includes(:airline, :video_playlist_type)
                               .ransack(view_context.empty_blank_params params[:q])
@@ -349,6 +349,12 @@ class ScreenerPlaylistsController < ApplicationController
   def table_column_select
     puts session[:screener_playlist_checked] = params[:checked]
     render nothing: true
+  end
+
+  private
+
+  def get_columns
+    @columns = ['#', 'Programme Title', '(Chinese)', 'Episode Title', 'Episode Number', 'Distributor', 'Location', 'Remarks', 'Other']
   end
 
 end

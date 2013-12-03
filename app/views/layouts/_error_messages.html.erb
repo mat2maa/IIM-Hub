@@ -1,0 +1,18 @@
+<% if object.errors.any? %>
+  <div class="span12">
+    <div class="row">
+      <div class="span12">
+        <div class="alert alert-error fade in">
+          <button class="close" data-dismiss="alert">×</button>
+          Please review the problems below:
+          <ol>
+            <% object.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ol>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+<% end %>

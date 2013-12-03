@@ -66,7 +66,7 @@
 
   <div class="span6">
     <div id="content">
-      <% if @album.tracks.present? || @playlists.present? %>
+      <% if @album.tracks.present? || @album.synopsis.present? || @playlists.present? %>
         <div class="tabbable">
           <ul class="nav nav-tabs pre-nav-below">
             <% if @album.tracks.present? %>
@@ -74,8 +74,13 @@
                 <a href="#tracks" data-toggle="tab">Tracks</a>
               </li>
             <% end %>
+            <% if @album.synopsis.present? %>
+              <li class="<%= 'active' if !@album.tracks.present? && @album_synopsis.present? %>">
+                <a href="#synopsis" data-toggle="tab">Synopsis</a>
+              </li>
+            <% end %>
             <% if @playlists.present? %>
-              <li class="<%= 'active' if !@album.tracks.present? && @playlists.present? %>">
+              <li class="<%= 'active' if !@album.tracks.present? && !@album_synopsis.present? && @playlists.present? %>">
                 <a href="#playlists" data-toggle="tab">Playlists</a>
               </li>
             <% end %>
@@ -110,6 +115,7 @@
                     <th>Artist&nbsp;</th>
                     <th>Duration (mm:ss)&nbsp;</th>
                     <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -119,9 +125,13 @@
                 </table>
               </div>
             <% end %>
+            <% if @album.synopsis.present? %>
+              <div class="tab-pane fade <%= 'active in' if !@album.tracks.present? && @playlists.present? %>" id="synopsis">
+                <%= simple_format @album.synopsis %>
+              </div>
+            <% end %>
             <% if @playlists.present? %>
-              <div class="info-list tab-pane fade <%= 'active in' if !@album.tracks.present? && @playlists.present? %>"
-                   id="playlists">
+              <div class="info-list tab-pane fade <%= 'active in' if !@album.tracks.present? && !@album_synopsis.present? && @playlists.present? %>" id="playlists">
                 <ul>
                   <% @playlists.each do |playlist| %>
                     <li class="info">

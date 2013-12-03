@@ -11,6 +11,7 @@ class VideoMasterPlaylistsController < ApplicationController
   layout "layouts/application",
          except: :export
   before_filter :require_user
+  before_filter :get_columns
   filter_access_to :all
 
 
@@ -49,7 +50,6 @@ class VideoMasterPlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Programme Title', 'Episode Title', 'Episode Number', 'Duration', 'Tape #', 'Lang Track 1', 'Lang Track 2', 'Lang Track 3', 'Lang Track 4', 'Lang Subs 1', 'Lang Subs 2', 'Tape Media', 'Tape Format', 'Tape Size', 'Time In', 'Time Out', 'Mastering', 'Aspect Ratio']
 
     @search = VideoMasterPlaylist.includes(:airline, :master_playlist_type)
                                  .ransack(view_context.empty_blank_params params[:q])
@@ -392,6 +392,12 @@ class VideoMasterPlaylistsController < ApplicationController
   def table_column_select
     puts session[:video_master_playlist_checked] = params[:checked]
     render nothing: true
+  end
+
+  private
+
+  def get_columns
+    @columns = ['#', 'Programme Title', 'Episode Title', 'Episode Number', 'Duration', 'Tape #', 'Lang Track 1', 'Lang Track 2', 'Lang Track 3', 'Lang Track 4', 'Lang Subs 1', 'Lang Subs 2', 'Tape Media', 'Tape Format', 'Tape Size', 'Time In', 'Time Out', 'Mastering', 'Aspect Ratio']
   end
 
 end

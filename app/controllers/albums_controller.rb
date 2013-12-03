@@ -7,6 +7,7 @@ include Amazon::AWS::Search
 class AlbumsController < ApplicationController
   before_filter :require_user, except: [:create_from_json]
   before_filter :require_http_auth_user, only: [:create_from_json]
+  before_filter :set_search
   protect_from_forgery except: :create_from_json
   filter_access_to :all
   cache_sweeper :album_sweeper
@@ -14,8 +15,6 @@ class AlbumsController < ApplicationController
   respond_to :json
 
   def index
-    @search = Album.includes(:label)
-                   .ransack(view_context.empty_blank_params params[:q])
     @albums = @search.result(distinct: true)
                      .order("albums.id DESC")
                      .paginate(page: params[:page],
@@ -32,8 +31,6 @@ class AlbumsController < ApplicationController
   end
 
   def edit
-    @search = Album.includes(:label)
-                   .ransack(view_context.empty_blank_params params[:q])
     @albums = @search.result(distinct: true)
                      .order("albums.id DESC")
                      .paginate(page: params[:page],
@@ -136,6 +133,7 @@ class AlbumsController < ApplicationController
     respond_to do |format|
 
       if @album.update_attributes(params[:album])
+        puts "Updating"
 
         i=0
         g=""
@@ -167,6 +165,7 @@ class AlbumsController < ApplicationController
         format.html { redirect_to edit_album_path(@album) }
         format.json { respond_with_bip(@album) }
       else
+        puts "Not Updating"
         @tracks = Track.where(album_id: params[:id]).order('track_num')
         format.html { render action: "edit" }
         format.json { respond_with_bip(@album) }
@@ -280,6 +279,12 @@ class AlbumsController < ApplicationController
       format.html { redirect_to(:back) }
       format.js
     end
+  end
+
+  private
+
+  def set_search
+    @search = Album.includes(:label).ransack(view_context.empty_blank_params params[:q])
   end
 
 end

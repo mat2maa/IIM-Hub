@@ -1,13 +1,12 @@
 class TracksController < ApplicationController
   before_filter :require_user
+  before_filter :set_search
   filter_access_to :all
 
   def index
     dur_min = (params[:dur_min_min].to_i * 60 *1000) + (params[:dur_min_sec].to_i * 1000)
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
-    @search = Track.includes(album: :label)
-                   .ransack(view_context.empty_blank_params params[:q])
     @tracks = @search.result(distinct: true)
                      .order("tracks.id DESC")
                      .paginate(page: params[:page],
@@ -67,8 +66,6 @@ class TracksController < ApplicationController
     dur_min = (params[:dur_min_min].to_i * 60 *1000) + (params[:dur_min_sec].to_i * 1000)
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
-    @search = Track.includes(album: :label)
-                   .ransack(view_context.empty_blank_params params[:q])
     @tracks = @search.result(distinct: true)
                      .order("tracks.id DESC")
                      .paginate(page: params[:page],
@@ -197,6 +194,12 @@ class TracksController < ApplicationController
     end
 
     # this action will be called via ajax
+  end
+
+  private
+
+  def set_search
+    @search = Track.includes(album: :label).ransack(view_context.empty_blank_params params[:q])
   end
 
 end

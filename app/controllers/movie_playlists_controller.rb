@@ -6,6 +6,7 @@ class MoviePlaylistsController < ApplicationController
   layout "layouts/application",
          except: :export
   before_filter :require_user
+  before_filter :get_columns
   filter_access_to :all
 
   def index
@@ -43,7 +44,6 @@ class MoviePlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Movie Title', '(Chinese)', 'Release Date', 'Rating', 'Lang Tracks', 'Lang Subs', 'Laboratory', 'Distributor', 'Release Versions', 'Airline Rights']
 
     @search = MoviePlaylist.includes(:airline)
                            .ransack(view_context.empty_blank_params params[:q])
@@ -693,6 +693,12 @@ swe tha zho yue tam)
   def table_column_select
     puts session[:movie_playlist_checked] = params[:checked]
     render nothing: true
+  end
+
+  private
+
+  def get_columns
+    @columns = ['#', 'Movie Title', '(Chinese)', 'Release Date', 'Rating', 'Lang Tracks', 'Lang Subs', 'Laboratory', 'Distributor', 'Release Versions', 'Airline Rights']
   end
 
 end

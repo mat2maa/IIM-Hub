@@ -14,6 +14,7 @@ class AlbumPlaylistsController < ApplicationController
                     list_attribute: 'name'
 =end
   before_filter :require_user
+  before_filter :get_columns
   filter_access_to :all
 
   def index
@@ -56,7 +57,6 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def edit
-    @columns = ['#', 'Title', 'Artist', 'CD Code', 'Duration', 'Tracks', 'Album Title (Translated)', 'Artist (Translated)', 'Label', 'Explicit Lyrics', 'Synopsis', 'Genre']
 
     @search = AlbumPlaylist.includes(:airline)
                            .ransack(view_context.empty_blank_params params[:q])
@@ -507,6 +507,12 @@ class AlbumPlaylistsController < ApplicationController
   def table_column_select
     puts session[:album_playlist_checked] = params[:checked]
     render nothing: true
+  end
+
+  private
+
+  def get_columns
+    @columns = ['#', 'Title', 'Artist', 'CD Code', 'Duration', 'Tracks', 'Album Title (Translated)', 'Artist (Translated)', 'Label', 'Explicit Lyrics', 'Synopsis', 'Genre']
   end
 
 end

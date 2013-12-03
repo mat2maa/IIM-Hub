@@ -22,7 +22,7 @@
     <% end %>
 
     <% models = %w(movies movie_playlists videos video_playlists masters video_master_playlists screeners
-screener_playlists audio_playlists album_playlists tracks albums) %>
+    screener_playlists audio_playlists album_playlists tracks albums) %>
     <% if models.include?(controller_name) %>
       <div class="span3">
         <div class="tabbable" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: -20px;' %>">

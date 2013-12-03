@@ -85,9 +85,8 @@
             <div class="tab-content">
               <% if @track.lyrics.present? %>
                 <div class="tab-pane fade <%= 'active in' if @track.lyrics.present? %>" id="lyrics">
-                  <p>
-                    <%= @track.lyrics %>
-                  </p>
+                  <%= simple_format @track.lyrics,
+                                    class: 'lyrics' %>
                 </div>
               <% end %>
               <% if @playlists.present? %>
