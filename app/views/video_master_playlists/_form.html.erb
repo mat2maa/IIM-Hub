@@ -97,7 +97,7 @@
                    locals: {f: f,
                             field: :master_playlist_type_id,
                             link_path: master_playlist_types_path,
-                            collection: MasterPlaylistType.order("name asc").collect { |p| [p.name, p.id] },
+                            collection: MasterPlaylistType.connection.execute(MasterPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'Master Playlist Type',
                             span: 'span3'} %>
       </div>

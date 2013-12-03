@@ -157,7 +157,7 @@
                  locals: {f: f,
                           field: :video_distributor_id,
                           link_path: suppliers_path,
-                          collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
+                          collection: @video_distributors,
                           placeholder: 'Distributor',
                           span: 'span6'} %>
     </div>
@@ -167,7 +167,7 @@
                  locals: {f: f,
                           field: :laboratory_id,
                           link_path: suppliers_path,
-                          collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                          collection: @production_studios,
                           placeholder: 'Production Studio',
                           span: 'span6'} %>
     </div>
@@ -177,7 +177,7 @@
                  locals: {f: f,
                           field: :production_studio_id,
                           link_path: suppliers_path,
-                          collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                          collection: @laboratories,
                           placeholder: 'Laboratory',
                           span: 'span6'} %>
     </div>
@@ -188,7 +188,7 @@
                         as: :select,
                         include_blank: true,
                         tabindex: autotab,
-                        collection: CommercialRunTime.all.collect { |p| [p.minutes, p.id] },
+                        collection: CommercialRunTime.connection.execute(CommercialRunTime.select('minutes, id').to_sql).to_a,
                         class: 'select2 span3' %>
     </div>
 

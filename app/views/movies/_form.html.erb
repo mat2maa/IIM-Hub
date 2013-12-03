@@ -148,7 +148,7 @@
                locals: {f: f,
                         field: :movie_type_id,
                         link_path: movie_types_path,
-                        collection: MovieType.order("name").collect { |p| [p.name, p.id] },
+                        collection: MovieType.connection.execute(MovieType.select('name, id').order("name").to_sql).to_a,
                         placeholder: 'Movie Type',
                         span: 'span3'} %>
 
@@ -185,7 +185,7 @@
                locals: {f: f,
                         field: :movie_distributor_id,
                         link_path: suppliers_path,
-                        collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
+                        collection: @movie_distributors,
                         placeholder: 'Distributor',
                         span: 'span6'} %>
   </div>
@@ -195,7 +195,7 @@
                locals: {f: f,
                         field: :laboratory_id,
                         link_path: suppliers_path,
-                        collection: Supplier.production_studios.collect { |p| [p.company_name, p.id] },
+                        collection: @production_studios,
                         placeholder: 'Production Studio',
                         span: 'span6'} %>
   </div>
@@ -205,7 +205,7 @@
                locals: {f: f,
                         field: :production_studio_id,
                         link_path: suppliers_path,
-                        collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                        collection: @laboratories,
                         placeholder: 'Laboratory',
                         span: 'span6'} %>
   </div>

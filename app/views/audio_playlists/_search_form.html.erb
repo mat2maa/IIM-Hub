@@ -17,7 +17,7 @@
 
     <div class="controls controls-row">
       <%= audio_playlists.input_field :program_id_eq,
-                                      collection: Program.order("name asc").collect { |p| [p.name, p.id] },
+                                      collection: Program.connection.execute(Program.select('name, id').order("name asc").to_sql).to_a,
                                       include_blank: true,
                                       class: "select2 #{@span_size}",
                                       data: {placeholder: 'Program'} %>
@@ -25,7 +25,7 @@
 
     <div class="controls controls-row">
       <%= audio_playlists.input_field :airline_id_eq,
-                                      collection: Airline.order("name asc").collect { |p| [p.name, p.id] },
+                                      collection: Airline.connection.execute(Airline.select('name, id').order("name asc").to_sql).to_a,
                                       include_blank: true,
                                       class: "select2 #{@span_size}",
                                       placeholder: 'Airline' %>

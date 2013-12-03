@@ -29,7 +29,7 @@
     <div class="controls controls-row">
       <%= screeners.input_field :video_video_distributor_id_eq,
                                 as: :select,
-                                collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
+                                collection: @video_distributors,
                                 include_blank: true,
                                 class: "select2 #{@span_size}",
                                 placeholder: 'Distributor' %>
@@ -38,7 +38,7 @@
     <div class="controls controls-row">
       <%= screeners.input_field :video_laboratory_id_eq,
                                 as: :select,
-                                collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                                collection: @laboratories,
                                 include_blank: true,
                                 class: "select2 #{@span_size}",
                                 placeholder: 'Laboratory' %>
@@ -47,7 +47,7 @@
     <div class="controls controls-row">
       <%= screeners.input_field :video_video_genres_video_parent_genre_id_eq,
                                 as: :select,
-                                collection: VideoParentGenre.all.collect { |p| [p.name, p.id] },
+                                collection: VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
                                 include_blank: true,
                                 class: "select2 #{@span_size}",
                                 placeholder: 'Genre' %>
@@ -56,7 +56,7 @@
     <div class="controls controls-row">
       <%= screeners.input_field :video_video_genres_id_eq,
                                 as: :select,
-                                collection: VideoGenre.all.collect { |p| [p.name, p.id] },
+                                collection: VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
                                 include_blank: true,
                                 class: "select2 #{@span_size}",
                                 placeholder: 'Sub-genre' %>

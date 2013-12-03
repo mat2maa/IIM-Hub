@@ -13,36 +13,34 @@
     <!--</div>-->
 
     <div class="controls controls-row">
-      <%= videos.text_field :programme_title_or_foreign_language_title_cont_any,
-                            placeholder: 'Video Title',
-                            class: "#{@span_size}",
-                            value: @original %>
+      <%= videos.input_field :programme_title_or_foreign_language_title_cont_any,
+                             placeholder: 'Video Title',
+                             class: "#{@span_size}",
+                             value: @original %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.text_field :masters_episode_title_cont,
-                            placeholder: 'Episode Title',
-                            class: "#{@span_size}" %>
+      <%= videos.input_field :masters_episode_title_cont,
+                             placeholder: 'Episode Title',
+                             class: "#{@span_size}" %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.select :video_distributor_id_eq,
-                        Supplier.video_distributors
-                        .collect { |p| [p.company_name,
-                                        p.id] },
-                        {include_blank: true},
-                        {class: "select2 #{@span_size}",
-                         data: {placeholder: 'Distributor'}} %>
+      <%= videos.input_field :video_distributor_id_eq,
+                             placeholder: 'Video Distributor',
+                             as: :select,
+                             collection: @video_distributors,
+                             include_blank: true,
+                             tabindex: autotab,
+                             class: "select2 #{@span_size}" %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.select :laboratory_id_eq,
-                        Supplier.laboratories
-                        .collect { |p| [p.company_name,
-                                        p.id] },
-                        {include_blank: true},
-                        {class: "select2 #{@span_size}",
-                         data: {placeholder: 'Laboratory'}} %>
+      <%= videos.input_field :laboratory_id_eq,
+                             collection: @laboratories,
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             placeholder: 'Laboratory' %>
     </div>
 
     <div class="controls controls-row">
@@ -66,31 +64,27 @@
     </div>
 
     <div class="controls controls-row">
-      <%= videos.select :video_genres_video_parent_genre_id_eq,
-                        VideoParentGenre.all
-                        .collect { |p| [p.name,
-                                        p.id] },
-                        {include_blank: true},
-                        {class: "select2 #{@span_size}",
-                         data: {placeholder: 'Genre'}} %>
+      <%= videos.input_field :video_genres_video_parent_genre_id_eq,
+                             collection: VideoParentGenre.all.collect { |p| [p.name, p.id] },
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             data: {placeholder: 'Genre'} %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.select :video_genres_id_eq,
-                        VideoGenre.all
-                        .collect { |p| [p.name,
-                                        p.id] },
-                        {include_blank: true},
-                        {class: "select2 #{@span_size}",
-                         data: {placeholder: 'Sub-genre'}} %>
+      <%= videos.input_field :video_genres_id_eq,
+                             collection: VideoGenre.all.collect { |p| [p.name, p.id] },
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             data: {placeholder: 'Sub-genre'} %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.select :video_type_eq,
-                        Video::VIDEO_TYPES,
-                        {include_blank: true},
-                        {class: "select2 #{@span_size}",
-                         data: {placeholder: 'Video Type'}} %>
+      <%= videos.input_field :video_type_eq,
+                             collection: Video::VIDEO_TYPES,
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             data: {placeholder: 'Video Type'} %>
     </div>
 
     <div class="controls controls-row">
@@ -109,15 +103,15 @@
     </div>
 
     <div class="controls controls-row">
-      <%= videos.text_field :masters_location_eq,
-                            placeholder: 'Tape Location Number',
-                            class: "#{@span_size}" %>
+      <%= videos.input_field :masters_location_eq,
+                             placeholder: 'Tape Location Number',
+                             class: "#{@span_size}" %>
     </div>
 
     <div class="controls controls-row">
-      <%= videos.text_field :id_eq,
-                            placeholder: 'Video ID',
-                            class: "#{@span_size}" %>
+      <%= videos.input_field :id_eq,
+                             placeholder: 'Video ID',
+                             class: "#{@span_size}" %>
     </div>
 
     <div class="controls controls-row">

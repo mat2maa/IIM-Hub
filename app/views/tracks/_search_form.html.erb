@@ -70,7 +70,7 @@
 
     <div class="controls controls-row">
       <%= tracks.input_field :album_label_id_eq,
-                             collection: Label.all.collect { |p| [p.name, p.id] },
+                             collection: Label.connection.execute(Label.select('name, id').to_sql).to_a,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Label' %>

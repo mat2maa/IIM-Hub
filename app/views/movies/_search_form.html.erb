@@ -34,7 +34,7 @@
       <%= movies.input_field :movie_distributor_id_eq,
                              placeholder: 'Movie Distributor',
                              as: :select,
-                             collection: Supplier.movie_distributors.collect { |p| [p.company_name, p.id] },
+                             collection: @movie_distributors,
                              include_blank: true,
                              tabindex: autotab,
                              class: "select2 #{@span_size}" %>
@@ -42,7 +42,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :laboratory_id_eq,
-                             collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
+                             collection: @laboratories,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Laboratory' %>
@@ -50,7 +50,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :movie_type_id_eq,
-                             collection: MovieType.order("name").collect { |p| [p.name, p.id] },
+                             collection: MovieType.connection.execute(MovieType.select('name, id').order("name").to_sql).to_a,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Movie Type' %>
@@ -58,7 +58,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :movie_genres_id_eq,
-                             collection: MovieGenre.order("name").collect { |p| [p.name, p.id] },
+                             collection: MovieGenre.connection.execute(MovieGenre.select('name, id').order("name").to_sql).to_a,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Genre' %>

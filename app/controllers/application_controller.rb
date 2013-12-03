@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
                 :current_user,
                 :logged_in?
 
+  before_filter :get_movie_distributors
+  before_filter :get_video_distributors
+  before_filter :get_laboratories
+  before_filter :get_production_studios
 
   def associates_id
     "imagesinmotio-20"
@@ -40,6 +44,38 @@ class ApplicationController < ActionController::Base
       ids << i.id
     end
     ids
+  end
+
+  def get_movie_distributors
+    @movie_distributors = Supplier.connection.execute("SELECT `suppliers`.`company_name` AS t0_r1,
+`suppliers`.`id` AS t0_r0 FROM `suppliers` LEFT OUTER JOIN `supplier_categories_suppliers` ON
+`supplier_categories_suppliers`.`supplier_id` = `suppliers`.`id` LEFT OUTER JOIN `supplier_categories` ON
+`supplier_categories`.`id` = `supplier_categories_suppliers`.`supplier_category_id` WHERE `supplier_categories`
+.`name` = 'Movie Distributors' ORDER BY company_name asc").to_a
+  end
+
+  def get_video_distributors
+    @video_distributors = Supplier.connection.execute("SELECT `suppliers`.`company_name` AS t0_r1,
+`suppliers`.`id` AS t0_r0 FROM `suppliers` LEFT OUTER JOIN `supplier_categories_suppliers` ON
+`supplier_categories_suppliers`.`supplier_id` = `suppliers`.`id` LEFT OUTER JOIN `supplier_categories` ON
+`supplier_categories`.`id` = `supplier_categories_suppliers`.`supplier_category_id` WHERE `supplier_categories`
+.`name` = 'Video Distributors' ORDER BY company_name asc").to_a
+  end
+
+  def get_laboratories
+    @laboratories = Supplier.connection.execute("SELECT `suppliers`.`company_name` AS t0_r1,
+`suppliers`.`id` AS t0_r0 FROM `suppliers` LEFT OUTER JOIN `supplier_categories_suppliers` ON
+`supplier_categories_suppliers`.`supplier_id` = `suppliers`.`id` LEFT OUTER JOIN `supplier_categories` ON
+`supplier_categories`.`id` = `supplier_categories_suppliers`.`supplier_category_id` WHERE `supplier_categories`
+.`name` = 'Laboratories' ORDER BY company_name asc").to_a
+  end
+
+  def get_production_studios
+    @production_studios = Supplier.connection.execute("SELECT `suppliers`.`company_name` AS t0_r1,
+`suppliers`.`id` AS t0_r0 FROM `suppliers` LEFT OUTER JOIN `supplier_categories_suppliers` ON
+`supplier_categories_suppliers`.`supplier_id` = `suppliers`.`id` LEFT OUTER JOIN `supplier_categories` ON
+`supplier_categories`.`id` = `supplier_categories_suppliers`.`supplier_category_id` WHERE `supplier_categories`
+.`name` = 'Production Studios' ORDER BY company_name asc").to_a
   end
 
   private

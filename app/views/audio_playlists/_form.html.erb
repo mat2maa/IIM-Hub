@@ -134,7 +134,7 @@
                    locals: {f: f,
                             field: :program_id,
                             link_path: programs_path,
-                            collection: Program.order("name asc").collect { |p| [p.name, p.id] },
+                            collection: Program.connection.execute(Program.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'Programme',
                             span: 'span3'} %>
 
@@ -142,7 +142,7 @@
                    locals: {f: f,
                             field: :vo_id,
                             link_path: vos_path,
-                            collection: Vo.order("name asc").collect { |p| [p.name, p.id] },
+                            collection: Vo.connection.execute(Vo.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'VO',
                             span: 'span3'} %>
       </div>
@@ -157,7 +157,7 @@
 
         <%= f.input_field :airline_duration,
                           as: :select,
-                          collection: Split.order(:duration).collect { |p| [p.name, p.duration] },
+                          collection: Split.connection.execute(Split.select('name, duration').order(:duration).to_sql).to_a,
                           include_blank: true,
                           class: 'select2 span3',
                           placeholder: 'Airline Duration' %>

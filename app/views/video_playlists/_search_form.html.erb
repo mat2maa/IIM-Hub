@@ -18,7 +18,7 @@
     <div class="controls controls-row">
       <%= video_playlists.input_field :airline_id_eq,
                                       as: :select,
-                                      collection: Airline.order("name asc").collect { |p| [p.name, p.id] },
+                                      collection: Airline.connection.execute(Airline.select('name, id').order("name asc").to_sql).to_a,
                                       include_blank: true,
                                       class: "select2 #{@span_size}",
                                       data: {placeholder: 'Airline'} %>
@@ -27,7 +27,7 @@
     <div class="controls controls-row">
       <%= video_playlists.input_field :video_playlist_type_id_eq,
                                       as: :select,
-                                      collection: VideoPlaylistType.order("name asc").collect { |p| [p.name, p.id] },
+                                      collection: VideoPlaylistType.connection.execute(VideoPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                                       include_blank: true,
                                       class: "select2 #{@span_size}",
                                       data: {placeholder: 'Video Playlist Type'} %>
