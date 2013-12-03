@@ -1,24 +1,24 @@
 <tr id="item_<%= track.id %>" class="sortable" data-id="<%= track.id %>">
-  <td width="5%"><%= image_tag("arrow_move.png") %></td>
-  <td width="5%"><%= track.track_num %></td>
-  <td width="45%">
-    <% if track.mp3_exists == true %>
-      <%= link_to track.title_original,
-                  Settings.nas_mp3_url + track.album.id.to_s + "/" + track.track_num.to_s + ".mp3",
-                  title: track.artist_original + " - " + track.title_original %>
-    <% else %>
-      <%= track.title_original %>
-    <% end %>
-  </td>
-  <td width="20%"><%= track.artist_original %></td>
-  <td width="10%"><%= duration(track.duration) %></td>
-  <td width="15%">
+  <td data-title="Position"><%= track_counter + 1 %></td>
+  <td data-title="Title"><%= track.title_original %></td>
+  <td data-title="Artist"><%= track.artist_original %></td>
+  <td data-title="Duration"><%= duration(track.duration) %></td>
+  <td>
     <%= link_to 'Edit',
                 edit_track_path(track),
-                target: "_blank" %>
+                target: "_blank",
+                class: 'btn btn-mini' %>
+  </td>
+  <td>
     <%= link_to 'Delete',
                 track,
                 confirm: 'Are you sure?',
-                method: :delete %>
+                method: :delete,
+                class: 'btn btn-mini' %>
+  </td>
+  <td>
+    <% if track.mp3_exists == true %>
+      <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{Settings.nas_mp3_url}#{track.album.id.to_s}/#{track.track_num.to_s}.mp3" %>">Play</a>
+    <% end %>
   </td>
 </tr>

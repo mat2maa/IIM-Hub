@@ -49,9 +49,7 @@
     <div class="controls controls-row">
       <%= masters.input_field :video_video_genres_video_parent_genre_id_eq,
                               as: :select,
-                              collection: VideoParentGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              collection: VideoParentGenre.all.collect { |p| [p.name, p.id] },
                               include_blank: true,
                               class: "select2 #{@span_size}",
                               placeholder: 'Genre' %>
@@ -60,9 +58,7 @@
     <div class="controls controls-row">
       <%= masters.input_field :video_video_genres_id_eq,
                               as: :select,
-                              collection: VideoGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              collection: VideoGenre.all.collect { |p| [p.name, p.id] },
                               include_blank: true,
                               class: "select2 #{@span_size}",
                               placeholder: 'Sub-genre' %>

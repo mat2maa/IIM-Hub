@@ -55,9 +55,7 @@
 
     <div class="controls controls-row">
       <%= albums.input_field :label_id_eq,
-                             collection: Label.all
-                             .collect { |p| [p.name,
-                                             p.id] },
+                             collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Label' %>
@@ -65,9 +63,7 @@
 
     <div class="controls controls-row">
       <%= albums.input_field :genres_id_eq,
-                             collection: Genre.all
-                             .collect { |p| [p.name,
-                                             p.id] },
+                             collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Genre' %>

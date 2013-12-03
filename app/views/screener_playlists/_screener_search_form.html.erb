@@ -22,8 +22,7 @@
   <div class="controls controls-row">
     <%= screeners.input_field :video_video_distributor_id_eq,
                               as: :select,
-                              collection: Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                                     p.id] },
+                              collection: Supplier.video_distributors.collect { |p| [p.company_name, p.id] },
                               include_blank: true,
                               class: "select2 span12",
                               placeholder: 'Distributor' %>
@@ -32,8 +31,7 @@
   <div class="controls controls-row">
     <%= screeners.input_field :video_laboratory_id_eq,
                               as: :select,
-                              collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                               p.id] },
+                              collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
                               include_blank: true,
                               class: "select2 span12",
                               placeholder: 'Laboratory' %>
@@ -42,9 +40,7 @@
   <div class="controls controls-row">
     <%= screeners.input_field :video_video_genres_video_parent_genre_id_eq,
                               as: :select,
-                              collection: VideoParentGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              collection: VideoParentGenre.all.collect { |p| [p.name, p.id] },
                               include_blank: true,
                               class: "select2 span12",
                               placeholder: 'Genre' %>
@@ -53,9 +49,7 @@
   <div class="controls controls-row">
     <%= screeners.input_field :video_video_genres_id_eq,
                               as: :select,
-                              collection: VideoGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              collection: VideoGenre.all.collect { |p| [p.name, p.id] },
                               include_blank: true,
                               class: "select2 span12",
                               placeholder: 'Sub-genre' %>

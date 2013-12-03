@@ -259,6 +259,7 @@ GEM
     ruby-aaws (0.7.0)
     ruby-hmac (0.4.0)
     ruby-ole (1.2.11.7)
+    ruby-prof (0.13.0)
     ruby-rc4 (0.1.5)
     ruby_parser (3.2.1)
       sexp_processor (~> 4.1)
@@ -375,6 +376,7 @@ DEPENDENCIES
   rottentomatoes
   ruby-aaws
   ruby-ole
+  ruby-prof
   ruby_parser
   rubyzip (~> 0.9.9)
   sass-rails (~> 3.2.3)

@@ -64,8 +64,7 @@
 
   <div class="controls controls-row">
     <%= tracks.input_field :album_label_id_eq,
-                           collection: Label.all.collect { |p| [p.name,
-                                                                p.id] },
+                           collection: Label.all.collect { |p| [p.name, p.id] },
                            include_blank: true,
                            class: 'select2 span12',
                            placeholder: 'Label' %>

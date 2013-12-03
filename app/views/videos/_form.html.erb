@@ -188,8 +188,7 @@
                         as: :select,
                         include_blank: true,
                         tabindex: autotab,
-                        collection: CommercialRunTime.all.collect { |p| [p.minutes,
-                                                                         p.id] },
+                        collection: CommercialRunTime.all.collect { |p| [p.minutes, p.id] },
                         class: 'select2 span3' %>
     </div>
 

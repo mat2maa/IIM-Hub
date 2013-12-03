@@ -40,6 +40,8 @@ class AlbumsController < ApplicationController
 
     @album = Album.find(params[:id])
     @tracks = Track.where(album_id: params[:id]).order('track_num')
+    @playlists = AlbumPlaylistItem.where('album_id=?',
+                                         params[:id])
   end
 
   def amazon_cd_covers

@@ -18,9 +18,7 @@
     <div class="controls controls-row">
       <%= suppliers.input_field :supplier_categories_id_eq,
                                 as: :select,
-                                collection: SupplierCategory.all
-                                                            .collect { |p| [p.name,
-                                                                            p.id] },
+                                collection: SupplierCategory.all.collect { |p| [p.name, p.id] },
                                 include_blank: true,
                                 class: "select2 #{@span_size}",
                                 data: {placeholder: 'Category'} %>

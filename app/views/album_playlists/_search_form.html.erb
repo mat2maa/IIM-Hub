@@ -23,9 +23,7 @@
 
     <div class="controls controls-row">
       <%= album_playlists.input_field :airline_id_eq,
-                                      collection: Airline.order("name asc")
-                                      .collect { |p| [p.name,
-                                                      p.id] },
+                                      collection: Airline.order("name asc").collect { |p| [p.name, p.id] },
                                       include_blank: true,
                                       class: "select2 #{@span_size}",
                                       placeholder: 'Airline' %>

@@ -49,6 +49,20 @@
           </li>
         </ul>
       </div>
+      <br>
+
+      <div class="info info-title">Audio Player</div>
+      <div class="info-list">
+        <ul>
+          <li class="info">
+            <audio controls>
+              <source src="" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </li>
+        </ul>
+      </div>
+      <br>
     </div>
     <br>
   </div>
@@ -118,7 +132,7 @@
                    locals: {f: f,
                             field: :label_id,
                             link_path: labels_path,
-                            collection: Label.order("name").collect { |p| [p.name, p.id] },
+                            collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
                             placeholder: 'Label',
                             span: 'span3'} %>
         <%= f.input_field :cd_code,
@@ -132,7 +146,7 @@
                    locals: {f: f,
                             field: :publisher_id,
                             link_path: publishers_path,
-                            collection: Publisher.order("name").collect { |p| [p.name, p.id] },
+                            collection: Publisher.connection.execute(Publisher.select('name, id').order("name").to_sql).to_a,
                             placeholder: 'Publisher',
                             span: 'span3'} %>
         <%= f.input_field :release_year,
@@ -157,14 +171,14 @@
                    locals: {f: f,
                             field: :language_id,
                             link_path: languages_path,
-                            collection: Language.order("name").collect { |p| [p.name, p.id] },
+                            collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
                             placeholder: 'Language',
                             span: 'span3'} %>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :origin_id,
                             link_path: origins_path,
-                            collection: Origin.order("name").collect { |p| [p.name, p.id] },
+                            collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
                             placeholder: 'Origin',
                             span: 'span3'} %>
       </div>
@@ -181,7 +195,7 @@
                    locals: {f: f,
                             field: :genre_ids,
                             link_path: genres_path,
-                            collection: Genre.order("name").collect { |p| [p.name, p.id] },
+                            collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
                             placeholder: 'Genre',
                             span: 'span3'} %>
       </div>
@@ -226,4 +240,38 @@
     </div>
     <!--/span-->
   </div>
+<% end %>
+
+<% if controller.action_name != 'new' %>
+  <%= content_for :playlist do %>
+    <div class="info info-title">
+      Playlist
+      <div class="btn-group pull-right" id="table-column-select">
+        <%= link_to "Add Track",
+                    {controller: :tracks,
+                     action: "new",
+                     id: params[:id]},
+                    class: 'btn btn-mini btn-info dropdown-toggle' %>
+      </div>
+    </div>
+    <div id="playlist">
+      <table class="table" id="no-more-tables" width="100%">
+        <thead>
+        <tr>
+          <th>#&nbsp;</th>
+          <th>Title&nbsp;</th>
+          <th>Artist&nbsp;</th>
+          <th>Duration (mm:ss)&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody id="tracklist" class="album-sort-list" data-url="<%= sort_track_path %>" style="cursor: move">
+        <%= render partial: 'track',
+                   collection: @tracks %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 <% end %>

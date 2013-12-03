@@ -332,7 +332,8 @@ $(document).ready(function () {
 
   var src,
       $audioPlayer;
-  $(document).on("click", '.btn-play', function() {
+  $(document).on("click", '.btn-play', function(e) {
+    e.preventDefault();
     src = $(this).attr('data-src');
     $audioPlayer = $('audio').get(0);
     $audioPlayer.src = src;

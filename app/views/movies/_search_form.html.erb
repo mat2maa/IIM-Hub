@@ -42,8 +42,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :laboratory_id_eq,
-                             collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                              p.id] },
+                             collection: Supplier.laboratories.collect { |p| [p.company_name, p.id] },
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Laboratory' %>
@@ -51,9 +50,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :movie_type_id_eq,
-                             collection: MovieType.order("name")
-                             .collect { |p| [p.name,
-                                             p.id] },
+                             collection: MovieType.order("name").collect { |p| [p.name, p.id] },
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Movie Type' %>
@@ -61,9 +58,7 @@
 
     <div class="controls controls-row">
       <%= movies.input_field :movie_genres_id_eq,
-                             collection: MovieGenre.order("name")
-                             .collect { |p| [p.name,
-                                             p.id] },
+                             collection: MovieGenre.order("name").collect { |p| [p.name, p.id] },
                              include_blank: true,
                              class: "select2 #{@span_size}",
                              placeholder: 'Genre' %>

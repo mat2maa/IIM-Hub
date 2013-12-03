@@ -89,6 +89,7 @@ group :development do
   gem 'oink'
   gem 'quiet_assets'
   gem 'rack-mini-profiler'
+  gem 'ruby-prof'
   gem 'better_errors'
   gem 'binding_of_caller'
 end
