@@ -21,7 +21,7 @@ class VideoMasterPlaylistsController < ApplicationController
     @video_master_playlists = @search.result(distinct: true)
                                      .order("video_master_playlists.id DESC")
                                      .paginate(page: params[:page],
-                                               per_page: items_per_page)
+                                               per_page: items_per_page.present? ? items_per_page : 100)
 
     @video_master_playlists_count = @video_master_playlists.count
   end
@@ -56,7 +56,7 @@ class VideoMasterPlaylistsController < ApplicationController
     @video_master_playlists = @search.result(distinct: true)
                                      .order("video_master_playlists.id DESC")
                                      .paginate(page: params[:page],
-                                               per_page: items_per_page)
+                                               per_page: items_per_page.present? ? items_per_page : 100)
 
     @video_master_playlist = VideoMasterPlaylist.includes(video_master_playlist_items: :master)
                                                 .find(params[:id])
@@ -99,7 +99,7 @@ class VideoMasterPlaylistsController < ApplicationController
     @masters = @search.result(distinct: true)
     .order("masters.id DESC")
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
       @masters = @masters.with_language_track(params[:language][:track]) if params[:language][:track].present?

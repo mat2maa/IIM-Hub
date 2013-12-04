@@ -19,7 +19,7 @@ class VideosController < ApplicationController
     @videos = @search.result(distinct: true)
                      .order("videos.id DESC")
                      .paginate(page: params[:page],
-                               per_page: items_per_page)
+                               per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
       @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
@@ -140,7 +140,7 @@ class VideosController < ApplicationController
     .ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
     @videos_count = @videos.count
 
     @languages = IIM::MOVIE_LANGUAGES

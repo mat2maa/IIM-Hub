@@ -10,7 +10,7 @@ class TracksController < ApplicationController
     @tracks = @search.result(distinct: true)
                      .order("tracks.id DESC")
                      .paginate(page: params[:page],
-                               per_page: items_per_page)
+                               per_page: items_per_page.present? ? items_per_page : 100)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -69,7 +69,7 @@ class TracksController < ApplicationController
     @tracks = @search.result(distinct: true)
                      .order("tracks.id DESC")
                      .paginate(page: params[:page],
-                               per_page: items_per_page)
+                               per_page: items_per_page.present? ? items_per_page : 100)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)

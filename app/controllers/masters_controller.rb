@@ -30,7 +30,7 @@ class MastersController < ApplicationController
     @masters = @search.result(distinct: true)
                       .order("masters.id DESC")
                       .paginate(page: params[:page],
-                                per_page: items_per_page)
+                                per_page: items_per_page.present? ? items_per_page : 100)
 
     @masters = params[:active] == '1' ? @masters.where(active: false) : @masters.where(active: true)
 
@@ -79,14 +79,14 @@ class MastersController < ApplicationController
       @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
                         .paginate(page: params[:page],
-                                  per_page: items_per_page)
+                                  per_page: items_per_page.present? ? items_per_page : 100)
     else
       #no search made yet
       @search = Master.ransack(view_context.empty_blank_params params[:q])
       @masters = @search.result(distinct: true)
                         .order("masters.id DESC")
                         .paginate(page: params[:page],
-                                  per_page: items_per_page)
+                                  per_page: items_per_page.present? ? items_per_page : 100)
     end
     @masters_count = @masters.count
 

@@ -11,7 +11,7 @@ class VideoGenresController < ApplicationController
     @video_genres = VideoGenre.includes(:video_parent_genre)
     .order("name asc")
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
     respond_to do |format|
       format.html # index.html.erb
     end

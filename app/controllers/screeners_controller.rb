@@ -30,7 +30,7 @@ class ScreenersController < ApplicationController
     @screeners = @search.result(distinct: true)
                         .order("screeners.id DESC")
                         .paginate(page: params[:page],
-                                  per_page: items_per_page)
+                                  per_page: items_per_page.present? ? items_per_page : 100)
 
     @screeners = params[:active] == '1' ? @screeners.where(active: false) : @screeners.where(active: true)
 
@@ -78,14 +78,14 @@ class ScreenersController < ApplicationController
       @search = Screener.ransack(view_context.empty_blank_params params[:q])
       @screeners = @search.result(distinct: true)
                           .paginate(page: params[:page],
-                                    per_page: items_per_page)
+                                    per_page: items_per_page.present? ? items_per_page : 100)
     else
       #no search made yet
       @search = Screener.ransack(view_context.empty_blank_params params[:q])
       @screeners = @search.result(distinct: true)
                           .order("screeners.id DESC")
                           .paginate(page: params[:page],
-                                    per_page: items_per_page)
+                                    per_page: items_per_page.present? ? items_per_page : 100)
     end
     @screeners_count = @screeners.count,
 

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
     @users = @search.result(distinct: true)
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
     @users_count = @users.count
   end
 

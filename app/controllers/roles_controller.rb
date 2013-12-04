@@ -10,7 +10,7 @@ class RolesController < ApplicationController
     @search = Role.ransack(view_context.empty_blank_params params[:q])
     @roles = @search.result(distinct: true)
                     .paginate(page: params[:page],
-                              per_page: items_per_page)
+                              per_page: items_per_page.present? ? items_per_page : 100)
     @roles_count = @roles.count
   end
 

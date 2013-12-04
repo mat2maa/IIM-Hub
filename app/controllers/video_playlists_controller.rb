@@ -15,7 +15,7 @@ class VideoPlaylistsController < ApplicationController
     @video_playlists = @search.result(distinct: true)
                               .order("video_playlists.id DESC")
                               .paginate(page: params[:page],
-                                        per_page: items_per_page)
+                                        per_page: items_per_page.present? ? items_per_page : 100)
 
     @video_playlists_count = @video_playlists.count
   end
@@ -50,7 +50,7 @@ class VideoPlaylistsController < ApplicationController
     @video_playlists = @search.result(distinct: true)
                               .order("video_playlists.id DESC")
                               .paginate(page: params[:page],
-                                        per_page: items_per_page)
+                                        per_page: items_per_page.present? ? items_per_page : 100)
 
     @video_playlists_count = @video_playlists.count
 
@@ -95,7 +95,7 @@ class VideoPlaylistsController < ApplicationController
     .where("to_delete = ?", "0")
     .order("videos.id DESC")
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
       @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
