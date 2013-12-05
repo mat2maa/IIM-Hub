@@ -1,7 +1,12 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
 
 if(notice !== '') {
-    alert("This master exists in other playlists");
+  $("#item_added").html("This master exists in other playlists");
 } else {
-    window.location.reload();
+  $("#item_added").html("<%= "#{@master_to_add.episode_title} added to playlist" %>");
+  var playlist = "<%= escape_javascript(render partial: 'playlist',
+                                               object: @video_master_playlist) %>";
+  $('#playlist').html(playlist);
 }
+
+$('#spinner').addClass("transparent");

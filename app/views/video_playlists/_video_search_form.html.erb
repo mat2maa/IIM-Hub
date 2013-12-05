@@ -4,71 +4,70 @@
 <fieldset>
   <legend>Search Videos</legend>
   <%= search_form_for @search,
-                     url: add_video_to_playlist_path(id: @video_playlist.id),
-                     remote: true,
-                     id: "video_search_form",
-                     class: 'spinner-trigger' do |videos| %>
-      <br/>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <table>
-        <tr>
-          <td valign="top">
-            Video Title:<br/>
-            <%= videos.text_field :programme_title_cont %>
-            <br/>
-            Distributor:<br/>
-            <%= videos.select :video_distributor_id_eq,
-                              @video_distributors,
-                              include_blank: true %>
-            <br/>
-          </td>
-          <td valign="top">
-            Laboratory:<br/>
-            <%= videos.select :laboratory_id_eq,
-                              @laboratories,
-                              include_blank: true %>
-            <br/>
-            Production Year:<br/>
-            <%= videos.text_field :production_year_eq,
-                                  size: 6 %>
-          </td>
-          <td valign="top">
-            Available Lang Track:<br/>
-            <%= select :language,
-                       :track,
-                       @languages,
-                       {include_blank: true,
-                        selected: @selected_track} %>
-            <br/>
-            Available Lang Subtitles:<br/>
-            <%= select :language,
-                       :subtitle,
-                       @languages,
-                       {include_blank: true,
-                        selected: @selected_subtitle} %>
-          </td>
-          <td valign="top">
-            Genre:<br/>
-            <%= videos.select :video_genres_video_parent_genre_id_eq,
-                              VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
-                              {include_blank: true} %>
-            <br/>
-            Sub Genre:<br/>
-            <%= videos.select :video_genres_id_eq,
-                              VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
-                              {include_blank: true} %>
-         </td>
-          <td valign="top">
-            Video type:<br/>
-            <%= videos.select :video_type_eq,
-                              Video::VIDEO_TYPES,
-                              {include_blank: true} %> <br/>
-          </td>
-        </tr>
-      </table>
-      <%= videos.submit "Search" %>
+                      url: add_video_to_playlist_path(id: @video_playlist.id),
+                      remote: true,
+                      id: "video_search_form",
+                      class: 'spinner-trigger' do |videos| %>
+    <br/>
+    <%= image_tag 'spinner.gif',
+                  id: 'spinner' %>
+    <table>
+      <tr>
+        <td valign="top">
+          Video Title:<br/>
+          <%= videos.text_field :programme_title_cont %>
+          <br/>
+          Distributor:<br/>
+          <%= videos.select :video_distributor_id_eq,
+                            @video_distributors,
+                            include_blank: true %>
+          <br/>
+        </td>
+        <td valign="top">
+          Laboratory:<br/>
+          <%= videos.select :laboratory_id_eq,
+                            @laboratories,
+                            include_blank: true %>
+          <br/>
+          Production Year:<br/>
+          <%= videos.text_field :production_year_eq,
+                                size: 6 %>
+        </td>
+        <td valign="top">
+          Available Lang Track:<br/>
+          <%= select :language,
+                     :track,
+                     @languages,
+                     {include_blank: true,
+                      selected: @selected_track} %>
+          <br/>
+          Available Lang Subtitles:<br/>
+          <%= select :language,
+                     :subtitle,
+                     @languages,
+                     {include_blank: true,
+                      selected: @selected_subtitle} %>
+        </td>
+        <td valign="top">
+          Genre:<br/>
+          <%= videos.select :video_genres_video_parent_genre_id_eq,
+                            VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
+                            {include_blank: true} %>
+          <br/>
+          Sub Genre:<br/>
+          <%= videos.select :video_genres_id_eq,
+                            VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
+                            {include_blank: true} %>
+        </td>
+        <td valign="top">
+          Video type:<br/>
+          <%= videos.select :video_type_eq,
+                            Video::VIDEO_TYPES,
+                            {include_blank: true} %> <br/>
+        </td>
+      </tr>
+    </table>
+    <%= videos.submit "Search" %>
   <% end %>
 
 </fieldset>

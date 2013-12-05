@@ -7,7 +7,6 @@ if(notice !== '') {
   var playlist = "<%= escape_javascript(render partial: 'playlist',
                                                object: @movie_playlist) %>";
   $('#playlist').html(playlist);
-  $(window).scrollTop($('#item_<%= @movie_playlist_item.id %>').offset().top);
 }
 
 $('#spinner').addClass("transparent");

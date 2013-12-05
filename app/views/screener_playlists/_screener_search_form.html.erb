@@ -4,85 +4,84 @@
 <fieldset>
   <legend>Search Screeners</legend>
   <%= search_form_for @search,
-                     url: add_screener_to_playlist_path(id: @screener_playlist.id),
-                     remote: true,
-                     id: "screener_search_form",
-                     class: 'spinner-trigger' do |screeners| %>
-      <br/>
-      <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
-      <table>
-        <tr>
-            <td valign="top">
-              Video Title:<br/>
-              <%= screeners.text_field :video_programme_title_cont %>
-              <br/>
-              Episode Title:<br/>
-              <%= screeners.text_field :episode_title_cont %>
-              <br/>
-              Genre:<br/>
-              <%= screeners.select :video_video_genres_video_parent_genre_id_eq,
-                                   VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
-                                   {include_blank: true} %>
-              <br/>
-              Sub Genre:<br/>
-              <%= screeners.select :video_video_genres_id_eq,
-                                   VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
-                                   {include_blank: true} %>
-            </td>
-            <td valign="top">
-              Distributor:<br/>
-              <%= screeners.select :video_video_distributor_id_eq,
-                                  @video_distributors,
-                                  include_blank: true %>
-              <br/>
-              Laboratory:<br/>
-              <%= screeners.select :video_laboratory_id_eq,
-                                  @laboratories,
-                                  include_blank: true %>
-              <br/>
-              Video type:<br/>
-              <%= screeners.select :video_video_type_eq,
-                                  Video::VIDEO_TYPES,
-                                  {include_blank: true} %> <br/>
-              Production Year:<br/>
-              <%= screeners.text_field :video_production_year_eq,
-                                      size: 6 %>
+                      url: add_screener_to_playlist_path(id: @screener_playlist.id),
+                      remote: true,
+                      id: "screener_search_form",
+                      class: 'spinner-trigger' do |screeners| %>
+    <br/>
+    <%= image_tag 'spinner.gif',
+                  id: 'spinner' %>
+    <table>
+      <tr>
+        <td valign="top">
+          Video Title:<br/>
+          <%= screeners.text_field :video_programme_title_cont %>
+          <br/>
+          Episode Title:<br/>
+          <%= screeners.text_field :episode_title_cont %>
+          <br/>
+          Genre:<br/>
+          <%= screeners.select :video_video_genres_video_parent_genre_id_eq,
+                               VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
+                               {include_blank: true} %>
+          <br/>
+          Sub Genre:<br/>
+          <%= screeners.select :video_video_genres_id_eq,
+                               VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
+                               {include_blank: true} %>
+        </td>
+        <td valign="top">
+          Distributor:<br/>
+          <%= screeners.select :video_video_distributor_id_eq,
+                               @video_distributors,
+                               include_blank: true %>
+          <br/>
+          Laboratory:<br/>
+          <%= screeners.select :video_laboratory_id_eq,
+                               @laboratories,
+                               include_blank: true %>
+          <br/>
+          Video type:<br/>
+          <%= screeners.select :video_video_type_eq,
+                               Video::VIDEO_TYPES,
+                               {include_blank: true} %> <br/>
+          Production Year:<br/>
+          <%= screeners.text_field :video_production_year_eq,
+                                   size: 6 %>
 
-            </td>
-<!--
-            <td valign="top">
-              Lang Track:<br/>
--->
-              <%#= select :language,
+        </td>
+        <!--
+                    <td valign="top">
+                      Lang Track:<br/>
+        -->
+        <%#= select :language,
                          :track,
                          @languages,
                          {include_blank: true,
                           selected: @selected_track} %>
-<!--
-              <br/>
-              Lang Subtitles:<br/>
--->
-              <%#= select :language,
+        <!--
+                      <br/>
+                      Lang Subtitles:<br/>
+        -->
+        <%#= select :language,
                          :subtitle,
                          @languages,
                          {include_blank: true,
                           selected: @selected_subtitle} %>
-<!--
-              <br/>
--->
-              Tape Location Number:<br/>
-              <%= screeners.text_field :video_screeners_location_eq,
-                                       size: 6 %>
-              <br/>
-              Video ID:<br/>
-              <%= screeners.text_field :video_id_eq,
-                                       size: 6 %>
-            </td>
-        </tr>
-      </table>
-            <!--
+        <!--
+                      <br/>
+        -->
+        Tape Location Number:<br/>
+        <%= screeners.text_field :video_screeners_location_eq,
+                                 size: 6 %>
+        <br/>
+        Video ID:<br/>
+        <%= screeners.text_field :video_id_eq,
+                                 size: 6 %>
+        </td>
+      </tr>
+    </table>
+    <!--
 	<table>
 		<tr>
 			<td valign="top">
@@ -98,7 +97,7 @@
 		</tr>
 	</table>
 	-->
-        <%= screeners.submit "Search" %>
+    <%= screeners.submit "Search" %>
   <% end %>
 
 </fieldset>

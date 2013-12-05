@@ -32,9 +32,6 @@
                         :end_playdate,
                         "End Month") %>
         </th>
-        <th>
-          Total Duration
-        </th>
         <th colspan="4"></th>
       </tr>
       <% @audio_playlists.each do |audio_playlist| %>
@@ -58,9 +55,6 @@
                 </td>
                 <td>
                   <%= audio_playlist.end_playdate.strftime("%B %Y") if !audio_playlist.end_playdate.nil? %>&nbsp;
-                </td>
-                <td>
-                  <%= audio_playlist.total_duration_cached if !audio_playlist.total_duration.nil? %>
                 </td>
             <%# end %>
             <% if permitted_to? :edit,

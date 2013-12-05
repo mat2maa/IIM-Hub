@@ -1,5 +1,18 @@
 var $ = jQuery;
 
-var form = " <%= escape_javascript(render("dialog_form")) %> ";
+var form = " <%= escape_javascript(render("dialog_form")) %> ",
+    dataRemote = 'a[data-remote=true], form[data-remote=true] input[type=submit]',
+    dialog = '#add_master_dialog',
+    content = '#add_master',
+    spinner = '#spinner';
 
-$("#add_master").html(form);
+$(content).html(form);
+$(spinner).addClass("transparent");
+
+$(document).on('click', dataRemote, function () {
+  $(spinner).removeClass("transparent");
+});
+
+$(dialog).on("dialogbeforeclose", function( event, ui ) {
+  $(content).empty();
+});

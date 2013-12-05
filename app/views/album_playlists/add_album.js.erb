@@ -1,7 +1,12 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
 
 if(notice !== '') {
-    alert("This album exists in other playlists");
+  $("#item_added").html("This album exists in other playlists");
 } else {
-    window.location.reload();
+  $("#item_added").html("<%= "#{@album_to_add.title_original} added to playlist" %>");
+  var playlist = "<%= escape_javascript(render partial: 'playlist',
+                                               object: @album_playlist) %>";
+  $('#playlist').html(playlist);
 }
+
+$('#spinner').addClass("transparent");

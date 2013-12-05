@@ -14,17 +14,16 @@ class AudioPlaylistsController < ApplicationController
   respond_to :json
 
   def index
-    @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-    .ransack(view_context.empty_blank_params params[:q])
+    @search = AudioPlaylist.ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-      .paginate(page: params[:page],
-                per_page: items_per_page.present? ? items_per_page : 100)
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page.present? ? items_per_page : 100)
     else
       @audio_playlists = @search.result(distinct: true)
-      .order("audio_playlists.id DESC")
-      .paginate(page: params[:page],
-                per_page: items_per_page.present? ? items_per_page : 100)
+                                .order("audio_playlists.id DESC")
+                                .paginate(page: params[:page],
+                                          per_page: items_per_page.present? ? items_per_page : 100)
     end
     @audio_playlists_count = @audio_playlists.count
   end

@@ -1,7 +1,12 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
 
 if(notice !== '') {
-    alert("This screener exists in other playlists");
+  $("#item_added").html("This screener exists in other playlists");
 } else {
-    window.location.reload();
+  $("#item_added").html("<%= "#{@screener_to_add.episode_title} added to playlist" %>");
+  var playlist = "<%= escape_javascript(render partial: 'playlist',
+                                               object: @screener_playlist) %>";
+  $('#playlist').html(playlist);
 }
+
+$('#spinner').addClass("transparent");
