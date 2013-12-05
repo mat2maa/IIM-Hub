@@ -15,21 +15,3 @@
       <%= render partial: "videos" %>
     </div>
 </center>
-
-
-<script type="text/javascript">
-    var $ = jQuery;
-
-    $(function () {
-        $("#video_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/videos',
-                type: 'get',
-                success: function() {
-                    var videos = " <%= escape_javascript(render("videos")) %> ";
-                    $("#videos").html(videos);
-                }
-            });
-        });
-    });
-</script>

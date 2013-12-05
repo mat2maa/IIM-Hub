@@ -8,8 +8,7 @@
         <td>
           <%= select("video_master_playlist",
                      "airline_id",
-                     Airline.order("name asc")
-                            .collect { |p| [p.name + " - " + p.code, p.id] },
+                     Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
                      {include_blank: true}) %>
           <%= link_to "+",
                       airlines_path,
@@ -40,8 +39,7 @@
         <td>
           <%= select("video_master_playlist",
                      "master_playlist_type_id",
-                     MasterPlaylistType.order("name asc")
-                                       .collect { |p| [p.name, p.id] },
+                     MasterPlaylistType.connection.execute(MasterPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                      {include_blank: true}) %>
           <%= link_to "+",
                       master_playlist_types_path,

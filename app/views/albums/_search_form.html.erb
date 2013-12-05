@@ -36,16 +36,12 @@
           <td valign="top">
             Label:<br>
             <%= albums.select :label_id_eq,
-                              Label.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              Label.connection.execute(Label.select('name, id').to_sql).to_a,
                               {include_blank: true} %>
             <br/>
             Genre:<br>
             <%= albums.select :genres_id_eq,
-                              Genre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              Genre.connection.execute(Genre.select('name, id').to_sql).to_a,
                               {include_blank: true} %>
 
             Pending Delete: <%= albums.check_box :to_delete_eq %>

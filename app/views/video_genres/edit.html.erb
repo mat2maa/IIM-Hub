@@ -15,8 +15,7 @@
           Parent Category<br/>
           <%= select('video_genre',
                      'video_parent_genre_id',
-                     VideoParentGenre.all.collect { |p| [p.name,
-                                                         p.id] }) %>
+                     VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a) %>
         </p>
 
         <p>

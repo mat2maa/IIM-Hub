@@ -15,9 +15,7 @@
         <td>
           <%= select("audio_playlist",
                      "airline_id",
-                     Airline.order("code asc")
-                     .collect { |p| [p.code + " - " + p.name,
-                                     p.id] },
+                     Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
                      {include_blank: true}) %>
           <%= link_to "+",
                       airlines_path,
@@ -38,9 +36,7 @@
         <td>
           <%= select("audio_playlist",
                      "program_id",
-                     Program.order("name asc")
-                     .collect { |p| [p.name,
-                                     p.id] },
+                     Program.connection.execute(Program.select('name, id').order("name asc").to_sql).to_a,
                      {include_blank: true}) %>
           <%= link_to "+",
                       programs_path,
@@ -62,8 +58,7 @@
         <td>
           <%= select("audio_playlist",
                      "vo_id",
-                     Vo.order("name asc").collect { |p| [p.name,
-                                                         p.id] },
+                     Vo.connection.execute(Vo.select('name, id').order("name asc").to_sql).to_a,
                      {include_blank: true}) %>
           <%= link_to "+",
                       vos_path,
@@ -94,9 +89,7 @@
         <td>
           <%= select("audio_playlist",
                      "airline_duration",
-                     Split.order(:duration)
-                     .collect { |p| [p.name,
-                                     p.duration] },
+                     Split.connection.execute(Split.select('name, duration').order(:duration).to_sql).to_a,
                      {include_blank: true}) %>
         </td>
       </tr>

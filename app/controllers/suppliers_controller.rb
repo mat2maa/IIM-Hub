@@ -13,7 +13,7 @@ class SuppliersController < ApplicationController
     .ransack(view_context.empty_blank_params params[:q])
     @suppliers = @search.result(distinct: true)
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
     @suppliers_count = @suppliers.count
 
     respond_to do |format|

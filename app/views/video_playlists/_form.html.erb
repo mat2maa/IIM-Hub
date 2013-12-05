@@ -6,9 +6,7 @@
         <td class="pl-title">Airline :</td>
         <td><%= select("video_playlist",
                        "airline_id",
-                       Airline.order("name asc")
-                       .collect { |p| [p.name + " - " + p.code,
-                                       p.id] },
+                       Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
                        {include_blank: true}) %>
           <%= link_to "+",
                       airlines_path,
@@ -17,9 +15,7 @@
         <td class="pl-title">Video Playlist Type :</td>
         <td><%= select("video_playlist",
                        "video_playlist_type_id",
-                       VideoPlaylistType.order("name asc")
-                       .collect { |p| [p.name,
-                                       p.id] },
+                       VideoPlaylistType.connection.execute(VideoPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                        {include_blank: true}) %>
           <%= link_to "+",
                       video_playlist_types_path,

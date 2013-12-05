@@ -19,12 +19,12 @@ class AudioPlaylistsController < ApplicationController
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
       .paginate(page: params[:page],
-                per_page: items_per_page)
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @audio_playlists = @search.result(distinct: true)
       .order("audio_playlists.id DESC")
       .paginate(page: params[:page],
-                per_page: items_per_page)
+                per_page: items_per_page.present? ? items_per_page : 100)
     end
     @audio_playlists_count = @audio_playlists.count
   end
@@ -195,7 +195,7 @@ class AudioPlaylistsController < ApplicationController
     @tracks = @search.result(distinct: true)
     .order("tracks.id DESC")
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)

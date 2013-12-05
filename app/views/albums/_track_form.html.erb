@@ -8,8 +8,7 @@
         <td>Tempo</td>
         <td><%= select("track",
                        "tempo",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
+                       Tempo.connection.execute(Tempo.select('name, id').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -18,8 +17,7 @@
         <td>Intro Tempo</td>
         <td><%= select("track",
                        "tempo_intro",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
+                       Tempo.connection.execute(Tempo.select('name, id').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -28,8 +26,7 @@
         <td>Outro Tempo</td>
         <td><%= select("track",
                        "tempo_outro",
-                       Tempo.all
-                            .collect { |p| [p.name, p.id] },
+                       Tempo.connection.execute(Tempo.select('name, id').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -47,8 +44,7 @@
         <td>Language</td>
         <td><%= select("track",
                        "language",
-                       Language.all
-                               .collect { |p| [p.name, p.id] },
+                       Language.connection.execute(Language.select('name, id').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -65,8 +61,7 @@
         <td>Origin</td>
         <td><%= select("track",
                        "origin",
-                       Origin.all
-                             .collect { |p| [p.name, p.id] },
+                       Origin.connection.execute(Origin.select('name, id').to_sql).to_a,
                        {include_blank: true}) %></td>
         <td></td>
         <td></td>

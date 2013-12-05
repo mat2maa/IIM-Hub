@@ -20,16 +20,14 @@
             <br/>
             Distributor:<br/>
             <%= videos.select :video_distributor_id_eq,
-                              Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                         p.id] },
+                              @video_distributors,
                               include_blank: true %>
             <br/>
           </td>
           <td valign="top">
             Laboratory:<br/>
             <%= videos.select :laboratory_id_eq,
-                              Supplier.laboratories.collect { |p| [p.company_name,
-                                                                   p.id] },
+                              @laboratories,
                               include_blank: true %>
             <br/>
             Production Year:<br/>
@@ -54,16 +52,12 @@
           <td valign="top">
             Genre:<br/>
             <%= videos.select :video_genres_video_parent_genre_id_eq,
-                              VideoParentGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,
                               {include_blank: true} %>
             <br/>
             Sub Genre:<br/>
             <%= videos.select :video_genres_id_eq,
-                              VideoGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              VideoGenre.connection.execute(VideoGenre.select('name, id').to_sql).to_a,
                               {include_blank: true} %>
          </td>
           <td valign="top">

@@ -57,8 +57,7 @@
               <%= best_in_place @album_playlist_item,
                                 :category_id,
                                 type: :select,
-                                collection: Category.order("name ASC")
-                                                      .collect { |p| [p.id, p.name] },
+                                collection: Category.connection.execute(Category.select('id, name').order("name ASC").to_sql).to_a,
                                 include_blank: true %>
               <%#= in_place_select :album_playlist_item,
                                     'category_id',

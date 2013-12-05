@@ -46,8 +46,7 @@
             Label:<br/>
             <% tracks.fields_for tracks.object.album do |album| %>
                 <%= album.select :label_id_equals,
-                                 Label.find(:all).collect { |p| [p.name,
-                                                                 p.id] },
+                                 Label.connection.execute(Label.select('name, id').to_sql).to_a,
                                  {include_blank: true} %>
                 <br/>
             <% end %>

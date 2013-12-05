@@ -43,9 +43,7 @@
               <td valign="top">
                 Label:<br>
                 <%= albums.select :label_id_eq,
-                                   Label.all
-                                   .collect { |p| [p.name,
-                                                   p.id] },
+                                   Label.connection.execute(Label.select('name, id').to_sql).to_a,
                                    {include_blank: true} %>
               </td>
             </tr>

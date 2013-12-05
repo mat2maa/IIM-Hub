@@ -13,8 +13,7 @@
         <th>Tempo</th>
         <td><%= select("track",
                        "tempo",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
+                       Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -23,8 +22,7 @@
         <th>Intro Tempo</th>
         <td><%= select("track",
                        "tempo_intro",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
+                       Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -33,8 +31,7 @@
         <th>Outro Tempo</th>
         <td><%= select("track",
                        "tempo_outro",
-                       Tempo.all.collect { |p| [p.name,
-                                                p.name] },
+                       Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
                        {include_blank: true}) %></td>
       </tr>
       <tr>
@@ -52,9 +49,7 @@
         <th>Language</th>
         <td><%= select("track",
                        "language_id",
-                       Language.order("name asc")
-                       .collect { |p| [p.name,
-                                       p.id] },
+                       Language.connection.execute(Language.select('name, id').order("name asc").to_sql).to_a,
                        {include_blank: true}) %>
           <%= link_to "+",
                       languages_path,
@@ -68,9 +63,7 @@
         <th>Origin</th>
         <td><%= select("track",
                        "origin_id",
-                       Origin.order("name asc")
-                       .collect { |p| [p.name,
-                                       p.id] },
+                       Origin.connection.execute(Origin.select('name, id').order("name asc").to_sql).to_a,
                        {include_blank: true}) %>
           <%= link_to "+",
                       origins_path,

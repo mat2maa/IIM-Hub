@@ -10,7 +10,7 @@ class SplitsController < ApplicationController
   def index
     @splits = Split.order("duration")
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     respond_to do |format|
       format.html # index.html.erb

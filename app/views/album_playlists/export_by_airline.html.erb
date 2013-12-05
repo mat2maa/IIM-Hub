@@ -17,9 +17,7 @@
 
       Airline <%= select("album_playlist",
                          "airline_id",
-                         Airline.order("name asc")
-                         .collect { |p| [p.code + " - " + p.name,
-                                         p.id] }) %>
+                         Airline.order("name asc").collect { |p| [p.code + " - " + p.name, p.id] }) %>
 
       <%= submit_tag "Export to Excel" %>
 

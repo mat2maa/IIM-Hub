@@ -9,7 +9,7 @@ class RightsController < ApplicationController
     @search = Right.ransack(view_context.empty_blank_params params[:q])
     @rights = @search.result(distinct: true)
     .paginate(page: params[:page],
-              per_page: items_per_page)
+              per_page: items_per_page.present? ? items_per_page : 100)
     @rights_count = @rights.count
   end
 

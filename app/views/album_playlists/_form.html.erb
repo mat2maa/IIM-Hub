@@ -26,8 +26,7 @@
         <td class="pl-title">Airline :</td>
         <td><%= select("album_playlist",
                        "airline_id",
-                       Airline.order("code asc").collect { |p| [p.code + " - " + p.name,
-                                                                p.id] },
+                       Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
                        {include_blank: true}) %>
           <%= link_to "+",
                       airlines_path,

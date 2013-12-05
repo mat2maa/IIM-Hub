@@ -8,9 +8,7 @@
         <td>
           <%= select("movie_playlist",
                      "airline_id",
-                     Airline.order("name asc")
-                     .collect { |p| [p.name + " - " + p.code,
-                                     p.id] },
+                     Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
                      {include_blank: true}) %>
           <%= link_to "+",
                       airlines_path,
@@ -41,9 +39,7 @@
         <td>
           <%= select("movie_playlist",
                      "movie_playlist_type_id",
-                     MoviePlaylistType.order("name asc")
-                                      .collect { |p| [p.name,
-                                                      p.id] },
+                     MoviePlaylistType.connection.execute(MoviePlaylistType.select('name, id').order("name asc").to_sql).to_a,
                      {include_blank: true}) %>
           <%= link_to "+",
                       movie_playlist_types_path,

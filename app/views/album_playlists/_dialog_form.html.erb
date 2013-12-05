@@ -15,21 +15,3 @@
       <%= render partial: "albums" %>
     </div>
 </center>
-
-
-<script type="text/javascript">
-    var $ = jQuery;
-
-    $(function () {
-        $("#album_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/albums',
-                type: 'get',
-                success: function() {
-                    var albums = " <%= escape_javascript(render("albums")) %> ";
-                    $("#albums").html(albums);
-                }
-            });
-        });
-    });
-</script>

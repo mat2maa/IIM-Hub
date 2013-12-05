@@ -15,21 +15,3 @@
       <%= render partial: "screeners" %>
     </div>
 </center>
-
-
-<script type="text/javascript">
-    var $ = jQuery;
-
-    $(function () {
-        $("#screener_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/screeners',
-                type: 'get',
-                success: function() {
-                    var screeners = " <%= escape_javascript(render("screeners")) %> ";
-                    $("#screeners").html(screeners);
-                }
-            });
-        });
-    });
-</script>

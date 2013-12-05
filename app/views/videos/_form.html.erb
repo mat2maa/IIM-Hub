@@ -58,8 +58,7 @@
                             label: ("Distributor " + link_to("[edit]",
                                                              suppliers_path,
                                                              target: "_blank")).html_safe,
-                            collection: Supplier.video_distributors.collect { |p| [p.company_name,
-                                                                                   p.id] } %>
+                            collection: @video_distributors %>
 
                 <%= f.input :production_year,
                             input_html: {tabindex: 7},
@@ -75,8 +74,7 @@
                             label: ("Production Studio " + link_to("[edit]",
                                                                    suppliers_path,
                                                                    target: "_blank")).html_safe,
-                            collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                                   p.id] } %>
+                            collection: @production_studios %>
                 <%= f.input :episodes_available,
                             input_html: {tabindex: 9},
                             label: "&nbsp;No. of Episodes Available" %>
@@ -92,8 +90,7 @@
                             label: ("Laboratory "+ link_to("[edit]",
                                                            suppliers_path,
                                                            target: "_blank")).html_safe,
-                            collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                             p.id] } %>
+                            collection: @laboratories %>
                 <%= f.input :on_going_series,
                             input_html: {tabindex: 10},
                             label: "On Going Series" %>
@@ -107,8 +104,7 @@
 
                       include_blank: true,
                       input_html: {tabindex: 8},
-                      collection: CommercialRunTime.all.collect { |p| [p.minutes,
-                                                                       p.id] } %>
+                      collection: CommercialRunTime.connection.execute(CommercialRunTime.select('minutes, id').to_sql).to_a %>
           Video Genres
           <% @video_genres.each do |video_genre| %>
               <%= f.input :video_genres,

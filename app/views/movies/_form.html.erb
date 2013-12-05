@@ -77,9 +77,7 @@
                                 movie_types_path,
                                 target: "_blank") + " Movie Type").html_safe,
                 as: :select,
-                collection: MovieType.order("name")
-                .collect { |p| [p.name,
-                                p.id] },
+                collection: MovieType.connection.execute(MovieType.select('name, id').order("name").to_sql).to_a,
                 include_blank: true,
                 input_html: {tabindex: autotab} %>
 
@@ -103,8 +101,7 @@
                       label: ("Distributor " + link_to("[edit]",
                                                        suppliers_path,
                                                        target: "_blank")).html_safe,
-                      collection: Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                             p.id] } %>
+                      collection: @movie_distributors %>
         </td>
         <td>
           <%= f.input :production_studio,
@@ -113,8 +110,7 @@
                       label: ("Production Studio " + link_to("[edit]",
                                                              suppliers_path,
                                                              target: "_blank")).html_safe,
-                      collection: Supplier.production_studios.collect { |p| [p.company_name,
-                                                                             p.id] } %>
+                      collection: @production_studios %>
         </td>
         <td>
           <%= f.input :laboratory,
@@ -123,8 +119,7 @@
                       label: ("Laboratory " + link_to("[edit]",
                                                       suppliers_path,
                                                       target: "_blank")).html_safe,
-                      collection: Supplier.laboratories.collect { |p| [p.company_name,
-                                                                       p.id] } %>
+                      collection: @laboratories %>
         </td>
       </tr>
       <tr>

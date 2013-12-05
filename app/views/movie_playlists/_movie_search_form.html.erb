@@ -10,8 +10,7 @@
                      class: 'spinner-trigger' do |movies| %>
       <br/>
       <%= image_tag 'spinner.gif',
-                    id: 'spinner',
-                    class: 'transparent' %>
+                    id: 'spinner' %>
       <table>
         <tr>
           <td valign="top">
@@ -37,29 +36,23 @@
           <td valign="top">
             Movie Distributor:<br/>
             <%= movies.select :movie_distributor_id_eq,
-                              Supplier.movie_distributors.collect { |p| [p.company_name,
-                                                                         p.id] },
+                              @movie_distributors,
                               include_blank: true %>
             <br/>
             Laboratory:<br/>
             <%= movies.select :laboratory_id_eq,
-                              Supplier.laboratories.collect { |p| [p.company_name,
-                                                                   p.id] },
+                              @laboratories,
                               include_blank: true %>
             <br/>
           </td>
           <td valign="top">
             Movie type:<br/>
             <%= movies.select :movie_type_id_eq,
-                              MovieType.order("name")
-                                       .collect { |p| [p.name,
-                                                       p.id] },
+                              MovieType.connection.execute(MovieType.select('name, id').order("name").to_sql).to_a,
                               include_blank: true %> <br/>
             Genre:<br/>
             <%= movies.select :movie_genres_id_eq,
-                              MovieGenre.all
-                              .collect { |p| [p.name,
-                                              p.id] },
+                              MovieGenre.connection.execute(MovieGenre.select('name, id').to_sql).to_a,
                               include_blank: true %>
 
           </td>

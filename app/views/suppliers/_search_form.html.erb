@@ -21,9 +21,7 @@
             Categories:<br/>
 
             <%= suppliers.select :supplier_categories_id_eq,
-                                 SupplierCategory.all
-                                 .collect { |p| [p.name,
-                                                 p.id] },
+                                 SupplierCategory.connection.execute(SupplierCategory.select('name, id').to_sql).to_a,
                                  {include_blank: true} %>
 
           </td>

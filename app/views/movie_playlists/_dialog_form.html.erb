@@ -5,9 +5,6 @@
       <%= render partial: 'movie_search_form',
                  object: @search %>
     </div>
-    <%= image_tag 'spinner.gif',
-                  id: 'spinner',
-                  class: 'transparent' %>
 
     <div id="item_added"></div>
 
@@ -15,21 +12,3 @@
       <%= render partial: "movies" %>
     </div>
 </center>
-
-
-<script type="text/javascript">
-    var $ = jQuery;
-
-    $(function () {
-        $("#movie_search_form").submit(function (form) {
-            form.preventDefault();
-            $.ajax({ url: '/movies',
-                type: 'get',
-                success: function() {
-                    var movies = " <%= escape_javascript(render("movies")) %> ";
-                    $("#movies").html(movies);
-                }
-            });
-        });
-    });
-</script>

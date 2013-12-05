@@ -67,8 +67,7 @@
             <%= best_in_place @audio_playlist_track,
                               :split,
                               type: :select,
-                              collection: Split.order("duration ASC")
-                              .collect { |p| [p.name, p.duration] },
+                              collection: Split.connection.execute(Split.select('name, duration').order("duration ASC").to_sql).to_a,
                               include_blank: true %>
           </td>
           <th>VO Duration (sec):</th>
@@ -76,8 +75,7 @@
             <%= best_in_place @audio_playlist_track,
                               :vo_duration,
                               type: :select,
-                              collection: VoDuration.order("duration ASC")
-                              .collect { |p| [p.name, p.duration] },
+                              collection: VoDuration.connection.execute(VoDuration.select('name, duration').order("duration ASC").to_sql).to_a,
                               include_blank: true %>
           </td>
           <th <%= is_nil_alert(playlist_track.track.genre) %>>Genre:</th>
