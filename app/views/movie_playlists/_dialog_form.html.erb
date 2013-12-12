@@ -13,20 +13,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  var $ = jQuery;
-
-  $(function () {
-    $("#movie_search_form").submit(function (form) {
-      form.preventDefault();
-      $.ajax({ url: '/movies',
-        type: 'get',
-        success: function () {
-          var movies = " <%= escape_javascript(render("movies")) %> ";
-          $("#movies").html(movies);
-        }
-      });
-    });
-  });
-</script>

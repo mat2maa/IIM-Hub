@@ -13,20 +13,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  var $ = jQuery;
-
-  $(function () {
-    $("#track_search_form").submit(function (form) {
-      form.preventDefault();
-      $.ajax({ url: '/tracks',
-        type: 'get',
-        success: function () {
-          var tracks = " <%= escape_javascript(render("tracks")) %> ";
-          $("#tracks").html(tracks);
-        }
-      });
-    });
-  });
-</script>

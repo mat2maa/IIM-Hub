@@ -147,9 +147,11 @@ class AlbumPlaylistsController < ApplicationController
     @album_to_add = Album.find(params[:album_id])
 
     if !@playlists_with_album.empty? && params[:add].nil?
+      @notice += "<ul>"
       @playlists_with_album.each do |playlist_item|
-        @notice += "<br/><div id='exists'>Note! This album #{@album_to_add.id.to_s} exists in playlist <a href='/album_playlists/#{playlist_item.album_playlist_id.to_s}' target='_blank'>#{playlist_item.album_playlist_id.to_s} (#{playlist_item.album_playlist.client_playlist_code.to_s})</a></div>" if !playlist_item.album_playlist.nil?
+        @notice += "<li>#{@album_to_add.title_original.to_s} (#{@album_to_add.id.to_s}) exists in playlist <a href='/album_playlists/#{playlist_item.album_playlist_id.to_s}' target='_blank' style='color: rgb(0,100,100);'>#{playlist_item.album_playlist_id.to_s} (#{playlist_item.album_playlist.client_playlist_code.to_s})</a></li>" if !playlist_item.album_playlist.nil?
       end
+      @notice += "</ul>"
     else
       if @album_playlist_item.save
         flash[:notice] = 'Album was successfully added.'

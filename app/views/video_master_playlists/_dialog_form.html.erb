@@ -13,20 +13,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  var $ = jQuery;
-
-  $(function () {
-    $("#video_master_search_form").submit(function (form) {
-      form.preventDefault();
-      $.ajax({ url: '/video_masters',
-        type: 'get',
-        success: function () {
-          var video_masters = " <%= escape_javascript(render("video_masters")) %> ";
-          $("#video_masters").html(video_masters);
-        }
-      });
-    });
-  });
-</script>

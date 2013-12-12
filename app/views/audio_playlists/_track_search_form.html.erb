@@ -1,6 +1,6 @@
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
-                    url: add_track_audio_playlist_path(id: @audio_playlist.id),
+                    url: add_track_to_playlist_path(id: @audio_playlist.id),
                     remote: true,
                     id: 'track_search_form' do |tracks| %>
 

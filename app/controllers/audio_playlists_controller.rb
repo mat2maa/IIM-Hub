@@ -247,9 +247,11 @@ class AudioPlaylistsController < ApplicationController
     @track_to_add = Track.find(params[:track_id])
 
     if !@playlists_with_track.empty? && params[:add].nil?
-      @playlists_with_track.each do |playlist_track|
-        @notice += "<br/><div id='exists'>Note! This track exists in playlist <a href='/audio_playlists/#{playlist_track.audio_playlist_id.to_s}' target='_blank'>#{playlist_track.audio_playlist_id.to_s}</a> (#{playlist_track.audio_playlist.client_playlist_code.to_s})</div>"
+      @notice += "<ul>"
+      @playlists_with_track.each do |playlist_item|
+        @notice += "<li>#{@track_to_add.title_original.to_s} (#{@track_to_add.id.to_s}) exists in playlist <a href='/audio_playlists/#{playlist_item.audio_playlist_id.to_s}' target='_blank' style='color: rgb(0,100,100);'>#{playlist_item.audio_playlist_id.to_s} (#{playlist_item.audio_playlist.client_playlist_code.to_s})</a></li>" if !playlist_item.audio_playlist.nil?
       end
+      @notice += "</ul>"
     else
       if @audio_playlist_track.save
         flash[:notice] = 'Track was successfully added.'

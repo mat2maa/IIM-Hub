@@ -3,8 +3,12 @@ var notice = "<%= escape_javascript((@notice).html_safe) %>";
 if (notice !== '') {
   $("#album_flash_notice").html('<div class="alert fade in alert-error">' +
       '<button class="close" data-dismiss="alert">×</button>' +
-      "This album exists in other playlists" +
+      "This album exists in other playlists:" +
+      notice +
       '</div>');
+
+  $('.ajax-loader').fadeOut('fast');
+
 } else {
   $("#album_flash_notice").html('<div class="alert fade in alert-success">' +
       '<button class="close" data-dismiss="alert">×</button>' +

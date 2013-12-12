@@ -5,6 +5,9 @@ if (notice !== '') {
       '<button class="close" data-dismiss="alert">×</button>' +
       "This movie exists in other playlists" +
       '</div>');
+
+  $('.ajax-loader').fadeOut('fast');
+
 } else {
   $("#movie_flash_notice").html('<div class="alert fade in alert-success">' +
       '<button class="close" data-dismiss="alert">×</button>' +
