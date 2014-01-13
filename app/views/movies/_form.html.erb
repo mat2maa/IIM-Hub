@@ -132,6 +132,10 @@
   <% end %>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.movie_title, 'Movie Title' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_movie_title, 'Chinese Movie Title' %></div>
+    </div>
     <%= f.input_field :movie_title,
                       placeholder: "Movie Title",
                       tabindex: autotab,
@@ -143,7 +147,10 @@
   </div>
 
   <div class="controls controls-row">
-
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.movie_type_id, 'Movie Type' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.foreign_language_title, 'Foreign Language Title' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
                         field: :movie_type_id,
@@ -167,6 +174,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.theatrical_release_year, 'Theatrical Release Year' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: f,
                         field: :theatrical_release_year,
@@ -181,6 +191,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.movie_distributor_id, 'Distributor' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
                         field: :movie_distributor_id,
@@ -191,6 +204,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.laboratory_id, 'Production Studio' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
                         field: :laboratory_id,
@@ -201,6 +217,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.production_studio_id, 'Laboratory' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
                         field: :production_studio_id,
@@ -211,6 +230,10 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.airline_release_date, 'Airline Release Date' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.personal_video_date, 'Personal Video Date' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: f,
                         field: :airline_release_date,
@@ -237,6 +260,10 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_received_date, 'Screener Recieved Date' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_destroyed_date, 'Screener Destroyed Date' %></div>
+    </div>
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: f,
                         field: :screener_received_date,
@@ -284,6 +311,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.rating, 'Rating' %></div>
+    </div>
     <%= f.input_field :rating,
                       placeholder: "Rating",
                       as: :select,
@@ -316,6 +346,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.release_versions, 'Release Versions' %></div>
+    </div>
     <div class="select2-container-outer span3">
       <%= f.input_field :release_versions,
                         :as => :select,
@@ -327,6 +360,10 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks, 'Screener Remarks' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks_other, 'Screener Remarks Other' %></div>
+    </div>
     <div class="select2-container-outer span3">
       <%= f.input_field :screener_remarks,
                         :as => :select,
@@ -344,6 +381,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.gapp_number, 'GAPP Number' %></div>
+    </div>
     <%= f.input_field :gapp_number,
                       placeholder: "GAPP Number",
                       tabindex: autotab,
@@ -351,6 +391,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.airline_rights, 'Airline Rights' %></div>
+    </div>
     <%= f.input_field :airline_rights,
                       placeholder: "Airline Rights",
                       as: :select,
@@ -365,6 +408,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.airline_countries, 'Airline Countries' %></div>
+    </div>
     <%= f.input_field :airline_countries,
                       placeholder: "Airline Countries",
                       disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
@@ -374,6 +420,10 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.language_tracks, 'Available Language Tracks' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.language_subtitles, 'Available Language Subtitles' %></div>
+    </div>
     <div class="select2-container-outer span3">
       <%= f.input_field :language_tracks,
                         :as => :select,
@@ -396,6 +446,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.movie_genre_ids, 'Movie Genres' %></div>
+    </div>
     <div class="select2-container-outer span3">
       <%= f.input_field :movie_genre_ids,
                         :as => :select,
@@ -408,6 +461,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.cast, 'Cast' %></div>
+    </div>
     <%= f.input_field :cast,
                       placeholder: "Cast",
                       tabindex: autotab,
@@ -416,6 +472,9 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.chinese_cast, 'Chinese Cast' %></div>
+    </div>
     <%= f.input_field :chinese_cast,
                       placeholder: "Chinese Cast",
                       tabindex: autotab,
@@ -424,6 +483,10 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.director, 'Director' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_director, 'Director (Chinese)' %></div>
+    </div>
     <%= f.input_field :director,
                       class: 'span3',
                       tabindex: autotab,
@@ -435,7 +498,9 @@
   </div>
 
   <div class="controls controls-row">
-    <span id='char_count'></span> characters
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
+    </div>
     <%= f.input_field :synopsis,
                       tabindex: autotab,
                       placeholder: "Synopsis",
@@ -444,7 +509,9 @@
   </div>
 
   <div class="controls controls-row">
-    <span id='chinese_char_count'></span> characters
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
+    </div>
     <%= f.input_field :chinese_synopsis,
                       tabindex: autotab,
                       placeholder: "Chinese Synopsis",
@@ -453,7 +520,9 @@
   </div>
 
   <div class="controls controls-row">
-    <span id='imdb_char_count'></span> characters
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.imdb_synopsis, 'IMDB Synopsis:' %> <span id='imdb_char_count'></span> characters</div>
+    </div>
     <%= f.input_field :imdb_synopsis,
                       tabindex: autotab,
                       placeholder: "IMDB Synopsis",
@@ -462,18 +531,29 @@
   </div>
 
   <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.critics_review, 'Critics Review' %></div>
+    </div>
     <%= f.input_field :critics_review,
                       tabindex: autotab,
                       placeholder: "Critics Review",
-                      class: 'wysihtml5 span6' %>
+                      class: 'span6',
+                      rows: 6 %>
+    <% if controller.action_name != 'new' %>
+      <!-- Button to trigger modal -->
+      <%= link_to 'Add Critics Review',
+                  add_review_to_movie_path(id: @movie.id),
+                  id: 'add_review_to_movie',
+                  class: 'btn',
+                  role: 'btn',
+                  data: {toggle: 'modal', target: '#ajax-modal'} %>
+    <% end %>
   </div>
 
   <div class="controls controls-row">
-    <% if @movie.id.present? %>
-      <div class="action-button">
-        <%= link_to "Add Critics Review", add_review_to_movie_path(id: @movie.id), id: "add_review_to_movie" %>
-      </div>
-    <% end %>
+    <div class="row input_field_labels">
+      <div class="input_field_label span6"><%= input_field_label @movie.remarks, 'Remarks' %></div>
+    </div>
     Only use this remarks field as a last resort
     <%= f.input_field :remarks,
                       tabindex: autotab,
@@ -486,14 +566,13 @@
   <%= f.button :submit, class: 'btn' %>
   <br><br><br>
 
-  <div id="add_review_dialog" style="display:none;">
-    <div id="add_review">
-    </div>
-  </div>
-
   </div>
   <!--/span-->
   </div>
+<% end %>
+
+<%= content_for :modal do %>
+  <%= render 'modal' %>
 <% end %>
 
 <script>
@@ -528,36 +607,32 @@
       $('#imdb_char_count').html(imdbChars);
     });
 
-    $(document).on("click", "#add_review_to_movie", function (review) {
-      review.preventDefault();
-      $('#add_review_dialog').dialog({
-        title: 'Add Review',
-        modal: true,
-        width: 912,
-        height: 540,
-        position: ['center', 100],
-        close: function (review, ui) {
-          $('#add_review_dialog').dialog('destroy');
-        }
-      });
-      $.ajax({ url: '/add_review_to_movie/<%= @movie.id %>',
-        type: 'get',
-        dataType: 'script'
-      });
-    });
-
-    $(document).on("click", ".expand-link", function (e) {
+    //AJAX Modal
+    // this sets up the ajax loader, and it will stay until the method specific js removes it
+    $('a[data-target=#ajax-modal]').on('click', function (e) {
       e.preventDefault();
-      link = $(this).attr('data-link');
-      $('.expandable-row[data-link = ' + link + ']').toggle();
+      e.stopPropagation();
+      $('body').modalmanager('loading');
+      $.rails.handleRemote($(this));
     });
 
+    // removes whatever is in the modal body content div upon clicking close/outside modal
+    $(document).on('click', '[data-dismiss=modal], .modal-scrollable', function (e) {
+      $('.modal-body-content').empty();
+    });
+
+    $(document).on('click', '#ajax-modal', function (e) {
+      e.stopPropagation();
+    });
+
+    // Add Review To Movie
     $(document).on("click", ".choice-link", function (e) {
       e.preventDefault();
       link = $(this).attr('data-review');
       text = $('.choice-content[data-review = ' + link + ']').text();
-      $('#movie_critics_review').text(text);
-      $('#add_review_dialog').dialog('destroy');
+      details = $('.choice-details[data-review = ' + link + ']').text();
+      $('#movie_critics_review').val($.trim($.trim(text) + " (" + $.trim(details) + ")"));
+      $('#ajax-modal').modal('toggle');
     });
 
     var $title = $('#movie_movie_title'),

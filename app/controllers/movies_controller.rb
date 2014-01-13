@@ -115,11 +115,30 @@ class MoviesController < ApplicationController
   #display overlay
   def add_review_to_movie
 
-    @movie = Movie.find(params[:id])
+    @original_movie = Movie.find(params[:id])
 
-    @movies = RottenMovie.find(:title => "#{@movie.movie_title}")
+    @movies = RottenMovie.find(:title => "#{@original_movie.movie_title}")
 
-    @movies_count = @movies.count
+    if @movies.kind_of?(Array)
+      @movies_count = @movies.count
+      if params[:index]
+        @movie = @movies[params[:index].to_i]
+      else
+        @movie = @movies[0]
+      end
+    elsif @movies.kind_of?(PatchedOpenStruct)
+      @movies_count = 1
+      @movie = @movies
+    end
+
+    @reviews_uri = URI(@movie.links.reviews + "?apikey=snr4rshxrz9cqgpfsswebhb7")
+    @response = Net::HTTP.get_response(@reviews_uri)
+    @reviews_json = JSON.parse(@response.body)
+    @reviews_count = @reviews_json["total"]
+
+    if @reviews_count > 0
+      @reviews = @reviews_json["reviews"]
+    end
 
     respond_to do |format|
       format.js { render layout: false }

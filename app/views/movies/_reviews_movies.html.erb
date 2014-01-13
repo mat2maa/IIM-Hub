@@ -1,0 +1,27 @@
+<% if @movies_count > 0 %>
+  <% if @movies_count == 1 %>
+    <ul class="unstyled">
+      <li>
+        <%= @movies.title %>
+      </li>
+    </ul>
+    <br/>
+    1 movie found
+  <% else %>
+    <ul class="unstyled">
+      <% @movies.each.with_index do |movie, index| %>
+        <li>
+          <a href="<%= movie.links.alternate %>" target="_blank" title="Open in RottenTomatoes"><i class="icon-white icon icon-link"></i></a>
+          <%= link_to "#{movie.title} (#{movie.year})",
+                      add_review_to_movie_path(id: @original_movie.id, index: index),
+                      id: 'add_review_to_movie',
+                      remote: true %>
+        </li>
+      <% end %>
+    </ul>
+    <br/>
+    <%= @movies_count %> movies found
+  <% end %>
+<% else %>
+  No movies were found
+<% end %>

@@ -188,6 +188,18 @@
 //  width:100%;
 //  max-width:206px;
 //}
+.input_field_labels {
+  margin-bottom: 2px !important;
+  margin-top: 5px;
+}
+
+.input_field_label {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-left: 7px;
+  color: #999;
+}
 
 body {
   margin: 0;
@@ -324,6 +336,7 @@ textarea[class*="span"],
   margin-bottom: 10px !important;
 }
 
+.input_field_label.span12,
 .alert.span12,
 .calendar.span12,
 .select2-container.span12,
@@ -331,6 +344,7 @@ textarea[class*="span"],
   width: 1158px;
 }
 
+.input_field_label.span11,
 .alert.span11,
 .calendar.span11,
 .select2-container.span11,
@@ -338,6 +352,7 @@ textarea[class*="span"],
   width: 1058px;
 }
 
+.input_field_label.span10,
 .alert.span10,
 .calendar.span10,
 .select2-container.span10,
@@ -345,6 +360,7 @@ textarea[class*="span"],
   width: 958px;
 }
 
+.input_field_label.span9,
 .alert.span9,
 .calendar.span9,
 .select2-container.span9,
@@ -352,6 +368,7 @@ textarea[class*="span"],
   width: 858px;
 }
 
+.input_field_label.span8,
 .alert.span8,
 .calendar.span8,
 .select2-container.span8,
@@ -359,6 +376,7 @@ textarea[class*="span"],
   width: 758px;
 }
 
+.input_field_label.span7,
 .alert.span7,
 .calendar.span7,
 .select2-container.span7,
@@ -366,6 +384,7 @@ textarea[class*="span"],
   width: 658px;
 }
 
+.input_field_label.span6,
 .alert.span6,
 .calendar.span6,
 .select2-container.span6,
@@ -373,6 +392,7 @@ textarea[class*="span"],
   width: 558px;
 }
 
+.input_field_label.span5,
 .alert.span5,
 .calendar.span5,
 .select2-container.span5,
@@ -380,6 +400,7 @@ textarea[class*="span"],
   width: 458px;
 }
 
+.input_field_label.span4,
 .alert.span4,
 .calendar.span4,
 .select2-container.span4,
@@ -387,6 +408,7 @@ textarea[class*="span"],
   width: 358px;
 }
 
+.input_field_label.span3,
 .alert.span3,
 .calendar.span3,
 .select2-container.span3,
@@ -394,6 +416,7 @@ textarea[class*="span"],
   width: 258px;
 }
 
+.input_field_label.span2,
 .alert.span2,
 .calendar.span2,
 .select2-container.span2,
@@ -401,6 +424,7 @@ textarea[class*="span"],
   width: 158px;
 }
 
+.input_field_label.span1,
 .alert.span1,
 .calendar.span1,
 .select2-container.span1,
@@ -1123,6 +1147,7 @@ body {
 
 /*===== Responsive Styles =====*/
 @media (min-width: 980px) and (max-width: 1199px) {
+  .input_field_label.span12,
   .alert.span12,
   .calendar.span12,
   .select2-container.span12,
@@ -1130,6 +1155,7 @@ body {
     width: 926px;
   }
 
+  .input_field_label.span11,
   .alert.span11,
   .calendar.span11,
   .select2-container.span11,
@@ -1137,6 +1163,7 @@ body {
     width: 846px;
   }
 
+  .input_field_label.span10,
   .alert.span10,
   .calendar.span10,
   .select2-container.span10,
@@ -1144,6 +1171,7 @@ body {
     width: 766px;
   }
 
+  .input_field_label.span9,
   .alert.span9,
   .calendar.span9,
   .select2-container.span9,
@@ -1151,6 +1179,7 @@ body {
     width: 686px;
   }
 
+  .input_field_label.span8,
   .alert.span8,
   .calendar.span8,
   .select2-container.span8,
@@ -1158,6 +1187,7 @@ body {
     width: 606px;
   }
 
+  .input_field_label.span7,
   .alert.span7,
   .calendar.span7,
   .select2-container.span7,
@@ -1165,6 +1195,7 @@ body {
     width: 526px;
   }
 
+  .input_field_label.span6,
   .alert.span6,
   .calendar.span6,
   .select2-container.span6,
@@ -1172,6 +1203,7 @@ body {
     width: 446px;
   }
 
+  .input_field_label.span5,
   .alert.span5,
   .calendar.span5,
   .select2-container.span5,
@@ -1179,6 +1211,7 @@ body {
     width: 366px;
   }
 
+  .input_field_label.span4,
   .alert.span4,
   .calendar.span4,
   .select2-container.span4,
@@ -1186,6 +1219,7 @@ body {
     width: 286px;
   }
 
+  .input_field_label.span3,
   .alert.span3,
   .calendar.span3,
   .select2-container.span3,
@@ -1193,6 +1227,7 @@ body {
     width: 206px;
   }
 
+  .input_field_label.span2,
   .alert.span2,
   .calendar.span2,
   .select2-container.span2,
@@ -1200,6 +1235,7 @@ body {
     width: 126px;
   }
 
+  .input_field_label.span1,
   .alert.span1,
   .calendar.span1,
   .select2-container.span1,
@@ -1281,6 +1317,10 @@ body {
 }
 
 @media (max-width: 979px) {
+
+  .controls-row [class*="input_field_label"] + [class*="input_field_label"] {
+    margin-left: 20px !important;
+  }
 
   .input-large, .input-xlarge, .input-xxlarge, input[class*="span"], select[class*="span"], textarea[class*="span"], .uneditable-input {
     display: block;

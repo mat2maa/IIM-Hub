@@ -1,7 +1,14 @@
-<center>
-  <strong>Add Review to Movie</strong><br/>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+      <%= render partial: 'reviews_movies' %>
+    </div>
 
-  <div id="movies">
-    <%= render partial: "reviews" %>
+    <div class="span6">
+      <div id="movie_flash_notice"></div>
+      <div id="movies">
+        <%= render partial: 'reviews' %>
+      </div>
+    </div>
   </div>
-</center>
+</div>
