@@ -32,6 +32,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.episode_title, 'Episode Title' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.episode_number, 'Episode #' %></div>
+        </div>
         <%= f.input_field :episode_title,
                           class: 'span3',
                           placeholder: 'Episode Title' %>
@@ -42,6 +46,11 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.tape_media, 'Tape Media' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.tape_format, 'Tape Format' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.tape_size, 'Tape Size' %></div>
+        </div>
         <%= f.input_field :tape_media,
                           as: :select,
                           collection: Video::TAPE_MEDIA,
@@ -65,6 +74,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.video_subtitles_1, 'Video Subtitles 1' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.video_subtitles_2, 'Video Subtitles 2' %></div>
+        </div>
         <%= f.input_field :video_subtitles_1,
                           as: :select,
                           collection: @languages,
@@ -81,6 +94,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span9"><%= input_field_label @master.synopsis, 'Episode synopsis' %></div>
+        </div>
         <%= f.input_field :synopsis,
                           placeholder: 'Episode synopsis',
                           class: 'span9',
@@ -88,6 +104,12 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span2"><%= input_field_label @master.language_track_1, 'Lang Track 1' %></div>
+          <div class="input_field_label span2"><%= input_field_label @master.language_track_2, 'Lang Track 2' %></div>
+          <div class="input_field_label span2"><%= input_field_label @master.language_track_3, 'Lang Track 3' %></div>
+          <div class="input_field_label span2"><%= input_field_label @master.language_track_4, 'Lang Track 4' %></div>
+        </div>
         <%= f.input_field :language_track_1,
                           as: :select,
                           collection: @languages,
@@ -118,6 +140,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.aspect_ratio, 'Aspect ratio' %></div>
+        </div>
         <%= f.input_field :aspect_ratio,
                           as: :select,
                           collection: %w(4:3 16:9 14:9),
@@ -127,6 +152,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.location, 'Tape location' %></div>
+        </div>
         <%= f.input_field :location,
                           placeholder: 'Tape location',
                           value: f.object.id.nil? ? @master_location : '',
@@ -134,6 +162,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.time_in, 'Time in' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.time_out, 'Time out' %></div>
+        </div>
         <%= f.input_field :time_in,
                           placeholder: 'Time in',
                           class: 'span3' %>

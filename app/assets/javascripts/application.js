@@ -22,4 +22,5 @@
 //= require bootstrap-datepicker
 //= require bootstrap-modal
 //= require bootstrap-modalmanager
+//= require modernizr
 //= require scripts

@@ -85,6 +85,10 @@
       <% end %>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @video_master_playlist.airline_id, 'Airline' %></div>
+          <div class="input_field_label span3"><%= input_field_label @video_master_playlist.master_playlist_type_id, 'Master Playlist Type' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :airline_id,
@@ -103,6 +107,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @video_master_playlist.start_cycle, 'Start Cycle' %></div>
+          <div class="input_field_label span3"><%= input_field_label @video_master_playlist.end_cycle, 'End Cycle' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_append_datepicker',
                    locals: {f: f,
                             field: :start_cycle,
@@ -129,6 +137,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @video_master_playlist.edit_runtime, 'Edited Runtime' %></div>
+        </div>
         <%= f.input_field :edit_runtime,
                           :type => :number,
                           :placeholder => "Edited Runtime",
@@ -138,6 +149,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span6"><%= input_field_label @video_master_playlist.media_instruction, 'Media Instruction' %></div>
+        </div>
         <%= f.input_field :media_instruction,
                           placeholder: "Media Instruction",
                           class: 'span6',

@@ -131,13 +131,15 @@ class MoviesController < ApplicationController
       @movie = @movies
     end
 
-    @reviews_uri = URI(@movie.links.reviews + "?apikey=snr4rshxrz9cqgpfsswebhb7")
-    @response = Net::HTTP.get_response(@reviews_uri)
-    @reviews_json = JSON.parse(@response.body)
-    @reviews_count = @reviews_json["total"]
+    if @movies_count > 0
+      @reviews_uri = URI(@movie.links.reviews + "?apikey=snr4rshxrz9cqgpfsswebhb7")
+      @response = Net::HTTP.get_response(@reviews_uri)
+      @reviews_json = JSON.parse(@response.body)
+      @reviews_count = @reviews_json["total"]
 
-    if @reviews_count > 0
-      @reviews = @reviews_json["reviews"]
+      if @reviews_count > 0
+        @reviews = @reviews_json["reviews"]
+      end
     end
 
     respond_to do |format|

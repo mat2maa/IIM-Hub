@@ -93,6 +93,10 @@
       <% end %>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener_playlist.airline_id, 'Airline' %></div>
+          <div class="input_field_label span3"><%= input_field_label @screener_playlist.video_playlist_type_id, 'Video Playlist Type' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :airline_id,
@@ -111,6 +115,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener_playlist.start_cycle, 'Start Cycle' %></div>
+          <div class="input_field_label span3"><%= input_field_label @screener_playlist.end_cycle, 'End Cycle' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_append_datepicker',
                    locals: {f: f,
                             field: :start_cycle,

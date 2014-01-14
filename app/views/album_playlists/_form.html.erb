@@ -77,6 +77,10 @@
       <% end %>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album_playlist.client_playlist_code, 'Client Playlist Code' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album_playlist.airline_id, 'Airline' %></div>
+        </div>
         <%= f.input_field :client_playlist_code,
                           placeholder: 'Client Playlist Code',
                           class: 'span3' %>
@@ -91,6 +95,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album_playlist.start_playdate, 'Play Date Start' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album_playlist.end_playdate, 'Play Date End' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_append_datepicker',
                    locals: {f: f,
                             field: :start_playdate,
@@ -117,6 +125,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album_playlist.in_out, 'In/Out' %></div>
+        </div>
         <%= f.input_field :in_out,
                           as: :select,
                           collection: in_out,

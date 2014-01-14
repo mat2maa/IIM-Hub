@@ -1,21 +1,41 @@
 <% if @movies_count > 0 %>
   <div class="row-fluid">
     <div class="span4">
-      <%= image_tag @movie.posters.profile %>
+      <div id="poster-thumbnail">
+        <%= image_tag @movie.posters.detailed,
+                      class: 'poster-image' %>
+        <div class="poster-title poster-info">
+          <%= "#{@movie.title} (#{@movie.year})" %>
+        </div>
+        <div class="poster-subtitle poster-info">
+          Cast
+        </div>
+        <div class="poster-list">
+          <ul>
+            <% @movie.abridged_cast.each do |member| %>
+              <li class="poster-info"><%= member.name %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="poster-subtitle poster-info">
+          MPAA Rating
+        </div>
+        <div class="poster-list">
+          <ul>
+            <li class="poster-info"><%= @movie.mpaa_rating %></li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="span8">
-      <%= "#{@movie.title} (#{@movie.year})" %>
-    </div>
-  </div>
-  <% if @reviews_count > 0 %>
-    <div class="row-fluid">
-      <div class="span12">
+    <% if @reviews_count > 0 %>
+      <div class="span8">
+        <div class="info info-title"><%= @reviews_count %> reviews found</div>
         <dl>
           <% @reviews.each.with_index do |review, index| %>
             <dt>
-              <div class="choice-details" data-review="<%= index %>">
-                <%= review['critic'] %> (<%= review['date'] %>, score: <%= review['original_score'] %>)
-              </div>
+            <div class="choice-details" data-review="<%= index %>">
+              <%= review['critic'] %> (<%= review['date'] %>, score: <%= review['original_score'] %>)
+            </div>
             </dt>
             <dd>
               <div class="choice-content" data-review="<%= index %>">
@@ -29,20 +49,12 @@
           <% end %>
         </dl>
       </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span12">
-        <%= @reviews_count %> reviews found
+    <% else %>
+      <div class="span8">
+        <div class="info info-title">No reviews were found</div>
       </div>
-    </div>
-  <% else %>
-    <div class="row-fluid">
-      <div class="span12">
-        <br/><br/>
-        No reviews were found
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% else %>
   <div class="row-fluid">
     <div class="span12">

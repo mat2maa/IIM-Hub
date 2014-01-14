@@ -73,6 +73,10 @@
                          @track.album_id %>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @track.title_original, 'Track Title' %></div>
+        <div class="input_field_label span3"><%= input_field_label @track.title_english, 'Track Title (Translated)' %></div>
+      </div>
       <%= f.input_field :title_original,
                         placeholder: "Track Title",
                         tabindex: autotab,
@@ -84,6 +88,10 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"></div>
+        <div class="input_field_label span3"><%= input_field_label @track.distributor, 'Distributor' %></div>
+      </div>
       <div class="alert span3 duration-alert fade in alert-success">
         <span>Label: <%= @track.album.label.name if !@track.album.label.nil? %></span>
       </div>
@@ -94,6 +102,11 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span2"><%= input_field_label @track.artist_original, 'Artist' %></div>
+        <div class="input_field_label span2"><%= input_field_label @track.artist_english, 'Artist (Translated)' %></div>
+        <div class="input_field_label span2"><%= input_field_label @track.composer, 'Composer' %></div>
+      </div>
       <%= f.input_field :artist_original,
                         placeholder: "Artist",
                         tabindex: autotab,
@@ -109,6 +122,11 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span2"><%= input_field_label @track.tempo, 'Tempo' %></div>
+        <div class="input_field_label span2"><%= input_field_label @track.tempo_intro, 'Intro Tempo' %></div>
+        <div class="input_field_label span2"><%= input_field_label @track.tempo_outro, 'Outro Tempo' %></div>
+      </div>
       <%= f.input_field :tempo,
                         placeholder: "Tempo",
                         as: :select,
@@ -133,6 +151,10 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @track.language_id, 'Language' %></div>
+        <div class="input_field_label span3"><%= input_field_label @track.origin_id, 'Origin' %></div>
+      </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
                           field: :language_id,
@@ -150,6 +172,10 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @track.gender, 'Gender' %></div>
+        <div class="input_field_label span3"><%= input_field_label @track.genre_ids, 'Genre' %></div>
+      </div>
       <%= f.input_field :gender,
                         placeholder: "Gender",
                         as: :select,
@@ -167,6 +193,10 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label duration_min(@track.duration), 'Duration (min)' %></div>
+        <div class="input_field_label span3"><%= input_field_label duration_sec(@track.duration), 'Duration (sec)' %></div>
+      </div>
       <%= text_field_tag :dur_min,
                          duration_min(@track.duration),
                          placeholder: "Duration (min)",
@@ -182,6 +212,9 @@
     </div>
 
     <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @track.lyrics, 'Lyrics' %></div>
+      </div>
       <%= f.input_field :lyrics,
                         placeholder: "Lyrics",
                         tabindex: autotab,

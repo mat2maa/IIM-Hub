@@ -106,6 +106,10 @@
       <% end %>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.title_original, 'Album Title' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.title_english, 'Album Title (Translated)' %></div>
+        </div>
         <%= f.input_field :title_original,
                           placeholder: "Album Title",
                           tabindex: autotab,
@@ -117,6 +121,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.artist_original, 'Artist' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.artist_english, 'Artist (Translated)' %></div>
+        </div>
         <%= f.input_field :artist_original,
                           placeholder: "Artist",
                           tabindex: autotab,
@@ -128,6 +136,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.label_id, 'Label' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.cd_code, 'CD Code' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :label_id,
@@ -142,6 +154,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.publisher_id, 'Publisher' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.release_year, 'Release Year' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :publisher_id,
@@ -156,6 +172,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.disc_num, 'Disc Number' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.disc_count, 'Disc Count' %></div>
+        </div>
         <%= f.input_field :disc_num,
                           placeholder: "Disc Number",
                           tabindex: autotab,
@@ -167,6 +187,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.language_id, 'Language' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.origin_id, 'Origin' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :language_id,
@@ -184,6 +208,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @album.gender, 'Gender' %></div>
+          <div class="input_field_label span3"><%= input_field_label @album.genre_ids, 'Genre' %></div>
+        </div>
         <%= f.input_field :gender,
                           placeholder: "Gender",
                           as: :select,
@@ -201,6 +229,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span6"><%= input_field_label @album.synopsis, 'Synopsis' %></div>
+        </div>
         <%= f.input_field :synopsis,
                           placeholder: "Synopsis",
                           tabindex: autotab,

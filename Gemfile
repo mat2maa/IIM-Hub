@@ -41,6 +41,7 @@ gem 'formtastic'
 gem 'simple_form'
 gem 'nested_form'
 gem 'bootstrap-wysihtml5-rails'
+gem 'modernizr_rails'
 
 #gem 'pdfkit'
 gem 'prawn_rails'

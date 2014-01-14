@@ -90,6 +90,10 @@
       <% end %>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.client_playlist_code, 'Client Playlist Code' %></div>
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.airline_id, 'Airline' %></div>
+        </div>
         <%= f.input_field :client_playlist_code,
                           placeholder: 'Client Playlist Code',
                           class: 'span3' %>
@@ -104,6 +108,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.start_playdate, 'Play Date Start' %></div>
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.end_playdate, 'Play Date End' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_append_datepicker',
                    locals: {f: f,
                             field: :start_playdate,
@@ -130,6 +138,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.program_id, 'Programme' %></div>
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.vo_id, 'VO' %></div>
+        </div>
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
                             field: :program_id,
@@ -148,6 +160,10 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.in_out, 'In/Out' %></div>
+          <div class="input_field_label span3"><%= input_field_label @audio_playlist.airline_duration, 'Airline Duration' %></div>
+        </div>
         <%= f.input_field :in_out,
                           as: :select,
                           collection: in_out,
