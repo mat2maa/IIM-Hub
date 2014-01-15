@@ -70,6 +70,7 @@ gem 'bullet'
 gem 'nilify_blanks'
 
 gem 'paperclip', '~> 3.1'
+gem 'paperclip-remote'
 
 gem 'aws-sdk'
 gem 'rubyzip',  '~> 0.9.9'

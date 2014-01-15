@@ -19,13 +19,14 @@ class Album < ActiveRecord::Base
                         large: "300x300>"},
                     url: "s3_domain_url",
                     path: "/system/covers/:id/:style/:basename.:extension",
-                    default_url: "/assets/:attachment/missing_:style.png"
+                    default_url: "/assets/:attachment/missing_:style.png",
+                    remote: true
 
   validates_attachment_size :cover, :less_than => 5.megabytes
   validates_attachment_content_type :cover, :content_type => ['image/jpeg', 'image/png', 'image/gif']
 
   attr_accessible :title_original, :label_id, :title_english, :release_year, :artist_original, :publisher_id,
-                  :artist_english, :disc_num, :disc_count, :cd_code, :live_album, :explicit_lyrics, :cover, :gender,
+                  :artist_english, :disc_num, :disc_count, :cd_code, :live_album, :explicit_lyrics, :cover, :cover_remote_url, :gender,
                   :language_id, :compilation, :origin_id, :synopsis, :genre_ids, :cover, :tracks_attributes,
                   :to_delete, :mp3_exists
 

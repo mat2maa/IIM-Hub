@@ -19,6 +19,12 @@
                               placeholder: 'Cover Image'} %>
         </li>
         <li class="poster-info">
+          <%= f.input_field :cover_remote_url,
+                            placeholder: 'Cover Image URL',
+                            tabindex: autotab,
+                            class: 'span2 no-margin-bottom' %>
+        </li>
+        <li class="poster-info">
           <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
           <% href = "#{href}+#{@album.title_original.present? ? @album.title_original.to_s.downcase : @album.title_english.to_s.downcase}" %>
           <% href = "#{href}+#{@album.release_year.to_s}" %>

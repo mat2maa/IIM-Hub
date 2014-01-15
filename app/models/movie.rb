@@ -24,7 +24,7 @@ class Movie < ActiveRecord::Base
                   :theatrical_runtime, :edited_runtime, :release_versions, :screener_remarks, :airline_rights,
                   :language_tracks, :language_subtitles, :movie_genre_ids, :cast, :director, :synopsis, 
                   :critics_review, :remarks, :chinese_movie_title, :chinese_cast, :chinese_director,
-                  :chinese_synopsis, :imdb_synopsis, :foreign_language_title, :airline_countries, :poster, :gapp_number
+                  :chinese_synopsis, :imdb_synopsis, :foreign_language_title, :airline_countries, :poster, :poster_remote_url, :gapp_number
     
   has_attached_file :poster,
                     styles: { 
@@ -33,7 +33,8 @@ class Movie < ActiveRecord::Base
                       large: "500x500>" },
                     url: "s3_domain_url",
                     path: "/system/posters/:id/:style/:id.:extension",
-                    default_url: "/assets/:attachment/missing_:style.png"
+                    default_url: "/assets/:attachment/missing_:style.png",
+                    remote: true
 
   validates_numericality_of :theatrical_runtime, :edited_runtime, :allow_nil => true
   validates_length_of :theatrical_runtime, :edited_runtime, :in => 0..999, :allow_nil => true

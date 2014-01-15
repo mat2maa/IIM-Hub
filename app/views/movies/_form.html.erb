@@ -16,6 +16,12 @@
                               placeholder: 'Poster Image'} %>
         </li>
         <li class="poster-info">
+          <%= f.input_field :poster_remote_url,
+                            placeholder: 'Poster Image URL',
+                            tabindex: autotab,
+                            class: 'span2 no-margin-bottom' %>
+        </li>
+        <li class="poster-info">
           <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
           <% href = "#{href}+#{@movie.foreign_language_title.present? ? @movie.foreign_language_title.to_s.downcase : @movie.movie_title.to_s.downcase}" %>
           <% href = "#{href}+#{@movie.theatrical_release_year.to_s}" %>

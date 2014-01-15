@@ -27,7 +27,8 @@ class Video < ActiveRecord::Base
                       large: "500x500>" },
                     url: "s3_domain_url",
                     path: "/system/videos/posters/:id/:style/:id.:extension",
-                    default_url: "/assets/:attachment/missing_video_small.png"
+                    default_url: "/assets/:attachment/missing_video_small.png",
+                    remote: true
 
   validates_attachment_size :poster, :less_than => 5.megabytes
   validates_attachment_content_type :poster, :content_type => ['image/jpeg', 'image/png']
@@ -55,7 +56,7 @@ class Video < ActiveRecord::Base
   attr_accessible :movie_id, :programme_title, :foreign_language_title, :video_type, :video_distributor_id,
                   :production_year, :production_studio_id, :episodes_available, :laboratory_id, :on_going_series,
                   :commercial_run_time_id, :video_genre_ids, :language_tracks, :language_subtitles, :synopsis, :remarks,
-                  :poster, :chinese_programme_title, :chinese_synopsis
+                  :poster, :poster_remote_url, :chinese_programme_title, :chinese_synopsis
   
   before_save :meta_tidy
 

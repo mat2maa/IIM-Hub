@@ -1,11 +1,6 @@
 <%= minimal_form_for @video,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <div class="span3">
-    <div id="poster-thumbnail">
-      <%= link_to(image_tag(@video.poster.url, class: 'poster-image'),
-                  @video.poster.url,
-                  target: "_blank") %>
-    </div>
     <div class="poster-title poster-info">
       Poster image
     </div>
@@ -19,6 +14,12 @@
                               input_id: 'video_poster_input',
                               span: 'span2',
                               placeholder: 'Poster Image'} %>
+        </li>
+        <li class="poster-info">
+          <%= f.input_field :poster_remote_url,
+                            placeholder: 'Poster Image URL',
+                            tabindex: autotab,
+                            class: 'span2 no-margin-bottom' %>
         </li>
         <li class="poster-info">
           <% href = "https://www.google.com/images?safe=off&site=imghp&q=cover+poster" %>
@@ -36,6 +37,11 @@
           <a href="http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<%= @video.programme_title %>" target="_blank">Search
             Wikipedia</a>
         </li>
+        <div id="poster-thumbnail">
+          <%= link_to(image_tag(@video.poster.url, class: 'poster-image'),
+                      @video.poster.url,
+                      target: "_blank") %>
+        </div>
       </ul>
     </div>
     <% if controller.action_name != 'new' %>
