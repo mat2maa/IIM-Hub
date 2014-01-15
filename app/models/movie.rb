@@ -50,12 +50,12 @@ class Movie < ActiveRecord::Base
   serialize   :language_tracks
   serialize   :language_subtitles
 
-  scope :with_language_track, -> language_track {
-    where("language_tracks like ?", "%#{language_track}%")
+  scope :with_language_track, lambda { |language_track|
+    self.scoped.where(language_track) unless language_track.blank?
   }
 
-  scope :with_language_subtitle, -> language_subtitle {
-    where("language_subtitles like ?", "%#{language_subtitle}%")
+  scope :with_language_subtitle, lambda { |language_subtitle|
+    self.scoped.where(language_subtitle) unless language_subtitle.blank?
   }
 
   scope :with_screener_destroyed,

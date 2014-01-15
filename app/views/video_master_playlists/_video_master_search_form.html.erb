@@ -4,7 +4,8 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_video_master_to_playlist_path(id: @video_master_playlist.id),
                     remote: true,
-                    id: "master_search_form" do |masters| %>
+                    id: "master_search_form",
+                    class: 'search-form' do |masters| %>
   <div class="controls controls-row">
     <%= masters.input_field :video_programme_title_or_video_foreign_language_title_cont_any,
                             class: "span12",

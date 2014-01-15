@@ -2,7 +2,8 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_album_to_playlist_path(id: @album_playlist.id),
                     remote: true,
-                    id: 'album_search_form' do |albums| %>
+                    id: 'album_search_form',
+                    class: 'search-form' do |albums| %>
 
   <div class="controls controls-row">
     <%= albums.input_field :title_original_cont,

@@ -9,7 +9,8 @@ class MoviesController < ApplicationController
   filter_access_to :all
 
   def index
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
 
     if params[:q].present?
       @original = params[:q][:movie_title_or_foreign_language_title_cont_any]
@@ -29,8 +30,20 @@ class MoviesController < ApplicationController
                                per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
-      @movies = @movies.with_language_track(params[:language][:track]) if params[:language][:track].present?
-      @movies = @movies.with_language_subtitle(params[:language][:subtitle]) if params[:language][:subtitle].present?
+      if params[:language][:track].present?
+        @language_tracks = params[:language][:track].reject! { |c| c.empty? }
+        @language_tracks = @language_tracks.map {|language| "language_tracks LIKE '%#{language}%'"}
+        @language_tracks = @language_tracks.join(" AND ")
+      end
+
+      if params[:language][:subtitle].present?
+        @language_subtitles = params[:language][:subtitle].reject! { |c| c.empty? }
+        @language_subtitles = @language_subtitles.map {|subtitle| "language_subtitles LIKE '%#{subtitle}%'"}
+        @language_subtitles = @language_subtitles.join(" AND ")
+      end
+
+      @movies = @movies.with_language_track(@language_tracks) if params[:language][:track].present?
+      @movies = @movies.with_language_subtitle(@language_subtitles) if params[:language][:subtitle].present?
 
       @movies = @movies.with_screener_destroyed if params[:screener][:destroyed] == '1'
       @movies = @movies.with_screener_held if params[:screener][:held] == '1'
@@ -73,7 +86,8 @@ class MoviesController < ApplicationController
     @movie.airline_release_date = nil
     @movie.personal_video_date = nil
 
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
   end
 
   def create
@@ -94,7 +108,8 @@ class MoviesController < ApplicationController
   end
 
   def edit
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
 
     @search = Movie.includes(:movie_distributor, :movie_type)
                    .ransack(view_context.empty_blank_params params[:q])

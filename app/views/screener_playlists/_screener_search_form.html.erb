@@ -4,7 +4,8 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_screener_to_playlist_path(id: @screener_playlist.id),
                     remote: true,
-                    id: "screener_search_form" do |screeners| %>
+                    id: "screener_search_form",
+                    class: 'search-form' do |screeners| %>
   <div class="controls controls-row">
     <%= screeners.input_field :video_programme_title_or_video_foreign_language_title_cont_any,
                               class: "span12",

@@ -4,7 +4,7 @@
 
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
-                    class: 'spinner-trigger' do |videos| %>
+                    class: 'spinner-trigger search-form' do |videos| %>
 
   <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
@@ -50,6 +50,7 @@
                  {include_blank: true,
                   selected: @selected_track},
                  {class: "select2 #{@span_size}",
+                  multiple: true,
                   data: {placeholder: 'Language Track'}} %>
     </div>
 
@@ -60,6 +61,7 @@
                  {include_blank: true,
                   selected: @selected_subtitle},
                  {class: "select2 #{@span_size}",
+                  multiple: true,
                   data: {placeholder: 'Language Subtitles'}} %>
     </div>
 

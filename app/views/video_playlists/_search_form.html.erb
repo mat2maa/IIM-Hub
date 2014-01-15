@@ -2,7 +2,7 @@
 
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
-                    class: 'spinner-trigger' do |video_playlists| %>
+                    class: 'spinner-trigger search-form' do |video_playlists| %>
   <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
     <!--<div class="controls combinator-select-container">-->

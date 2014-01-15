@@ -4,7 +4,8 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_video_to_playlist_path(id: @video_playlist.id),
                     remote: true,
-                    id: 'video_search_form' do |videos| %>
+                    id: 'video_search_form',
+                    class: 'search-form' do |videos| %>
   <div class="controls controls-row">
     <%= videos.input_field :programme_title_or_foreign_language_title_cont_any,
                            placeholder: 'Video Title',
@@ -43,6 +44,7 @@
                {include_blank: true,
                 selected: @selected_track},
                {class: "select2 span12",
+                multiple: true,
                 data: {placeholder: 'Language Track'}} %>
   </div>
 
@@ -53,6 +55,7 @@
                {include_blank: true,
                 selected: @selected_subtitle},
                {class: "select2 span12",
+                multiple: true,
                 data: {placeholder: 'Language Subtitles'}} %>
   </div>
 

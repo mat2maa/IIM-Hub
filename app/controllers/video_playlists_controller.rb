@@ -90,6 +90,15 @@ class VideoPlaylistsController < ApplicationController
     @languages = MasterLanguage.order("name")
     .collect { |language| language.name }
 
+    if params[:q].present?
+      @original = params[:q][:programme_title_or_foreign_language_title_cont_any]
+      @the = params[:q][:programme_title_or_foreign_language_title_cont_any][0..3].downcase if params[:q][:programme_title_or_foreign_language_title_cont_any].present?
+      if @the == 'the ' && params[:q][:programme_title_or_foreign_language_title_cont_any].present?
+        @title = params[:q][:programme_title_or_foreign_language_title_cont_any][4..-1].downcase
+        params[:q][:programme_title_or_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      end
+    end
+
     @search = Video.ransack(view_context.empty_blank_params params[:q])
     @videos = @search.result(distinct: true)
     .where("to_delete = ?", "0")
@@ -98,8 +107,20 @@ class VideoPlaylistsController < ApplicationController
               per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
-      @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
-      @videos = @videos.with_language_subtitle(params[:language][:subtitle]) if params[:language][:subtitle].present?
+      if params[:language][:track].present?
+        @language_tracks = params[:language][:track].reject! { |c| c.empty? }
+        @language_tracks = @language_tracks.map {|language| "language_tracks LIKE '%#{language}%'"}
+        @language_tracks = @language_tracks.join(" AND ")
+      end
+
+      if params[:language][:subtitle].present?
+        @language_subtitles = params[:language][:subtitle].reject! { |c| c.empty? }
+        @language_subtitles = @language_subtitles.map {|subtitle| "language_subtitles LIKE '%#{subtitle}%'"}
+        @language_subtitles = @language_subtitles.join(" AND ")
+      end
+
+      @videos = @videos.with_language_track(@language_tracks) if params[:language][:track].present?
+      @videos = @videos.with_language_subtitle(@language_subtitles) if params[:language][:subtitle].present?
     end
 
     @videos_count = @videos.count

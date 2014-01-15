@@ -4,7 +4,7 @@
 
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
-                    class: 'spinner-trigger' do |movies| %>
+                    class: 'spinner-trigger search-form' do |movies| %>
   <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
 
     <!--<div class="controls combinator-select-container">-->
@@ -101,6 +101,7 @@
                  {include_blank: true,
                   selected: @selected_track},
                  {class: "select2 #{@span_size}",
+                  multiple: true,
                   data: {placeholder: 'Languages'}} %>
     </div>
 
@@ -111,6 +112,7 @@
                  {include_blank: true,
                   selected: @selected_subtitle},
                  {class: "select2 #{@span_size}",
+                  multiple: true,
                   data: {placeholder: 'Subtitles'}} %>
     </div>
 

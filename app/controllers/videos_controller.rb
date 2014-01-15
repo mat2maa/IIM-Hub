@@ -3,7 +3,8 @@ class VideosController < ApplicationController
   filter_access_to :all
 
   def index
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
 
     if params[:q].present?
       @original = params[:q][:programme_title_or_foreign_language_title_cont_any]
@@ -22,8 +23,20 @@ class VideosController < ApplicationController
                                per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
-      @videos = @videos.with_language_track(params[:language][:track]) if params[:language][:track].present?
-      @videos = @videos.with_language_subtitle(params[:language][:subtitle]) if params[:language][:subtitle].present?
+      if params[:language][:track].present?
+        @language_tracks = params[:language][:track].reject! { |c| c.empty? }
+        @language_tracks = @language_tracks.map {|language| "language_tracks LIKE '%#{language}%'"}
+        @language_tracks = @language_tracks.join(" AND ")
+      end
+
+      if params[:language][:subtitle].present?
+        @language_subtitles = params[:language][:subtitle].reject! { |c| c.empty? }
+        @language_subtitles = @language_subtitles.map {|subtitle| "language_subtitles LIKE '%#{subtitle}%'"}
+        @language_subtitles = @language_subtitles.join(" AND ")
+      end
+
+      @videos = @videos.with_language_track(@language_tracks) if params[:language][:track].present?
+      @videos = @videos.with_language_subtitle(@language_subtitles) if params[:language][:subtitle].present?
 
       @videos = @videos.with_screeners if params[:screeners] == '1'
       @videos = @videos.with_masters if params[:masters] == '1'
@@ -50,7 +63,8 @@ class VideosController < ApplicationController
 
   def new
     @video_genres = VideoParentGenre.all
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
 
     @video = Video.new
     if !params[:video_type].nil?
@@ -143,7 +157,8 @@ class VideosController < ApplicationController
               per_page: items_per_page.present? ? items_per_page : 100)
     @videos_count = @videos.count
 
-    @languages = IIM::MOVIE_LANGUAGES
+    @languages = MasterLanguage.order("name")
+    .collect { |language| language.name }
 
     @video = Video.find(params[:id])
     @video_genres = VideoParentGenre.all

@@ -3,7 +3,7 @@
 
 <%= search_form_for @search,
                     builder: MinimalNestedFormBuilder,
-                    class: 'spinner-trigger' do |tracks| %>
+                    class: 'spinner-trigger search-form' do |tracks| %>
 
   <div class="control-group" style="<%= controller.action_name == 'index' ? 'margin-top: 0px;' : 'margin-top: 20px;' %>">
     <!--<div class="controls combinator-select-container">-->

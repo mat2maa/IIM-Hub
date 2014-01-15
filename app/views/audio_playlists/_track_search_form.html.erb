@@ -2,7 +2,8 @@
                     builder: MinimalNestedFormBuilder,
                     url: add_track_to_playlist_path(id: @audio_playlist.id),
                     remote: true,
-                    id: 'track_search_form' do |tracks| %>
+                    id: 'track_search_form',
+                    class: 'search-form' do |tracks| %>
 
   <div class="controls controls-row">
     <%= tracks.input_field :title_original_cont,

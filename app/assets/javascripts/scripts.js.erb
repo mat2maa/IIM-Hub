@@ -66,13 +66,13 @@ function calcFallback() {
     $('.prepend-select2 + .select2-container[class*="span"], .prepend-select2 + input + .select2-container[class*="span"], .calendar input[class*="span"]').css('width', '100%').css('width', '-=39px');
     $('.input-append.file-input input[type="text"]').css('width', '100%').css('width', '-=39px');
   } else {
-    $('.prepend-select2 + .select2-container[class*="span"], .prepend-select2 + input + .select2-container[class*="span"], .calendar input[class*="span"]').not($('.modal-body-content').find($('.prepend-select2 + .select2-container[class*="span"], .prepend-select2 + input + .select2-container[class*="span"], .calendar input[class*="span"]'))).width("");
-    $('.input-append.file-input input[type="text"]').not($('.modal-body-content').find($('.input-append.file-input input[type="text"]'))).width("");
+    $('.prepend-select2 + .select2-container[class*="span"], .prepend-select2 + input + .select2-container[class*="span"], .calendar input[class*="span"]').not($('.search-form').find($('.prepend-select2 + .select2-container[class*="span"], .prepend-select2 + input + .select2-container[class*="span"], .calendar input[class*="span"]'))).width("");
+    $('.input-append.file-input input[type="text"]').not($('.search-form').find($('.input-append.file-input input[type="text"]'))).width("");
   }
   if ($(window).width < 768) {
     $('#movie_poster_input').css('width', '100%').css('width', '-=37px');
   } else {
-    $('#movie_poster_input').not($('.modal-body-content').find($('#movie_poster_input'))).width("");
+    $('#movie_poster_input').not($('.search-form').find($('#movie_poster_input'))).width("");
   }
 }
 
