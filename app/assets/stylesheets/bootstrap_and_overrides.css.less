@@ -690,8 +690,15 @@ textarea[class*="span"],
   padding: 4px 10px 4px 11px;
 }
 
+.hidden-input-outer {
+  overflow: hidden;
+  position: relative;
+}
+
 .hidden-input {
-  display: none;
+  position: absolute;
+  left: -5000px;
+  top: 0px;
 }
 
 .input-append,

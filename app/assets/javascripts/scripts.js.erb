@@ -97,6 +97,15 @@ $(document).ready(function () {
         }
       });
 
+      /* Detect Safari */
+      var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+      if(!isSafari){
+        /* Do something for !Safari */
+        $('.hidden-input').css({
+          display: "none"
+        });
+      }
+
       // All non-GET requests will add the authenticity token
       // if not already present in the data packet
       $(document).ajaxSend(function (event, request, settings) {

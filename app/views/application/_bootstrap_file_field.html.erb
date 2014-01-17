@@ -1,16 +1,18 @@
 <div class="controls controls-row">
   <div class="input-append <%= span %> file-input">
     <input id="<%= input_id %>" type="text" placeholder="<%= placeholder %>">
-    <a class="btn" onclick="$('input[id=<%= hidden_id %>]').show().click().hide();"><i class="icon-upload"></i></a>
+    <a class="btn" onclick="$('input[id=<%= hidden_id %>]').click();"><i class="icon-upload"></i></a>
   </div>
 
-  <%= f.input_field field,
-                    as: :file,
-                    placeholder: placeholder,
-                    id: hidden_id,
-                    class: 'hidden-input',
-                    tabindex: autotab,
-                    size: 6 %>
+  <div class="hidden-input-outer">
+    <%= f.input_field field,
+                      as: :file,
+                      placeholder: placeholder,
+                      id: hidden_id,
+                      class: 'hidden-input',
+                      tabindex: autotab,
+                      size: 6 %>
+  </div>
 </div>
 
 <script type="text/javascript">
