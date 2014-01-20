@@ -12,7 +12,8 @@ class AudioPlaylist < ActiveRecord::Base
 
   attr_accessible :client_playlist_code, :airline_id, :program_id, :in_out, :vo_id, :start_playdate,
                   :start_playdate, :start_playdate, :end_playdate, :end_playdate, :end_playdate, :airline_duration,
-                  :vo, :user_id, :airline_cache, :program_cache, :job_id, :job_finished_at, :job_current_track, :job_current_progress
+                  :vo, :user_id, :airline_cache, :program_cache, :job_id, :job_finished_at, :job_current_track,
+                  :job_current_progress, :job_total_tracks
 
 	def audio_playlist_tracks_sorted
 		#self.audio_playlist_tracks.sort_by {|a| [a.position]}

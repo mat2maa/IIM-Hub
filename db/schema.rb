@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20131023112105) do
     t.datetime "job_finished_at"
     t.integer  "job_current_track"
     t.integer  "job_current_progress"
+    t.integer  "job_total_tracks"
     t.string   "audio_playlist_zip"
   end
 

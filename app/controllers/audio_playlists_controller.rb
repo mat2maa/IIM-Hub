@@ -423,7 +423,8 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist.update_attributes job_current_progress: nil,
                                       job_current_track: nil,
                                       job_id: nil,
-                                      job_finished_at: nil
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
 
 
     AudioPlaylist.delay.download_playlist(params[:id])

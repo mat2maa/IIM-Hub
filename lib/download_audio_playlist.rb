@@ -43,6 +43,7 @@ class DownloadAudioPlaylist < Struct.new(:options)
             tracks = get_mp3_info[3]
 
             files = @albums.zip(@tracks).map { |a, b| "#{a}/#{b}.mp3" }
+            files_count = files.count
 
             files.each.with_index do |file, index|
               filesize = ftp.size(file)
@@ -52,7 +53,9 @@ class DownloadAudioPlaylist < Struct.new(:options)
               ftp.get(file, "#{Rails.root}/tmp/#{playlist_type}/#{playlist_id}/#{file}", 819200) { |data|
                 transferred += data.size
                 file_percent = ((transferred).to_f/filesize.to_f)*100
-                playlist.update_attributes job_current_progress: file_percent.round, job_current_track: index
+                playlist.update_attributes job_current_progress: file_percent.round,
+                                           job_current_track: index,
+                                           job_total_tracks: files_count
               }
             end
 

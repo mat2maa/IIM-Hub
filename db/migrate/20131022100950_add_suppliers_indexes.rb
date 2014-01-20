@@ -4,6 +4,7 @@ class AddSuppliersIndexes < ActiveRecord::Migration
   end
 
   def down
-    remove_index :supplier_categories_suppliers, :column => [:supplier_category_id, :supplier_id]
+    remove_index :supplier_categories_suppliers, :name => 'supplier_index'
+    #remove_index :supplier_categories_suppliers, :column => [:supplier_category_id, :supplier_id]
   end
 end

@@ -77,6 +77,35 @@
           </ul>
         </div>
         <br>
+
+        <div class="info info-title">Downloader</div>
+        <div class="info-list download-info">
+          <ul>
+            <li class="info">
+              <%= link_to 'Create Playlist Zip',
+                          download_audio_playlist_path(@audio_playlist.id),
+                          id: 'download_playlist_link' %>
+            </li>
+            <% if @audio_playlist.finished? %>
+            <li class="info">
+              <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
+            </li>
+            <% end %>
+            <li class="info">
+              <div class="message">No status...</div>
+            </li>
+            <li class="info">
+              <div class="download-progress">No progress...</div>
+            </li>
+            <li class="info">
+              <div class="progress progress-striped active progress-bar-outer">
+                <div class="progress-bar bar" style="width:0%; height: 20px;"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <br>
+
       </div>
       <!--end of .content-->
     </div>
@@ -91,19 +120,6 @@
             <%= render partial: 'playlist_track_view', object: track, locals: {position: index + 1} %>
           <% end %>
         </div>
-        <div class="download-info">
-          <div class="links">
-            <%= link_to 'Create Playlist Zip',
-                        download_audio_playlist_path(@audio_playlist.id),
-                        id: 'download_playlist_link' %>
-            <% if @audio_playlist.finished? %>
-              | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
-            <% end %>
-          </div>
-          <div class="progress-bar" style="width:0%;"></div>
-          <div class="message"></div>
-          <div class="progress"></div>
-        </div>
 
         <%= link_to 'Back',
                     audio_playlists_path %>
@@ -115,3 +131,36 @@
   <!--end of .row-->
 </div>
 <!--end of .container-->
+
+<script type="text/javascript">
+  var $ = jQuery,
+      DownloadPoller;
+
+  DownloadPoller = {
+    poll: function () {
+      setTimeout(this.request, 3000);
+    },
+    request: function () {
+      $.ajax({
+        url: '/poll_download_data/<%= @audio_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+    }
+  };
+
+  $(function () {
+    $(document).on("click", "#download_playlist_link", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: '/download_audio_playlist/<%= @audio_playlist.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+
+      DownloadPoller.poll();
+
+    });
+  });
+</script>
