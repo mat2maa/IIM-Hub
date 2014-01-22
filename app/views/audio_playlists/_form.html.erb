@@ -34,7 +34,14 @@
         </div>
         <br>
 
-        <div class="info info-title">Audio Player</div>
+        <div class="info info-title">
+          Audio Player
+          <div class="audio-loader pull-right" style="display: none;">
+            <%= image_tag 'loading-indicator.gif',
+                          id: 'loading-indicator',
+                          class: 'transparent' %>
+          </div>
+        </div>
         <div class="info-list">
           <ul>
             <li class="info">
@@ -50,7 +57,7 @@
         <div class="info info-title">
           Downloader
           <div class="btn-group pull-right">
-            <%= link_to 'View background tasks',
+            <%= link_to 'Tasks',
                         '/delayed_job',
                         target: '_blank',
                         class: 'btn btn-mini btn-info' %>

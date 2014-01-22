@@ -13,7 +13,7 @@
   </td>
   <td>
     <% if track_view.mp3_exists == true %>
-      <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{Settings.nas_mp3_url}#{track_view.album.id.to_s}/#{track_view.track_num.to_s}.mp3" %>">Play</a>
+      <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{track_view.album.id.to_s}/#{track_view.track_num.to_s}.mp3" %>">Play</a>
     <% end %>
   </td>
 </tr>
