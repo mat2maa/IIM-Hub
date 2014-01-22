@@ -22,7 +22,7 @@ class DownloadAlbumPlaylist < Struct.new(:options)
     @albums_found.each do |a|
       a.tracks.each do |t|
         if t.mp3_exists?
-          @tracks << t.id
+          @tracks << t.track_num
           @albums << a.id
         end
       end

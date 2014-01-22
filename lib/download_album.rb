@@ -52,7 +52,7 @@ class DownloadAlbum < Struct.new(:options)
               ftp.get(file, "#{Rails.root}/tmp/#{album_type}/#{album_id}/#{file}", 819200) { |data|
                 transferred += data.size
                 file_percent = ((transferred).to_f/filesize.to_f)*100
-                playlist.update_attributes job_current_progress: file_percent.round,
+                album.update_attributes job_current_progress: file_percent.round,
                                            job_current_track: index,
                                            job_total_tracks: files_count
               }
@@ -87,7 +87,7 @@ class DownloadAlbum < Struct.new(:options)
 
     end # Successful connection
 
-    playlist.update_attribute :job_finished_at, Time.current
+    album.update_attribute :job_finished_at, Time.current
 
   end # perform
 
