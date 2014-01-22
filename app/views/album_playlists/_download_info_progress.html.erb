@@ -1,0 +1,5 @@
+<% if !@album_playlist.finished? %>
+  <div class="download-info-inner"><%= "Downloading file #{album_playlist.job_current_track+1}/#{album_playlist.job_total_tracks}" if album_playlist.job_current_track.present? %></div>
+<% else %>
+
+<% end %>

@@ -25,7 +25,12 @@ Iim::Application.routes.draw do
   match '/add_review_to_movie/:id' => 'movies#add_review_to_movie', as: :add_review_to_movie
 
   match '/download_audio_playlist/:id' => 'audio_playlists#download_audio_playlist', as: :download_audio_playlist
-  match '/poll_download_data/:id' => 'audio_playlists#poll_download_data', as: :poll_download_data
+  match '/poll_audio_playlist_download_data/:id' => 'audio_playlists#poll_audio_playlist_download_data', as: :poll_audio_playlist_download_data
+  match '/download_album_playlist/:id' => 'album_playlists#download_album_playlist', as: :download_album_playlist
+  match '/poll_album_playlist_download_data/:id' => 'album_playlists#poll_album_playlist_download_data', as: :poll_album_playlist_download_data
+  match '/download_album/:id' => 'albums#download_album', as: :download_album
+  match '/poll_album_download_data/:id' => 'albums#poll_album_download_data', as: :poll_album_download_data
+
   match '/download_playlist_zip/:id' => 'audio_playlists#download_playlist_zip', as: :download_playlist_zip
 
   match '/download_album_mp3/:id' => 'album_playlists#download_mp3', as: :download_album_tracks_mp3
@@ -133,6 +138,9 @@ Iim::Application.routes.draw do
       post 'lock'
       post 'unlock'
       post 'add_album'
+
+      get 'zip', action: 'mp3', as: 'album_playlist_zip'
+
     end
     collection do
       post 'add_multiple_albums'
@@ -220,6 +228,9 @@ Iim::Application.routes.draw do
       get 'show_synopsis'
       get 'show_tracks_translation'
       get 'show_playlists'
+
+      get 'zip', action: 'mp3', as: 'album_zip'
+
     end
   end
 

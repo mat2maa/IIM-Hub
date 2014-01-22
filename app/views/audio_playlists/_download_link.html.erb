@@ -1,0 +1,3 @@
+<% if @audio_playlist.finished? %>
+  <div class="download-info-inner"><%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %></div>
+<% end %>

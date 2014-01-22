@@ -1,0 +1,3 @@
+<% if @album.finished? %>
+  <div class="download-info-inner"><%= link_to "Download Album Zip", @album.album_zip.url %></div>
+<% end %>

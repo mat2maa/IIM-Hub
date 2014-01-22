@@ -283,6 +283,23 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def download_album
+    # Reset DB
+    @album = Album.find(params[:id])
+    @album.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
+
+
+    Album.delay.download_playlist(params[:id])
+  end
+
+  def poll_album_download_data
+    @album = Album.find(params[:id])
+  end
+
   private
 
   def set_search

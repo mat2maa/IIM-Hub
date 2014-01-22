@@ -1,6 +1,0 @@
-<%= link_to 'Create Playlist Zip',
-            download_audio_playlist_path(@audio_playlist.id),
-            id: 'download_playlist_link' %>
-<% if @audio_playlist.finished? %>
-  | <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
-<% end %>

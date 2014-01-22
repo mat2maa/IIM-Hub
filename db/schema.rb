@@ -54,6 +54,12 @@ ActiveRecord::Schema.define(:version => 20131023112105) do
     t.boolean  "locked"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "job_id"
+    t.datetime "job_finished_at"
+    t.integer  "job_current_track"
+    t.integer  "job_current_progress"
+    t.integer  "job_total_tracks"
+    t.string   "album_playlist_zip"
   end
 
   create_table "album_services", :force => true do |t|
@@ -74,24 +80,30 @@ ActiveRecord::Schema.define(:version => 20131023112105) do
     t.string   "artist_english"
     t.text     "synopsis"
     t.integer  "publisher_id"
-    t.boolean  "live_album",         :default => false
-    t.boolean  "explicit_lyrics",    :default => false
-    t.boolean  "to_delete",          :default => false
+    t.boolean  "live_album",           :default => false
+    t.boolean  "explicit_lyrics",      :default => false
+    t.boolean  "to_delete",            :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cover_file_name"
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
-    t.string   "genre",              :default => "",    :null => false
+    t.string   "genre",                :default => "",    :null => false
     t.text     "musicbrainz_id"
     t.integer  "language_id"
     t.string   "gender"
     t.integer  "origin_id"
     t.integer  "total_duration"
-    t.integer  "tracks_count",       :default => 0
-    t.boolean  "compilation",        :default => false
-    t.boolean  "mp3_exists",         :default => false
+    t.integer  "tracks_count",         :default => 0
+    t.boolean  "compilation",          :default => false
+    t.boolean  "mp3_exists",           :default => false
+    t.integer  "job_id"
+    t.datetime "job_finished_at"
+    t.integer  "job_current_track"
+    t.integer  "job_current_progress"
+    t.integer  "job_total_tracks"
+    t.string   "album_zip"
   end
 
   create_table "albums_genres", :id => false, :force => true do |t|

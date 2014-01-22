@@ -69,6 +69,49 @@
         </ul>
       </div>
       <br>
+
+      <div class="info info-title">
+        Downloader
+        <div class="btn-group pull-right">
+          <%= link_to 'Tasks',
+                      '/delayed_job',
+                      target: '_blank',
+                      class: 'btn btn-mini btn-info' %>
+        </div>
+      </div>
+      <div class="info-list download-info">
+        <ul>
+          <li class="info">
+            <div class="download-info-inner">
+              <%= link_to 'Create Album Zip',
+                          download_album_path(@album.id),
+                          id: 'download_album_link' %>
+            </div>
+          </li>
+          <li class="info download-link">
+            <% if @album.finished? %>
+              <div class="download-info-inner">
+                <%= link_to "Download Album Zip", @album.album_zip.url %>
+              </div>
+            <% end %>
+          </li>
+          <li class="info">
+            <div class="message"></div>
+          </li>
+          <li class="info">
+            <div class="download-progress"></div>
+          </li>
+          <li class="info">
+            <div class="download-info-inner">
+              <div class="progress progress-striped active progress-bar-outer">
+                <div class="progress-bar bar" style="width:0%; height: 20px;"></div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <br>
+
     </div>
     <br>
   </div>
@@ -312,3 +355,36 @@
     </div>
   <% end %>
 <% end %>
+
+<script type="text/javascript">
+  var $ = jQuery,
+      DownloadPoller;
+
+  DownloadPoller = {
+    poll: function () {
+      setTimeout(this.request, 3000);
+    },
+    request: function () {
+      $.ajax({
+        url: '/poll_album_download_data/<%= @album.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+    }
+  };
+
+  $(function () {
+    $(document).on("click", "#download_album_link", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: '/download_album/<%= @album.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
+
+      DownloadPoller.poll();
+
+    });
+  });
+</script>

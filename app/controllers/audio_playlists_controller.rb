@@ -430,7 +430,7 @@ class AudioPlaylistsController < ApplicationController
     AudioPlaylist.delay.download_playlist(params[:id])
   end
 
-  def poll_download_data
+  def poll_audio_playlist_download_data
     @audio_playlist = AudioPlaylist.find(params[:id])
   end
 

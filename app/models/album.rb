@@ -1,4 +1,7 @@
 class Album < ActiveRecord::Base
+
+  mount_uploader :album_zip, AlbumZipUploader
+
   has_many :tracks, :dependent => :destroy
   belongs_to :label
   belongs_to :publisher
@@ -28,7 +31,8 @@ class Album < ActiveRecord::Base
   attr_accessible :title_original, :label_id, :title_english, :release_year, :artist_original, :publisher_id,
                   :artist_english, :disc_num, :disc_count, :cd_code, :live_album, :explicit_lyrics, :cover, :cover_remote_url, :gender,
                   :language_id, :compilation, :origin_id, :synopsis, :genre_ids, :cover, :tracks_attributes,
-                  :to_delete, :mp3_exists
+                  :to_delete, :mp3_exists, :job_id, :job_finished_at, :job_current_track,
+                  :job_current_progress, :job_total_tracks
 
   accepts_nested_attributes_for :tracks
 
@@ -77,6 +81,31 @@ class Album < ActiveRecord::Base
 
   def self.delete_album(id)
     Delayed::Job.enqueue(DeleteAlbum.new(album_id: id))
+  end
+
+  def self.download_playlist(id)
+    find(id).download_playlist
+  end
+
+  def download_playlist
+    job = Delayed::Job.enqueue(DownloadAlbum.new(album_id: id))
+    update_attribute(:job_id, job.id)
+  end
+
+  def working?
+    job_id.present?
+  end
+
+  def finished?
+    job_finished_at.present?
+  end
+
+  def progress
+    job_current_progress
+  end
+
+  def current_track
+    job_current_track
   end
 
 end

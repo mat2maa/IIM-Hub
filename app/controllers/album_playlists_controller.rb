@@ -506,6 +506,23 @@ class AlbumPlaylistsController < ApplicationController
   #
   #end
 
+  def download_album_playlist
+    # Reset DB
+    @album_playlist = AlbumPlaylist.find(params[:id])
+    @album_playlist.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
+
+
+    AlbumPlaylist.delay.download_playlist(params[:id])
+  end
+
+  def poll_album_playlist_download_data
+    @album_playlist = AlbumPlaylist.find(params[:id])
+  end
+
   def table_column_select
     puts session[:album_playlist_checked] = params[:checked]
     render nothing: true
