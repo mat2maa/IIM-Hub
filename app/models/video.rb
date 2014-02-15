@@ -25,8 +25,7 @@ class Video < ActiveRecord::Base
                       small: "160x237>",
                       medium: "250x250>",
                       large: "500x500>" },
-                    url: "s3_domain_url",
-                    path: "/system/videos/posters/:id/:style/:id.:extension",
+                    url: "/s3_assets/system/videos/posters/:id/:style/:id.:extension",
                     default_url: "/assets/:attachment/missing_video_small.png",
                     remote: true
 

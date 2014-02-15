@@ -31,8 +31,7 @@ class Movie < ActiveRecord::Base
                       small: "160x237>",
                       medium: "250x250>",
                       large: "500x500>" },
-                    url: "s3_domain_url",
-                    path: "/system/posters/:id/:style/:id.:extension",
+                    url: "/s3_assets/system/posters/:id/:style/:id.:extension",
                     default_url: "/assets/:attachment/missing_:style.png",
                     remote: true
 
