@@ -44,7 +44,7 @@ Iim::Application.configure do
   config.action_controller.perform_caching = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
 
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
@@ -68,14 +68,14 @@ Iim::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # config/environments/production.rb
-  config.paperclip_defaults = {
-    :storage => :s3,
-    :s3_credentials => {
-      :bucket => ENV['AWS_BUCKET'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
-    }
-  }
+  # config.paperclip_defaults = {
+  #   :storage => :s3,
+  #   :s3_credentials => {
+  #     :bucket => ENV['AWS_BUCKET'],
+  #     :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+  #     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  #   }
+  # }
 
   config.after_initialize do
     Delayed::Job.scaler = :heroku_cedar
@@ -85,13 +85,13 @@ Iim::Application.configure do
   config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "INFO").upcase)
 end
 
-#PDFKit.configure do |config|
-#  config.wkhtmltopdf = Rails.root.join('vendor', 'wkhtmltopdf').to_s
-#  config.default_options = {
-#    encoding: "UTF-8",
-#    page_size: "A4"
-#  }
-#end
+# PDFKit.configure do |config|
+#   config.wkhtmltopdf = Rails.root.join('vendor', 'wkhtmltopdf').to_s
+#   config.default_options = {
+#     encoding: "UTF-8",
+#     page_size: "A4"
+#   }
+# end
 
 THALES_OPTS = {
     url: "s3_domain_url",
