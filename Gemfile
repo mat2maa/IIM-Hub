@@ -75,7 +75,7 @@ gem 'paperclip-remote'
 gem 'aws-sdk'
 gem 'rubyzip',  '~> 0.9.9'
 
-gem 'asset_sync'
+#gem 'asset_sync'
 
 gem 'bootstrap-datepicker-rails'
 gem 'select2-rails'
