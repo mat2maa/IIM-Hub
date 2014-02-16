@@ -24,8 +24,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-# Unicorn Server
-gem 'unicorn'
+# Thin Server
+gem 'thin'
 
 # Memcachier
 gem 'memcachier'

@@ -106,7 +106,7 @@
             <li class="info download-link">
               <% if @audio_playlist.finished? %>
                 <div class="download-info-inner">
-                  <%= link_to "Download Playlist Zip", @audio_playlist.audio_playlist_zip.url %>
+                  <%= link_to "Download Playlist Zip", "/zip/#{@audio_playlist.class.to_s}/#{@audio_playlist.id.to_s}.zip" %>
                 </div>
               <% end %>
             </li>

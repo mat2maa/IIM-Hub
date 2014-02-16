@@ -1,6 +1,6 @@
 class Album < ActiveRecord::Base
 
-  mount_uploader :album_zip, AlbumZipUploader
+  # mount_uploader :album_zip, AlbumZipUploader
 
   has_many :tracks, :dependent => :destroy
   belongs_to :label
