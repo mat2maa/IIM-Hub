@@ -78,7 +78,7 @@ Iim::Application.configure do
   # }
 
   config.after_initialize do
-    Delayed::Job.scaler = :heroku_cedar
+    Delayed::Job.scaler = :null
   end
 
   config.logger = Logger.new(STDOUT)
