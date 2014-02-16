@@ -76,6 +76,7 @@ class DownloadAlbumPlaylist < Struct.new(:options)
                 zipfile.add(file.sub(directory, ''), file)
               end
             end
+            FileUtils.chmod 0755, zipfile_name
 
             # tempfile = open(zipfile_name)
             # uploader = AlbumPlaylistZipUploader.new
