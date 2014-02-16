@@ -69,8 +69,8 @@ class DownloadAudioPlaylist < Struct.new(:options)
               Dir[File.join(directory, '**', '**')].each do |file|
                 zipfile.add(file.sub(directory, ''), file)
               end
-              zipfile.file.chmod(0755, zipfile_name)
             end
+            FileUtils.chmod 0755, zipfile_name
 
             # tempfile = open(zipfile_name)
             # uploader = AudioPlaylistZipUploader.new
