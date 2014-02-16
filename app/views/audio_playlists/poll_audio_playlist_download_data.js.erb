@@ -29,4 +29,7 @@ $(".download-info .download-link").html("<%= j render(partial: 'download_link',
 
 <% if !@audio_playlist.finished? %>
 DownloadPoller.poll();
+$(".download-info .progress-bar").css({
+  width: "0%"
+});
 <% end %>
