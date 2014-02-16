@@ -1,6 +1,6 @@
 class AlbumPlaylist < ActiveRecord::Base
 
-  # mount_uploader :album_playlist_zip, AlbumPlaylistZipUploader
+  mount_uploader :album_playlist_zip, AlbumPlaylistZipUploader
 
   has_many :album_playlist_items, :dependent => :destroy
   has_many :albums, :through => :album_playlist_items

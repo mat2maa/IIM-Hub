@@ -1,3 +1,3 @@
 <% if @album_playlist.finished? %>
-  <div class="download-info-inner"><%= link_to "Download Playlist Zip", "/zip/#{@album_playlist.class.to_s}/#{@album_playlist.id.to_s}.zip" %></div>
+  <div class="download-info-inner"><%= link_to "Download Playlist Zip", @album_playlist.album_playlist_zip.url %></div>
 <% end %>

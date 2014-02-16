@@ -24,7 +24,7 @@ class DownloadAlbum < Struct.new(:options)
 
     get_mp3_info = [@album_type, @album_id, @albums, @tracks]
 
-    # Download files to public/zip/[Playlist ID] directory
+    # Download files to public/tmp/[Playlist ID] directory
     ftp = Net::FTP::new("imagesinmotion.no-ip.biz")
     ftp.passive = true
 
@@ -47,9 +47,9 @@ class DownloadAlbum < Struct.new(:options)
             files.each.with_index do |file, index|
               filesize = ftp.size(file)
               transferred = 0
-              # Output file to "#{Rails.root}/public/zip/[@album_type]/[@album_id]/[@album_id]/[@track_number].mp3"
-              FileUtils.mkdir_p "#{Rails.root}/public/zip/#{album_type}/#{album_id}/#{albums[index]}"
-              ftp.get(file, "#{Rails.root}/public/zip/#{album_type}/#{album_id}/#{file}", 819200) { |data|
+              # Output file to "#{Rails.root}/public/tmp/[@album_type]/[@album_id]/[@album_id]/[@track_number].mp3"
+              FileUtils.mkdir_p "#{Rails.root}/public/tmp/#{album_type}/#{album_id}/#{albums[index]}"
+              ftp.get(file, "#{Rails.root}/public/tmp/#{album_type}/#{album_id}/#{file}", 819200) { |data|
                 transferred += data.size
                 file_percent = ((transferred).to_f/filesize.to_f)*100
                 album.update_attributes job_current_progress: file_percent.round,
@@ -59,8 +59,8 @@ class DownloadAlbum < Struct.new(:options)
             end
 
             # Zip files
-            directory = "#{Rails.root}/public/zip/#{album_type}/#{album_id}/"
-            zipfile_name = "#{Rails.root}/public/zip/#{album_type}/#{album_id}.zip"
+            directory = "#{Rails.root}/public/tmp/#{album_type}/#{album_id}/"
+            zipfile_name = "#{Rails.root}/public/tmp/#{album_type}/#{album_id}.zip"
 
             # Remove previous zip file
             FileUtils.rm_f(zipfile_name)
@@ -71,12 +71,12 @@ class DownloadAlbum < Struct.new(:options)
             end
             FileUtils.chmod 0755, zipfile_name
 
-            # tempfile = open(zipfile_name)
-            # uploader = AlbumZipUploader.new
-            # uploader.store!(tempfile)
-            # p = Album.find(album_id)
-            # p.album_zip = File.open(zipfile_name)
-            # p.save!
+            tempfile = open(zipfile_name)
+            uploader = AlbumZipUploader.new
+            uploader.store!(tempfile)
+            p = Album.find(album_id)
+            p.album_zip = File.open(zipfile_name)
+            p.save!
           rescue => e
             p e.message
             p e.backtrace
