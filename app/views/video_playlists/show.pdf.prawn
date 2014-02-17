@@ -83,7 +83,7 @@ prawn_document top_margin: 100,
 
     synopsis = pdf.make_cell(content: video.synopsis) if video.synopsis.present?
 
-    image_path = "http://s3.amazonaws.com/iim#{video.poster.path(:small)}" if video.poster.present?
+    image_path = video.poster.path(:small) if video.poster.present?
 
     pdf.bounding_box([0, pdf.cursor], width: 480, height: 140) do
 

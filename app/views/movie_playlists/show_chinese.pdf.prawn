@@ -90,7 +90,7 @@ prawn_document top_margin: 100,
     imdb_synopsis = pdf.make_cell(content: movie.imdb_synopsis) if movie.imdb_synopsis.present?
     #critics_review = pdf.make_cell(content: movie.critics_review.html_safe) if movie.critics_review.present?
 
-    image_path = "http://s3.amazonaws.com/iim#{movie.poster.path(:small)}" if movie.poster.present?
+    image_path = movie.poster.path(:small) if movie.poster.present?
 
     pdf.bounding_box([0, pdf.cursor], width: 480, height: 160) do
 
