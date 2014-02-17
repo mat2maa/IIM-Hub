@@ -38,9 +38,11 @@ $(loader).fadeToggle('fast', function () {
     autoclose: true
   });
 
+  var maxHeight = $(window).height() > 768 ? '600px' : '400px';
+
   $(modal).modal({
     width: '80%',
-    maxHeight: '600px'
+    maxHeight: maxHeight
   });
 
   $(loader).hide();

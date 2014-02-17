@@ -11,9 +11,11 @@ var title = '.modal-title',
 $(loader).fadeToggle('fast', function () {
   $(content).hide().html('<%= j render('dialog_form') %>').show();
 
+  var maxHeight = $(window).height() > 768 ? '600px' : '400px';
+
   $(modal).modal({
     width: '80%',
-    maxHeight: '600px'
+    maxHeight: maxHeight
   });
 
   $(loader).hide();

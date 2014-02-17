@@ -21,7 +21,7 @@
 
     <td data-title="Episode Title" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= link_to playlist_item.master.episode_title,
-                  edit_video_path(playlist_item.master.video.id),
+                  edit_master_path(playlist_item.master.id),
                   target: "_blank" %>
       &nbsp;
     </td>
