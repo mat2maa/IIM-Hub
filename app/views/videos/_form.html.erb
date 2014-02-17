@@ -171,7 +171,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.video_distributor_id, 'Distributor' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.video_distributor_id, 'Distributor' %></div>
       </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
@@ -184,7 +184,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.laboratory_id, 'Production Studio' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.laboratory_id, 'Production Studio' %></div>
       </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
@@ -197,7 +197,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.production_studio_id, 'Laboratory' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.production_studio_id, 'Laboratory' %></div>
       </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
@@ -277,7 +277,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
+        <div class="input_field_label span3"><%= input_field_label @video.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
       </div>
       <%= f.input_field :synopsis,
                         tabindex: autotab,
@@ -288,7 +288,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
+        <div class="input_field_label span3"><%= input_field_label @video.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
       </div>
       <%= f.input_field :chinese_synopsis,
                         tabindex: autotab,
@@ -299,7 +299,7 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span6"><%= input_field_label @video.remarks, 'Remarks' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.remarks, 'Remarks' %></div>
       </div>
       Only use this remarks field as a last resort
       <%= f.input_field :remarks,

@@ -198,7 +198,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.movie_distributor_id, 'Distributor' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.movie_distributor_id, 'Distributor' %></div>
     </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
@@ -211,7 +211,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.laboratory_id, 'Production Studio' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.laboratory_id, 'Production Studio' %></div>
     </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
@@ -224,7 +224,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.production_studio_id, 'Laboratory' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.production_studio_id, 'Laboratory' %></div>
     </div>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
@@ -415,7 +415,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.airline_countries, 'Airline Countries' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.airline_countries, 'Airline Countries' %></div>
     </div>
     <%= f.input_field :airline_countries,
                       placeholder: "Airline Countries",
@@ -468,7 +468,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.cast, 'Cast' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.cast, 'Cast' %></div>
     </div>
     <%= f.input_field :cast,
                       placeholder: "Cast",
@@ -479,7 +479,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.chinese_cast, 'Chinese Cast' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_cast, 'Chinese Cast' %></div>
     </div>
     <%= f.input_field :chinese_cast,
                       placeholder: "Chinese Cast",
@@ -505,7 +505,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
     </div>
     <%= f.input_field :synopsis,
                       tabindex: autotab,
@@ -516,7 +516,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
     </div>
     <%= f.input_field :chinese_synopsis,
                       tabindex: autotab,
@@ -527,7 +527,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.imdb_synopsis, 'IMDB Synopsis:' %> <span id='imdb_char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.imdb_synopsis, 'IMDB Synopsis:' %> <span id='imdb_char_count'></span> characters</div>
     </div>
     <%= f.input_field :imdb_synopsis,
                       tabindex: autotab,
@@ -538,7 +538,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.critics_review, 'Critics Review' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.critics_review, 'Critics Review' %></div>
     </div>
     <%= f.input_field :critics_review,
                       tabindex: autotab,
@@ -558,7 +558,7 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span6"><%= input_field_label @movie.remarks, 'Remarks' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.remarks, 'Remarks' %></div>
     </div>
     Only use this remarks field as a last resort
     <%= f.input_field :remarks,
