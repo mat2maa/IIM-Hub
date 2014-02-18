@@ -31,11 +31,6 @@
       &nbsp;
     </td>
 
-    <td data-title="Duration" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
-      <%= playlist_item.master.duration %>
-      &nbsp;
-    </td>
-
     <td data-title="Tape #" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.location %>
       &nbsp;
@@ -93,6 +88,11 @@
 
     <td data-title="Time Out" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= playlist_item.master.time_out %>
+      &nbsp;
+    </td>
+
+    <td data-title="Duration" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
+      <%= playlist_item.master.duration %>
       &nbsp;
     </td>
 

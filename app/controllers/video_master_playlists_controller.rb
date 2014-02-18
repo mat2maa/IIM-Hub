@@ -415,7 +415,7 @@ class VideoMasterPlaylistsController < ApplicationController
   private
 
   def get_columns
-    @columns = ['#', 'Programme Title', 'Episode Title', 'Episode Number', 'Duration', 'Tape #', 'Lang Track 1', 'Lang Track 2', 'Lang Track 3', 'Lang Track 4', 'Lang Subs 1', 'Lang Subs 2', 'Tape Media', 'Tape Format', 'Tape Size', 'Time In', 'Time Out', 'Mastering', 'Aspect Ratio']
+    @columns = ['#', 'Programme Title', 'Episode Title', 'Episode Number', 'Tape #', 'Lang Track 1', 'Lang Track 2', 'Lang Track 3', 'Lang Track 4', 'Lang Subs 1', 'Lang Subs 2', 'Tape Media', 'Tape Format', 'Tape Size', 'Time In', 'Time Out', 'Duration', 'Mastering', 'Aspect Ratio']
   end
 
 end
