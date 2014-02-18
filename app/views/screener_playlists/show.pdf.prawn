@@ -71,8 +71,8 @@ prawn_document top_margin: 100,
 
   length = @screener_playlist.screeners.length
   @screener_playlist.screeners.each.with_index do |screener, index|
-    title = pdf.make_cell(content: screener.video.programme_title) if screener.video.programme_title.present?
-    episode_title = pdf.make_cell(content: screener.episode_title) if screener.episode_title.present?
+    title = pdf.make_cell(content: screener.video.programme_title.titleize) if screener.video.programme_title.present?
+    episode_title = pdf.make_cell(content: screener.episode_title.titleize) if screener.episode_title.present?
 
     screener_distributor = pdf.make_cell(content: screener.video.video_distributor.company_name) if screener.video.video_distributor.present?
     genres = pdf.make_cell(content: screener.video.video_genres_string_with_parent) if screener.video.video_genres_string_with_parent.present?

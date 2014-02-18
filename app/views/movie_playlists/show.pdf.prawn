@@ -72,8 +72,8 @@ prawn_document top_margin: 100,
 
   length = @movie_playlist.movies.length
   @movie_playlist.movies.each.with_index do |movie, index|
-    title = pdf.make_cell(content: movie.movie_title.capitalize) if movie.movie_title.present?
-    foreign_language_title = pdf.make_cell(content: movie.foreign_language_title.capitalize + " (" + movie.movie_type.name.capitalize + ")") if movie.foreign_language_title.present?
+    title = pdf.make_cell(content: movie.movie_title.titleize) if movie.movie_title.present?
+    foreign_language_title = pdf.make_cell(content: movie.foreign_language_title.titleize + " (" + movie.movie_type.name.titleize + ")") if movie.foreign_language_title.present?
 
     director = pdf.make_cell(content: movie.director) if movie.director.present?
     cast = pdf.make_cell(content: movie.cast) if movie.cast.present?

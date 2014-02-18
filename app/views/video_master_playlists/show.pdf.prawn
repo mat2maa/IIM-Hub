@@ -71,7 +71,7 @@ prawn_document top_margin: 100,
 
   length = @video_master_playlist.masters.length
   @video_master_playlist.masters.each.with_index do |video_master, index|
-    title = pdf.make_cell(content: video_master.episode_title) if video_master.episode_title.present?
+    title = pdf.make_cell(content: video_master.episode_title.titleize) if video_master.episode_title.present?
 
     tape_media = pdf.make_cell(content: video_master.tape_media) if video_master.tape_media.present?
     tape_format = pdf.make_cell(content: video_master.tape_format) if video_master.tape_format.present?
