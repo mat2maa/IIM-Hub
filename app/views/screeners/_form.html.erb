@@ -55,6 +55,9 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener.episode_title, 'Episode Title' %></div>
+        </div>
         <%= f.input_field :episode_title,
                           class: 'screener_title',
                           placeholder: 'Episode Title',
@@ -62,12 +65,18 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener.episode_number, 'Episode Number' %></div>
+        </div>
         <%= f.input_field :episode_number,
                           placeholder: 'Episode Number',
                           class: 'span3' %>
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener.remarks, 'Remarks' %></div>
+        </div>
         <%= f.input_field :remarks,
                           as: :select,
                           collection: ['VHS', 'B&W', 'Chinese Subs', 'Other'],
@@ -77,12 +86,18 @@
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener.remarks_other, 'Other' %></div>
+        </div>
         <%= f.input_field :remarks_other,
                           placeholder: 'Other',
                           class: 'span3' %>
       </div>
 
       <div class="controls controls-row">
+        <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @screener.location, 'Location' %></div>
+        </div>
         <%= f.input_field :location,
                           as: :select,
                           collection: %w(SIN BJS HKG),
