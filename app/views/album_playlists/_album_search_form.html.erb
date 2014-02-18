@@ -33,7 +33,7 @@
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: albums,
                         field: :release_year_eq,
-                        value: '',
+                        value: params[:q].present? && params[:q][:release_year_eq].present? ? params[:q][:release_year_eq] : '',
                         input_id: 'release_year_eq_datepicker',
                         date_format: 'yyyy',
                         date_viewmode: 'years',
