@@ -184,27 +184,27 @@
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.laboratory_id, 'Production Studio' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.laboratory_id, 'Laboratory' %></div>
       </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
                           field: :laboratory_id,
                           link_path: suppliers_path,
-                          collection: @production_studios,
-                          placeholder: 'Production Studio',
+                          collection: @laboratories,
+                          placeholder: 'Laboratory',
                           span: 'span6'} %>
     </div>
 
     <div class="controls controls-row">
       <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.production_studio_id, 'Laboratory' %></div>
+        <div class="input_field_label span3"><%= input_field_label @video.production_studio_id, 'Production Studio' %></div>
       </div>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
                           field: :production_studio_id,
                           link_path: suppliers_path,
-                          collection: @laboratories,
-                          placeholder: 'Laboratory',
+                          collection: @production_studios,
+                          placeholder: 'Production Studio',
                           span: 'span6'} %>
     </div>
 

@@ -194,6 +194,9 @@
         <% if @movie.movie_distributor.present? %>
           <li class="info">Distributor: <%= @movie.movie_distributor.company_name %></li>
         <% end %>
+        <% if @movie.production_studio.present? %>
+          <li class="info">Production Studio: <%= @movie.production_studio.company_name %></li>
+        <% end %>
         <% if @movie.laboratory.present? %>
           <li class="info">Laboratory: <%= @movie.laboratory.company_name %></li>
         <% end %>
