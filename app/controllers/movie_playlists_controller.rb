@@ -95,11 +95,11 @@ class MoviePlaylistsController < ApplicationController
                                .collect { |language| language.name }
 
     if params[:q].present?
-      @original = params[:q][:movie_title_or_foreign_language_title_cont_any]
-      @the = params[:q][:movie_title_or_foreign_language_title_cont_any][0..3].downcase if params[:q][:movie_title_or_foreign_language_title_cont_any].present?
-      if @the == 'the ' && params[:q][:movie_title_or_foreign_language_title_cont_any].present?
-        @title = params[:q][:movie_title_or_foreign_language_title_cont_any][4..-1].downcase
-        params[:q][:movie_title_or_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      @original = params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any]
+      @the = params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any][0..3].downcase if params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any].present?
+      if @the == 'the ' && params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any].present?
+        @title = params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any][4..-1].downcase
+        params[:q][:movie_title_or_foreign_language_title_or_chinese_movie_title_cont_any] = ["#{@original}", "#{@title}, the"]
       end
     end
 
