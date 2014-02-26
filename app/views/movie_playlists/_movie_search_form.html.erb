@@ -15,13 +15,13 @@
   </div>
 
   <div class="controls controls-row">
-    <%= movies.input_field :cast_cont,
+    <%= movies.input_field :cast_or_chinese_cast_cont_any,
                            placeholder: 'Cast',
                            class: 'span12' %>
   </div>
 
   <div class="controls controls-row">
-    <%= movies.input_field :director_cont,
+    <%= movies.input_field :director_or_chinese_director_cont_any,
                            placeholder: 'Director',
                            class: 'span12' %>
   </div>
@@ -42,6 +42,14 @@
                            include_blank: true,
                            class: 'select2 span12',
                            placeholder: 'Laboratory' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= movies.input_field :production_studio_id_eq,
+                           collection: @production_studios,
+                           include_blank: true,
+                           class: 'select2 span12',
+                           placeholder: 'Production Studio' %>
   </div>
 
   <div class="controls controls-row">

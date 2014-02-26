@@ -2,6 +2,17 @@
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <div class="span3">
     <div class="poster-title poster-info">
+      Actions
+    </div>
+    <div class="poster-list">
+      <ul>
+        <li class="poster-info">
+          <%= f.button :submit, class: 'btn btn-small' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="poster-title poster-info">
       Poster image
     </div>
     <div class="poster-list">
@@ -181,7 +192,12 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.theatrical_release_year, 'Theatrical Release Year' %></div>
+      <div class="input_field_label span2"><%= input_field_label @movie.theatrical_release_year,
+                                                                 'Theatrical Release Year' %></div>
+      <div class="input_field_label span2"><%= input_field_label @movie.airline_release_date,
+                                                                 'Airline Release Date' %></div>
+      <div class="input_field_label span2"><%= input_field_label @movie.personal_video_date,
+                                                                 'Personal Video Date' %></div>
     </div>
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: f,
@@ -193,6 +209,59 @@
                         date_minviewmode: 'years',
                         datepicker_behaviour: 'datepicker-years',
                         placeholder: 'Theatrical Release Year',
+                        span: 'span2'} %>
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: f,
+                        field: :airline_release_date,
+                        value: @movie.airline_release_date,
+                        input_id: 'airline_release_date_datepicker',
+                        date_format: 'mm/yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'months',
+                        datepicker_behaviour: 'datepicker-months',
+                        placeholder: 'Airline Release Date',
+                        span: 'span2'} %>
+
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: f,
+                        field: :personal_video_date,
+                        value: @movie.personal_video_date,
+                        input_id: 'personal_video_date_datepicker',
+                        date_format: 'mm/yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'months',
+                        datepicker_behaviour: 'datepicker-months',
+                        placeholder: 'Personal Video Date',
+                        span: 'span2'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_received_date, 'Screener Recieved Date' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_destroyed_date, 'Screener Destroyed Date' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: f,
+                        field: :screener_received_date,
+                        value: @movie.screener_received_date,
+                        input_id: 'screener_received_date',
+                        date_format: 'dd/mm/yyyy',
+                        date_viewmode: 'days',
+                        date_minviewmode: 'days',
+                        datepicker_behaviour: 'datepicker-days',
+                        placeholder: 'Screener Recieved Date',
+                        span: 'span3'} %>
+
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: f,
+                        field: :screener_destroyed_date,
+                        value: @movie.screener_destroyed_date,
+                        input_id: 'screener_destroyed_date',
+                        date_format: 'dd/mm/yyyy',
+                        date_viewmode: 'days',
+                        date_minviewmode: 'days',
+                        datepicker_behaviour: 'datepicker-days',
+                        placeholder: 'Screener Destroyed Date',
                         span: 'span3'} %>
   </div>
 
@@ -236,154 +305,11 @@
   </div>
 
   <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.airline_release_date, 'Airline Release Date' %></div>
-      <div class="input_field_label span3"><%= input_field_label @movie.personal_video_date, 'Personal Video Date' %></div>
-    </div>
-    <%= render partial: 'application/bootstrap_append_datepicker',
-               locals: {f: f,
-                        field: :airline_release_date,
-                        value: @movie.airline_release_date,
-                        input_id: 'airline_release_date_datepicker',
-                        date_format: 'mm/yyyy',
-                        date_viewmode: 'years',
-                        date_minviewmode: 'months',
-                        datepicker_behaviour: 'datepicker-months',
-                        placeholder: 'Airline Release Date',
-                        span: 'span3'} %>
-
-    <%= render partial: 'application/bootstrap_append_datepicker',
-               locals: {f: f,
-                        field: :personal_video_date,
-                        value: @movie.personal_video_date,
-                        input_id: 'personal_video_date_datepicker',
-                        date_format: 'mm/yyyy',
-                        date_viewmode: 'years',
-                        date_minviewmode: 'months',
-                        datepicker_behaviour: 'datepicker-months',
-                        placeholder: 'Personal Video Date',
-                        span: 'span3'} %>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.screener_received_date, 'Screener Recieved Date' %></div>
-      <div class="input_field_label span3"><%= input_field_label @movie.screener_destroyed_date, 'Screener Destroyed Date' %></div>
-    </div>
-    <%= render partial: 'application/bootstrap_append_datepicker',
-               locals: {f: f,
-                        field: :screener_received_date,
-                        value: @movie.screener_received_date,
-                        input_id: 'screener_received_date',
-                        date_format: 'dd/mm/yyyy',
-                        date_viewmode: 'days',
-                        date_minviewmode: 'days',
-                        datepicker_behaviour: 'datepicker-days',
-                        placeholder: 'Screener Recieved Date',
-                        span: 'span3'} %>
-
-    <%= render partial: 'application/bootstrap_append_datepicker',
-               locals: {f: f,
-                        field: :screener_destroyed_date,
-                        value: @movie.screener_destroyed_date,
-                        input_id: 'screener_destroyed_date',
-                        date_format: 'dd/mm/yyyy',
-                        date_viewmode: 'days',
-                        date_minviewmode: 'days',
-                        datepicker_behaviour: 'datepicker-days',
-                        placeholder: 'Screener Destroyed Date',
-                        span: 'span3'} %>
-  </div>
-
-  <div class="controls controls-row">
     <%= f.input_field :has_press_kit,
                       :as => :boolean,
                       tabindex: autotab,
                       :inline_label => "Photo CD/Press Kit" %>
 
-    <%= f.input_field :has_poster,
-                      :as => :boolean,
-                      tabindex: autotab,
-                      :inline_label => "Poster" %>
-
-    <label class="number-input-label">
-      &nbsp; Poster Quantity
-      <%= f.input_field :poster_quantity,
-                        :type => :number,
-                        :placeholder => "Quantity",
-                        tabindex: autotab,
-                        :class => 'span1' %>
-    </label>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.rating, 'Rating' %></div>
-    </div>
-    <%= f.input_field :rating,
-                      placeholder: "Rating",
-                      as: :select,
-                      collection: %w(NR G PG PG-13 R NC-17),
-                      include_blank: true,
-                      tabindex: autotab,
-                      class: 'select2 span3' %>
-  </div>
-
-  <div class="controls controls-row">
-    <label class="number-input-label">
-      &nbsp; Theatrical Runtime
-      <%= f.input_field :theatrical_runtime,
-                        :type => :number,
-                        :placeholder => "Theatrical Runtime",
-                        tabindex: autotab,
-                        :class => 'span2' %>
-    </label>
-  </div>
-
-  <div class="controls controls-row">
-    <label class="number-input-label">
-      &nbsp; Edited Runtime
-      <%= f.input_field :edited_runtime,
-                        :type => :number,
-                        :placeholder => "Edited Runtime",
-                        tabindex: autotab,
-                        :class => 'span2' %>
-    </label>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.release_versions, 'Release Versions' %></div>
-    </div>
-    <div class="select2-container-outer span3">
-      <%= f.input_field :release_versions,
-                        :as => :select,
-                        :multiple => true,
-                        :collection => Movie::RELEASE_VERSIONS,
-                        :placeholder => "Release Versions",
-                        :class => 'select2 span3' %>
-    </div>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks, 'Screener Remarks' %></div>
-      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks_other, 'Screener Remarks Other' %></div>
-    </div>
-    <div class="select2-container-outer span3">
-      <%= f.input_field :screener_remarks,
-                        :as => :select,
-                        :multiple => true,
-                        :collection => Movie::SCREENER_REMARKS,
-                        :placeholder => "Screener Remarks",
-                        tabindex: autotab,
-                        :class => 'select2 span3' %>
-    </div>
-    <%= f.input_field :screener_remarks_other,
-                      tabindex: autotab,
-                      placeholder: "Screener Remarks Other",
-                      disabled: @movie.screener_remarks.include?("Other") ? false : true,
-                      :class => 'span3' %>
   </div>
 
   <div class="controls controls-row">
@@ -398,7 +324,34 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
+      <div class="input_field_label span2"><%= input_field_label @movie.rating, 'Rating' %></div>
+      <div class="input_field_label span2"><%= input_field_label @movie.theatrical_runtime,
+                                                                 'Theatrical Runtime' %></div>
+      <div class="input_field_label span2"><%= input_field_label @movie.edited_runtime, 'Edited Runtime' %></div>
+    </div>
+    <%= f.input_field :rating,
+                      placeholder: "Rating",
+                      as: :select,
+                      collection: %w(NR G PG PG-13 R NC-17),
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span2' %>
+    <%= f.input_field :theatrical_runtime,
+                      :type => :number,
+                      :placeholder => "Theatrical Runtime",
+                      tabindex: autotab,
+                      :class => 'span2' %>
+    <%= f.input_field :edited_runtime,
+                      :type => :number,
+                      :placeholder => "Edited Runtime",
+                      tabindex: autotab,
+                      :class => 'span2' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
       <div class="input_field_label span3"><%= input_field_label @movie.airline_rights, 'Airline Rights' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.release_versions, 'Release Versions' %></div>
     </div>
     <%= f.input_field :airline_rights,
                       placeholder: "Airline Rights",
@@ -411,18 +364,14 @@
                       include_blank: true,
                       tabindex: autotab,
                       class: 'select2 span3' %>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.airline_countries, 'Airline Countries' %></div>
+    <div class="select2-container-outer span3">
+      <%= f.input_field :release_versions,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => Movie::RELEASE_VERSIONS,
+                        :placeholder => "Release Versions",
+                        :class => 'select2 span3' %>
     </div>
-    <%= f.input_field :airline_countries,
-                      placeholder: "Airline Countries",
-                      disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
-                      tabindex: autotab,
-                      class: 'span6',
-                      rows: 3 %>
   </div>
 
   <div class="controls controls-row">
@@ -453,6 +402,39 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks, 'Screener Remarks' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.screener_remarks_other, 'Screener Remarks Other' %></div>
+    </div>
+    <div class="select2-container-outer span3">
+      <%= f.input_field :screener_remarks,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => Movie::SCREENER_REMARKS,
+                        :placeholder => "Screener Remarks",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+    <%= f.input_field :screener_remarks_other,
+                      tabindex: autotab,
+                      placeholder: "Screener Remarks Other",
+                      disabled: @movie.screener_remarks.include?("Other") ? false : true,
+                      :class => 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @movie.airline_countries, 'Airline Countries' %></div>
+    </div>
+    <%= f.input_field :airline_countries,
+                      placeholder: "Airline Countries",
+                      disabled: ((@movie.airline_rights=="Worldwide") || (@movie.airline_rights=="North America")) ? true : false,
+                      tabindex: autotab,
+                      class: 'span6',
+                      rows: 3 %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
       <div class="input_field_label span3"><%= input_field_label @movie.movie_genre_ids, 'Movie Genres' %></div>
     </div>
     <div class="select2-container-outer span3">
@@ -462,36 +444,31 @@
                         :collection => MovieGenre.order("name"),
                         :placeholder => "Movie Genres",
                         tabindex: autotab,
-                        :class => 'select2 span3' %>
+                        :class => 'select2 span6' %>
     </div>
   </div>
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
       <div class="input_field_label span3"><%= input_field_label @movie.cast, 'Cast' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_cast, 'Chinese Cast' %></div>
     </div>
     <%= f.input_field :cast,
                       placeholder: "Cast",
                       tabindex: autotab,
-                      class: 'span6',
+                      class: 'span3',
                       rows: 3 %>
-  </div>
-
-  <div class="controls controls-row">
-    <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.chinese_cast, 'Chinese Cast' %></div>
-    </div>
     <%= f.input_field :chinese_cast,
                       placeholder: "Chinese Cast",
                       tabindex: autotab,
-                      class: 'span6',
+                      class: 'span3',
                       rows: 3 %>
   </div>
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
       <div class="input_field_label span3"><%= input_field_label @movie.director, 'Director' %></div>
-      <div class="input_field_label span3"><%= input_field_label @movie.chinese_director, 'Director (Chinese)' %></div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_director, 'Chinese Director' %></div>
     </div>
     <%= f.input_field :director,
                       class: 'span3',
@@ -500,7 +477,7 @@
     <%= f.input_field :chinese_director,
                       tabindex: autotab,
                       class: 'span3',
-                      placeholder: "Director (Chinese)" %>
+                      placeholder: "Chinese Director" %>
   </div>
 
   <div class="controls controls-row">
@@ -611,6 +588,21 @@
     $('#movie_imdb_synopsis').on("keyup change", function () {
       imdbChars = $('#movie_imdb_synopsis').val().length;
       $('#imdb_char_count').html(imdbChars);
+    });
+
+    $("#movie_theatrical_runtime").on("keyup change", function () {
+      if($(this).val() >= 0) {
+        var currentValues = $('#movie_release_versions').select2("val");
+        if(($(this).val() !== "0" && $(this).val() !== "") && jQuery.inArray( "Th", currentValues ) == -1) {
+          currentValues.push("Th");
+          $("#movie_release_versions").select2("val", currentValues);
+        } else if(($(this).val() == "0" || $(this).val() == "") && jQuery.inArray( "Th", currentValues ) == 0) {
+          currentValues = jQuery.grep(currentValues, function(value) {
+            return value != "Th";
+          });
+          $("#movie_release_versions").select2("val", currentValues);
+        }
+      }
     });
 
     //AJAX Modal

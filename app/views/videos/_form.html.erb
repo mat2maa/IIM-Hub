@@ -2,6 +2,17 @@
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <div class="span3">
     <div class="poster-title poster-info">
+      Actions
+    </div>
+    <div class="poster-list">
+      <ul>
+        <li class="poster-info">
+          <%= f.button :submit, class: 'btn btn-small' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="poster-title poster-info">
       Poster image
     </div>
     <div class="poster-list">
@@ -44,280 +55,313 @@
         </div>
       </ul>
     </div>
-    <% if controller.action_name != 'new' %>
-      <div class="poster-title poster-info">
-        Screeners
-        <!-- Button to trigger modal -->
-        <%= link_to 'Add Screener',
-                    new_screener_path(:id => params[:id]),
-                    id: 'add_screener_to_video',
-                    data: {toggle: 'modal', target: '#screener-modal'} %>
-      </div>
-      <div class="poster-list">
-        <ul id="screeners_list">
-          <%= render partial: 'screeners',
-                     locals: {video_id: @video.id} %>
-        </ul>
-      </div>
-      <div class="poster-title poster-info">
-        Masters
-        <!-- Button to trigger modal -->
-        <%= link_to 'Add Master',
-                    new_master_path(:id => params[:id]),
-                    id: 'add_master_to_video',
-                    data: {toggle: 'modal', target: '#master-modal'} %>
-      </div>
-      <div class="poster-list">
-        <ul id="masters_list">
-          <%= render partial: 'masters',
-                     locals: {video_id: @video.id} %>
-        </ul>
-      </div>
-    <% end %>
   </div>
   <!--/span-->
 
   <div class="span6">
   <div class="content">
-    <% if controller.action_name != 'new' %>
-      <div class="tabbable">
-        <ul class="nav nav-tabs pre-nav-below">
+  <% if controller.action_name != 'new' %>
+    <div class="tabbable">
+      <ul class="nav nav-tabs pre-nav-below">
+        <li>
+          <%= link_to "Previous",
+                      edit_video_path(@video.previous.id) if @video.previous.present? %>
+        </li>
+        <li>
+          <%= link_to "Next",
+                      edit_video_path(@video.next.id) if @video.next.present? %>
+        </li>
+        <li>
+          <%= link_to 'View Movie',
+                      video_path(@video) %>
+        </li>
+        <li>
+          <%= link_to "New Movie",
+                      new_video_path %>
+        </li>
+        <% if permitted_to? :admin_delete,
+                            :videos %>
           <li>
-            <%= link_to "Previous",
-                        edit_video_path(@video.previous.id) if @video.previous.present? %>
+            <%= link_to 'Delete',
+                        video_url(@video),
+                        method: :delete,
+                        confirm: 'Are you sure?' %>
           </li>
-          <li>
-            <%= link_to "Next",
-                        edit_video_path(@video.next.id) if @video.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'View Movie',
-                        video_path(@video) %>
-          </li>
-          <li>
-            <%= link_to "New Movie",
-                        new_video_path %>
-          </li>
-          <% if permitted_to? :admin_delete,
-                              :videos %>
-            <li>
-              <%= link_to 'Delete',
-                          video_url(@video),
-                          method: :delete,
-                          confirm: 'Are you sure?' %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-
-      <br>
-
-    <% end %>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.programme_title, 'Video Title' %></div>
-        <div class="input_field_label span3"><%= input_field_label @video.chinese_programme_title, 'Chinese Video Title' %></div>
-      </div>
-      <%= f.hidden_field :movie_id,
-                         value: @video.movie_id %>
-
-      <%= f.input_field :programme_title,
-                        placeholder: "Video Title",
-                        tabindex: autotab,
-                        class: 'span3' %>
-
-      <%= f.input_field :chinese_programme_title,
-                        placeholder: "Chinese Video Title",
-                        tabindex: autotab,
-                        class: 'span3' %>
+        <% end %>
+      </ul>
     </div>
 
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.video_type, 'Video Type' %></div>
-        <div class="input_field_label span3"><%= input_field_label @video.foreign_language_title, 'Foreign Language Title' %></div>
-      </div>
-      <%= f.input_field :video_type,
-                        placeholder: "Video Type",
-                        as: :select,
-                        collection: Video::VIDEO_TYPES,
-                        include_blank: true,
-                        tabindex: autotab,
-                        class: 'select2 span3' %>
-
-      <%= f.input_field :foreign_language_title,
-                        placeholder: "Foreign Language Title",
-                        tabindex: autotab,
-                        class: 'span3' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.production_year, 'Production Year' %></div>
-      </div>
-      <%= render partial: 'application/bootstrap_append_datepicker',
-                 locals: {f: f,
-                          field: :production_year,
-                          value: @video.production_year,
-                          input_id: 'production_year_datepicker',
-                          date_format: 'yyyy',
-                          date_viewmode: 'years',
-                          date_minviewmode: 'years',
-                          datepicker_behaviour: 'datepicker-years',
-                          placeholder: 'Production Year',
-                          span: 'span3'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.video_distributor_id, 'Distributor' %></div>
-      </div>
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :video_distributor_id,
-                          link_path: suppliers_path,
-                          collection: @video_distributors,
-                          placeholder: 'Distributor',
-                          span: 'span6'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.laboratory_id, 'Laboratory' %></div>
-      </div>
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :laboratory_id,
-                          link_path: suppliers_path,
-                          collection: @laboratories,
-                          placeholder: 'Laboratory',
-                          span: 'span6'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.production_studio_id, 'Production Studio' %></div>
-      </div>
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :production_studio_id,
-                          link_path: suppliers_path,
-                          collection: @production_studios,
-                          placeholder: 'Production Studio',
-                          span: 'span6'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.commercial_run_time, 'Run Time (Commercial)' %></div>
-      </div>
-      <%= f.input_field :commercial_run_time_id,
-                        placeholder: "Run Time (Commercial)",
-                        as: :select,
-                        include_blank: true,
-                        tabindex: autotab,
-                        collection: CommercialRunTime.connection.execute(CommercialRunTime.select('minutes, id').to_sql).to_a,
-                        class: 'select2 span3' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.video_genre_ids, 'Video Genres' %></div>
-        <div class="input_field_label span3"><%= input_field_label @video.episodes_available, 'No. of Episodes Available' %></div>
-      </div>
-      <div class="select2-container-outer span3">
-        <%= f.input_field :video_genre_ids,
-                          :as => :select,
-                          :multiple => true,
-                          :collection => VideoGenre.order("name"),
-                          :placeholder => "Video Genres",
-                          tabindex: autotab,
-                          :class => 'select2 span3' %>
-      </div>
-
-      <%= f.input_field :episodes_available,
-                        tabindex: autotab,
-                        placeholder: 'No. of Episodes Available',
-                        class: 'span3' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.language_tracks, 'Available Language Tracks' %></div>
-        <div class="input_field_label span3"><%= input_field_label @video.language_subtitles, 'Available Language Subtitles' %></div>
-      </div>
-      <div class="select2-container-outer span3">
-        <%= f.input_field :language_tracks,
-                          :as => :select,
-                          :multiple => true,
-                          :collection => @languages,
-                          :placeholder => "Available Language Tracks",
-                          tabindex: autotab,
-                          :class => 'select2 span3' %>
-      </div>
-
-      <div class="select2-container-outer span3">
-        <%= f.input_field :language_subtitles,
-                          :as => :select,
-                          :multiple => true,
-                          :collection => @languages,
-                          :placeholder => "Available Language Subtitles",
-                          tabindex: autotab,
-                          :class => 'select2 span3' %>
-      </div>
-    </div>
-
-    <div class="controls controls-row">
-      <%= f.input_field :on_going_series,
-                        :as => :boolean,
-                        tabindex: autotab,
-                        inline_label: "On Going Series" %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
-      </div>
-      <%= f.input_field :synopsis,
-                        tabindex: autotab,
-                        placeholder: "Synopsis",
-                        class: 'span6',
-                        rows: 6 %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
-      </div>
-      <%= f.input_field :chinese_synopsis,
-                        tabindex: autotab,
-                        placeholder: "Chinese Synopsis",
-                        class: 'span6',
-                        rows: 6 %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @video.remarks, 'Remarks' %></div>
-      </div>
-      Only use this remarks field as a last resort
-      <%= f.input_field :remarks,
-                        tabindex: autotab,
-                        placeholder: "Remarks",
-                        class: 'span6',
-                        rows: 6 %>
-    </div>
     <br>
 
-    <%= f.button :submit, class: 'btn' %>
-    <br><br><br>
+  <% end %>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.programme_title, 'Video Title' %></div>
+      <div class="input_field_label span3"><%= input_field_label @video.chinese_programme_title, 'Chinese Video Title' %></div>
+    </div>
+    <%= f.hidden_field :movie_id,
+                       value: @video.movie_id %>
+
+    <%= f.input_field :programme_title,
+                      placeholder: "Video Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+
+    <%= f.input_field :chinese_programme_title,
+                      placeholder: "Chinese Video Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.video_type, 'Video Type' %></div>
+      <div class="input_field_label span3"><%= input_field_label @video.foreign_language_title, 'Foreign Language Title' %></div>
+    </div>
+    <%= f.input_field :video_type,
+                      placeholder: "Video Type",
+                      as: :select,
+                      collection: Video::VIDEO_TYPES,
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span3' %>
+
+    <%= f.input_field :foreign_language_title,
+                      placeholder: "Foreign Language Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.production_year, 'Production Year' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_append_datepicker',
+               locals: {f: f,
+                        field: :production_year,
+                        value: @video.production_year,
+                        input_id: 'production_year_datepicker',
+                        date_format: 'yyyy',
+                        date_viewmode: 'years',
+                        date_minviewmode: 'years',
+                        datepicker_behaviour: 'datepicker-years',
+                        placeholder: 'Production Year',
+                        span: 'span3'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.video_distributor_id, 'Distributor' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: {f: f,
+                        field: :video_distributor_id,
+                        link_path: suppliers_path,
+                        collection: @video_distributors,
+                        placeholder: 'Distributor',
+                        span: 'span6'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.laboratory_id, 'Laboratory' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: {f: f,
+                        field: :laboratory_id,
+                        link_path: suppliers_path,
+                        collection: @laboratories,
+                        placeholder: 'Laboratory',
+                        span: 'span6'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.production_studio_id, 'Production Studio' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: {f: f,
+                        field: :production_studio_id,
+                        link_path: suppliers_path,
+                        collection: @production_studios,
+                        placeholder: 'Production Studio',
+                        span: 'span6'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.commercial_run_time, 'Run Time (Commercial)' %></div>
+    </div>
+    <%= f.input_field :commercial_run_time_id,
+                      placeholder: "Run Time (Commercial)",
+                      as: :select,
+                      include_blank: true,
+                      tabindex: autotab,
+                      collection: CommercialRunTime.connection.execute(CommercialRunTime.select('minutes, id').to_sql).to_a,
+                      class: 'select2 span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.video_genre_ids, 'Video Genres' %></div>
+      <div class="input_field_label span3"><%= input_field_label @video.episodes_available, 'No. of Episodes Available' %></div>
+    </div>
+    <div class="select2-container-outer span3">
+      <%= f.input_field :video_genre_ids,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => VideoGenre.order("name"),
+                        :placeholder => "Video Genres",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+
+    <%= f.input_field :episodes_available,
+                      tabindex: autotab,
+                      placeholder: 'No. of Episodes Available',
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.language_tracks, 'Available Language Tracks' %></div>
+      <div class="input_field_label span3"><%= input_field_label @video.language_subtitles, 'Available Language Subtitles' %></div>
+    </div>
+    <div class="select2-container-outer span3">
+      <%= f.input_field :language_tracks,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => @languages,
+                        :placeholder => "Available Language Tracks",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+
+    <div class="select2-container-outer span3">
+      <%= f.input_field :language_subtitles,
+                        :as => :select,
+                        :multiple => true,
+                        :collection => @languages,
+                        :placeholder => "Available Language Subtitles",
+                        tabindex: autotab,
+                        :class => 'select2 span3' %>
+    </div>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :on_going_series,
+                      :as => :boolean,
+                      tabindex: autotab,
+                      inline_label: "On Going Series" %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.synopsis, 'Synopsis:' %>
+        <span id='char_count'></span> characters
+      </div>
+    </div>
+    <%= f.input_field :synopsis,
+                      tabindex: autotab,
+                      placeholder: "Synopsis",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.chinese_synopsis, 'Chinese Synopsis:' %>
+        <span id='chinese_char_count'></span> characters
+      </div>
+    </div>
+    <%= f.input_field :chinese_synopsis,
+                      tabindex: autotab,
+                      placeholder: "Chinese Synopsis",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @video.remarks, 'Remarks' %></div>
+    </div>
+    Only use this remarks field as a last resort
+    <%= f.input_field :remarks,
+                      tabindex: autotab,
+                      placeholder: "Remarks",
+                      class: 'span6',
+                      rows: 6 %>
+  </div>
+  <br>
+
+  <%= f.button :submit, class: 'btn' %>
+  <br><br><br>
 
   </div>
   <!--end of .content-->
   </div>
   <!--end of .span-->
 
+<% end %>
+
+<%= content_for :playlist do %>
+  <div class="span12">
+    <% if controller.action_name != 'new' %>
+      <div class="poster-title poster-info">
+        Screeners
+        <!-- Button to trigger modal -->
+        <div class="btn-group pull-right" id="table-column-select">
+          <%= link_to 'Add Screener',
+                      new_screener_path(:id => params[:id]),
+                      id: 'add_screener_to_video',
+                      data: {toggle: 'modal', target: '#screener-modal'},
+                      class: 'btn btn-mini btn-info no-margin-bottom' %>
+        </div>
+      </div>
+      <table class="table table-hover" id="no-more-tables" width="100%">
+        <thead>
+        <tr>
+          <th>Episode Title</th>
+          <th>Episode #</th>
+          <th>Location</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody id="screeners_list">
+        <%= render partial: 'screeners',
+                   locals: {video_id: @video.id} %>
+        </tbody>
+      </table>
+      <br>
+
+      <div class="poster-title poster-info">
+        Masters
+        <!-- Button to trigger modal -->
+        <div class="btn-group pull-right" id="table-column-select">
+          <%= link_to 'Add Master',
+                      new_master_path(:id => params[:id]),
+                      id: 'add_master_to_video',
+                      data: {toggle: 'modal', target: '#master-modal'},
+                      class: 'btn btn-mini btn-info no-margin-bottom' %>
+        </div>
+      </div>
+      <table class="table table-hover" id="no-more-tables" width="100%">
+        <thead>
+        <tr>
+          <th>Episode Title</th>
+          <th>Episode #</th>
+          <th>Location</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody id="masters_list">
+        <%= render partial: 'masters',
+                   locals: {video_id: @video.id} %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
 <% end %>
 
 <!--<div id="create_screener_dialog" style="display:none;">-->

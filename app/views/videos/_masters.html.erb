@@ -1,23 +1,40 @@
 <% Master.where("video_id = #{video_id} AND active=true").order("location, episode_number").each do |master| %>
-  <li class="poster-info" id="master-<%= master.id %>">
-    <%= master.episode_title %> (<%= master.episode_number %>, <%= master.location %>)<br>
-    <%= link_to 'duplicate',
-                duplicate_master_path(master),
-                confirm: 'Are you sure?',
-                method: :post,
-                remote: true %> |
-    <%= link_to "edit",
-                edit_master_path(master),
-                class: 'edit_master',
-                id: 'edit_master',
-                data: {toggle: 'modal', target: '#master-modal'} %> |
-    <%= link_to 'delete',
-                master_path(master),
-                method: :delete,
-                confirm: 'Are you sure?',
-                class: 'delete_master',
-                remote: true %>
-  </li>
+
+  <tr id="master-<%= master.id %>">
+
+    <td data-title="Title">
+      <%= master.episode_title %>&nbsp;
+    </td>
+
+    <td data-title="Number">
+      <%= master.episode_number %>&nbsp;
+    </td>
+
+    <td data-title="Location">
+      <%= master.location %>&nbsp;
+    </td>
+
+    <td data-title="Actions">
+      <%= link_to 'duplicate',
+                  duplicate_master_path(master),
+                  confirm: 'Are you sure?',
+                  method: :post,
+                  class: 'btn btn-mini',
+                  remote: true %>
+      <%= link_to "edit",
+                  edit_master_path(master),
+                  class: 'edit_master',
+                  id: 'edit_master',
+                  class: 'btn btn-mini',
+                  data: {toggle: 'modal', target: '#master-modal'} %>
+      <%= link_to 'delete',
+                  master_path(master),
+                  method: :delete,
+                  confirm: 'Are you sure?',
+                  class: 'delete_master btn btn-mini',
+                  remote: true %>
+    </td>
+  </tr>
 <% end %>
 
 <script type="text/javascript">
