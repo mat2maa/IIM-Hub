@@ -96,11 +96,11 @@ class ScreenerPlaylistsController < ApplicationController
     .collect { |language| language.name }
 
     if params[:q].present?
-      @original = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any]
-      @the = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any][0..3].downcase if params[:q][:video_programme_title_or_video_foreign_language_title_cont_any].present?
-      if @the == 'the ' && params[:q][:video_programme_title_or_video_foreign_language_title_cont_any].present?
-        @title = params[:q][:video_programme_title_or_video_foreign_language_title_cont_any][4..-1].downcase
-        params[:q][:video_programme_title_or_video_foreign_language_title_cont_any] = ["#{@original}", "#{@title}, the"]
+      @original = params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any]
+      @the = params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any][0..3].downcase if params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any].present?
+      if @the == 'the ' && params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any].present?
+        @title = params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any][4..-1].downcase
+        params[:q][:video_programme_title_or_video_foreign_language_title_or_video_chinese_programme_title_cont_any] = ["#{@original}", "#{@title}, the"]
       end
     end
 
