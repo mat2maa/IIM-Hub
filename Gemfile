@@ -77,7 +77,7 @@ gem 'rubyzip',  '~> 0.9.9'
 
 #gem 'asset_sync'
 
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails',  '~> 1.1.1.11'
 gem 'select2-rails'
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
