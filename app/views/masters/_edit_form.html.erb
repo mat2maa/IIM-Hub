@@ -47,6 +47,23 @@
 
       <div class="controls controls-row">
         <div class="row input_field_labels">
+          <div class="input_field_label span3"><%= input_field_label @master.aspect_ratio, 'Aspect ratio' %></div>
+          <div class="input_field_label span3"><%= input_field_label @master.location, 'Tape location' %></div>
+        </div>
+        <%= f.input_field :aspect_ratio,
+                          as: :select,
+                          collection: %w(4:3 16:9 14:9),
+                          include_blank: true,
+                          placeholder: 'Aspect ratio',
+                          class: 'select2 span3' %>
+        <%= f.input_field :location,
+                          placeholder: 'Tape location',
+                          value: f.object.id.nil? ? @master_location : '',
+                          class: 'span3' %>
+      </div>
+
+      <div class="controls controls-row">
+        <div class="row input_field_labels">
           <div class="input_field_label span3"><%= input_field_label @master.tape_media, 'Tape Media' %></div>
           <div class="input_field_label span3"><%= input_field_label @master.tape_format, 'Tape Format' %></div>
           <div class="input_field_label span3"><%= input_field_label @master.tape_size, 'Tape Size' %></div>
@@ -73,35 +90,7 @@
                           class: 'select2 span3' %>
       </div>
 
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @master.video_subtitles_1, 'Video Subtitles 1' %></div>
-          <div class="input_field_label span3"><%= input_field_label @master.video_subtitles_2, 'Video Subtitles 2' %></div>
-        </div>
-        <%= f.input_field :video_subtitles_1,
-                          as: :select,
-                          collection: @languages,
-                          include_blank: true,
-                          placeholder: 'Video Subtitles 1',
-                          class: 'select2 span3' %>
-
-        <%= f.input_field :video_subtitles_2,
-                          as: :select,
-                          collection: @languages,
-                          include_blank: true,
-                          placeholder: 'Video Subtitles 2',
-                          class: 'select2 span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span9"><%= input_field_label @master.synopsis, 'Episode synopsis' %></div>
-        </div>
-        <%= f.input_field :synopsis,
-                          placeholder: 'Episode synopsis',
-                          class: 'span9',
-                          rows: 6 %>
-      </div>
+      <br/>
 
       <div class="controls controls-row">
         <div class="row input_field_labels">
@@ -141,24 +130,36 @@
 
       <div class="controls controls-row">
         <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @master.aspect_ratio, 'Aspect ratio' %></div>
+          <div class="input_field_label span2"><%= input_field_label @master.video_subtitles_1,
+                                                                     'Video Subtitles 1' %></div>
+          <div class="input_field_label span2"><%= input_field_label @master.video_subtitles_2,
+                                                                     'Video Subtitles 2' %></div>
         </div>
-        <%= f.input_field :aspect_ratio,
+        <%= f.input_field :video_subtitles_1,
                           as: :select,
-                          collection: %w(4:3 16:9 14:9),
+                          collection: @languages,
                           include_blank: true,
-                          placeholder: 'Aspect ratio',
-                          class: 'select2 span3' %>
+                          placeholder: 'Video Subtitles 1',
+                          class: 'select2 span2' %>
+
+        <%= f.input_field :video_subtitles_2,
+                          as: :select,
+                          collection: @languages,
+                          include_blank: true,
+                          placeholder: 'Video Subtitles 2',
+                          class: 'select2 span2' %>
       </div>
+
+      <br/>
 
       <div class="controls controls-row">
         <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @master.location, 'Tape location' %></div>
+          <div class="input_field_label span9"><%= input_field_label @master.synopsis, 'Episode synopsis' %></div>
         </div>
-        <%= f.input_field :location,
-                          placeholder: 'Tape location',
-                          value: f.object.id.nil? ? @master_location : '',
-                          class: 'span3' %>
+        <%= f.input_field :synopsis,
+                          placeholder: 'Episode synopsis',
+                          class: 'span9',
+                          rows: 6 %>
       </div>
 
       <div class="controls controls-row">

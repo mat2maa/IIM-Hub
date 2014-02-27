@@ -72,11 +72,11 @@
                       edit_video_path(@video.next.id) if @video.next.present? %>
         </li>
         <li>
-          <%= link_to 'View Movie',
+          <%= link_to 'View Video',
                       video_path(@video) %>
         </li>
         <li>
-          <%= link_to "New Movie",
+          <%= link_to "New Video",
                       new_video_path %>
         </li>
         <% if permitted_to? :admin_delete,
@@ -148,6 +148,13 @@
                         datepicker_behaviour: 'datepicker-years',
                         placeholder: 'Production Year',
                         span: 'span3'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :on_going_series,
+                      :as => :boolean,
+                      tabindex: autotab,
+                      inline_label: "On Going Series" %>
   </div>
 
   <div class="controls controls-row">
@@ -247,13 +254,6 @@
                         tabindex: autotab,
                         :class => 'select2 span3' %>
     </div>
-  </div>
-
-  <div class="controls controls-row">
-    <%= f.input_field :on_going_series,
-                      :as => :boolean,
-                      tabindex: autotab,
-                      inline_label: "On Going Series" %>
   </div>
 
   <div class="controls controls-row">

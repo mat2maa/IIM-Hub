@@ -44,6 +44,14 @@
     </div>
 
     <div class="controls controls-row">
+      <%= videos.input_field :production_studio_id_eq,
+                             collection: @production_studios,
+                             include_blank: true,
+                             class: "select2 #{@span_size}",
+                             placeholder: 'Production Studio' %>
+    </div>
+
+    <div class="controls controls-row">
       <%= select :language,
                  :track,
                  @languages,

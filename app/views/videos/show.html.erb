@@ -18,6 +18,60 @@
     <%= link_to(image_tag(@video.poster.url, class: 'poster-image'),
                 @video.poster.url,
                 target: "_blank") %>
+    <br/><br/>
+    <div class="info info-title">Tools</div>
+    <div class="info-list">
+      <ul>
+        <li class="info">
+          <%= link_to("Search Box Office Mojo",
+                      "http://www.boxofficemojo.com/search/?q=" + @video.programme_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Yahoo Videos",
+                      "http://videos.yahoo.com/mv/search?fr=ush-videos&toggle=1&cop=&ei=UTF-8&p=" + @video.programme_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Rotten Tomatoes",
+                      "http://www.rottentomatoes.com/search/full_search.php?search=" + @video.programme_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search IMDB",
+                      "http://www.imdb.com/find?s=all&q=" + @video.programme_title.to_s,
+                      target: "_blank") %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--/span-->
+
+<div class="span6">
+  <div id="content">
+    <div class="tabbable">
+      <ul class="nav nav-tabs pre-nav-below">
+        <li>
+          <%= link_to 'Previous',
+                      video_path(@video.previous) if @video.previous.present? %>
+        </li>
+        <li>
+          <%= link_to 'Next',
+                      video_path(@video.next) if @video.next.present? %>
+        </li>
+        <li>
+          <%= link_to 'Edit Video',
+                      edit_video_path(@video) if permitted_to? :edit,
+                                                               :videos %>
+        </li>
+        <li>
+          <%= link_to 'New Video',
+                      new_video_path %>
+        </li>
+      </ul>
+    </div>
+    <br/>
     <div class="poster-title poster-info">
       <%= @video.programme_title %> (<%= @video.production_year %>)
       <% if @video.foreign_language_title.present? && @video.foreign_language_title != @video.programme_title %>
@@ -30,12 +84,7 @@
         <%= @video.commercial_run_time.minutes %> minutes
       <% end %>
     </div>
-  </div>
-</div>
-<!--/span-->
-
-<div class="span6">
-  <div id="content">
+    <br/>
     <% if @video.synopsis.present? || @video.chinese_synopsis.present? %>
       <div class="tabbable">
         <ul class="nav nav-tabs pre-nav-below">
@@ -58,27 +107,6 @@
           <% if @video.masters.count > 0 %>
             <li><a href="#masters" data-toggle="tab">Masters</a></li>
           <% end %>
-        </ul>
-      </div>
-      <div class="tabbable tabs-below">
-        <ul class="nav nav-tabs pull-right">
-          <li>
-            <%= link_to 'Previous',
-                        video_path(@video.previous) if @video.previous.present? %>
-          </li>
-          <li>
-            <%= link_to 'Next',
-                        video_path(@video.next) if @video.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'Edit Video',
-                        edit_video_path(@video) if permitted_to? :edit,
-                                                                 :videos %>
-          </li>
-          <li>
-            <%= link_to 'New Video',
-                        new_video_path %>
-          </li>
         </ul>
       </div>
       <div class="tabbable">
@@ -108,6 +136,7 @@
                     <li class="poster-info">Location:</strong> <%= screener.location %></li>
                     <li class="poster-info">Screener Remarks:</strong> <%= screener.remarks %></li>
                     <li class="poster-info">Other:</strong> <%= screener.remarks_other %></li>
+                    <br/>
                   <% end %>
                 </ul>
               </div>
@@ -135,34 +164,13 @@
                     <li class="poster-info">Time In: <%= master.time_in %></li>
                     <li class="poster-info">Time Out: <%= master.time_out %></li>
                     <li class="poster-info">Duration: <%= master.duration %></li>
+                    <br/>
                   <% end %>
                 </ul>
               </div>
             </div>
           <% end %>
         </div>
-      </div>
-    <% else %>
-      <div class="tabbable">
-        <ul class="nav nav-tabs pre-nav-below">
-          <li>
-            <%= link_to 'Previous',
-                        video_path(@video.previous) if @video.previous.present? %>
-          </li>
-          <li>
-            <%= link_to 'Next',
-                        video_path(@video.next) if @video.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'Edit Video',
-                        edit_video_path(@video) if permitted_to? :edit,
-                                                                 :videos %>
-          </li>
-          <li>
-            <%= link_to 'New Video',
-                        new_video_path %>
-          </li>
-        </ul>
       </div>
     <% end %>
   </div>
@@ -205,7 +213,7 @@
         <% if @video.episodes_available.present? %>
           <li class="info">Number of Episodes Available: <%= @video.episodes_available %></li>
         <% end %>
-        <li class="info">On Going Series: <%= @video.on_going_series ? 'yes' : 'no' %></li>
+        <li class="info">On Going Series: <%= @video.on_going_series ? 'Yes' : 'No' %></li>
         <% if @video.video_genres.present? %>
           <li class="info">Genres: <%= @video.video_genres.collect { |genre| genre.name }.join(', ') %></li>
         <% end %>
@@ -215,33 +223,6 @@
         <% if @video.language_subtitles.present? %>
           <li class="info">Language Subtitles: <%= @video.language_subtitles.collect { |r| r }.to_sentence %></li>
         <% end %>
-      </ul>
-    </div>
-    <br>
-
-    <div class="info info-title">Tools</div>
-    <div class="info-list">
-      <ul>
-        <li class="info">
-          <%= link_to("Search Box Office Mojo",
-                      "http://www.boxofficemojo.com/search/?q=" + @video.programme_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search Yahoo Videos",
-                      "http://videos.yahoo.com/mv/search?fr=ush-videos&toggle=1&cop=&ei=UTF-8&p=" + @video.programme_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search Rotten Tomatoes",
-                      "http://www.rottentomatoes.com/search/full_search.php?search=" + @video.programme_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search IMDB",
-                      "http://www.imdb.com/find?s=all&q=" + @video.programme_title.to_s,
-                      target: "_blank") %>
-        </li>
       </ul>
     </div>
   </div>

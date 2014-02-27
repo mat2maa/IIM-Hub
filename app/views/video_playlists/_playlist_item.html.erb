@@ -34,7 +34,7 @@
     </td>
 
     <td data-title="On-going series" <%= raw("style='display: none;' data-display='none'") if session[:video_playlist_checked].present? && session[:video_playlist_checked][column_counter-1] == "false" %>>
-      <%= playlist_item.video.on_going_series ? "yes" : "no" %>
+      <%= playlist_item.video.on_going_series ? "Yes" : "No" %>
       &nbsp;
     </td>
 

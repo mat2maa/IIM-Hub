@@ -39,6 +39,15 @@
   </div>
 
   <div class="controls controls-row">
+    <%= screeners.input_field :video_production_studio_id_eq,
+                              as: :select,
+                              collection: @production_studios,
+                              include_blank: true,
+                              class: "select2 span12",
+                              placeholder: 'Production Studio' %>
+  </div>
+
+  <div class="controls controls-row">
     <%= screeners.input_field :video_video_genres_video_parent_genre_id_eq,
                               as: :select,
                               collection: VideoParentGenre.connection.execute(VideoParentGenre.select('name, id').to_sql).to_a,

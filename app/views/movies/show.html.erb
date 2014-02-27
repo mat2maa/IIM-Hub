@@ -18,6 +18,63 @@
     <%= link_to(image_tag(@movie.poster.url, class: 'poster-image'),
                 @movie.poster.url,
                 target: "_blank") %>
+    <br/>
+    <br/>
+
+    <div class="info info-title">Tools</div>
+    <div class="info-list">
+      <ul>
+        <li class="info">
+          <%= link_to("Search Box Office Mojo",
+                      "http://www.boxofficemojo.com/search/?q=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Yahoo Movies",
+                      "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search Rotten Tomatoes",
+                      "http://www.rottentomatoes.com/search/full_search.php?search=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+        <li class="info">
+          <%= link_to("Search IMDB",
+                      "http://www.imdb.com/find?s=all&q=" + @movie.movie_title.to_s,
+                      target: "_blank") %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <br>
+</div>
+<!--/span-->
+
+<div class="span6">
+  <div id="content">
+    <div class="tabbable">
+      <ul class="nav nav-tabs pre-nav-below">
+        <li>
+          <%= link_to "Previous",
+                      movie_path(@movie.previous) if @movie.previous.present? %>
+        </li>
+        <li>
+          <%= link_to "Next",
+                      movie_path(@movie.next) if @movie.next.present? %>
+        </li>
+        <li>
+          <%= link_to 'Edit Movie',
+                      edit_movie_path(@movie) if permitted_to? :edit,
+                                                               :movies %>
+        </li>
+        <li>
+          <%= link_to "New Movie",
+                      new_movie_path %>
+        </li>
+      </ul>
+    </div>
+    <br/>
     <div class="poster-title poster-info">
       <%= @movie.movie_title %> (<%= @movie.theatrical_release_year %>)
       <% if @movie.foreign_language_title.present? && @movie.foreign_language_title != @movie.movie_title %>
@@ -47,6 +104,16 @@
         </ul>
       </div>
     <% end %>
+    <% if @movie.movie_genres.present? %>
+      <div class="poster-subtitle poster-info">
+        Genres
+      </div>
+      <div class="poster-list">
+        <ul>
+          <li class="info"><%= @movie.movie_genres.collect { |genre| genre.name }.join(', ') %></li>
+        </ul>
+      </div>
+    <% end %>
     <div class="poster-other poster-info">
       <%= @movie.rating %>
       <% if @movie.theatrical_runtime.present? %>
@@ -58,13 +125,7 @@
         <%= @movie.edited_runtime %> minutes (edited)
       <% end %>
     </div>
-  </div>
-  <br>
-</div>
-<!--/span-->
-
-<div class="span6">
-  <div id="content">
+    <br/>
     <% if @movie.synopsis.present? || @movie.chinese_synopsis.present? || @movie.imdb_synopsis.present? %>
       <div class="tabbable">
         <ul class="nav nav-tabs pre-nav-below">
@@ -86,27 +147,6 @@
           <% if @movie.remarks.present? %>
             <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
           <% end %>
-        </ul>
-      </div>
-      <div class="tabbable tabs-below">
-        <ul class="nav nav-tabs pull-right">
-          <li>
-            <%= link_to "Previous",
-                        movie_path(@movie.previous) if @movie.previous.present? %>
-          </li>
-          <li>
-            <%= link_to "Next",
-                        movie_path(@movie.next) if @movie.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'Edit Movie',
-                        edit_movie_path(@movie) if permitted_to? :edit,
-                                                                 :movies %>
-          </li>
-          <li>
-            <%= link_to "New Movie",
-                        new_movie_path %>
-          </li>
         </ul>
       </div>
       <div class="tabbable">
@@ -137,28 +177,6 @@
             </div>
           <% end %>
         </div>
-      </div>
-    <% else %>
-      <div class="tabbable">
-        <ul class="nav nav-tabs pre-nav-below">
-          <li>
-            <%= link_to "Previous",
-                        movie_path(@movie.previous) if @movie.previous.present? %>
-          </li>
-          <li>
-            <%= link_to "Next",
-                        movie_path(@movie.next) if @movie.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'Edit Movie',
-                        edit_movie_path(@movie) if permitted_to? :edit,
-                                                                 :movies %>
-          </li>
-          <li>
-            <%= link_to "New Movie",
-                        new_movie_path %>
-          </li>
-        </ul>
       </div>
     <% end %>
   </div>
@@ -200,9 +218,6 @@
         <% if @movie.laboratory.present? %>
           <li class="info">Laboratory: <%= @movie.laboratory.company_name %></li>
         <% end %>
-        <% if @movie.movie_genres.present? %>
-          <li class="info">Genres: <%= @movie.movie_genres.collect { |genre| genre.name }.join(', ') %></li>
-        <% end %>
         <% if @movie.language_tracks.present? %>
           <li class="info">Language Tracks: <%= @movie.language_tracks.collect { |r| r }.to_sentence %></li>
         <% end %>
@@ -226,33 +241,6 @@
         <% end %>
         <li class="info">Screener Held: <%= @movie.screener_received_date == nil ? "No" : "Yes" %></li>
         <li class="info">Screener Destroyed: <%= @movie.screener_destroyed_date == nil ? "No" : "Yes" %></li>
-      </ul>
-    </div>
-    <br>
-
-    <div class="info info-title">Tools</div>
-    <div class="info-list">
-      <ul>
-        <li class="info">
-          <%= link_to("Search Box Office Mojo",
-                      "http://www.boxofficemojo.com/search/?q=" + @movie.movie_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search Yahoo Movies",
-                      "http://movies.yahoo.com/mv/search?fr=ush-movies&toggle=1&cop=&ei=UTF-8&p=" + @movie.movie_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search Rotten Tomatoes",
-                      "http://www.rottentomatoes.com/search/full_search.php?search=" + @movie.movie_title.to_s,
-                      target: "_blank") %>
-        </li>
-        <li class="info">
-          <%= link_to("Search IMDB",
-                      "http://www.imdb.com/find?s=all&q=" + @movie.movie_title.to_s,
-                      target: "_blank") %>
-        </li>
       </ul>
     </div>
   </div>

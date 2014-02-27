@@ -99,7 +99,7 @@
     <td data-title="Mastering" <%= raw("style='display: none;' data-display='none'") if session[:video_master_playlist_checked].present? && session[:video_master_playlist_checked][column_counter-1] == "false" %>>
       <%= best_in_place @playlist_item,
                         :mastering,
-                        :nil => 'change',
+                        :nil => 'Nil',
                         ok_button: 'Change Mastering',
                         ok_button_class: 'btn btn-mini best-in-place-ok',
                         cancel_button: 'Cancel',
