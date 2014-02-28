@@ -2,6 +2,8 @@ class VideosController < ApplicationController
   before_filter :require_user
   filter_access_to :all
 
+  autocomplete :video, :programme_title
+
   def index
     @languages = MasterLanguage.order("name")
     .collect { |language| language.name }
@@ -58,6 +60,8 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @playlists = VideoPlaylistItem.where('video_id=?',
+                                         params[:id])
 
   end
 
@@ -148,6 +152,52 @@ class VideosController < ApplicationController
     end
     #   end
   end
+
+  #def create_from_movie
+  #
+  #  @movie = Movie.find(params[:id])
+  #  @video = Video.new()
+  #
+  #  #  @video.id = AUTO
+  #  @video.programme_title = @movie.movie_title.upcase if @movie.movie_title.present?
+  #  @video.foreign_language_title = @movie.foreign_language_title.upcase if @movie.foreign_language_title.present?
+  #  @video.video_type = 'Movie Master'
+  #
+  #  @video.video_distributor_id = @movie.movie_distributor_id if @movie.movie_distributor_id.present?
+  #  @video.production_studio_id = @movie.production_studio_id.present? ? @movie.production_studio_id : @movie.movie_distributor_id
+  #  @video.laboratory_id = @movie.laboratory_id.present? ? @movie.laboratory_id : @movie.movie_distributor_id
+  #
+  #  @video.production_year = @movie.theatrical_release_year if @movie.theatrical_release_year.present?
+  #  #  @video.episodes_available = nil
+  #  @video.synopsis = @movie.synopsis if @movie.synopsis.present?
+  #  #  @video.trailer_url = nil
+  #  #  @video.created_at = AUTO
+  #  #  @video.updated_at = AUTO
+  #  #  @video.movie_id = nil
+  #  #  @video.poster_file_name = nil
+  #  #  @video.poster_content_type = nil
+  #  #  @video.poster_file_size = nil
+  #  #  @video.poster_updated_at = nil
+  #  @video.to_delete = false
+  #  #  @video.commercial_run_time_id = nil
+  #  @video.on_going_series = false
+  #  @video.remarks = ''
+  #  #  @video.masters_count = nil
+  #  #  @video.screeners_count = nil
+  #  #  @video.in_playlists = nil
+  #  @video.language_tracks = @movie.language_tracks if @movie.language_tracks.present?
+  #  @video.language_subtitles = @movie.language_subtitles if @movie.language_subtitles.present?
+  #  @video.active = true
+  #  @video.chinese_programme_title = @movie.chinese_movie_title if @movie.chinese_movie_title.present?
+  #  @video.chinese_synopsis = @movie.chinese_synopsis if @movie.chinese_synopsis.present?
+  #
+  #  if @video.save
+  #    flash[:notice] = 'Video was successfully created.'
+  #    redirect_to edit_video_path(@video)
+  #  else
+  #    flash[:notice] = 'There was an problem creating the video. Please try again.'
+  #  end
+  #end
 
   def edit
     @search = Video.includes(:video_genres)

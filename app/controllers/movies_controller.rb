@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
   before_filter :require_user
   filter_access_to :all
 
+  autocomplete :movie, :movie_title
+
   def index
     @languages = MasterLanguage.order("name")
     .collect { |language| language.name }
@@ -22,23 +24,23 @@ class MoviesController < ApplicationController
     end
 
     @search = Movie.includes(:movie_distributor, :movie_type)
-                   .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
 
     @movies = @search.result(distinct: true)
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     if params[:language].present?
       if params[:language][:track].present?
         @language_tracks = params[:language][:track].reject! { |c| c.empty? }
-        @language_tracks = @language_tracks.map {|language| "language_tracks LIKE '%#{language}%'"}
+        @language_tracks = @language_tracks.map { |language| "language_tracks LIKE '%#{language}%'" }
         @language_tracks = @language_tracks.join(" AND ")
       end
 
       if params[:language][:subtitle].present?
         @language_subtitles = params[:language][:subtitle].reject! { |c| c.empty? }
-        @language_subtitles = @language_subtitles.map {|subtitle| "language_subtitles LIKE '%#{subtitle}%'"}
+        @language_subtitles = @language_subtitles.map { |subtitle| "language_subtitles LIKE '%#{subtitle}%'" }
         @language_subtitles = @language_subtitles.join(" AND ")
       end
 
@@ -64,6 +66,8 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    @playlists = MoviePlaylistItem.where('movie_id=?',
+                                         params[:id])
     if !session[:movies_search].nil?
       ids = session[:movies_search]
       id = ids.index(params[:id].to_i)
@@ -112,11 +116,11 @@ class MoviesController < ApplicationController
     .collect { |language| language.name }
 
     @search = Movie.includes(:movie_distributor, :movie_type)
-                   .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     @movies = @search.result(distinct: true)
-                     .order("movies.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("movies.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
     @movies_count = @movies.count
 
     @movie = Movie.find(params[:id])

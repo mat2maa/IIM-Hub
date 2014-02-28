@@ -87,6 +87,7 @@ Iim::Application.routes.draw do
   match '/movies/restore/:id' => 'movies#restore', as: :restore_movie
   match '/tracks/restore/:id' => 'tracks#restore', as: :restore_track
   match '/videos/restore/:id' => 'videos#restore', as: :restore_video
+  #match '/videos/create_from_movie/:id' => 'videos#create_from_movie', as: :create_video_from_movie
 
   match '/delayed_job' => DelayedJobWeb, :anchor => false
 
@@ -249,14 +250,18 @@ Iim::Application.routes.draw do
   resources :supplier_categories
   resources :find_albums
   resources :find_songs
-  resources :movies
+  resources :movies do
+    get :autocomplete_movie_movie_title, :on => :collection
+  end
   resources :suppliers
   resources :airline_rights_countries
   resources :movie_genres
   resources :video_genres
   resources :video_parent_genres
   resources :movies_settings
-  resources :videos
+  resources :videos do
+    get :autocomplete_video_programme_title, :on => :collection
+  end
   resources :commercial_run_times
   resources :video_playlist_types
   resources :master_playlist_types

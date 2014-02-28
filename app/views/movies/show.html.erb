@@ -21,7 +21,7 @@
     <br/>
     <br/>
 
-    <div class="info info-title">Tools</div>
+    <div class="info info-title">Search Tools</div>
     <div class="info-list">
       <ul>
         <li class="info">
@@ -43,6 +43,29 @@
           <%= link_to("Search IMDB",
                       "http://www.imdb.com/find?s=all&q=" + @movie.movie_title.to_s,
                       target: "_blank") %>
+        </li>
+      </ul>
+    </div>
+    <br/>
+
+    <div class="info info-title">Video tools</div>
+    <div class="info-list">
+      <ul>
+        <li class="poster-info">
+          <%= link_to "Add EPK",
+                      new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
+        </li>
+        <li class="poster-info">
+          <%= link_to "Add Trailer",
+                      new_video_path(id: params[:id], video_type: CGI.escape("Movie Trailer")) %>
+        </li>
+        <li class="poster-info">
+          <%= link_to "Add Master",
+                      new_video_path(id: params[:id], video_type: CGI.escape("Movie Master")) %>
+        </li>
+        <li class="poster-info">
+          <%= link_to "Add TV Special",
+                      new_video_path(id: params[:id], video_type: CGI.escape("TV Special")) %>
         </li>
       </ul>
     </div>
@@ -147,6 +170,11 @@
           <% if @movie.remarks.present? %>
             <li><a href="#remarks" data-toggle="tab">Remarks</a></li>
           <% end %>
+          <% if @playlists.present? %>
+            <li>
+              <a href="#playlists" data-toggle="tab">Playlists</a>
+            </li>
+          <% end %>
         </ul>
       </div>
       <div class="tabbable">
@@ -176,7 +204,23 @@
               <p><%= simple_format(@movie.remarks) %></p>
             </div>
           <% end %>
+          <% if @playlists.present? %>
+            <div class="info-list tab-pane fade" id="playlists">
+              <ul>
+                <% @playlists.each do |playlist| %>
+                  <li class="info">
+                    <%= link_to playlist.movie_playlist_id,
+                                movie_playlist_path(id: playlist.movie_playlist_id),
+                                target: '_blank' if !playlist.movie_playlist.nil? %>
+                    <%= playlist.movie_playlist.airline.name if !playlist.movie_playlist.nil? && !playlist.movie_playlist.airline.nil? %>
+                    <%= playlist.movie_playlist.end_cycle.strftime('%m%y') if !playlist.movie_playlist.nil? && !playlist.movie_playlist.end_cycle.nil? %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         </div>
+        <br/><br/>
       </div>
     <% end %>
   </div>

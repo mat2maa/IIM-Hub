@@ -27,7 +27,8 @@ authorization do
                               :check_screener_remarks,
                               :check_movie_type,
                               :update_date,
-                              :add_review_to_movie]
+                              :add_review_to_movie,
+                              :autocomplete_movie_movie_title]
     has_permission_on :masters,
                       :to => [:manage,
                               :duplicate]
@@ -35,7 +36,8 @@ authorization do
                       :to => [:manage,
                               :duplicate]
     has_permission_on :videos,
-                      :to => :manage
+                      :to => [:manage,
+                              :autocomplete_video_programme_title]
     has_permission_on :movie_types,
                       :to => :manage
     has_permission_on :movie_playlist_types,
@@ -163,9 +165,11 @@ authorization do
                               :check_screener_remarks,
                               :check_movie_type,
                               :update_date,
-                              :add_review_to_movie]
+                              :add_review_to_movie,
+                              :autocomplete_movie_movie_title]
     has_permission_on :videos,
-                      :to => [:manage]
+                      :to => [:manage,
+                              :autocomplete_video_programme_title]
     has_permission_on :suppliers,
                       :to => :manage
     has_permission_on :airline_rights_countries,
@@ -290,7 +294,8 @@ authorization do
                               :check_movie_type,
                               :update_date,
                               :restore,
-                              :add_review_to_movie]
+                              :add_review_to_movie,
+                              :autocomplete_movie_movie_title]
     has_permission_on :masters,
                       :to => [:manage,
                               :admin_delete,
@@ -304,7 +309,8 @@ authorization do
     has_permission_on :videos,
                       :to => [:manage,
                               :admin_delete,
-                              :restore]
+                              :restore,
+                              :autocomplete_video_programme_title]
     has_permission_on :suppliers,
                       :to => :manage
     has_permission_on :airline_rights_countries,
@@ -520,7 +526,8 @@ authorization do
                               :check_movie_type,
                               :update_date,
                               :restore,
-                              :add_review_to_movie]
+                              :add_review_to_movie,
+                              :autocomplete_movie_movie_title]
     has_permission_on :masters,
                       :to => [:manage,
                               :admin_delete,
@@ -534,7 +541,8 @@ authorization do
     has_permission_on :videos,
                       :to => [:manage,
                               :admin_delete,
-                              :restore]
+                              :restore,
+                              :autocomplete_video_programme_title]
     has_permission_on :suppliers,
                       :to => :manage
     has_permission_on :airline_rights_countries,

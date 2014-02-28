@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.ui.all
+//= require autocomplete-rails
 //= require jquery.purr
 //= require best_in_place
 //= require jquery_nested_form

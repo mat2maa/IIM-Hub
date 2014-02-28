@@ -40,6 +40,7 @@ gem 'authlogic'
 gem 'formtastic'
 gem 'simple_form'
 gem 'nested_form'
+gem 'rails3-jquery-autocomplete'
 gem 'bootstrap-wysihtml5-rails'
 gem 'modernizr_rails'
 

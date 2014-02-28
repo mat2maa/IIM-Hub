@@ -103,10 +103,19 @@
     <%= f.hidden_field :movie_id,
                        value: @video.movie_id %>
 
-    <%= f.input_field :programme_title,
-                      placeholder: "Video Title",
-                      tabindex: autotab,
-                      class: 'span3' %>
+    <% if controller.action_name != 'new' %>
+      <%= f.input_field :programme_title,
+                        placeholder: "Video Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    <% else %>
+      <%= f.input_field :programme_title,
+                        url: autocomplete_movie_movie_title_movies_path,
+                        as: :autocomplete,
+                        placeholder: "Video Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    <% end %>
 
     <%= f.input_field :chinese_programme_title,
                       placeholder: "Chinese Video Title",

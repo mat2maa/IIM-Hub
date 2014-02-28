@@ -107,6 +107,11 @@
           <% if @video.masters.count > 0 %>
             <li><a href="#masters" data-toggle="tab">Masters</a></li>
           <% end %>
+          <% if @playlists.present? %>
+            <li>
+              <a href="#playlists" data-toggle="tab">Playlists</a>
+            </li>
+          <% end %>
         </ul>
       </div>
       <div class="tabbable">
@@ -170,7 +175,23 @@
               </div>
             </div>
           <% end %>
+          <% if @playlists.present? %>
+            <div class="info-list tab-pane fade" id="playlists">
+              <ul>
+                <% @playlists.each do |playlist| %>
+                  <li class="info">
+                    <%= link_to playlist.video_playlist_id,
+                                video_playlist_path(id: playlist.video_playlist_id),
+                                target: '_blank' if !playlist.video_playlist.nil? %>
+                    <%= playlist.video_playlist.airline.name if !playlist.video_playlist.nil? && !playlist.video_playlist.airline.nil? %>
+                    <%= playlist.video_playlist.end_cycle.strftime('%m%y') if !playlist.video_playlist.nil? && !playlist.video_playlist.end_cycle.nil? %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         </div>
+        <br/><br/>
       </div>
     <% end %>
   </div>

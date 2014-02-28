@@ -153,10 +153,20 @@
       <div class="input_field_label span3"><%= input_field_label @movie.movie_title, 'Movie Title' %></div>
       <div class="input_field_label span3"><%= input_field_label @movie.chinese_movie_title, 'Chinese Movie Title' %></div>
     </div>
-    <%= f.input_field :movie_title,
-                      placeholder: "Movie Title",
-                      tabindex: autotab,
-                      class: 'span3' %>
+    <% if controller.action_name != 'new' %>
+      <%= f.input_field :movie_title,
+                        placeholder: "Movie Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    <% else %>
+      <%= f.input_field :movie_title,
+                        url: autocomplete_movie_movie_title_movies_path,
+                        as: :autocomplete,
+                        placeholder: "Movie Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    <% end %>
+
     <%= f.input_field :chinese_movie_title,
                       placeholder: "Chinese Movie Title",
                       tabindex: autotab,
@@ -482,7 +492,9 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.synopsis, 'Synopsis:' %> <span id='char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.synopsis, 'Synopsis:' %>
+        <span id='char_count'></span> characters
+      </div>
     </div>
     <%= f.input_field :synopsis,
                       tabindex: autotab,
@@ -493,7 +505,9 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.chinese_synopsis, 'Chinese Synopsis:' %> <span id='chinese_char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.chinese_synopsis, 'Chinese Synopsis:' %>
+        <span id='chinese_char_count'></span> characters
+      </div>
     </div>
     <%= f.input_field :chinese_synopsis,
                       tabindex: autotab,
@@ -504,7 +518,9 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @movie.imdb_synopsis, 'IMDB Synopsis:' %> <span id='imdb_char_count'></span> characters</div>
+      <div class="input_field_label span3"><%= input_field_label @movie.imdb_synopsis, 'IMDB Synopsis:' %>
+        <span id='imdb_char_count'></span> characters
+      </div>
     </div>
     <%= f.input_field :imdb_synopsis,
                       tabindex: autotab,
@@ -591,13 +607,13 @@
     });
 
     $("#movie_theatrical_runtime").on("keyup change", function () {
-      if($(this).val() >= 0) {
+      if ($(this).val() >= 0) {
         var currentValues = $('#movie_release_versions').select2("val");
-        if(($(this).val() !== "0" && $(this).val() !== "") && jQuery.inArray( "Th", currentValues ) == -1) {
+        if (($(this).val() !== "0" && $(this).val() !== "") && jQuery.inArray("Th", currentValues) == -1) {
           currentValues.push("Th");
           $("#movie_release_versions").select2("val", currentValues);
-        } else if(($(this).val() == "0" || $(this).val() == "") && jQuery.inArray( "Th", currentValues ) == 0) {
-          currentValues = jQuery.grep(currentValues, function(value) {
+        } else if (($(this).val() == "0" || $(this).val() == "") && jQuery.inArray("Th", currentValues) == 0) {
+          currentValues = jQuery.grep(currentValues, function (value) {
             return value != "Th";
           });
           $("#movie_release_versions").select2("val", currentValues);
