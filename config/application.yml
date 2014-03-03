@@ -5,6 +5,7 @@
     nas_url: http://imagesinmotion.no-ip.biz/index.php
     nas_mp3_url_remote: https://imagesinmotion.no-ip.biz:8081/MP3/
     nas_mp3_url: http://192.168.0.35/MP3/
+    nas_zip_url_remote: https://imagesinmotion.no-ip.biz:8081/zip/
     nas_zip_url: http://192.168.0.35/zip/
 
   development:
