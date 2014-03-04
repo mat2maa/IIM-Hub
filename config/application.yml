@@ -2,7 +2,7 @@
   defaults: &defaults
     iim_app_id: 83u948$%@^po93kdERVsdfWRG932$%@jr3248jr2(K^!D39480^ry32HTEW984
     iim_domain: hub.iim.com.sg 
-    nas_url: http://imagesinmotion.no-ip.biz/index.php
+    nas_url: https://imagesinmotion.no-ip.biz:8081/server/audio_file_operations.php
     nas_mp3_url_remote: https://imagesinmotion.no-ip.biz:8081/MP3/
     nas_mp3_url: http://192.168.0.35/MP3/
     nas_zip_url_remote: https://imagesinmotion.no-ip.biz:8081/zip/

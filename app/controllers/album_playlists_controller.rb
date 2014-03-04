@@ -506,22 +506,60 @@ class AlbumPlaylistsController < ApplicationController
   #
   #end
 
+  class XMLRPC::Client
+    def disableSSLVerification
+      @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      warn "Proxyman SSL Verification disabled"
+    end
+  end
+
   def download_album_playlist
-    # Reset DB
-    @album_playlist = AlbumPlaylist.find(params[:id])
-    @album_playlist.update_attributes job_current_progress: nil,
-                                      job_current_track: nil,
-                                      job_id: nil,
-                                      job_finished_at: nil,
-                                      job_total_tracks: nil
+    require 'xmlrpc/client'
 
+    app_id = Settings.iim_app_id
+    nas_url = Settings.nas_url
 
-    AlbumPlaylist.delay.download_playlist(params[:id])
+    client = XMLRPC::Client.new_from_uri(nas_url)
+
+    client.disableSSLVerification()
+    client.http_header_extra = { 'Content-Type' => 'text/xml' }
+    client.timeout = nil
+
+    @playlist_id = params[:id].to_s
+    playlist = AlbumPlaylist.find(@playlist_id)
+
+    @albums_found = playlist.album_playlist_items_sorted.delete_if{|playlist_album| playlist_album.album.mp3_exists==false}
+
+    @album_positions = @albums_found.map{|t| t.position.to_s }.flatten
+    @albums = @albums_found.map{|t| t.album_id }.flatten
+    @tracks = @albums_found.map{|t| t.album.tracks_count }.flatten
+
+    begin
+      result = client.call2('create_albums_zip', app_id, @playlist_id, @albums, @tracks, @album_positions)
+    rescue Timeout::Error => e
+      puts 'Could not connect to NAS'
+    end
+
+    if result
+    end
   end
 
-  def poll_album_playlist_download_data
-    @album_playlist = AlbumPlaylist.find(params[:id])
-  end
+  #def download_album_playlist
+  #  # Reset DB
+  #  @album_playlist = AlbumPlaylist.find(params[:id])
+  #  @album_playlist.update_attributes job_current_progress: nil,
+  #                                    job_current_track: nil,
+  #                                    job_id: nil,
+  #                                    job_finished_at: nil,
+  #                                    job_total_tracks: nil
+  #
+  #
+  #  AlbumPlaylist.delay.download_playlist(params[:id])
+  #end
+  #
+  #def poll_album_playlist_download_data
+  #  @album_playlist = AlbumPlaylist.find(params[:id])
+  #end
 
   def table_column_select
     puts session[:album_playlist_checked] = params[:checked]
