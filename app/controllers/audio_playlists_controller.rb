@@ -1,4 +1,4 @@
-require "spreadsheet"
+require 'spreadsheet'
 require 'stringio'
 
 class AudioPlaylistsController < ApplicationController
@@ -16,16 +16,16 @@ class AudioPlaylistsController < ApplicationController
 
   def index
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-                           .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @audio_playlists = @search.result(distinct: true)
-                                .order("audio_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .order("audio_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     end
     @audio_playlists_count = @audio_playlists.count
   end
@@ -88,21 +88,21 @@ class AudioPlaylistsController < ApplicationController
 
   def edit
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-                           .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @audio_playlists = @search.result(distinct: true)
-                                .order("audio_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page)
+      .order("audio_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     end
     @audio_playlists_count = @audio_playlists.count
 
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def update
@@ -230,8 +230,8 @@ class AudioPlaylistsController < ApplicationController
     @audio_playlist = AudioPlaylist.find(params[:id])
 
     @audio_playlist_track_position = AudioPlaylistTrack.where("audio_playlist_id=?", params[:id])
-                                                       .order("position ASC")
-                                                       .find(:last)
+    .order("position ASC")
+    .find(:last)
     @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
 
     @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:id],
@@ -240,7 +240,7 @@ class AudioPlaylistsController < ApplicationController
 
     #check if track has been added to a previous playlist before
     @playlists_with_track = AudioPlaylistTrack.where("track_id = ?", params[:track_id])
-                                              .group("audio_playlist_id")
+    .group("audio_playlist_id")
 
     @notice=""
 
@@ -273,8 +273,8 @@ class AudioPlaylistsController < ApplicationController
 
     track_ids.each do |track_id|
       @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
-                                                         .order('position ASC')
-                                                         .find(:last)
+      .order('position ASC')
+      .find(:last)
       @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
       @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
                                                      track_id: track_id,
@@ -417,60 +417,83 @@ class AudioPlaylistsController < ApplicationController
     render layout: false
   end
 
-  class XMLRPC::Client
-    def disableSSLVerification
-      @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      warn "Proxyman SSL Verification disabled"
-    end
-  end
-
   def download_audio_playlist
-    require 'xmlrpc/client'
-
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
     app_id = Settings.iim_app_id
     nas_url = Settings.nas_url
 
     client = XMLRPC::Client.new_from_uri(nas_url)
 
     client.disableSSLVerification()
-    client.http_header_extra = { 'Content-Type' => 'text/xml' }
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
     client.timeout = nil
 
-    @playlist_id = params[:id].to_s
-    playlist = AudioPlaylist.find(@playlist_id)
+    # Reset DB
+    @audio_playlist = AudioPlaylist.find(params[:id])
+    @audio_playlist.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
 
-    @tracks_found = playlist.audio_playlist_tracks_sorted.delete_if { |playlist_track| playlist_track.track.mp3_exists==false }
+    # Gather data
+    @tracks_found = @audio_playlist.audio_playlist_tracks_sorted.delete_if { |playlist_track| !playlist_track.track.mp3_exists }
 
     @albums = @tracks_found.map { |t| t.track.album_id }.flatten
     @tracks = @tracks_found.map { |t| t.track.track_num }.flatten
     @track_positions = @tracks_found.map { |t| t.position.to_s }.flatten
 
+    # Call
     begin
-      result = client.call2('create_tracks_zip', app_id, @playlist_id, @albums, @tracks, @track_positions)
+      result = client.call2('create_tracks_zip', app_id, params[:id], @albums, @tracks, @track_positions)
     rescue Timeout::Error => e
       flash[:notice] = 'Could not connect to NAS'
     end
 
+    # Callback
     if result
+      flash[:notice] = 'Zip file created successfully.'
+      @audio_playlist.update_attribute :job_finished_at, Time.current
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
-  #def download_audio_playlist
-  #  # Reset DB
-  #  @audio_playlist = AudioPlaylist.find(params[:id])
-  #  @audio_playlist.update_attributes job_current_progress: nil,
-  #                                    job_current_track: nil,
-  #                                    job_id: nil,
-  #                                    job_finished_at: nil,
-  #                                    job_total_tracks: nil
-  #
-  #
-  #  AudioPlaylist.delay.download_playlist(params[:id])
-  #end
-  #
-  #def poll_audio_playlist_download_data
-  #  @audio_playlist = AudioPlaylist.find(params[:id])
-  #end
+  def delete_audio_playlist_zip
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
+    app_id = Settings.iim_app_id
+    nas_url = Settings.nas_url
+
+    client = XMLRPC::Client.new_from_uri(nas_url)
+
+    client.disableSSLVerification()
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
+    client.timeout = nil
+
+    # Reset DB
+    @audio_playlist = AudioPlaylist.find(params[:id])
+    @audio_playlist.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
+
+    # Call
+    begin
+      result = client.call2('delete_tracks_zip', app_id, params[:id])
+    rescue Timeout::Error => e
+      flash[:notice] = 'Could not connect to NAS'
+    end
+
+    # Callback
+    if result
+      flash[:notice] = 'Zip file deleted successfully.'
+      respond_to do |format|
+        format.js
+      end
+    end
+  end
 
   def table_column_select
     puts session[:audio_playlist_checked] = params[:checked]

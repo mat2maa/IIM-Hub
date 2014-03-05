@@ -1,4 +1,4 @@
-require "spreadsheet"
+require 'spreadsheet'
 require 'stringio'
 include TimeUtils
 
@@ -19,16 +19,16 @@ class AlbumPlaylistsController < ApplicationController
 
   def index
     @search = AlbumPlaylist.includes(:airline)
-                           .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @album_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @album_playlists = @search.result(distinct: true)
-                                .order("album_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .order("album_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     end
     @album_playlists_count = @album_playlists.count
   end
@@ -59,21 +59,21 @@ class AlbumPlaylistsController < ApplicationController
   def edit
 
     @search = AlbumPlaylist.includes(:airline)
-                           .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @album_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @album_playlists = @search.result(distinct: true)
-                                .order("album_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .order("album_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     end
     @album_playlists_count = @album_playlists.count
 
     @album_playlist = AlbumPlaylist.includes(album_playlist_items: :album)
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def update
@@ -129,8 +129,8 @@ class AlbumPlaylistsController < ApplicationController
     @album_playlist = AlbumPlaylist.find(params[:id])
 
     @album_playlist_item_position = AlbumPlaylistItem.where("album_playlist_id=?", params[:id])
-                                                     .order("position ASC")
-                                                     .find(:last)
+    .order("position ASC")
+    .find(:last)
     @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
 
     @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:id],
@@ -140,7 +140,7 @@ class AlbumPlaylistsController < ApplicationController
 
     #check if album has been added to a previous playlist before    
     @playlists_with_album = AlbumPlaylistItem.where("album_id=#{params[:album_id]}")
-                                             .group("album_playlist_id")
+    .group("album_playlist_id")
 
     @notice=""
 
@@ -173,8 +173,8 @@ class AlbumPlaylistsController < ApplicationController
 
     album_ids.each do |album_id|
       @album_playlist_item_position = AlbumPlaylistItem.where('album_playlist_id = ?', params[:playlist_id])
-                                                       .order('position ASC')
-                                                       .find(:last)
+      .order('position ASC')
+      .find(:last)
       @album_playlist_item_position = @album_playlist_item_position.nil? ? 1 : @album_playlist_item_position.position + 1
       @album_playlist_item = AlbumPlaylistItem.new(album_playlist_id: params[:playlist_id],
                                                    category_id: 1,
@@ -470,96 +470,83 @@ class AlbumPlaylistsController < ApplicationController
     end
   end
 
-  #def download_mp3
-  #
-  #  @playlist_id = params[:id]
-  #  playlist = AlbumPlaylist.find(@playlist_id)
-  #
-  #  albums_found = playlist.album_playlist_items_sorted.delete_if { |playlist_album| playlist_album.album.mp3_exists==false }
-  #
-  #  #track_names = tracks_found.map{|t| t.position.to_s + "-" + t.track.title_original }.flatten
-  #  album_positions = albums_found.map { |t| t.position.to_s }.flatten
-  #  album_ids = albums_found.map { |t| t.album_id }.flatten
-  #  total_tracks = albums_found.map { |t| t.album.tracks_count }.flatten
-  #
-  #  require 'xmlrpc/client'
-  #  client = XMLRPC::Client.new2(Settings.nas_url)
-  #  begin
-  #    result = client.call('create_albums_zip',
-  #                         Settings.iim_app_id,
-  #                         @playlist_id,
-  #                         album_positions,
-  #                         album_ids,
-  #                         total_tracks)
-  #  rescue Timeout::Error => e
-  #    flash[:notice] = 'Could not connect to NAS'
-  #  end
-  #
-  #  if result
-  #    respond_to do |format|
-  #      format.js {
-  #        render action: 'download_mp3.rhtml',
-  #               layout: false
-  #      }
-  #    end
-  #  end
-  #
-  #end
-
-  class XMLRPC::Client
-    def disableSSLVerification
-      @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      warn "Proxyman SSL Verification disabled"
-    end
-  end
-
   def download_album_playlist
-    require 'xmlrpc/client'
-
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
     app_id = Settings.iim_app_id
     nas_url = Settings.nas_url
 
     client = XMLRPC::Client.new_from_uri(nas_url)
 
     client.disableSSLVerification()
-    client.http_header_extra = { 'Content-Type' => 'text/xml' }
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
     client.timeout = nil
 
-    @playlist_id = params[:id].to_s
-    playlist = AlbumPlaylist.find(@playlist_id)
+    # Reset DB
+    @album_playlist = AlbumPlaylist.find(params[:id])
+    @album_playlist.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
 
-    @albums_found = playlist.album_playlist_items_sorted.delete_if{|playlist_album| playlist_album.album.mp3_exists==false}
+    # Gather data
+    @albums_found = @album_playlist.album_playlist_items_sorted.delete_if { |playlist_album| !playlist_album.album.mp3_exists }
 
-    @album_positions = @albums_found.map{|t| t.position.to_s }.flatten
-    @albums = @albums_found.map{|t| t.album_id }.flatten
-    @tracks = @albums_found.map{|t| t.album.tracks_count }.flatten
+    @album_positions = @albums_found.map { |t| t.position.to_s }.flatten
+    @albums = @albums_found.map { |t| t.album_id }.flatten
+    @tracks = @albums_found.map { |t| t.album.tracks_count }.flatten
 
+    # Call
     begin
-      result = client.call2('create_albums_zip', app_id, @playlist_id, @albums, @tracks, @album_positions)
+      result = client.call2('create_albums_zip', app_id, params[:id], @albums, @tracks, @album_positions)
     rescue Timeout::Error => e
       puts 'Could not connect to NAS'
     end
 
+    # Callback
     if result
+      flash[:notice] = 'Zip file created successfully.'
+      @album_playlist.update_attribute :job_finished_at, Time.current
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
-  #def download_album_playlist
-  #  # Reset DB
-  #  @album_playlist = AlbumPlaylist.find(params[:id])
-  #  @album_playlist.update_attributes job_current_progress: nil,
-  #                                    job_current_track: nil,
-  #                                    job_id: nil,
-  #                                    job_finished_at: nil,
-  #                                    job_total_tracks: nil
-  #
-  #
-  #  AlbumPlaylist.delay.download_playlist(params[:id])
-  #end
-  #
-  #def poll_album_playlist_download_data
-  #  @album_playlist = AlbumPlaylist.find(params[:id])
-  #end
+  def delete_album_playlist_zip
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
+    app_id = Settings.iim_app_id
+    nas_url = Settings.nas_url
+
+    client = XMLRPC::Client.new_from_uri(nas_url)
+
+    client.disableSSLVerification()
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
+    client.timeout = nil
+
+    # Reset DB
+    @album_playlist = AlbumPlaylist.find(params[:id])
+    @album_playlist.update_attributes job_current_progress: nil,
+                                      job_current_track: nil,
+                                      job_id: nil,
+                                      job_finished_at: nil,
+                                      job_total_tracks: nil
+
+    # Call
+    begin
+      result = client.call2('delete_albums_zip', app_id, params[:id])
+    rescue Timeout::Error => e
+      flash[:notice] = 'Could not connect to NAS'
+    end
+
+    # Callback
+    if result
+      flash[:notice] = 'Zip file deleted successfully.'
+      respond_to do |format|
+        format.js
+      end
+    end
+  end
 
   def table_column_select
     puts session[:album_playlist_checked] = params[:checked]

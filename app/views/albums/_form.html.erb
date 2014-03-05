@@ -79,18 +79,17 @@
 
       <div class="info info-title">
         Downloader
-        <div class="btn-group pull-right">
-          <%= link_to 'Tasks',
-                      '/delayed_job',
-                      target: '_blank',
-                      class: 'btn btn-mini btn-info' %>
+        <div class="downloader-loader pull-right" style="display: none;">
+          <%= image_tag 'loading-indicator.gif',
+                        id: 'loading-indicator',
+                        class: 'transparent' %>
         </div>
       </div>
       <div class="info-list download-info">
         <ul>
-          <li class="info">
+          <li class="info create-link">
             <div class="download-info-inner">
-              <%= link_to 'Create Album Zip',
+              <%= link_to @album.finished? ? 'Recreate Album Zip' : 'Create Album Zip',
                           download_album_path(@album.id),
                           id: 'download_album_link' %>
             </div>
@@ -98,22 +97,23 @@
           <li class="info download-link">
             <% if @album.finished? %>
               <div class="download-info-inner">
-                <%= link_to "Download Album Zip", @album.album_zip.url %>
+                <%= link_to "Download Album Zip",
+                            "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_zip_url : Settings.nas_zip_url_remote}albums/#{@album.id.to_s}.zip",
+                            target: '_blank' %>
+              </div>
+            <% end %>
+          </li>
+          <li class="info delete-link">
+            <% if @album.finished? %>
+              <div class="download-info-inner">
+                <%= link_to 'Delete Album Zip',
+                            delete_album_zip_path(@album.id),
+                            id: 'delete_album_link' %>
               </div>
             <% end %>
           </li>
           <li class="info">
             <div class="message"></div>
-          </li>
-          <li class="info">
-            <div class="download-progress"></div>
-          </li>
-          <li class="info">
-            <div class="download-info-inner">
-              <div class="progress progress-striped active progress-bar-outer">
-                <div class="progress-bar bar" style="width:0%; height: 20px;"></div>
-              </div>
-            </div>
           </li>
         </ul>
       </div>
@@ -125,207 +125,207 @@
   <!--/span-->
 
   <div class="span6">
-    <div class="content">
-      <% if controller.action_name != 'new' %>
-        <div class="tabbable">
-          <ul class="nav nav-tabs pre-nav-below">
+  <div class="content">
+    <% if controller.action_name != 'new' %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs pre-nav-below">
+          <li>
+            <%= link_to "Previous",
+                        edit_album_path(@album.previous.id) if @album.previous.present? %>
+          </li>
+          <li>
+            <%= link_to "Next",
+                        edit_album_path(@album.next.id) if @album.next.present? %>
+          </li>
+          <li>
+            <%= link_to 'View album',
+                        album_path(@album) %>
+          </li>
+          <li>
+            <%= link_to "New album",
+                        new_album_path %>
+          </li>
+          <% if permitted_to? :admin_delete,
+                              :albums %>
             <li>
-              <%= link_to "Previous",
-                          edit_album_path(@album.previous.id) if @album.previous.present? %>
+              <%= link_to 'Delete',
+                          album_url(@album),
+                          method: :delete,
+                          confirm: 'Are you sure?' %>
             </li>
-            <li>
-              <%= link_to "Next",
-                          edit_album_path(@album.next.id) if @album.next.present? %>
-            </li>
-            <li>
-              <%= link_to 'View album',
-                          album_path(@album) %>
-            </li>
-            <li>
-              <%= link_to "New album",
-                          new_album_path %>
-            </li>
-            <% if permitted_to? :admin_delete,
-                                :albums %>
-              <li>
-                <%= link_to 'Delete',
-                            album_url(@album),
-                            method: :delete,
-                            confirm: 'Are you sure?' %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-
-        <br>
-
-      <% end %>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.title_original, 'Album Title' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.title_english, 'Album Title (Translated)' %></div>
-        </div>
-        <%= f.input_field :title_original,
-                          placeholder: "Album Title",
-                          tabindex: autotab,
-                          class: 'span3' %>
-        <%= f.input_field :title_english,
-                          placeholder: "Album Title (Translated)",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.artist_original, 'Artist' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.artist_english, 'Artist (Translated)' %></div>
-        </div>
-        <%= f.input_field :artist_original,
-                          placeholder: "Artist",
-                          tabindex: autotab,
-                          class: 'span3' %>
-        <%= f.input_field :artist_english,
-                          placeholder: "Artist (Translated)",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.label_id, 'Label' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.cd_code, 'CD Code' %></div>
-        </div>
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :label_id,
-                            link_path: labels_path,
-                            collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
-                            placeholder: 'Label',
-                            span: 'span3'} %>
-        <%= f.input_field :cd_code,
-                          placeholder: "CD Code",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.publisher_id, 'Publisher' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.release_year, 'Release Year' %></div>
-        </div>
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :publisher_id,
-                            link_path: publishers_path,
-                            collection: Publisher.connection.execute(Publisher.select('name, id').order("name").to_sql).to_a,
-                            placeholder: 'Publisher',
-                            span: 'span3'} %>
-        <%= f.input_field :release_year,
-                          placeholder: "Release Year",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.disc_num, 'Disc Number' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.disc_count, 'Disc Count' %></div>
-        </div>
-        <%= f.input_field :disc_num,
-                          placeholder: "Disc Number",
-                          tabindex: autotab,
-                          class: 'span3' %>
-        <%= f.input_field :disc_count,
-                          placeholder: "Disc Count",
-                          tabindex: autotab,
-                          class: 'span3' %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.language_id, 'Language' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.origin_id, 'Origin' %></div>
-        </div>
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :language_id,
-                            link_path: languages_path,
-                            collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
-                            placeholder: 'Language',
-                            span: 'span3'} %>
-        <%= render partial: 'application/bootstrap_prepend_select',
-                   locals: {f: f,
-                            field: :origin_id,
-                            link_path: origins_path,
-                            collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
-                            placeholder: 'Origin',
-                            span: 'span3'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.gender, 'Gender' %></div>
-          <div class="input_field_label span3"><%= input_field_label @album.genre_ids, 'Genre' %></div>
-        </div>
-        <%= f.input_field :gender,
-                          placeholder: "Gender",
-                          as: :select,
-                          collection: gender,
-                          include_blank: true,
-                          tabindex: autotab,
-                          class: 'select2 span3' %>
-        <%= render partial: 'application/bootstrap_prepend_multiselect',
-                   locals: {f: f,
-                            field: :genre_ids,
-                            link_path: genres_path,
-                            collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
-                            placeholder: 'Genre',
-                            span: 'span3'} %>
-      </div>
-
-      <div class="controls controls-row">
-        <div class="row input_field_labels">
-          <div class="input_field_label span3"><%= input_field_label @album.synopsis, 'Synopsis' %></div>
-        </div>
-        <%= f.input_field :synopsis,
-                          placeholder: "Synopsis",
-                          tabindex: autotab,
-                          class: 'span6',
-                          rows: 3 %>
-      </div>
-
-      <div class="controls controls-row">
-        <% if controller.action_name != 'new' %>
-          <div class="alert span3 duration-alert fade in alert-success">
-            <span>Total Duration: <%= @album.duration_in_min %></span>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="controls controls-row">
-        <%= f.input_field :live_album,
-                          :as => :boolean,
-                          tabindex: autotab,
-                          :inline_label => "Live Album" %>
-
-        <%= f.input_field :explicit_lyrics,
-                          :as => :boolean,
-                          tabindex: autotab,
-                          :inline_label => "Explicit Lyrics" %>
-        <%= f.input_field :compilation,
-                          :as => :boolean,
-                          tabindex: autotab,
-                          :inline_label => "Compilation" %>
+          <% end %>
+        </ul>
       </div>
 
       <br>
 
-      <%= f.button :submit, class: 'btn' %>
-      <br><br><br>
+    <% end %>
 
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.title_original, 'Album Title' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.title_english, 'Album Title (Translated)' %></div>
+      </div>
+      <%= f.input_field :title_original,
+                        placeholder: "Album Title",
+                        tabindex: autotab,
+                        class: 'span3' %>
+      <%= f.input_field :title_english,
+                        placeholder: "Album Title (Translated)",
+                        tabindex: autotab,
+                        class: 'span3' %>
     </div>
-    <!--/span-->
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.artist_original, 'Artist' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.artist_english, 'Artist (Translated)' %></div>
+      </div>
+      <%= f.input_field :artist_original,
+                        placeholder: "Artist",
+                        tabindex: autotab,
+                        class: 'span3' %>
+      <%= f.input_field :artist_english,
+                        placeholder: "Artist (Translated)",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.label_id, 'Label' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.cd_code, 'CD Code' %></div>
+      </div>
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :label_id,
+                          link_path: labels_path,
+                          collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
+                          placeholder: 'Label',
+                          span: 'span3'} %>
+      <%= f.input_field :cd_code,
+                        placeholder: "CD Code",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.publisher_id, 'Publisher' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.release_year, 'Release Year' %></div>
+      </div>
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :publisher_id,
+                          link_path: publishers_path,
+                          collection: Publisher.connection.execute(Publisher.select('name, id').order("name").to_sql).to_a,
+                          placeholder: 'Publisher',
+                          span: 'span3'} %>
+      <%= f.input_field :release_year,
+                        placeholder: "Release Year",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.disc_num, 'Disc Number' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.disc_count, 'Disc Count' %></div>
+      </div>
+      <%= f.input_field :disc_num,
+                        placeholder: "Disc Number",
+                        tabindex: autotab,
+                        class: 'span3' %>
+      <%= f.input_field :disc_count,
+                        placeholder: "Disc Count",
+                        tabindex: autotab,
+                        class: 'span3' %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.language_id, 'Language' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.origin_id, 'Origin' %></div>
+      </div>
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :language_id,
+                          link_path: languages_path,
+                          collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
+                          placeholder: 'Language',
+                          span: 'span3'} %>
+      <%= render partial: 'application/bootstrap_prepend_select',
+                 locals: {f: f,
+                          field: :origin_id,
+                          link_path: origins_path,
+                          collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
+                          placeholder: 'Origin',
+                          span: 'span3'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.gender, 'Gender' %></div>
+        <div class="input_field_label span3"><%= input_field_label @album.genre_ids, 'Genre' %></div>
+      </div>
+      <%= f.input_field :gender,
+                        placeholder: "Gender",
+                        as: :select,
+                        collection: gender,
+                        include_blank: true,
+                        tabindex: autotab,
+                        class: 'select2 span3' %>
+      <%= render partial: 'application/bootstrap_prepend_multiselect',
+                 locals: {f: f,
+                          field: :genre_ids,
+                          link_path: genres_path,
+                          collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
+                          placeholder: 'Genre',
+                          span: 'span3'} %>
+    </div>
+
+    <div class="controls controls-row">
+      <div class="row input_field_labels">
+        <div class="input_field_label span3"><%= input_field_label @album.synopsis, 'Synopsis' %></div>
+      </div>
+      <%= f.input_field :synopsis,
+                        placeholder: "Synopsis",
+                        tabindex: autotab,
+                        class: 'span6',
+                        rows: 3 %>
+    </div>
+
+    <div class="controls controls-row">
+      <% if controller.action_name != 'new' %>
+        <div class="alert span3 duration-alert fade in alert-success">
+          <span>Total Duration: <%= @album.duration_in_min %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="controls controls-row">
+      <%= f.input_field :live_album,
+                        :as => :boolean,
+                        tabindex: autotab,
+                        :inline_label => "Live Album" %>
+
+      <%= f.input_field :explicit_lyrics,
+                        :as => :boolean,
+                        tabindex: autotab,
+                        :inline_label => "Explicit Lyrics" %>
+      <%= f.input_field :compilation,
+                        :as => :boolean,
+                        tabindex: autotab,
+                        :inline_label => "Compilation" %>
+    </div>
+
+    <br>
+
+    <%= f.button :submit, class: 'btn' %>
+    <br><br><br>
+
+  </div>
+  <!--/span-->
   </div>
 <% end %>
 
@@ -364,34 +364,45 @@
 <% end %>
 
 <script type="text/javascript">
-  var $ = jQuery,
-      DownloadPoller;
-
-  DownloadPoller = {
-    poll: function () {
-      setTimeout(this.request, 3000);
-    },
-    request: function () {
-      $.ajax({
-        url: '/poll_album_download_data/<%= @album.id %>',
-        type: 'get',
-        dataType: 'script'
-      });
-    }
-  };
+  var $ = jQuery;
 
   $(function () {
     $(document).on("click", "#download_album_link", function (e) {
       e.preventDefault();
+
+      var $ = jQuery,
+          $loader = $('.downloader-loader'),
+          $message = $('.download-info .message');
+
+      $loader.fadeToggle("fast");
+
+      $message.html("<div class='download-info-inner'>Preparing tracks for download...</div>");
 
       $.ajax({
         url: '/download_album/<%= @album.id %>',
         type: 'get',
         dataType: 'script'
       });
+    });
+  });
 
-      DownloadPoller.poll();
+  $(function () {
+    $(document).on("click", "#delete_album_link", function (e) {
+      e.preventDefault();
 
+      var $ = jQuery,
+          $loader = $('.downloader-loader'),
+          $message = $('.download-info .message');
+
+      $loader.fadeToggle("fast");
+
+      $message.html("<div class='download-info-inner'>Attempting to delete zip...</div>");
+
+      $.ajax({
+        url: '/delete_album_zip/<%= @album.id %>',
+        type: 'get',
+        dataType: 'script'
+      });
     });
   });
 </script>

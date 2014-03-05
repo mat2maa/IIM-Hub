@@ -25,11 +25,12 @@ Iim::Application.routes.draw do
   match '/add_review_to_movie/:id' => 'movies#add_review_to_movie', as: :add_review_to_movie
 
   match '/download_audio_playlist/:id' => 'audio_playlists#download_audio_playlist', as: :download_audio_playlist
-  match '/poll_audio_playlist_download_data/:id' => 'audio_playlists#poll_audio_playlist_download_data', as: :poll_audio_playlist_download_data
   match '/download_album_playlist/:id' => 'album_playlists#download_album_playlist', as: :download_album_playlist
-  match '/poll_album_playlist_download_data/:id' => 'album_playlists#poll_album_playlist_download_data', as: :poll_album_playlist_download_data
   match '/download_album/:id' => 'albums#download_album', as: :download_album
-  match '/poll_album_download_data/:id' => 'albums#poll_album_download_data', as: :poll_album_download_data
+
+  match '/delete_audio_playlist_zip/:id' => 'audio_playlists#delete_audio_playlist_zip', as: :delete_audio_playlist_zip
+  match '/delete_album_playlist_zip/:id' => 'album_playlists#delete_album_playlist_zip', as: :delete_album_playlist_zip
+  match '/delete_album_zip/:id' => 'albums#delete_album_zip', as: :delete_album_zip
 
   match '/download_playlist_zip/:id' => 'audio_playlists#download_playlist_zip', as: :download_playlist_zip
 

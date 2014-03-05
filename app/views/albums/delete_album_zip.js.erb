@@ -2,12 +2,14 @@ var $ = jQuery,
     $loader = $('.downloader-loader'),
     $message = $('.download-info .message'),
     $link = $('.download-info .download-link'),
+    $delete_link = $('.download-info .delete-link'),
     $flash = $('#bootstrap-flash');
 
 $message.html("");
 
-<% if @album.finished? %>
-$flash.html("<div class='alert fade in alert-success'><button class='close' data-dismiss='alert'>×</button>Zip file created successfully.</div>");
+<% if !@album.finished? %>
+$delete_link.html("");
+$flash.html("<div class='alert fade in alert-success'><button class='close' data-dismiss='alert'>×</button>Zip file deleted successfully.</div>");
 
 $link.html("<%= j render(partial: 'download_link',
                                   locals: { album: @album }) %>");

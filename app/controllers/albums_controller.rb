@@ -16,9 +16,9 @@ class AlbumsController < ApplicationController
 
   def index
     @albums = @search.result(distinct: true)
-                     .order("albums.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("albums.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     @albums_count = @albums.count
   end
@@ -32,9 +32,9 @@ class AlbumsController < ApplicationController
 
   def edit
     @albums = @search.result(distinct: true)
-                     .order("albums.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("albums.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     @albums_count = @albums.count
 
@@ -284,20 +284,80 @@ class AlbumsController < ApplicationController
   end
 
   def download_album
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
+    app_id = Settings.iim_app_id
+    nas_url = Settings.nas_url
+
+    client = XMLRPC::Client.new_from_uri(nas_url)
+
+    client.disableSSLVerification()
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
+    client.timeout = nil
+
     # Reset DB
     @album = Album.find(params[:id])
     @album.update_attributes job_current_progress: nil,
-                                      job_current_track: nil,
-                                      job_id: nil,
-                                      job_finished_at: nil,
-                                      job_total_tracks: nil
+                             job_current_track: nil,
+                             job_id: nil,
+                             job_finished_at: nil,
+                             job_total_tracks: nil
 
+    # Gather data
+    @tracks_found = @album.tracks_sorted.delete_if { |track| !track.mp3_exists }
 
-    Album.delay.download_playlist(params[:id])
+    @albums = @tracks_found.map { |t| t.album_id }.flatten
+    @tracks = @tracks_found.map { |t| t.track_num }.flatten
+
+    # Call
+    begin
+      result = client.call2('create_album_zip', app_id, params[:id], @albums, @tracks)
+    rescue Timeout::Error => e
+      puts 'Could not connect to NAS'
+    end
+
+    # Callback
+    if result
+      flash[:notice] = 'Zip file created successfully.'
+      @album.update_attribute :job_finished_at, Time.current
+      respond_to do |format|
+        format.js
+      end
+    end
   end
 
-  def poll_album_download_data
+  def delete_album_zip
+    # Set up XMLRPC Client. Server located at https://imagesinmotion.no-ip.biz/server/audio_file_operations.php
+    app_id = Settings.iim_app_id
+    nas_url = Settings.nas_url
+
+    client = XMLRPC::Client.new_from_uri(nas_url)
+
+    client.disableSSLVerification()
+    client.http_header_extra = {'Content-Type' => 'text/xml'}
+    client.timeout = nil
+
+    # Reset DB
     @album = Album.find(params[:id])
+    @album.update_attributes job_current_progress: nil,
+                             job_current_track: nil,
+                             job_id: nil,
+                             job_finished_at: nil,
+                             job_total_tracks: nil
+
+    # Call
+    begin
+      result = client.call2('delete_album_zip', app_id, params[:id])
+    rescue Timeout::Error => e
+      flash[:notice] = 'Could not connect to NAS'
+    end
+
+    # Callback
+    if result
+      flash[:notice] = 'Zip file deleted successfully.'
+      respond_to do |format|
+        format.js
+      end
+    end
   end
 
   private

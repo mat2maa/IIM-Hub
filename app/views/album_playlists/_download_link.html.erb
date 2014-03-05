@@ -1,3 +1,9 @@
 <% if @album_playlist.finished? %>
-  <div class="download-info-inner"><%= link_to "Download Playlist Zip", @album_playlist.album_playlist_zip.url %></div>
+  <div class="download-info-inner">
+    <%= link_to "Download Playlist Zip",
+                "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_zip_url : Settings.nas_zip_url_remote}album_playlists/#{@album_playlist.id.to_s}.zip",
+                target: '_blank' %>
+  </div>
+<% else %>
+
 <% end %>

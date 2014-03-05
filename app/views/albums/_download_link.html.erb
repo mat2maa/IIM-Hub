@@ -1,3 +1,9 @@
 <% if @album.finished? %>
-  <div class="download-info-inner"><%= link_to "Download Album Zip", @album.album_zip.url %></div>
+  <div class="download-info-inner">
+    <%= link_to "Download Album Zip",
+                "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_zip_url : Settings.nas_zip_url_remote}albums/#{@album.id.to_s}.zip",
+                target: '_blank' %>
+  </div>
+<% else %>
+
 <% end %>
