@@ -18,7 +18,12 @@
   </td>
   <td>
     <% if track.mp3_exists == true %>
-      <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{track.album.id.to_s}/#{track.track_num.to_s}.mp3" %>">Play</a>
+      <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{track.album.id.to_s}/#{track.track_num.to_s}.mp3" %>"><i class='icon icon-play'></i></a>
+    <% end %>
+  </td>
+  <td>
+    <% if track.mp3_exists == true %>
+      <a href="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{track.album.id.to_s}/#{track.track_num.to_s}.mp3" %>" class="btn btn-mini btn-primary"><i class='icon icon-download-alt'></i></a>
     <% end %>
   </td>
 </tr>

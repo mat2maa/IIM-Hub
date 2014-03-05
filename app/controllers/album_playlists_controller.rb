@@ -505,6 +505,7 @@ class AlbumPlaylistsController < ApplicationController
 
     # Callback
     if result
+      puts result
       flash[:notice] = 'Zip file created successfully.'
       @album_playlist.update_attribute :job_finished_at, Time.current
       respond_to do |format|
@@ -541,6 +542,7 @@ class AlbumPlaylistsController < ApplicationController
 
     # Callback
     if result
+      puts result
       flash[:notice] = 'Zip file deleted successfully.'
       respond_to do |format|
         format.js
