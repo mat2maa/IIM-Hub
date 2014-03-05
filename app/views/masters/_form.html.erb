@@ -179,7 +179,7 @@
         </div>
         <%= f.input_field :location,
                           placeholder: 'Tape location',
-                          value: f.object.id.nil? ? @master_location : '',
+                          value: f.object.id.nil? ? '' : @master.location,
                           class: 'span3' %>
       </div>
 
@@ -203,6 +203,6 @@
   </div>
   <div class='modal-footer'>
     <%= f.button :submit, class: 'btn' %>
-    <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+    <button type="button" data-dismiss="modal" class="btn">Close</button>
   </div>
 <% end %>
