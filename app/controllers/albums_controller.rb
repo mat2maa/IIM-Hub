@@ -5,10 +5,10 @@ include Amazon::AWS
 include Amazon::AWS::Search
 
 class AlbumsController < ApplicationController
-  before_filter :require_user, except: [:create_from_json]
-  before_filter :require_http_auth_user, only: [:create_from_json]
+  before_filter :require_user, except: [:find_from_json, :create_from_json, :update_from_json]
+  before_filter :require_http_auth_user, only: [:find_from_json, :create_from_json, :update_from_json]
   before_filter :set_search
-  protect_from_forgery except: :create_from_json
+  protect_from_forgery except: [:find_from_json, :create_from_json, :update_from_json]
   filter_access_to :all
   cache_sweeper :album_sweeper
 
@@ -114,6 +114,19 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def find_from_json
+    @album = Album.find(params[:id])
+
+    render :json => @album.as_json(
+        :include => {
+            :tracks => {
+                :only => [:id, :track_num, :title_original, :mp3_exists]
+            }
+        },
+        :only => [:id, :title_original, :artist_original]
+    )
+
+  end
 
   def create_from_json
     @album = Album.new(params[:album])
@@ -121,6 +134,21 @@ class AlbumsController < ApplicationController
     respond_to do |format|
       format.json do
         if @album.save
+          head :ok, location: @album
+        else
+          head 500
+        end
+      end
+    end
+
+  end
+
+  def update_from_json
+    @album = Album.find(params[:id])
+
+    respond_to do |format|
+      format.json do
+        if @album.update_attributes(params[:album])
           head :ok, location: @album
         else
           head 500
@@ -258,8 +286,6 @@ class AlbumsController < ApplicationController
       if permitted_to? :admin_delete,
                        :albums
         Track.delete_all "album_id =" + params[:id]
-
-        Album.delay.delete_album(params[:id])
 
         @album.destroy
         @album_is_deleted = true

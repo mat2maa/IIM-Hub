@@ -136,7 +136,9 @@ authorization do
                               :set_album_synopsis,
                               :download_album,
                               :delete_album_zip,
-                              :create_from_json]
+                              :find_from_json,
+                              :create_from_json,
+                              :update_from_json]
     has_permission_on :tracks,
                       :to => [:manage,
                               :show_lyrics_form,
@@ -261,7 +263,9 @@ authorization do
                               :set_album_synopsis,
                               :download_album,
                               :delete_album_zip,
-                              :create_from_json]
+                              :find_from_json,
+                              :create_from_json,
+                              :update_from_json]
     has_permission_on :tracks,
                       :to => [:manage,
                               :admin_delete,
@@ -492,7 +496,9 @@ authorization do
                               :set_album_synopsis,
                               :download_album,
                               :delete_album_zip,
-                              :create_from_json]
+                              :find_from_json,
+                              :create_from_json,
+                              :update_from_json]
     has_permission_on :tracks,
                       :to => [:manage,
                               :admin_delete,
