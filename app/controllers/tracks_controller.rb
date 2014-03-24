@@ -83,6 +83,18 @@ class TracksController < ApplicationController
   end
 
   def update
+    @tracks = @search.result(distinct: true)
+    .order("tracks.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
+
+    unless dur_max.zero?
+      @tracks = @tracks.greater_than_dur_min(dur_min)
+      @tracks = @tracks.less_than_dur_max(dur_max)
+    end
+
+    @tracks_count = @tracks.count
+
     @track = Track.find(params[:id])
     @playlists = AudioPlaylistTrack.where('track_id=?', params[:id])
     @playlists.each do |audio_playlist_track|

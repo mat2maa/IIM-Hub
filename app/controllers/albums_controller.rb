@@ -160,6 +160,14 @@ class AlbumsController < ApplicationController
 
   def update
     @album = Album.find(params[:id])
+
+    @albums = @search.result(distinct: true)
+    .order("albums.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
+
+    @albums_count = @albums.count
+
     respond_to do |format|
 
       if @album.update_attributes(params[:album])

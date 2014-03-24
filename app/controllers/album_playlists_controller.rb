@@ -79,6 +79,20 @@ class AlbumPlaylistsController < ApplicationController
   def update
     @album_playlist = AlbumPlaylist.find(params[:id])
 
+    @search = AlbumPlaylist.includes(:airline)
+    .ransack(view_context.empty_blank_params params[:q])
+    if !params[:q].nil?
+      @album_playlists = @search.result(distinct: true)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
+    else
+      @album_playlists = @search.result(distinct: true)
+      .order("album_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
+    end
+    @album_playlists_count = @album_playlists.count
+
     respond_to do |format|
       if @album_playlist.update_attributes(params[:album_playlist])
         flash[:notice] = 'Playlist was successfully updated.'
