@@ -97,7 +97,7 @@
                             collection: Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
                             placeholder: 'Airline',
                             span: 'span3',
-                            value: nil} %>
+                            value: f.object.airline_id.present? ? f.object.airline_id : nil} %>
 
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
@@ -106,7 +106,7 @@
                             collection: MasterPlaylistType.connection.execute(MasterPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'Master Playlist Type',
                             span: 'span3',
-                            value: nil} %>
+                            value: f.object.master_playlist_type_id.present? ? f.object.master_playlist_type_id : nil} %>
       </div>
 
       <div class="controls controls-row">

@@ -178,7 +178,7 @@
                         collection: @video_distributors,
                         placeholder: 'Distributor',
                         span: 'span6',
-                        value: nil} %>
+                        value: f.object.video_distributor_id.present? ? f.object.video_distributor_id : nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -192,7 +192,7 @@
                         collection: @laboratories,
                         placeholder: 'Laboratory',
                         span: 'span6',
-                        value: nil} %>
+                        value: f.object.laboratory_id.present? ? f.object.laboratory_id : nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -206,7 +206,7 @@
                         collection: @production_studios,
                         placeholder: 'Production Studio',
                         span: 'span6',
-                        value: nil} %>
+                        value: f.object.production_studio_id.present? ? f.object.production_studio_id : nil} %>
   </div>
 
   <div class="controls controls-row">

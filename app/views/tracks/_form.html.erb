@@ -168,7 +168,7 @@
                         collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
                         placeholder: 'Language',
                         span: 'span3',
-                        value: @track.album.present? ? @track.album.language_id : ''} %>
+                        value: f.object.language_id.present? ? f.object.language_id : nil} %>
     <%= render partial: 'application/bootstrap_prepend_select',
                locals: {f: f,
                         field: :origin_id,
@@ -176,7 +176,7 @@
                         collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
                         placeholder: 'Origin',
                         span: 'span3',
-                        value: nil} %>
+                        value: f.object.origin_id.present? ? f.object.origin_id : nil} %>
   </div>
 
   <div class="controls controls-row">

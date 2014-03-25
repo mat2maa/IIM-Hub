@@ -136,7 +136,7 @@
                             collection: Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
                             placeholder: 'Airline',
                             span: 'span3',
-                            value: nil} %>
+                            value: f.object.airline_id.present? ? f.object.airline_id : nil} %>
       </div>
 
       <div class="controls controls-row">

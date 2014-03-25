@@ -205,7 +205,7 @@
                           collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Label',
                           span: 'span3',
-                          value: nil} %>
+                          value: f.object.label_id.present? ? f.object.label_id : nil} %>
       <%= f.input_field :cd_code,
                         placeholder: "CD Code",
                         tabindex: autotab,
@@ -224,7 +224,7 @@
                           collection: Publisher.connection.execute(Publisher.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Publisher',
                           span: 'span3',
-                          value: nil} %>
+                          value: f.object.publisher_id.present? ? f.object.publisher_id : nil} %>
       <%= f.input_field :release_year,
                         placeholder: "Release Year",
                         tabindex: autotab,
@@ -258,7 +258,7 @@
                           collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Language',
                           span: 'span3',
-                          value: nil} %>
+                          value: f.object.language_id.present? ? f.object.language_id : nil} %>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
                           field: :origin_id,
@@ -266,7 +266,7 @@
                           collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Origin',
                           span: 'span3',
-                          value: nil} %>
+                          value: f.object.origin_id.present? ? f.object.origin_id : nil} %>
     </div>
 
     <div class="controls controls-row">
