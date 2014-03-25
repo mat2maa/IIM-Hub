@@ -38,7 +38,7 @@ class TracksController < ApplicationController
     @track.duration = (params[:dur_min].to_i * 60 *1000) + (params[:dur_sec].to_i * 1000)
     @track.track_num = Track.count(conditions: {album_id: track[:album_id]}) + 1
 
-    @track.label = @track.album.label.name if !@track.album.label_id.nil?
+    @track.label = @track.album.label.name if @track.album.present? && @track.album.label_id.present?
 
     respond_to do |format|
       if @track.save
@@ -48,6 +48,7 @@ class TracksController < ApplicationController
         format.html { redirect_to edit_album_path(@track.album) }
       else
         format.html { render action: "new" }
+        format.json { render json: @track.errors, :status => :unprocessable_entity }
       end
     end
   end

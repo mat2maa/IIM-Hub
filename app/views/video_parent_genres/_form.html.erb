@@ -1,6 +1,7 @@
 <%= minimal_form_for @video_parent_genre,
                      remote: controller.action_name == 'index' ? true : false,
                      html: {id: "video_parent_genre_form"} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="controls controls-row">
     <%= f.input_field :name,

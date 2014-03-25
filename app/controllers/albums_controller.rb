@@ -110,6 +110,7 @@ class AlbumsController < ApplicationController
       else
         flash[:notice] = 'Album was NOT successfully created.'
         format.html { render action: "new" }
+        format.json { render json: @album.errors, :status => :unprocessable_entity }
       end
     end
   end

@@ -82,6 +82,7 @@ class AudioPlaylistsController < ApplicationController
         format.html { redirect_to(edit_audio_playlist_path(@audio_playlist)) }
       else
         format.html { render action: "new" }
+        format.json { render json: @audio_playlist.errors, :status => :unprocessable_entity }
       end
     end
   end

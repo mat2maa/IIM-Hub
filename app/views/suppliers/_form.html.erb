@@ -1,6 +1,7 @@
 <%= minimal_form_for @supplier,
                      remote: controller.action_name == 'index' ? true : false,
                      html: {id: "supplier_form"} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class='controls controls-row'>
     <%= f.input_field :company_name,

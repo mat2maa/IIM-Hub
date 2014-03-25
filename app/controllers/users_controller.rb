@@ -16,6 +16,9 @@ class UsersController < ApplicationController
   end
 
   def create
+    roles = params[:user][:roles].reject! { |c| c.empty? }
+    params[:user][:roles] = roles.map { |r| Role.find(r).name }
+
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = "Account registered!"
@@ -31,9 +34,17 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+
+    @user_roles = @user.roles.collect { |r| Role.where("name = ?", r) }.flatten
+    @roles_list = []
+    @user_roles.each do |r|
+      @roles_list << r.id
+    end
   end
 
   def update
+    roles = params[:user][:roles].reject! { |c| c.empty? }
+    params[:user][:roles] = roles.map { |r| Role.find(r).name }
 
     @user = User.find(params[:id])
 

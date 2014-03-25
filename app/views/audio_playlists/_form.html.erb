@@ -1,5 +1,6 @@
 <%= minimal_form_for @audio_playlist,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="span3">
     <div class="content">
@@ -12,7 +13,7 @@
         </div>
         <br>
       <% end %>
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="info info-title">Tools</div>
         <div class="info-list">
           <ul>
@@ -103,7 +104,7 @@
 
   <div class="span6">
     <div class="content">
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="tabbable">
           <ul class="nav nav-tabs pre-nav-below">
             <li>
@@ -153,7 +154,8 @@
                             link_path: airlines_path,
                             collection: Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
                             placeholder: 'Airline',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
       </div>
 
       <div class="controls controls-row">
@@ -197,7 +199,8 @@
                             link_path: programs_path,
                             collection: Program.connection.execute(Program.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'Programme',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
 
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
@@ -205,7 +208,8 @@
                             link_path: vos_path,
                             collection: Vo.connection.execute(Vo.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'VO',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
       </div>
 
       <div class="controls controls-row">
@@ -229,7 +233,7 @@
       </div>
 
       <div class="controls controls-row">
-        <% if controller.action_name != 'new' %>
+        <% if controller.action_name != 'new' && controller.action_name != 'create' %>
           <%= render partial: 'duration',
                      object: @audio_playlist %>
         <% end %>
@@ -238,7 +242,7 @@
 
       <br>
 
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <!-- Button to trigger modal -->
         <%= link_to 'Add Track',
                     add_track_to_playlist_path(id: @audio_playlist.id),
@@ -256,7 +260,7 @@
   <!--end of .span-->
 <% end %>
 
-<% if controller.action_name != 'new' %>
+<% if controller.action_name != 'new' && controller.action_name != 'create' %>
   <%= content_for :playlist do %>
     <div class="info info-title">
       Playlist

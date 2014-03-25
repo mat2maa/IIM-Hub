@@ -1,15 +1,19 @@
 <%= minimal_form_for @track,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
+
   <div class="span3">
     <div id="poster-thumbnail">
-      <%= link_to(image_tag(@track.album.cover.url, class: 'poster-image'),
-                  @track.album.cover.url,
-                  target: "_blank") %>
+      <% if controller.action_name != 'new' && @track.album.present? %>
 
-      <div class="poster-title poster-info">
-        <%= "#{@track.track_num}. " if !@track.track_num.nil? %><%= link_to @track.album.title_original,
-                                                                            edit_album_path(@track.album) %>
-      </div>
+        <%= link_to image_tag(@track.album.cover.url, class: 'poster-image'),
+                    @track.album.cover.url,
+                    target: "_blank" %>
+
+        <div class="poster-title poster-info">
+          <%= "#{@track.track_num}. " if @track.track_num.present? %><%= link_to @track.album.title_original, edit_album_path(@track.album) %>
+        </div>
+      <% end %>
       <div class="poster-title poster-info">
         Search tools
       </div>
@@ -34,205 +38,210 @@
 
   <div class="span6">
   <div class="content">
-    <% if controller.action_name != 'new' %>
-      <div class="tabbable">
-        <ul class="nav nav-tabs pre-nav-below">
+  <% if controller.action_name != 'new' && controller.action_name != 'create' %>
+    <div class="tabbable">
+      <ul class="nav nav-tabs pre-nav-below">
+        <li>
+          <%= link_to "Previous",
+                      edit_track_path(@track.previous.id) if @track.previous.present? %>
+        </li>
+        <li>
+          <%= link_to "Next",
+                      edit_track_path(@track.next.id) if @track.next.present? %>
+        </li>
+        <li>
+          <%= link_to 'View track',
+                      track_path(@track) %>
+        </li>
+        <li>
+          <%= link_to "New track",
+                      new_track_path %>
+        </li>
+        <% if permitted_to? :admin_delete,
+                            :tracks %>
           <li>
-            <%= link_to "Previous",
-                        edit_track_path(@track.previous.id) if @track.previous.present? %>
+            <%= link_to 'Delete',
+                        track_url(@track),
+                        method: :delete,
+                        confirm: 'Are you sure?' %>
           </li>
-          <li>
-            <%= link_to "Next",
-                        edit_track_path(@track.next.id) if @track.next.present? %>
-          </li>
-          <li>
-            <%= link_to 'View track',
-                        track_path(@track) %>
-          </li>
-          <li>
-            <%= link_to "New track",
-                        new_track_path %>
-          </li>
-          <% if permitted_to? :admin_delete,
-                              :tracks %>
-            <li>
-              <%= link_to 'Delete',
-                          track_url(@track),
-                          method: :delete,
-                          confirm: 'Are you sure?' %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-
-      <br>
-
-    <% end %>
-
-    <%= hidden_field_tag 'track[album_id]',
-                         @track.album_id %>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @track.title_original, 'Track Title' %></div>
-        <div class="input_field_label span3"><%= input_field_label @track.title_english, 'Track Title (Translated)' %></div>
-      </div>
-      <%= f.input_field :title_original,
-                        placeholder: "Track Title",
-                        tabindex: autotab,
-                        class: 'span3' %>
-      <%= f.input_field :title_english,
-                        placeholder: "Track Title (Translated)",
-                        tabindex: autotab,
-                        class: 'span3' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"></div>
-        <div class="input_field_label span3"><%= input_field_label @track.distributor, 'Distributor' %></div>
-      </div>
-      <div class="alert span3 duration-alert fade in alert-success">
-        <span>Label: <%= @track.album.label.name if !@track.album.label.nil? %></span>
-      </div>
-      <%= f.input_field :distributor,
-                        placeholder: "Distributor",
-                        tabindex: autotab,
-                        class: 'span3' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span2"><%= input_field_label @track.artist_original, 'Artist' %></div>
-        <div class="input_field_label span2"><%= input_field_label @track.artist_english, 'Artist (Translated)' %></div>
-        <div class="input_field_label span2"><%= input_field_label @track.composer, 'Composer' %></div>
-      </div>
-      <%= f.input_field :artist_original,
-                        placeholder: "Artist",
-                        tabindex: autotab,
-                        class: 'span2' %>
-      <%= f.input_field :artist_english,
-                        placeholder: "Artist (Translated)",
-                        tabindex: autotab,
-                        class: 'span2' %>
-      <%= f.input_field :composer,
-                        placeholder: "Composer",
-                        tabindex: autotab,
-                        class: 'span2' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span2"><%= input_field_label @track.tempo, 'Tempo' %></div>
-        <div class="input_field_label span2"><%= input_field_label @track.tempo_intro, 'Intro Tempo' %></div>
-        <div class="input_field_label span2"><%= input_field_label @track.tempo_outro, 'Outro Tempo' %></div>
-      </div>
-      <%= f.input_field :tempo,
-                        placeholder: "Tempo",
-                        as: :select,
-                        collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
-                        include_blank: true,
-                        tabindex: autotab,
-                        class: 'select2 span2' %>
-      <%= f.input_field :tempo_intro,
-                        placeholder: "Intro Tempo",
-                        as: :select,
-                        collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
-                        include_blank: true,
-                        tabindex: autotab,
-                        class: 'select2 span2' %>
-      <%= f.input_field :tempo_outro,
-                        placeholder: "Outro Tempo",
-                        as: :select,
-                        collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
-                        include_blank: true,
-                        tabindex: autotab,
-                        class: 'select2 span2' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @track.language_id, 'Language' %></div>
-        <div class="input_field_label span3"><%= input_field_label @track.origin_id, 'Origin' %></div>
-      </div>
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :language_id,
-                          link_path: languages_path,
-                          collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
-                          placeholder: 'Language',
-                          span: 'span3'} %>
-      <%= render partial: 'application/bootstrap_prepend_select',
-                 locals: {f: f,
-                          field: :origin_id,
-                          link_path: origins_path,
-                          collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
-                          placeholder: 'Origin',
-                          span: 'span3'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @track.gender, 'Gender' %></div>
-        <div class="input_field_label span3"><%= input_field_label @track.genre_ids, 'Genre' %></div>
-      </div>
-      <%= f.input_field :gender,
-                        placeholder: "Gender",
-                        as: :select,
-                        collection: gender,
-                        include_blank: true,
-                        tabindex: autotab,
-                        class: 'select2 span3' %>
-      <%= render partial: 'application/bootstrap_prepend_multiselect',
-                 locals: {f: f,
-                          field: :genre_ids,
-                          link_path: genres_path,
-                          collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
-                          placeholder: 'Genre',
-                          span: 'span3'} %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label duration_min(@track.duration), 'Duration (min)' %></div>
-        <div class="input_field_label span3"><%= input_field_label duration_sec(@track.duration), 'Duration (sec)' %></div>
-      </div>
-      <%= text_field_tag :dur_min,
-                         duration_min(@track.duration),
-                         placeholder: "Duration (min)",
-                         tabindex: autotab,
-                         class: 'span3',
-                         value: @track.duration.present? ? duration_min(@track.duration) : '' %>
-      <%= text_field_tag :dur_sec,
-                         duration_sec(@track.duration),
-                         placeholder: "Duration (sec)",
-                         tabindex: autotab,
-                         class: 'span3',
-                         value: @track.duration.present? ? duration_sec(@track.duration) : '' %>
-    </div>
-
-    <div class="controls controls-row">
-      <div class="row input_field_labels">
-        <div class="input_field_label span3"><%= input_field_label @track.lyrics, 'Lyrics' %></div>
-      </div>
-      <%= f.input_field :lyrics,
-                        placeholder: "Lyrics",
-                        tabindex: autotab,
-                        class: 'span6',
-                        rows: 3 %>
-    </div>
-
-    <div class="controls controls-row">
-      <%= f.input_field :explicit_lyrics,
-                        :as => :boolean,
-                        tabindex: autotab,
-                        :inline_label => "Explicit Lyrics" %>
+        <% end %>
+      </ul>
     </div>
 
     <br>
 
-    <%= f.button :submit, class: 'btn' %>
-    <br><br><br>
+  <% end %>
+
+  <%= hidden_field_tag 'track[album_id]',
+                       @track.album_id %>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @track.title_original, 'Track Title' %></div>
+      <div class="input_field_label span3"><%= input_field_label @track.title_english, 'Track Title (Translated)' %></div>
+    </div>
+    <%= f.input_field :title_original,
+                      placeholder: "Track Title",
+                      tabindex: autotab,
+                      class: 'span3' %>
+    <%= f.input_field :title_english,
+                      placeholder: "Track Title (Translated)",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"></div>
+      <div class="input_field_label span3"><%= input_field_label @track.distributor, 'Distributor' %></div>
+    </div>
+    <div class="alert span3 duration-alert fade in alert-success">
+      <span>Label: <%= @track.album.label.name if @track.album.present? && @track.album.label.present? %></span>
+    </div>
+    <%= f.input_field :distributor,
+                      placeholder: "Distributor",
+                      tabindex: autotab,
+                      class: 'span3' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span2"><%= input_field_label @track.artist_original, 'Artist' %></div>
+      <div class="input_field_label span2"><%= input_field_label @track.artist_english, 'Artist (Translated)' %></div>
+      <div class="input_field_label span2"><%= input_field_label @track.composer, 'Composer' %></div>
+    </div>
+    <%= f.input_field :artist_original,
+                      placeholder: "Artist",
+                      tabindex: autotab,
+                      class: 'span2',
+                      value: @track.album.present? ? @track.album.artist_original : '' %>
+    <%= f.input_field :artist_english,
+                      placeholder: "Artist (Translated)",
+                      tabindex: autotab,
+                      class: 'span2',
+                      value: @track.album.present? ? @track.album.artist_english : '' %>
+    <%= f.input_field :composer,
+                      placeholder: "Composer",
+                      tabindex: autotab,
+                      class: 'span2' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span2"><%= input_field_label @track.tempo, 'Tempo' %></div>
+      <div class="input_field_label span2"><%= input_field_label @track.tempo_intro, 'Intro Tempo' %></div>
+      <div class="input_field_label span2"><%= input_field_label @track.tempo_outro, 'Outro Tempo' %></div>
+    </div>
+    <%= f.input_field :tempo,
+                      placeholder: "Tempo",
+                      as: :select,
+                      collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span2' %>
+    <%= f.input_field :tempo_intro,
+                      placeholder: "Intro Tempo",
+                      as: :select,
+                      collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span2' %>
+    <%= f.input_field :tempo_outro,
+                      placeholder: "Outro Tempo",
+                      as: :select,
+                      collection: Tempo.connection.execute(Tempo.select('name, name').to_sql).to_a,
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span2' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @track.language_id, 'Language' %></div>
+      <div class="input_field_label span3"><%= input_field_label @track.origin_id, 'Origin' %></div>
+    </div>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: {f: f,
+                        field: :language_id,
+                        link_path: languages_path,
+                        collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
+                        placeholder: 'Language',
+                        span: 'span3',
+                        value: @track.album.present? ? @track.album.language_id : ''} %>
+    <%= render partial: 'application/bootstrap_prepend_select',
+               locals: {f: f,
+                        field: :origin_id,
+                        link_path: origins_path,
+                        collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
+                        placeholder: 'Origin',
+                        span: 'span3',
+                        value: nil} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @track.gender, 'Gender' %></div>
+      <div class="input_field_label span3"><%= input_field_label @track.genre_ids, 'Genre' %></div>
+    </div>
+    <%= f.input_field :gender,
+                      placeholder: "Gender",
+                      as: :select,
+                      collection: gender,
+                      include_blank: true,
+                      tabindex: autotab,
+                      class: 'select2 span3',
+                      selected: @track.album.present? ? @track.album.gender : '' %>
+    <%= render partial: 'application/bootstrap_prepend_multiselect',
+               locals: {f: f,
+                        field: :genre_ids,
+                        link_path: genres_path,
+                        collection: Genre.connection.execute(Genre.select('name, id').order("name").to_sql).to_a,
+                        placeholder: 'Genre',
+                        span: 'span3'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label duration_min(@track.duration), 'Duration (min)' %></div>
+      <div class="input_field_label span3"><%= input_field_label duration_sec(@track.duration), 'Duration (sec)' %></div>
+    </div>
+    <%= text_field_tag :dur_min,
+                       duration_min(@track.duration),
+                       placeholder: "Duration (min)",
+                       tabindex: autotab,
+                       class: 'span3',
+                       value: @track.duration.present? ? duration_min(@track.duration) : '' %>
+    <%= text_field_tag :dur_sec,
+                       duration_sec(@track.duration),
+                       placeholder: "Duration (sec)",
+                       tabindex: autotab,
+                       class: 'span3',
+                       value: @track.duration.present? ? duration_sec(@track.duration) : '' %>
+  </div>
+
+  <div class="controls controls-row">
+    <div class="row input_field_labels">
+      <div class="input_field_label span3"><%= input_field_label @track.lyrics, 'Lyrics' %></div>
+    </div>
+    <%= f.input_field :lyrics,
+                      placeholder: "Lyrics",
+                      tabindex: autotab,
+                      class: 'span6',
+                      rows: 3 %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= f.input_field :explicit_lyrics,
+                      :as => :boolean,
+                      tabindex: autotab,
+                      :inline_label => "Explicit Lyrics" %>
+  </div>
+
+  <br>
+
+  <%= f.button :submit, class: 'btn' %>
+  <br><br><br>
 
   </div>
   <!--/span-->

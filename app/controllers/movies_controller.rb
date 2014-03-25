@@ -101,14 +101,15 @@ class MoviesController < ApplicationController
     @movie.director = @movie.director.gsub(/\b\w/) { $&.upcase }
     @movie.cast = @movie.cast.gsub(/\b\w/) { $&.upcase }
 
-#    respond_to do |format|
-    if @movie.save
-      flash[:notice] = 'Movie was successfully created.'
-      redirect_to edit_movie_path(@movie)
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @movie.save
+        flash[:notice] = 'Movie was successfully created.'
+        format.html { redirect_to edit_movie_path(@movie) }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @movie.errors, :status => :unprocessable_entity }
+      end
     end
-    #   end
   end
 
   def edit

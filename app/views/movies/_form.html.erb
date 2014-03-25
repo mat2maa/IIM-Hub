@@ -1,5 +1,6 @@
 <%= minimal_form_for @movie,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
   <div class="span3">
     <div class="poster-title poster-info">
       Actions
@@ -113,7 +114,7 @@
 
   <div class="span6">
   <div class="content">
-  <% if controller.action_name != 'new' %>
+  <% if controller.action_name != 'new' && controller.action_name != 'create' %>
     <div class="tabbable">
       <ul class="nav nav-tabs pre-nav-below">
         <li>
@@ -153,7 +154,7 @@
       <div class="input_field_label span3"><%= input_field_label @movie.movie_title, 'Movie Title' %></div>
       <div class="input_field_label span3"><%= input_field_label @movie.chinese_movie_title, 'Chinese Movie Title' %></div>
     </div>
-    <% if controller.action_name != 'new' %>
+    <% if controller.action_name != 'new' && controller.action_name != 'create' %>
       <%= f.input_field :movie_title,
                         placeholder: "Movie Title",
                         tabindex: autotab,
@@ -184,7 +185,8 @@
                         link_path: movie_types_path,
                         collection: MovieType.connection.execute(MovieType.select('name, id').order("name").to_sql).to_a,
                         placeholder: 'Movie Type',
-                        span: 'span3'} %>
+                        span: 'span3',
+                        value: nil} %>
 
     <% if @movie.movie_type.name=="Hollywood Movie" %>
       <%= f.input_field :foreign_language_title,
@@ -285,7 +287,8 @@
                         link_path: suppliers_path,
                         collection: @movie_distributors,
                         placeholder: 'Distributor',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -298,7 +301,8 @@
                         link_path: suppliers_path,
                         collection: @production_studios,
                         placeholder: 'Production Studio',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -311,7 +315,8 @@
                         link_path: suppliers_path,
                         collection: @laboratories,
                         placeholder: 'Laboratory',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -538,7 +543,7 @@
                       placeholder: "Critics Review",
                       class: 'span6',
                       rows: 6 %>
-    <% if controller.action_name != 'new' %>
+    <% if controller.action_name != 'new' && controller.action_name != 'create' %>
       <!-- Button to trigger modal -->
       <%= link_to 'Add Critics Review',
                   add_review_to_movie_path(id: @movie.id),

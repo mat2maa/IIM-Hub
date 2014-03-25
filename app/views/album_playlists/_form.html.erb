@@ -1,5 +1,6 @@
 <%= minimal_form_for @album_playlist,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="span3">
     <div class="content">
@@ -12,7 +13,7 @@
         </div>
         <br>
       <% end %>
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="info info-title">Tools</div>
         <div class="info-list">
           <ul>
@@ -84,7 +85,7 @@
 
   <div class="span6">
     <div class="content">
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="tabbable">
           <ul class="nav nav-tabs pre-nav-below">
             <li>
@@ -134,7 +135,8 @@
                             link_path: airlines_path,
                             collection: Airline.order("code asc").collect { |p| [p.code + " - " + p.name, p.id] },
                             placeholder: 'Airline',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
       </div>
 
       <div class="controls controls-row">
@@ -182,7 +184,7 @@
 
       <br>
 
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <!-- Button to trigger modal -->
         <%= link_to 'Add Album',
                     add_album_to_playlist_path(id: @album_playlist.id),
@@ -199,7 +201,7 @@
   <!--end of .span-->
 <% end %>
 
-<% if controller.action_name != 'new' %>
+<% if controller.action_name != 'new' && controller.action_name != 'create' %>
   <%= content_for :playlist do %>
     <div class="info info-title">
       Playlist

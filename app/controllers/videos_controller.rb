@@ -143,14 +143,15 @@ class VideosController < ApplicationController
       @video.laboratory_id = @video.video_distributor_id if !count_suppliers.zero?
     end
 
-#    respond_to do |format|
-    if @video.save
-      flash[:notice] = 'Video was successfully created.'
-      redirect_to edit_video_path(@video)
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @video.save
+        flash[:notice] = 'Video was successfully created.'
+        format.html { redirect_to edit_video_path(@video) }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @video.errors, :status => :unprocessable_entity }
+      end
     end
-    #   end
   end
 
   #def create_from_movie

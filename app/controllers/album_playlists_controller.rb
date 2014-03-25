@@ -51,7 +51,7 @@ class AlbumPlaylistsController < ApplicationController
 
       else
         format.html { render action: "new" }
-
+        format.json { render json: @album_playlist.errors, :status => :unprocessable_entity }
       end
     end
   end

@@ -44,7 +44,7 @@ class ScreenerPlaylistsController < ApplicationController
 
       else
         format.html { render action: "new" }
-
+        format.json { render json: @screener_playlist.errors, :status => :unprocessable_entity }
       end
     end
   end

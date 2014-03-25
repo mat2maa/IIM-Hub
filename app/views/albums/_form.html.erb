@@ -57,67 +57,69 @@
       </div>
       <br>
 
-      <div class="info info-title">
-        Audio Player
-        <div class="audio-loader pull-right" style="display: none;">
-          <%= image_tag 'loading-indicator.gif',
-                        id: 'loading-indicator',
-                        class: 'transparent' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
+        <div class="info info-title">
+          Audio Player
+          <div class="audio-loader pull-right" style="display: none;">
+            <%= image_tag 'loading-indicator.gif',
+                          id: 'loading-indicator',
+                          class: 'transparent' %>
+          </div>
         </div>
-      </div>
-      <div class="info-list">
-        <ul>
-          <li class="info">
-            <audio controls>
-              <source src="" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </li>
-        </ul>
-      </div>
-      <br>
+        <div class="info-list">
+          <ul>
+            <li class="info">
+              <audio controls>
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </li>
+          </ul>
+        </div>
+        <br>
 
-      <div class="info info-title">
-        Downloader
-        <div class="downloader-loader pull-right" style="display: none;">
-          <%= image_tag 'loading-indicator.gif',
-                        id: 'loading-indicator',
-                        class: 'transparent' %>
+        <div class="info info-title">
+          Downloader
+          <div class="downloader-loader pull-right" style="display: none;">
+            <%= image_tag 'loading-indicator.gif',
+                          id: 'loading-indicator',
+                          class: 'transparent' %>
+          </div>
         </div>
-      </div>
-      <div class="info-list download-info">
-        <ul>
-          <li class="info create-link">
-            <div class="download-info-inner">
-              <%= link_to @album.finished? ? 'Recreate Album Zip' : 'Create Album Zip',
-                          download_album_path(@album.id),
-                          id: 'download_album_link' %>
-            </div>
-          </li>
-          <li class="info download-link">
-            <% if @album.finished? %>
+        <div class="info-list download-info">
+          <ul>
+            <li class="info create-link">
               <div class="download-info-inner">
-                <%= link_to "Download Album Zip",
-                            "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_zip_url : Settings.nas_zip_url_remote}albums/#{@album.id.to_s}.zip",
-                            target: '_blank' %>
+                <%= link_to @album.finished? ? 'Recreate Album Zip' : 'Create Album Zip',
+                            download_album_path(@album.id),
+                            id: 'download_album_link' %>
               </div>
-            <% end %>
-          </li>
-          <li class="info delete-link">
-            <% if @album.finished? %>
-              <div class="download-info-inner">
-                <%= link_to 'Delete Album Zip',
-                            delete_album_zip_path(@album.id),
-                            id: 'delete_album_link' %>
-              </div>
-            <% end %>
-          </li>
-          <li class="info">
-            <div class="message"></div>
-          </li>
-        </ul>
-      </div>
-      <br>
+            </li>
+            <li class="info download-link">
+              <% if @album.finished? %>
+                <div class="download-info-inner">
+                  <%= link_to "Download Album Zip",
+                              "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_zip_url : Settings.nas_zip_url_remote}albums/#{@album.id.to_s}.zip",
+                              target: '_blank' %>
+                </div>
+              <% end %>
+            </li>
+            <li class="info delete-link">
+              <% if @album.finished? %>
+                <div class="download-info-inner">
+                  <%= link_to 'Delete Album Zip',
+                              delete_album_zip_path(@album.id),
+                              id: 'delete_album_link' %>
+                </div>
+              <% end %>
+            </li>
+            <li class="info">
+              <div class="message"></div>
+            </li>
+          </ul>
+        </div>
+        <br>
+      <% end %>
 
     </div>
     <br>
@@ -126,7 +128,7 @@
 
   <div class="span6">
   <div class="content">
-    <% if controller.action_name != 'new' %>
+    <% if controller.action_name != 'new' && controller.action_name != 'create' %>
       <div class="tabbable">
         <ul class="nav nav-tabs pre-nav-below">
           <li>
@@ -202,7 +204,8 @@
                           link_path: labels_path,
                           collection: Label.connection.execute(Label.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Label',
-                          span: 'span3'} %>
+                          span: 'span3',
+                          value: nil} %>
       <%= f.input_field :cd_code,
                         placeholder: "CD Code",
                         tabindex: autotab,
@@ -220,7 +223,8 @@
                           link_path: publishers_path,
                           collection: Publisher.connection.execute(Publisher.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Publisher',
-                          span: 'span3'} %>
+                          span: 'span3',
+                          value: nil} %>
       <%= f.input_field :release_year,
                         placeholder: "Release Year",
                         tabindex: autotab,
@@ -253,14 +257,16 @@
                           link_path: languages_path,
                           collection: Language.connection.execute(Language.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Language',
-                          span: 'span3'} %>
+                          span: 'span3',
+                          value: nil} %>
       <%= render partial: 'application/bootstrap_prepend_select',
                  locals: {f: f,
                           field: :origin_id,
                           link_path: origins_path,
                           collection: Origin.connection.execute(Origin.select('name, id').order("name").to_sql).to_a,
                           placeholder: 'Origin',
-                          span: 'span3'} %>
+                          span: 'span3',
+                          value: nil} %>
     </div>
 
     <div class="controls controls-row">
@@ -296,7 +302,7 @@
     </div>
 
     <div class="controls controls-row">
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="alert span3 duration-alert fade in alert-success">
           <span>Total Duration: <%= @album.duration_in_min %></span>
         </div>
@@ -329,7 +335,7 @@
   </div>
 <% end %>
 
-<% if controller.action_name != 'new' %>
+<% if controller.action_name != 'new' && controller.action_name != 'create' %>
   <%= content_for :playlist do %>
     <div class="info info-title">
       Playlist
@@ -349,6 +355,7 @@
           <th>Title&nbsp;</th>
           <th>Artist&nbsp;</th>
           <th>Duration (mm:ss)&nbsp;</th>
+          <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>

@@ -1,5 +1,6 @@
 <%= minimal_form_for @video_master_playlist,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="span3">
     <div class="content">
@@ -12,7 +13,7 @@
         </div>
         <br>
       <% end %>
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="info info-title">Tools</div>
         <div class="info-list">
           <ul>
@@ -49,7 +50,7 @@
 
   <div class="span6">
     <div class="content">
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
         <div class="tabbable">
           <ul class="nav nav-tabs pre-nav-below">
             <li>
@@ -95,7 +96,8 @@
                             link_path: airlines_path,
                             collection: Airline.order("name asc").collect { |p| [p.name + " - " + p.code, p.id] },
                             placeholder: 'Airline',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
 
         <%= render partial: 'application/bootstrap_prepend_select',
                    locals: {f: f,
@@ -103,7 +105,8 @@
                             link_path: master_playlist_types_path,
                             collection: MasterPlaylistType.connection.execute(MasterPlaylistType.select('name, id').order("name asc").to_sql).to_a,
                             placeholder: 'Master Playlist Type',
-                            span: 'span3'} %>
+                            span: 'span3',
+                            value: nil} %>
       </div>
 
       <div class="controls controls-row">
@@ -162,7 +165,7 @@
         <%= f.button :submit, class: 'btn span3' %>
       </div>
 
-      <% if controller.action_name != 'new' %>
+      <% if controller.action_name != 'new' && controller.action_name != 'create' %>
 
         <br><br>
         <!-- Button to trigger modal -->
@@ -181,7 +184,7 @@
   <!--end of .span-->
 <% end %>
 
-<% if controller.action_name != 'new' %>
+<% if controller.action_name != 'new' && controller.action_name != 'create' %>
   <%= content_for :playlist do %>
     <div class="info info-title">
       Playlist

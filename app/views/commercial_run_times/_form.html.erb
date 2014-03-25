@@ -1,6 +1,7 @@
 <%= minimal_form_for @commercial_run_time,
                      remote: controller.action_name == 'index' ? true : false,
                      html: {id: "commercial_run_time_form"} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="controls controls-row">
     <%= f.input_field :minutes,

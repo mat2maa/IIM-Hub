@@ -11,5 +11,6 @@
                     collection: collection,
                     include_blank: true,
                     tabindex: autotab,
-                    class: "select2 #{span}" %>
+                    class: "select2 #{span}",
+                    selected: value.present? ? value : '' %>
 </div>

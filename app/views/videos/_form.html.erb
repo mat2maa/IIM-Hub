@@ -1,5 +1,6 @@
 <%= minimal_form_for @video,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
   <div class="span3">
     <div class="poster-title poster-info">
       Actions
@@ -60,7 +61,7 @@
 
   <div class="span6">
   <div class="content">
-  <% if controller.action_name != 'new' %>
+  <% if controller.action_name != 'new' && controller.action_name != 'create' %>
     <div class="tabbable">
       <ul class="nav nav-tabs pre-nav-below">
         <li>
@@ -103,7 +104,7 @@
     <%= f.hidden_field :movie_id,
                        value: @video.movie_id %>
 
-    <% if controller.action_name != 'new' %>
+    <% if controller.action_name != 'new' && controller.action_name != 'create' %>
       <%= f.input_field :programme_title,
                         placeholder: "Video Title",
                         tabindex: autotab,
@@ -176,7 +177,8 @@
                         link_path: suppliers_path,
                         collection: @video_distributors,
                         placeholder: 'Distributor',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -189,7 +191,8 @@
                         link_path: suppliers_path,
                         collection: @laboratories,
                         placeholder: 'Laboratory',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -202,7 +205,8 @@
                         link_path: suppliers_path,
                         collection: @production_studios,
                         placeholder: 'Production Studio',
-                        span: 'span6'} %>
+                        span: 'span6',
+                        value: nil} %>
   </div>
 
   <div class="controls controls-row">
@@ -316,7 +320,7 @@
 
 <%= content_for :playlist do %>
   <div class="span12">
-    <% if controller.action_name != 'new' %>
+    <% if controller.action_name != 'new' && controller.action_name != 'create' %>
       <div class="poster-title poster-info">
         Screeners
         <!-- Button to trigger modal -->
@@ -393,7 +397,7 @@
 <!--</div>-->
 <!--</div>-->
 
-<% if controller.action_name != 'new' %>
+<% if controller.action_name != 'new' && controller.action_name != 'create' %>
   <%= content_for :modal do %>
     <%= render 'screener_modal' %>
     <%= render 'master_modal' %>

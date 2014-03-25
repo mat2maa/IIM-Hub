@@ -1,6 +1,7 @@
 <%= minimal_form_for @user,
                      remote: controller.action_name == 'index' ? true : false,
                      html: {id: "user_form"} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
 
   <div class="controls controls-row">
     <%= f.input_field :login,
@@ -29,11 +30,12 @@
   <div class="controls controls-row">
     <div class="select2-container-outer span12">
       <%= f.input_field :roles,
-                        :as => :select,
-                        :multiple => true,
-                        :collection => Role.order('name'),
-                        :placeholder => 'Roles',
-                        :class => 'select2 span12' %>
+                        as: :select,
+                        multiple: true,
+                        collection: Role.order('name'),
+                        placeholder: 'Roles',
+                        class: 'select2 span12',
+                        selected: @roles_list %>
     </div>
   </div>
 

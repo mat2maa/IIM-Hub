@@ -38,7 +38,7 @@ class VideoPlaylistsController < ApplicationController
 
       else
         format.html { render action: "new" }
-
+        format.json { render json: @video_playlist.errors, :status => :unprocessable_entity }
       end
     end
   end
