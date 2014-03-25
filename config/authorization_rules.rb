@@ -13,7 +13,7 @@ authorization do
                               :export_to_excel,
                               :print]
     has_permission_on :users,
-                      :to => [:edit_own_password,
+                      :to => [:index, :edit_own_password,
                               :update_own_password]
   end
 
@@ -108,7 +108,7 @@ authorization do
                               :table_column_select]
 
     has_permission_on :users,
-                      :to => [:edit_own_password,
+                      :to => [:index, :edit_own_password,
                               :update_own_password]
 
   end
@@ -230,7 +230,7 @@ authorization do
                               :table_column_select]
 
     has_permission_on :users,
-                      :to => [:edit_own_password,
+                      :to => [:index, :edit_own_password,
                               :update_own_password]
   end
 
@@ -357,7 +357,7 @@ authorization do
 
     has_permission_on :users,
                       :to => [:manage,
-                              :edit_own_password,
+                              :index, :edit_own_password,
                               :update_own_password,
                               :enable,
                               :disable]
@@ -592,7 +592,7 @@ authorization do
 
     has_permission_on :users,
                       :to => [:manage,
-                              :edit_own_password,
+                              :index, :edit_own_password,
                               :update_own_password,
                               :enable,
                               :disable]

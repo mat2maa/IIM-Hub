@@ -6,7 +6,7 @@
       <div class="well" id="login-well">
         <%= form_for @user_session,
                      url: user_session_path do |f| %>
-          <%= error_messages_for(f.object) %>
+          <%= render 'layouts/error_messages', object: f.object %>
           <%= f.text_field :login,
                            placeholder: 'Username' %>
           <br/>

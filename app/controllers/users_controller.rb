@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     @search = User.ransack(view_context.empty_blank_params params[:q])
 
-    @users = @search.result(distinct: true)
+    @users = @search.result(distinct: true).order('id ASC')
     .paginate(page: params[:page],
               per_page: items_per_page.present? ? items_per_page : 100)
     @users_count = @users.count
@@ -16,8 +16,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    roles = params[:user][:roles].reject! { |c| c.empty? }
-    params[:user][:roles] = roles.map { |r| Role.find(r).name }
+    if params[:user][:roles]
+      roles = params[:user][:roles].reject! { |c| c.empty? }
+      params[:user][:roles] = roles.map { |r| Role.find(r).name }
+    end
 
     @user = User.new(params[:user])
     if @user.save
@@ -43,8 +45,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    roles = params[:user][:roles].reject! { |c| c.empty? }
-    params[:user][:roles] = roles.map { |r| Role.find(r).name }
+    if params[:user][:roles]
+      roles = params[:user][:roles].reject! { |c| c.empty? }
+      params[:user][:roles] = roles.map { |r| Role.find(r).name }
+    end
 
     @user = User.find(params[:id])
 
