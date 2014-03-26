@@ -90,6 +90,14 @@
       <div class="poster-list">
         <ul>
           <li class="poster-info">
+            <%= link_to "Print Movie PDF",
+                        {controller: "movies",
+                         action: "show",
+                         id: @movie,
+                         format: "pdf"},
+                        target: "_blank" %>
+          </li>
+          <li class="poster-info">
             <%= link_to "Add EPK",
                         new_video_path(id: params[:id], video_type: CGI.escape("Movie EPK")) %>
           </li>

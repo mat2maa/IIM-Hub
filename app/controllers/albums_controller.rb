@@ -147,6 +147,20 @@ class AlbumsController < ApplicationController
   def update_from_json
     @album = Album.find(params[:id])
 
+    params[:album].delete(:title_original) if @album.title_original.present?
+    params[:album].delete(:artist_original) if @album.artist_original.present?
+    params[:album].delete(:label_id) if @album.label_id.present?
+    params[:album].delete(:publisher_id) if @album.publisher_id.present?
+    params[:album].delete(:release_year) if @album.release_year.present?
+    params[:album].delete(:gender) if @album.gender.present?
+    params[:album].delete(:language_id) if @album.language_id.present?
+    params[:album].delete(:disc_num) if @album.disc_num.present?
+    params[:album].delete(:disc_count) if @album.disc_count.present?
+    params[:album].delete(:cd_code) if @album.cd_code.present?
+    params[:album].delete(:compilation) if @album.compilation.present?
+    params[:album].delete(:to_delete) if @album.to_delete.present?
+    params[:album].delete(:mp3_exists) if @album.mp3_exists.present?
+
     respond_to do |format|
       format.json do
         if @album.update_attributes(params[:album])

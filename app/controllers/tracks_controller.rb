@@ -89,6 +89,9 @@ class TracksController < ApplicationController
     .paginate(page: params[:page],
               per_page: items_per_page.present? ? items_per_page : 100)
 
+    dur_min = (params[:dur_min_min].to_i * 60 *1000) + (params[:dur_min_sec].to_i * 1000)
+    dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
+
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
       @tracks = @tracks.less_than_dur_max(dur_max)
