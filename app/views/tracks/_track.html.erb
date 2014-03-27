@@ -33,14 +33,13 @@
       <%= link_to 'Edit',
                   edit_track_path(track),
                   class: 'btn btn-mini' %>
-      <% if !track.to_delete %>
-        <%= link_to 'Delete',
-                    track_url(track),
-                    remote: true,
-                    method: :delete,
-                    confirm: 'Are you sure?',
-                    class: 'spinner-trigger btn btn-mini' %>
-      <% else %>
+      <%= link_to 'Delete',
+                  track_url(track),
+                  remote: true,
+                  method: :delete,
+                  confirm: 'Are you sure?',
+                  class: 'spinner-trigger btn btn-mini' %>
+      <% if track.to_delete %>
         <%= link_to 'Restore',
                     restore_track_path(track.id),
                     remote: true,
