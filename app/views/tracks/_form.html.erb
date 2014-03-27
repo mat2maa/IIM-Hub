@@ -78,13 +78,18 @@
 
   <div class="controls controls-row">
     <div class="row input_field_labels">
-      <div class="input_field_label span3"><%= input_field_label @track.title_original, 'Track Title' %></div>
+      <div class="input_field_label span1"><%= input_field_label @track.track_num, 'Track #' %></div>
+      <div class="input_field_label span2"><%= input_field_label @track.title_original, 'Track Title' %></div>
       <div class="input_field_label span3"><%= input_field_label @track.title_english, 'Track Title (Translated)' %></div>
     </div>
+    <%= f.input_field :track_num,
+                      placeholder: "Track #",
+                      tabindex: autotab,
+                      class: 'span1' %>
     <%= f.input_field :title_original,
                       placeholder: "Track Title",
                       tabindex: autotab,
-                      class: 'span3' %>
+                      class: 'span2' %>
     <%= f.input_field :title_english,
                       placeholder: "Track Title (Translated)",
                       tabindex: autotab,
