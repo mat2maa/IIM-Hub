@@ -109,7 +109,7 @@ class TracksController < ApplicationController
     @track.label = @track.album.label.name if !@track.album.label_id.nil?
     @track.save(validate: false)
 
-    @genres = params[:track][:genre_ids].reject! { |c| c.empty? }
+    @genres = params[:track][:genre_ids].reject { |c| c.empty? }
 
     respond_to do |format|
       if @track.update_attributes(params[:track])

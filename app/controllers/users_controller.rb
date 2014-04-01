@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 
   def create
     if params[:user][:roles]
-      roles = params[:user][:roles].reject! { |c| c.empty? }
+      roles = params[:user][:roles].reject { |c| c.empty? }
       params[:user][:roles] = roles.map { |r| Role.find(r).name }
     end
 
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def update
     if params[:user][:roles]
-      roles = params[:user][:roles].reject! { |c| c.empty? }
+      roles = params[:user][:roles].reject { |c| c.empty? }
       params[:user][:roles] = roles.map { |r| Role.find(r).name }
     end
 

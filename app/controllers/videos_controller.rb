@@ -26,13 +26,13 @@ class VideosController < ApplicationController
 
     if params[:language].present?
       if params[:language][:track].present?
-        @language_tracks = params[:language][:track].reject! { |c| c.empty? }
+        @language_tracks = params[:language][:track].reject { |c| c.empty? }
         @language_tracks = @language_tracks.map {|language| "language_tracks LIKE '%#{language}%'"}
         @language_tracks = @language_tracks.join(" AND ")
       end
 
       if params[:language][:subtitle].present?
-        @language_subtitles = params[:language][:subtitle].reject! { |c| c.empty? }
+        @language_subtitles = params[:language][:subtitle].reject { |c| c.empty? }
         @language_subtitles = @language_subtitles.map {|subtitle| "language_subtitles LIKE '%#{subtitle}%'"}
         @language_subtitles = @language_subtitles.join(" AND ")
       end
