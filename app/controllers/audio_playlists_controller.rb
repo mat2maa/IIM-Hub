@@ -89,26 +89,26 @@ class AudioPlaylistsController < ApplicationController
 
   def edit
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
-                           .ransack(view_context.empty_blank_params params[:q])
+    .ransack(view_context.empty_blank_params params[:q])
     if !params[:q].nil?
       @audio_playlists = @search.result(distinct: true)
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page.present? ? items_per_page : 100)
+      .paginate(page: params[:page],
+                per_page: items_per_page.present? ? items_per_page : 100)
     else
       @audio_playlists = @search.result(distinct: true)
-                                .order("audio_playlists.id DESC")
-                                .paginate(page: params[:page],
-                                          per_page: items_per_page)
+      .order("audio_playlists.id DESC")
+      .paginate(page: params[:page],
+                per_page: items_per_page)
     end
     @audio_playlists_count = @audio_playlists.count
 
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-                                   .find(params[:id])
+    .find(params[:id])
   end
 
   def update
     @audio_playlist = AudioPlaylist.includes([{audio_playlist_tracks: :track}, {tracks: :origin}])
-                                   .find(params[:id])
+    .find(params[:id])
 
     @search = AudioPlaylist.includes(audio_playlist_tracks: :track)
     .ransack(view_context.empty_blank_params params[:q])
@@ -267,7 +267,7 @@ class AudioPlaylistsController < ApplicationController
     if !@playlists_with_track.empty? && params[:add].nil?
       @notice += "<ul>"
       @playlists_with_track.each do |playlist_item|
-        @notice += "<li>#{@track_to_add.title_original.to_s} (#{@track_to_add.id.to_s}) exists in playlist <a href='/audio_playlists/#{playlist_item.audio_playlist_id.to_s}' target='_blank' style='color: rgb(0,100,100);'>#{playlist_item.audio_playlist_id.to_s} (#{playlist_item.audio_playlist.client_playlist_code.to_s})</a></li>" if !playlist_item.audio_playlist.nil?
+        @notice += "<li>#{@track_to_add.title_original.to_s} (#{@track_to_add.id.to_s}) exists in playlist <a href='/audio_playlists/#{playlist_item.audio_playlist_id.to_s}' target='_blank' class='alert-link'>#{playlist_item.audio_playlist_id.to_s} (#{playlist_item.audio_playlist.client_playlist_code.to_s})</a></li>" if !playlist_item.audio_playlist.nil?
       end
       @notice += "</ul>"
     else
@@ -286,24 +286,49 @@ class AudioPlaylistsController < ApplicationController
   def add_multiple_tracks
 
     @notice = ""
+    @notice_array = []
+    @tracks_to_add = []
     @audio_playlist = AudioPlaylist.find(params[:playlist_id])
     track_ids = params[:track_ids]
 
-    track_ids.each do |track_id|
-      @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
-      .order('position ASC')
-      .find(:last)
-      @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
-      @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
-                                                     track_id: track_id,
-                                                     position: @audio_playlist_track_position)
+    if track_ids.present?
+      track_ids.each do |track_id|
+        @audio_playlist_track_position = AudioPlaylistTrack.where('audio_playlist_id = ?', params[:playlist_id])
+        .order('position ASC')
+        .find(:last)
+        @audio_playlist_track_position = @audio_playlist_track_position.nil? ? 1 : @audio_playlist_track_position.position + 1
+        @audio_playlist_track = AudioPlaylistTrack.new(audio_playlist_id: params[:playlist_id],
+                                                       track_id: track_id,
+                                                       position: @audio_playlist_track_position)
 
-      if @audio_playlist_track.save
-        flash[:notice] = 'Tracks were successfully added to playlist.'
-        @notice = 'Tracks were successfully added to playlist.'
-        session[:audios_search] = collection_to_id_array(@audio_playlist.tracks)
-      end
-    end # loop through audio ids
+        @track_to_add = Track.find(track_id)
+
+        #check if track has been added to a previous playlist before
+        @playlists_with_track = AudioPlaylistTrack.where("track_id = ?", track_id)
+        .group("audio_playlist_id")
+
+        if !@playlists_with_track.empty?
+          @playlists = []
+          @playlists_with_track.each do |playlist_item|
+            @notice = "#{@track_to_add.title_original.to_s} (#{@track_to_add.id.to_s}) exists in playlists: "
+            if !playlist_item.audio_playlist.nil?
+              @playlists << "<a href='/audio_playlists/#{playlist_item.audio_playlist_id.to_s}' target='_blank' class='alert-link'>#{playlist_item.audio_playlist_id.to_s} (#{playlist_item.audio_playlist.client_playlist_code.to_s})</a>"
+            end
+          end
+          @notice += @playlists.join(', ')
+          @notice_array << @notice
+          @tracks_to_add << track_id
+        else
+          if @audio_playlist_track.save
+            flash[:notice] = 'Tracks were successfully added to playlist.'
+            @notice = "#{@track_to_add.title_original.to_s} (#{@track_to_add.id.to_s}) was added to playlist."
+            @notice_array << @notice
+            session[:audios_search] = collection_to_id_array(@audio_playlist.tracks)
+          end
+        end
+
+      end # loop through audio ids
+    end
 
   end
 

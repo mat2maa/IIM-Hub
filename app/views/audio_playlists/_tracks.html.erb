@@ -120,11 +120,11 @@
 
     $('#check_all').click(function () {
       if (this.checked) {
-        $('.checkable').find(':checkbox').each(function () {
+        $('.playlist-entry').find(':checkbox').each(function () {
           this.checked = true;
         });
       } else {
-        $('.checkable').find(':checkbox').each(function () {
+        $('.playlist-entry').find(':checkbox').each(function () {
           this.checked = false;
         });
       }

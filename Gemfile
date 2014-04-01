@@ -9,7 +9,7 @@ gem 'rails', '3.2.14'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
+group :assets, :dev_work do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
@@ -88,7 +88,7 @@ gem 'carrierwave'
 
 gem 'rottentomatoes'
 
-group :development do
+group :development, :dev_work do
   gem 'oink'
   gem 'quiet_assets'
   gem 'rack-mini-profiler'

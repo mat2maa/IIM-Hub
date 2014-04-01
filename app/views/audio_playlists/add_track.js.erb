@@ -1,10 +1,15 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
+var link = "<%= j link_to "Continue adding to playlist",
+                          add_track_audio_playlist_path(@audio_playlist, track_id: @track_to_add.id, add: true),
+                          method: :post,
+                          remote: true,
+                          class: 'spinner-trigger alert-link' %>";
 
 if (notice !== '') {
   $("#track_flash_notice").html('<div class="alert fade in alert-error">' +
       '<button class="close" data-dismiss="alert">×</button>' +
       "This track exists in other playlists" +
-      notice +
+      notice + " " + link +
       '</div>');
 
   $('.ajax-loader').fadeOut('fast');

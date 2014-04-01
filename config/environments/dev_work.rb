@@ -27,7 +27,7 @@ Iim::Application.configure do
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  config.active_record.auto_explain_threshold_in_seconds = nil
 
   # Do not compress assets
   config.assets.compress = false
@@ -39,26 +39,58 @@ Iim::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
+  # config.paperclip_defaults = {
+  #     :storage => :s3,
+  #     :s3_credentials => {
+  #         :bucket => ENV['AWS_BUCKET'],
+  #         :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+  #         :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  #     }
+  # }
+
   config.after_initialize do
-    Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-#  Bullet.growl = true
-    Bullet.rails_logger = true
+#    Bullet.enable = true
+#    Bullet.alert = true
+#    Bullet.bullet_logger = true
+#    Bullet.console = true
+##  Bullet.growl = true
+#    Bullet.rails_logger = true
   end
 
+  # config.paperclip_defaults = {
+  #     :storage => :s3,
+  #     :s3_credentials => {
+  #         :bucket => ENV['AWS_BUCKET'],
+  #         :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+  #         :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  #     }
+  # }
+
+  config.after_initialize do
+    Delayed::Job.scaler = :local
+  end
+
+  Rails.application.middleware.use Oink::Middleware
+
+  config.after_initialize do
+    Delayed::Job.scaler = :local
+  end
 end
 
-PDFKit.configure do |config|
-  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
-  config.default_options = {
-    encoding: "UTF-8",
-    page_size: "A4"
-  }
-end
+#PDFKit.configure do |config|
+#  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+#  config.default_options = {
+#    encoding: "UTF-8",
+#    page_size: "A4"
+#  }
+#end
 
 if $0 == 'irb'
   require 'hirb'
   Hirb.enable
 end
+
+THALES_OPTS = {
+    url: "public/thales_schema_packages/:id.:extension",
+    path: "public/thales_schema_packages/:id.:extension"
+}
