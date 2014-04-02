@@ -43,6 +43,9 @@
         <% if @album.disc_count.present? %>
           <li class="poster-info">Disc: <%= @album.disc_num %> of <%= @album.disc_count %></li>
         <% end %>
+        <% if @album.gender.present? %>
+          <li class="poster-info">Gender: <%= @album.gender if @album.gender.present? %></li>
+        <% end %>
       </ul>
       <br>
 
@@ -167,7 +170,6 @@
                   <th>&nbsp;</th>
                   <th>&nbsp;</th>
                   <th>&nbsp;</th>
-                  <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -247,6 +249,9 @@
         <% end %>
         <% if @album.label.present? %>
           <li class="info">Label: <%= @album.label.name %></li>
+        <% end %>
+        <% if @album.language.present? %>
+          <li class="info">Language: <%= @album.language.name %></li>
         <% end %>
         <% if @album.publisher.present? %>
           <li class="info">Publisher: <%= @album.publisher.name if !@album.publisher.nil? %></li>

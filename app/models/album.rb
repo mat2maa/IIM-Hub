@@ -5,6 +5,7 @@ class Album < ActiveRecord::Base
   has_many :tracks, :dependent => :destroy
   belongs_to :label
   belongs_to :publisher
+  belongs_to :language
   has_many :album_playlist_items
   has_many :album_playlists, :through => :album_playlist_items
   has_many :audio_playlist_tracks, :through => :tracks
