@@ -103,7 +103,7 @@
     <td>
       <% if playlist_track.track.mp3_exists == true %>
         <a href="#" class="btn btn-mini btn-success btn-play" data-src="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{playlist_track.track.album.id.to_s}/#{playlist_track.track.track_num.to_s}.mp3" %>"><i class='icon icon-play'></i></a>
-        <a href="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{playlist_track.track.album.id.to_s}/#{playlist_track.track.track_num.to_s}.mp3" %>" class="btn btn-mini btn-primary btn-play" download><i class='icon icon-download-alt'></i></a>
+        <a href="<%= "#{current_user.current_login_ip == "182.19.135.7" ? Settings.nas_mp3_url : Settings.nas_mp3_url_remote}#{playlist_track.track.album.id.to_s}/#{playlist_track.track.track_num.to_s}.mp3" %>" class="btn btn-mini btn-primary" download><i class='icon icon-download-alt'></i></a>
       <% end %>
       &nbsp;
     </td>
