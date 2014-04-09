@@ -713,6 +713,27 @@ class VideoMasterPlaylistsController < ApplicationController
     render nothing: true
   end
 
+  def sort_alphabetically
+    @video_master_playlist = VideoMasterPlaylist.find(params[:id])
+    @video_master_playlist_items = @video_master_playlist.video_master_playlist_items
+
+    puts params[:sort]
+
+    if params[:sort] == 'title'
+      @video_master_playlist_items.sort_by! { |m| [m.master.episode_title.downcase, m.master.video.programme_title.downcase] }.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    elsif params[:sort] == 'distributor'
+      @video_master_playlist_items.sort_by! do |m|
+        m.master.video.video_distributor ? [m.master.video.video_distributor.company_name.downcase, m.master.episode_title.downcase, m.master.video.programme_title.downcase] : [m.master.episode_title.downcase, m.master.video.programme_title.downcase]
+      end.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def get_columns

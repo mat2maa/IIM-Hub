@@ -369,6 +369,27 @@ class ScreenerPlaylistsController < ApplicationController
     render nothing: true
   end
 
+  def sort_alphabetically
+    @screener_playlist = ScreenerPlaylist.find(params[:id])
+    @screener_playlist_items = @screener_playlist.screener_playlist_items
+
+    puts params[:sort]
+
+    if params[:sort] == 'title'
+      @screener_playlist_items.sort_by! { |m| [m.screener.episode_title.downcase, m.screener.video.programme_title.downcase] }.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    elsif params[:sort] == 'distributor'
+      @screener_playlist_items.sort_by! do |m|
+        m.screener.video.video_distributor ? [m.screener.video.video_distributor.company_name.downcase, m.screener.episode_title.downcase, m.screener.video.programme_title.downcase] : [m.screener.episode_title.downcase, m.screener.video.programme_title.downcase]
+      end.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def get_columns

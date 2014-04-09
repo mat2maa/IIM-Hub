@@ -569,6 +569,25 @@ class AlbumPlaylistsController < ApplicationController
     render nothing: true
   end
 
+  def sort_alphabetically
+    @album_playlist = AlbumPlaylist.find(params[:id])
+    @album_playlist_items = @album_playlist.album_playlist_items
+
+    puts params[:sort]
+
+    if params[:sort] == 'title'
+      @album_playlist_items.sort_by! { |m| m.album.title_original.downcase }.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    elsif params[:sort] == 'artist'
+      @album_playlist_items.sort_by! { |m| [m.album.artist_original.downcase, m.album.title_original.downcase] }.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def get_columns

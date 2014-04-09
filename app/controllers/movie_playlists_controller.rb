@@ -716,6 +716,27 @@ swe tha zho yue tam)
     render nothing: true
   end
 
+  def sort_alphabetically
+    @movie_playlist = MoviePlaylist.find(params[:id])
+    @movie_playlist_items = @movie_playlist.movie_playlist_items
+
+    puts params[:sort]
+
+    if params[:sort] == 'title'
+      @movie_playlist_items.sort_by! { |m| m.movie.movie_title.downcase }.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    elsif params[:sort] == 'distributor'
+      @movie_playlist_items.sort_by! do |m|
+        m.movie.movie_distributor ? [m.movie.movie_distributor.company_name.downcase, m.movie.movie_title.downcase] : m.movie.movie_title.downcase
+      end.each.with_index do |t, index|
+        t.update_attribute :position_position, index
+      end
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def get_columns
