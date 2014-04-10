@@ -2,6 +2,17 @@
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <%= render 'layouts/error_messages', object: f.object %>
 
+  <div class="row">
+    <div class="span12">
+      <div id="bootstrap-flash">
+        <%= bootstrap_flash %>
+      </div>
+      <div id="missing-tracks-flash"></div>
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
   <div class="span3">
     <div class="content">
       <% if @album_playlist.user_id.present? %>
@@ -20,7 +31,7 @@
             <li class="info">
               <%= link_to "Print Playlist",
                           {controller: "album_playlists",
-                           action: "show",
+                           action: "print",
                            id: @album_playlist},
                           id: 'print_playlist',
                           target: '_blank' %>

@@ -277,7 +277,9 @@ authorization do
                               :admin_delete,
                               :show_lyrics_form,
                               :show_playlists,
-                              :show_genre]
+                              :show_genre,
+                              :restore,
+                              :destroy_all]
     has_permission_on :categories,
                       :to => :manage
     has_permission_on :supplier_categories,
@@ -517,7 +519,8 @@ authorization do
                               :show_lyrics_form,
                               :show_playlists,
                               :show_genre,
-                              :restore]
+                              :restore,
+                              :destroy_all]
     has_permission_on :categories,
                       :to => :manage
     has_permission_on :supplier_categories,

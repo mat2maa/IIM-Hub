@@ -7,6 +7,7 @@
       <div id="bootstrap-flash">
         <%= bootstrap_flash %>
       </div>
+      <div id="missing-tracks-flash"></div>
     </div>
     <!--/span-->
   </div>
@@ -40,7 +41,7 @@
             <li class="info">
               <%= link_to "Print Playlist",
                           {controller: "album_playlists",
-                           action: "show",
+                           action: "print",
                            id: @album_playlist},
                           id: 'print_playlist',
                           target: '_blank' %>
@@ -128,6 +129,19 @@
   <!--end of .row-->
 </div>
 <!--end of .container-->
+
+<% content_for(:head) do %>
+  <meta name="pdfkit-orientation" content="Landscape"/>
+  <script>
+    jQuery(document).ready(function () {
+      jQuery('#print_playlist').click(function (event) {
+        if (!confirm("ALERT! Please change your page layout to LANDSCAPE when printing")) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
+<% end %>
 
 <script type="text/javascript">
   var $ = jQuery;

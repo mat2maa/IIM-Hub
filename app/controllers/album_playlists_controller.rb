@@ -111,12 +111,8 @@ class AlbumPlaylistsController < ApplicationController
   end
 
   def print
-
-    @album_playlist = AlbumPlaylist.find(params[:id])
-
-    respond_to do |format|
-      format.html { render layout: false }
-    end
+    @album_playlist = AlbumPlaylist.includes([:album_playlist_items, {album_playlist_items: :album}, {album_playlist_items: :category}])
+    .find(params[:id])
   end
 
   #display overlay
@@ -132,6 +128,11 @@ class AlbumPlaylistsController < ApplicationController
               per_page: items_per_page.present? ? items_per_page : 100)
 
     @albums_count = @albums.count
+
+    if params[:q].present?
+      @original_title = params[:q][:title_original_or_title_english_cont_any]
+      @original_artist = params[:q][:artist_original_or_artist_english_cont_any]
+    end
 
     respond_to do |format|
       format.js { render layout: false }
@@ -338,6 +339,7 @@ class AlbumPlaylistsController < ApplicationController
     sheet.add_row ["Position",
                    "Category",
                    "CD Code",
+                   "Album ID",
                    "Album Title (Original)",
                    "Album Title (Translated)",
                    "Albums Artist (Original)",
@@ -358,6 +360,8 @@ class AlbumPlaylistsController < ApplicationController
                      album_playlist_item.category.name,
 
                      album_playlist_item.album.cd_code,
+
+                     album_playlist_item.album.id,
 
                      album_playlist_item.album.title_original,
 
@@ -380,6 +384,7 @@ class AlbumPlaylistsController < ApplicationController
     # header row
     sheet.add_row ["Position",
                    "Label",
+                   "Album ID",
                    "Album Title (Translated)",
                    "Album Title (Original)",
                    "Songs Artist (Translated)",
@@ -404,6 +409,8 @@ class AlbumPlaylistsController < ApplicationController
 
         sheet.add_row [index + 1,
                        label,
+
+                       album_playlist_item.album.id,
 
                        album_playlist_item.album.title_english,
 
@@ -519,7 +526,7 @@ class AlbumPlaylistsController < ApplicationController
 
     # Callback
     if result
-      puts result
+      p result
       flash[:notice] = 'Zip file created successfully.'
       @album_playlist.update_attribute :job_finished_at, Time.current
       respond_to do |format|

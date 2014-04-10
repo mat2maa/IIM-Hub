@@ -155,6 +155,8 @@ Iim::Application.routes.draw do
         as: :restore_movie
   match '/tracks/restore/:id' => 'tracks#restore',
         as: :restore_track
+  match '/tracks/destroy_all' => 'tracks#destroy_all',
+        as: :destroy_all_pending_delete
   match '/videos/restore/:id' => 'videos#restore',
         as: :restore_video
 #match '/videos/create_from_movie/:id' => 'videos#create_from_movie', as: :create_video_from_movie

@@ -8,7 +8,6 @@ $message.html("");
 
 <% if @album_playlist.finished? %>
 $flash.html("<div class='alert fade in alert-success'><button class='close' data-dismiss='alert'>×</button>Zip file created successfully.</div>");
-
 $link.html("<%= j render(partial: 'download_link',
                                   locals: { album_playlist: @album_playlist }) %>");
 $loader.fadeOut("fast");

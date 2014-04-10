@@ -9,7 +9,8 @@
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 
   <link rel="icon" type="image/png" href="http://iimdatabase.com/favicon/favicon.png">
-  <!--[if IE]><link rel="shortcut icon" href="http://iimdatabase.com/favicon/favicon.ico"/><![endif]-->
+  <!--[if IE]>
+  <link rel="shortcut icon" href="http://iimdatabase.com/favicon/favicon.ico"/><![endif]-->
 
   <title>IIM<%= yield :title %></title>
   <%= csrf_meta_tags %>
@@ -52,20 +53,22 @@
 
 <div id="background-image"></div>
 <%= yield %>
-<div class="navbar navbar-fixed-bottom navbar-inverse" id="footer">
-  <div class="navbar-inner">
-    <% if logged_in? %>
-      <ul class="inline">
-        <li>You are logged in as <strong><%= current_user.login %></strong></li>
-        <li> |</li>
-        <li><%= link_to 'Change Password',
-                        change_password_path %></li>
-        <li><%= link_to "Log Out",
-                        logout_path %></li>
-      </ul>
-    <% end %>
+<% if action_name != 'print' %>
+  <div class="navbar navbar-fixed-bottom navbar-inverse" id="footer">
+    <div class="navbar-inner">
+      <% if logged_in? %>
+        <ul class="inline">
+          <li>You are logged in as <strong><%= current_user.login %></strong></li>
+          <li> |</li>
+          <li><%= link_to 'Change Password',
+                          change_password_path %></li>
+          <li><%= link_to "Log Out",
+                          logout_path %></li>
+        </ul>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <%= yield :modal %>
 

@@ -18,6 +18,11 @@ class TracksController < ApplicationController
     end
 
     @tracks_count = @tracks.count
+
+    if params[:q].present?
+      @original_title = params[:q][:title_original_or_title_english_cont_any]
+      @original_artist = params[:q][:artist_original_or_artist_english_cont_any]
+    end
   end
 
   def new
@@ -36,7 +41,7 @@ class TracksController < ApplicationController
     @track = Track.new(params[:track])
     @track.to_delete = 0
     @track.duration = (params[:dur_min].to_i * 60 *1000) + (params[:dur_sec].to_i * 1000)
-    @track.track_num = Track.count(conditions: {album_id: track[:album_id]}) + 1
+    @track.track_num = track[:track_num].present? ? track[:track_num] : Track.count(conditions: {album_id: track[:album_id]}) + 1
 
     @track.label = @track.album.label.name if @track.album.present? && @track.album.label_id.present?
 
@@ -141,9 +146,9 @@ class TracksController < ApplicationController
   def destroy
     @track = Track.find(params[:id])
 
-    tot_albumplaylistitems =AlbumPlaylistItem.count(conditions: 'album_id=' + @track.album_id.to_s)
-    tot_audioplaylisttracks =AudioPlaylistTrack.count(joins: 'left join tracks on tracks.id=audio_playlist_tracks.track_id',
-                                                      conditions: 'track_id=' + params[:id])
+    tot_albumplaylistitems = AlbumPlaylistItem.count(conditions: 'album_id=' + @track.album_id.to_s)
+
+    tot_audioplaylisttracks = AudioPlaylistTrack.count(joins: 'left join tracks on tracks.id=audio_playlist_tracks.track_id', conditions: 'track_id=' + params[:id])
 
     if  tot_albumplaylistitems.zero? && tot_audioplaylisttracks.zero?
 
@@ -163,6 +168,17 @@ class TracksController < ApplicationController
       flash[:notice] = 'Track could not be deleted, track is in use for by playlists'
       @track_is_deleted = false
     end
+
+    respond_to do |format|
+      format.html { redirect_to(:back) }
+      format.js
+    end
+  end
+
+  def destroy_all
+    @to_delete = Track.where('to_delete = true')
+    @to_delete.destroy_all
+    flash[:notice] = 'All tracks that were pending delete have now been completely removed.'
 
     respond_to do |format|
       format.html { redirect_to(:back) }

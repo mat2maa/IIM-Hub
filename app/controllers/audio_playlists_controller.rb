@@ -48,12 +48,8 @@ class AudioPlaylistsController < ApplicationController
   end
 
   def print
-
-    @audio_playlist = AudioPlaylist.find(params[:id])
-
-    respond_to do |format|
-      format.html { render layout: false }
-    end
+    @audio_playlist = AudioPlaylist.includes(tracks: :origin)
+    .find(params[:id])
   end
 
   def new
@@ -237,6 +233,11 @@ class AudioPlaylistsController < ApplicationController
 
     @tracks_count = @tracks.count
 
+    if params[:q].present?
+      @original_title = params[:q][:title_original_or_title_english_cont_any]
+      @original_artist = params[:q][:artist_original_or_artist_english_cont_any]
+    end
+
     respond_to do |format|
       format.js { render layout: false }
     end
@@ -374,6 +375,7 @@ class AudioPlaylistsController < ApplicationController
     # header row
     sheet.add_row ["Mastering",
                    "Song Order",
+                   "Album ID",
                    "Title (Translated)",
                    "Title (Original)",
 
@@ -416,6 +418,8 @@ class AudioPlaylistsController < ApplicationController
 
                      index + 1,
 
+                     audio_playlist_track.track.album.id,
+
                      audio_playlist_track.track.title_english,
 
                      audio_playlist_track.track.title_original,
@@ -452,7 +456,7 @@ class AudioPlaylistsController < ApplicationController
     send_data data.string,
               type: "application/excel",
               disposition: 'attachment',
-              filename: 'audio_playlist.xls'
+              filename: "audio_playlist_#{@audio_playlist.id}.xls"
   end
 
   def splits

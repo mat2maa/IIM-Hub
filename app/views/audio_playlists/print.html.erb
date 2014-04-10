@@ -1,177 +1,127 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-  <title>Images in Motion - Songs Playlist <%= @audio_playlist.id %></title>
-  <style type="text/css">
-    body, .wrapper, .note, .info, code, #topNav, .L, .R, #frame, #container, #header, #navigation, #footer,
-    #feature, #mainCol, #subCol, #extraCol, .content {
-      position: static;
-      text-align: left;
-      text-indent: 0;
-      background: White;
-      color: Black;
-      border-color: Black;
-      width: auto;
-      height: auto;
-      display: block;
-      float: none;
-      min-height: 0;
-      margin: 0;
-      padding: 0;
-    }
+<script>
+  jQuery(document).ready(function () {
+    window.print();
+  });
+</script>
 
-    body {
-      background: #FFF;
-      font-size: 10pt !important;
-      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
-      line-height: 1.5;
-      color: #000;
-      padding: 0 3%;
-    }
+<div class="container">
 
-    .hide, .nav {
-      display: none !important;
-    }
+  <div class="row">
+    <div class="span6">
+      <div class="content">
+        <div class="info info-title"><%= @audio_playlist.client_playlist_code %> Information</div>
+        <div class="info-list">
+          <ul>
+            <li class="info">Audio Playlist ID: <%= @audio_playlist.id %>
+            <li class="info">Programmer: <%= @audio_playlist.user.login.titleize unless @audio_playlist.user_id.nil? %>
+            <li class="info">Program: <%= @audio_playlist.program.name unless @audio_playlist.program.nil? %>
+            <li class="info">VO: <%= @audio_playlist.vo.name unless @audio_playlist.vo_id.nil? %>
+            <li class="info">Client Playlist Code: <%= @audio_playlist.client_playlist_code %>
+            <li class="info">Airline: <%= @audio_playlist.airline.name unless @audio_playlist.airline_id.nil? %>
+            <li class="info">In/Out: <%= @audio_playlist.in_out %>
+            <li class="info">Play Date From: <%= @audio_playlist.start_playdate.strftime("%B %Y") %></li>
+            <li class="info">Play Date To: <%= @audio_playlist.end_playdate.strftime("%B %Y") %></li>
+          </ul>
+        </div>
+      </div>
+      <br/><br/>
+    </div>
+    <div class="span12">
+      <div class="content">
+        <div class="info info-title playlist-title">Playlist</div>
+        <div id="playlist_item_view_container">
+          <% @accum_duration = 0 %>
+          <% @audio_playlist.audio_playlist_tracks_sorted.each.with_index do |playlist_track_view, index| %>
+            <div class="row">
+              <div class="span12">
+                <table class="playlist table table-condensed">
+                  <tbody>
+                  <tr>
+                    <td width="25%"><strong>(<%= index + 1 %>) Track Title:</strong></td>
+                    <td width="25%"><%= playlist_track_view.track.title_original %></td>
+                    <td width="25%"><strong>Track Title (Translated)</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.title_english %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Artist</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.artist_original %></td>
+                    <td width="25%"><strong>Composer</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.composer %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Track Num</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.track_num %></td>
+                    <td width="25%"><strong>Origin</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.origin.name if (!playlist_track_view.track.origin_id.nil? && playlist_track_view.track.origin_id!=0) %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Label</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.album.label.name if !playlist_track_view.track.album.label_id.nil? %></td>
+                    <td width="25%"><strong>CD Code:</strong></td>
+                    <td width="25%"><%= playlist_track_view.track.album.cd_code %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Genre</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.genre %></td>
+                    <td width="25%"><strong>Split (min)</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.split %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Tempo:</strong></td>
+                    <td width="25%"><%= playlist_track_view.track.tempo %></td>
+                    <td width="25%"><strong>Duration</strong>:</td>
+                    <td width="25%"><%= duration(playlist_track_view.track.duration) %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Intro Tempo</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.tempo_intro %></td>
+                    <td width="25%"><strong>Outro Tempo</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.track.tempo_outro %></td>
+                  </tr>
 
-    a:link, a:visited {
-      background: transparent;
-      font-weight: bold;
-      text-decoration: underline;
-    }
+                  <%
+                     if playlist_track_view.vo_duration.nil?
+                       vo_duration=0
+                     else
+                       vo_duration = playlist_track_view.vo_duration.to_i
+                     end
+                  %>
 
-    hr {
-      background: #ccc;
-      color: #ccc;
-      width: 100%;
-      height: 2px;
-      margin: 2em 0;
-      padding: 0;
-      border: none;
-    }
+                  <tr>
+                    <td width="25%"><strong>VO Duration (sec)</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.vo_duration %></td>
+                    <td width="25%"><strong>Accumulated Duration</strong>:</td>
+                    <td width="25%"><%= duration(@accum_duration + playlist_track_view.track.duration + (vo_duration*1000)) %></td>
+                  </tr>
+                  <tr>
+                    <td width="25%"><strong>Mastering</strong>:</td>
+                    <td width="25%"><%= playlist_track_view.mastering %></td>
+                    <td colspan="2">
+                      &nbsp;
+                    </td>
+                  </tr>
 
-    h1, h2, h3, h4, h5, h6 {
-      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
-    }
+                  <%
 
-    code {
-      font: .9em "Courier New", Monaco, Courier, monospace;
-    }
+                     if !playlist_track_view.split.nil? && playlist_track_view.split!=0 && playlist_track_view.split!=""
+                       @accum_duration = 0
+                     else
+                       @accum_duration += playlist_track_view.track.duration + (vo_duration*1000)
+                     end
+                  %>
 
-    img {
-      float: none;
-      margin: 1.5em 1.5em 1.5em 0;
-    }
-
-    a img {
-      border: none;
-    }
-
-    blockquote {
-      margin: 1.5em;
-      padding: 1em;
-      font-style: italic;
-      font-size: .9em;
-    }
-
-    .small {
-      font-size: .9em;
-    }
-
-    .large {
-      font-size: 1.1em;
-    }
-
-    #header {
-      display: none;
-    }
-
-    #playlist {
-      border: none;
-    }
-
-    table.playlist {
-      border-collapse: collapse;
-      border: 2px solid #ddd;
-    }
-
-    .playlist td {
-      font-size: 13px;
-      border: 1px solid #ddd;
-      color: #333;
-      padding: 5px;
-    }
-
-    .print {
-      margin-left: auto;
-      margin-right: auto;
-      width: 900px;
-    }
-
-    .print h2 {
-      margin-bottom: 0;
-    }
-
-    @media print {
-      body {
-        background-color: #FFF;
-      }
-
-      table.playlist {
-        page-break-inside: avoid;
-      }
-
-      .print-hide {
-        display: none;
-      }
-    }
-  </style>
-</head>
-<body>
-<div class="print">
-  <table border="0" width="100%">
-    <tr>
-      <td align="right"><strong>Song Playlist ID:</strong></td>
-      <td width="20%"><%= @audio_playlist.id %></td>
-      <td align="right"><strong>IN/OUT:</strong></td>
-      <td width="20%"><%= @audio_playlist.in_out %></td>
-      <td align="right"><strong>Programmer:</strong></td>
-      <td width="10%"><%= @audio_playlist.user.login.titleize if !@audio_playlist.user_id.nil? %></td>
-    </tr>
-    <tr>
-      <td align="right"><strong>Client Playlist Code:</strong></td>
-      <td><%= @audio_playlist.client_playlist_code %></td>
-      <td align="right"><strong>Airline:</strong></td>
-      <td><%= @audio_playlist.airline.name if !@audio_playlist.airline_id.nil? %></td>
-      <td align="right"><strong>VO:</strong></td>
-      <td><%= @audio_playlist.vo.name if !@audio_playlist.vo_id.nil? %></td>
-    </tr>
-    <tr>
-      <td align="right"><strong>Program:</strong></td>
-      <td><%= @audio_playlist.program.name if !@audio_playlist.program_id.nil? %></td>
-      <td align="right"><strong>Play Date:</strong></td>
-      <td><%= @audio_playlist.start_playdate.strftime("%B %Y") %>
-        to <%= @audio_playlist.end_playdate.strftime("%B %Y") %></td>
-      <td align="right"><strong>Airline Duration:</strong></td>
-      <td><%= @audio_playlist.airline_duration %></td>
-    </tr>
-    <tr>
-      <td align="right"><strong>Total Duration:</strong></td>
-      <td><%= @audio_playlist.total_duration_cached %></td>
-      <td align="right"><strong>Splits:</strong></td>
-      <td><%= render partial: 'splits',
-                     object: @audio_playlist %></td>
-    </tr>
-  </table>
-  <div id="playlist">
-    <table width="100%" border="1">
-      <% @accum_duration = 0 %>
-      <tbody id="audioplaylist">
-      <%= render partial: 'playlist_track_view',
-                 collection: @audio_playlist.audio_playlist_tracks_sorted %>
-      </tbody>
-    </table>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <br/><br/>
+          <% end %>
+        </div>
+      </div>
+      <!--end of .content-->
+    </div>
+    <!--end of .span-->
   </div>
+  <!--end of .row-->
 </div>
-</body>
-</html>
+<!--end of .container-->

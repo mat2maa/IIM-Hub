@@ -21,6 +21,11 @@ class AlbumsController < ApplicationController
               per_page: items_per_page.present? ? items_per_page : 100)
 
     @albums_count = @albums.count
+
+    if params[:q].present?
+      @original_title = params[:q][:title_original_or_title_english_cont_any]
+      @original_artist = params[:q][:artist_original_or_artist_english_cont_any]
+    end
   end
 
   def show

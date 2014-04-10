@@ -6,30 +6,6 @@
                     class: 'search-form' do |albums| %>
 
   <div class="controls controls-row">
-    <%= albums.input_field :title_original_cont,
-                           class: 'span12',
-                           placeholder: 'Title Original' %>
-  </div>
-
-  <div class="controls controls-row">
-    <%= albums.input_field :artist_original_cont,
-                           class: 'span12',
-                           placeholder: 'Artist Original' %>
-  </div>
-
-  <div class="controls controls-row">
-    <%= albums.input_field :title_english_cont,
-                           class: 'span12',
-                           placeholder: 'Title (Translated)' %>
-  </div>
-
-  <div class="controls controls-row">
-    <%= albums.input_field :artist_english_cont,
-                           class: 'span12',
-                           placeholder: 'Artist (Translated)' %>
-  </div>
-
-  <div class="controls controls-row">
     <%= render partial: 'application/bootstrap_append_datepicker',
                locals: {f: albums,
                         field: :release_year_eq,
@@ -41,6 +17,20 @@
                         datepicker_behaviour: 'datepicker-years',
                         placeholder: 'Year',
                         span: 'span12'} %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :title_original_or_title_english_cont_any,
+                           class: 'span12',
+                           placeholder: 'Title',
+                           value: @original_title %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :artist_original_or_artist_english_cont_any,
+                           class: 'span12',
+                           placeholder: 'Artist',
+                           value: @original_artist %>
   </div>
 
   <div class="controls controls-row">
@@ -79,6 +69,30 @@
                            include_blank: true,
                            class: 'select2 span12',
                            placeholder: 'Language' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :title_original_cont,
+                           class: 'span12',
+                           placeholder: 'Title Original' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :artist_original_cont,
+                           class: 'span12',
+                           placeholder: 'Artist Original' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :title_english_cont,
+                           class: 'span12',
+                           placeholder: 'Title (Translated)' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= albums.input_field :artist_english_cont,
+                           class: 'span12',
+                           placeholder: 'Artist (Translated)' %>
   </div>
 
   <br>

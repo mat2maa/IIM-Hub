@@ -6,15 +6,17 @@
                     class: 'search-form' do |tracks| %>
 
   <div class="controls controls-row">
-    <%= tracks.input_field :title_original_cont,
+    <%= tracks.input_field :title_original_or_title_english_cont_any,
+                           placeholder: 'Title',
                            class: 'span12',
-                           placeholder: 'Title Original' %>
+                           value: @original_title %>
   </div>
 
   <div class="controls controls-row">
-    <%= tracks.input_field :artist_original_cont,
+    <%= tracks.input_field :artist_original_or_artist_english_cont_any,
+                           placeholder: 'Artist',
                            class: 'span12',
-                           placeholder: 'Artist Original' %>
+                           value: @original_artist %>
   </div>
 
   <br>
@@ -52,18 +54,6 @@
   <br>
 
   <div class="controls controls-row">
-    <%= tracks.input_field :title_english_cont,
-                           class: 'span12',
-                           placeholder: 'Title (Translated)' %>
-  </div>
-
-  <div class="controls controls-row">
-    <%= tracks.input_field :artist_english_cont,
-                           class: 'span12',
-                           placeholder: 'Artist (Translated)' %>
-  </div>
-
-  <div class="controls controls-row">
     <%= tracks.input_field :album_label_id_eq,
                            collection: Label.connection.execute(Label.select('name, id').to_sql).to_a,
                            include_blank: true,
@@ -75,6 +65,30 @@
     <%= tracks.input_field :album_cd_code_cont,
                            class: 'span12',
                            placeholder: 'CD Code' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= tracks.input_field :title_original_cont,
+                           class: 'span12',
+                           placeholder: 'Title Original' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= tracks.input_field :artist_original_cont,
+                           class: 'span12',
+                           placeholder: 'Artist Original' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= tracks.input_field :title_english_cont,
+                           class: 'span12',
+                           placeholder: 'Title (Translated)' %>
+  </div>
+
+  <div class="controls controls-row">
+    <%= tracks.input_field :artist_english_cont,
+                           class: 'span12',
+                           placeholder: 'Artist (Translated)' %>
   </div>
 
   <div class="controls controls-row">

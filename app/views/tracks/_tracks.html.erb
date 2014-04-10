@@ -40,6 +40,14 @@
                collection: @tracks %>
   </table>
 
+  <% if permitted_to? :destroy_all,
+                      :tracks %>
+    <%= link_to 'Destroy all pending delete',
+                destroy_all_pending_delete_path,
+                class: 'btn' %>
+  <% end %>
+
+
   <br/>
   <br/>
   <%= will_paginate @tracks,

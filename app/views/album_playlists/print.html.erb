@@ -1,162 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-  <title>Images in Motion - Albums Playlist <%= @album_playlist.id %></title>
-  <style type="text/css">
-    body, .wrapper, .note, .info, code, #topNav, .L, .R, #frame, #container, #header, #navigation, #footer,
-    #feature, #mainCol, #subCol, #extraCol, .content {
-      position: static;
-      text-align: left;
-      text-indent: 0;
-      background: White;
-      color: Black;
-      border-color: Black;
-      width: auto;
-      height: auto;
-      display: block;
-      float: none;
-      min-height: 0;
-      margin: 0;
-      padding: 0;
-    }
+<script>
+  jQuery(document).ready(function () {
+    window.print();
+  });
+</script>
 
-    body {
-      background: #FFF;
-      font-size: 10pt !important;
-      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
-      line-height: 1.5;
-      color: #000;
-      padding: 0 3%;
-    }
-
-    .hide, .nav {
-      display: none !important;
-    }
-
-    a:link, a:visited {
-      background: transparent;
-      font-weight: bold;
-      text-decoration: underline;
-    }
-
-    hr {
-      background: #ccc;
-      color: #ccc;
-      width: 100%;
-      height: 2px;
-      margin: 2em 0;
-      padding: 0;
-      border: none;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: "WenQuanYi Micro Hei", "DejaVu Sans", sans-serif;
-    }
-
-    code {
-      font: .9em "Courier New", Monaco, Courier, monospace;
-    }
-
-    img {
-      float: none;
-      margin: 1.5em 1.5em 1.5em 0;
-    }
-
-    a img {
-      border: none;
-    }
-
-    blockquote {
-      margin: 1.5em;
-      padding: 1em;
-      font-style: italic;
-      font-size: .9em;
-    }
-
-    .small {
-      font-size: .9em;
-    }
-
-    .large {
-      font-size: 1.1em;
-    }
-
-    #header {
-      display: none;
-    }
-
-    #playlist {
-      border: none;
-    }
-
-    table.playlist {
-      border-collapse: collapse;
-      border: 2px solid #ddd;
-    }
-
-    .playlist td {
-      font-size: 13px;
-      border: 1px solid #ddd;
-      color: #333;
-      padding: 5px;
-    }
-
-    .print {
-      margin-left: auto;
-      margin-right: auto;
-      width: 900px;
-    }
-
-    .print h2 {
-      margin-bottom: 0;
-    }
-
-    @media print {
-      body {
-        background-color: #FFF;
-      }
-
-      table.playlist {
-        page-break-inside: avoid;
-      }
-
-      .print-hide {
-        display: none;
-      }
-    }
-  </style>
-</head>
-<body>
-<div class="print">
-  <table border="0" width="100%">
-    <tr>
-      <td align="right" width="18%"><strong>Album Playlist ID:</strong></td>
-      <td width="16%"><%= @album_playlist.id %></td>
-      <td align="right" width="9%"><strong>IN/OUT:</strong></td>
-      <td width="14%"><%= @album_playlist.in_out %></td>
-      <td align="right" width="11%"><strong>Programmer:</strong></td>
-      <td width="32%"><%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %></td>
-    </tr>
-    <tr>
-      <td align="right"><strong>Client Playlist Code:</strong></td>
-      <td><%= @album_playlist.client_playlist_code %>
-      <td align="right"><strong>Airline:</strong></td>
-      <td><%= @album_playlist.airline.name if !@album_playlist.airline_id.nil? %></td>
-      <td align="right"><strong>Play Date:</strong></td>
-      <td colspan="3"><%= @album_playlist.start_playdate.strftime("%B %Y") %>
-        to <%= @album_playlist.end_playdate.strftime("%B %Y") %></td>
-    </tr>
-  </table>
-
-  <div id="playlist">
-    <table width="100%" border="1">
-      <tbody id="audioplaylist">
-      <%= render partial: 'playlist_item_view',
-                 collection: @album_playlist.album_playlist_items_sorted %>
-      </tbody>
-    </table>
+<div class="container">
+  <div class="span6">
+    <div class="content">
+      <div class="info info-title"><%= @album_playlist.client_playlist_code %> Information</div>
+      <div class="info-list">
+        <ul>
+          <li class="info">Album Playlist ID: <%= @album_playlist.id %>
+          <li class="info">Programmer: <%= @album_playlist.user.login.titleize if !@album_playlist.user_id.nil? %>
+          <li class="info">Client Playlist Code: <%= @album_playlist.client_playlist_code %>
+          <li class="info">Airline: <%= @album_playlist.airline.name if !@album_playlist.airline_id.nil? %>
+          <li class="info">In/Out: <%= @album_playlist.in_out %>
+          <li class="info">Play Date From: <%= @album_playlist.start_playdate.strftime("%B %Y") %></li>
+          <li class="info">Play Date To: <%= @album_playlist.end_playdate.strftime("%B %Y") %></li>
+        </ul>
+      </div>
+    </div>
+    <br/><br/>
   </div>
+  <div class="span12">
+    <div class="content">
+      <div class="info info-title playlist-title">Playlist</div>
+      <div id="playlist_item_view_container">
+        <% @album_playlist.album_playlist_items_sorted.each.with_index do |playlist_item_view, index| %>
+          <div class="row">
+            <div class="span12">
+              <table class="playlist table table-condensed">
+                <tbody>
+                <tr>
+                  <td width="25%"><strong>Album ID:</strong></td>
+                  <td colspan="3"><%= playlist_item_view.album.id %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>(<%= index + 1 %>) Album Title:</strong></td>
+                  <td width="25%"><%= playlist_item_view.album.title_original %></td>
+                  <td width="25%"><strong>Album Title (Translated)</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.title_english %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Artist</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.artist_original %></td>
+                  <td width="25%"><strong>Artist (Translated)</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.artist_english %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Label</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.label.name if !playlist_item_view.album.label_id.nil? %></td>
+                  <td width="25%"><strong>CD Code</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.cd_code %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Tracks</strong>:</td>
+                  <td width="25%"><%= playlist_item_view.album.tracks.size %></td>
+                  <td width="25%"><strong>Duration:</strong></td>
+                  <td width="25%"><%= playlist_item_view.album.duration_in_min %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Genre</strong>:</td>
+                  <td width="25%"><%= show_genres(playlist_item_view.album.genres) if !playlist_item_view.album.genres.count.zero? %></td>
+                  <td width="25%"><strong>Explicit Lyrics</strong>:</td>
+                  <td width="25%"><%= has_explicit_lyrics(playlist_item_view.album.explicit_lyrics) %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Category</strong>:</td>
+                  <td colspan="3"><%= playlist_item_view.category.name if !playlist_item_view.category_id.nil? %></td>
+                </tr>
+                <tr>
+                  <td width="25%"><strong>Synopsis</strong>:</td>
+                  <td colspan="3"><%= playlist_item_view.album.synopsis %></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br/><br/>
+        <% end %>
+      </div>
+    </div>
+    <!--end of .content-->
+  </div>
+  <!--end of .span-->
 </div>
-</body>
-</html>
+<!--end of .row-->
+</div>
+<!--end of .container-->
