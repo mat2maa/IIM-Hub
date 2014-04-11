@@ -40,6 +40,13 @@ Iim::Application.routes.draw do
   match '/download_album/:id' => 'albums#download_album',
         as: :download_album
 
+  match '/download_audio_playlist_missing_tracks_log' => 'audio_playlists#log_missing_tracks',
+        as: :download_audio_playlist_missing_tracks_log
+  match '/download_album_playlist_missing_tracks_log' => 'album_playlists#log_missing_tracks',
+        as: :download_album_playlist_missing_tracks_log
+  match '/download_album_missing_tracks_log' => 'albums#log_missing_tracks',
+        as: :download_album_missing_tracks_log
+
   match '/delete_audio_playlist_zip/:id' => 'audio_playlists#delete_audio_playlist_zip',
         as: :delete_audio_playlist_zip
   match '/delete_album_playlist_zip/:id' => 'album_playlists#delete_album_playlist_zip',

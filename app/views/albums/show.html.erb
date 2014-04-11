@@ -9,6 +9,10 @@
     </div>
   </div>
   <!--/span-->
+  <div class="span12">
+    <div id="missing-tracks-flash"></div>
+  </div>
+  <!--/span-->
 </div>
 <!--/row-->
 
@@ -27,9 +31,6 @@
     </div>
     <div class="poster-list">
       <ul>
-        <% if @album.title_original.present? %>
-          <li class="poster-info"><%= link_to @album.title_original, album_path(@album) %></li>
-        <% end %>
         <% if @album.release_year.present? %>
           <li class="poster-info">Release Year: <%= @album.release_year %></li>
         <% end %>

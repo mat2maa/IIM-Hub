@@ -2,12 +2,28 @@ var $ = jQuery,
     $loader = $('.downloader-loader'),
     $message = $('.download-info .message'),
     $link = $('.download-info .download-link'),
-    $flash = $('#bootstrap-flash');
+    $flash = $('#bootstrap-flash'),
+    $missing = $('#missing-tracks-flash');
 
 $message.html("");
 
 <% if @album.finished? %>
 $flash.html("<div class='alert fade in alert-success'><button class='close' data-dismiss='alert'>×</button>Zip file created successfully.</div>");
+
+<% if @missing_tracks_count != 0 %>
+$missing.html("<div class='alert fade in alert-error'>" +
+    "<button class='close' data-dismiss='alert'>×</button>" +
+    "Attempted to download the following tracks but they are missing from QNAP: </br>" +
+    "<%= j link_to 'Print missing tracks log',
+                   download_album_missing_tracks_log_path(id: @album.id,
+                                                              missing_tracks: @missing_tracks.to_json),
+                   target: '_blank',
+                   class: 'alert-link' %> </br></br>" +
+    <% @missing_tracks.each do |t| %>
+    "Album: <%= j t[0].to_i.to_json %>, Track: <%= j t[1].to_i.to_json %><br/>" +
+    <% end %>
+    "</div>");
+<% end %>
 
 $link.html("<%= j render(partial: 'download_link',
                                   locals: { album: @album }) %>");

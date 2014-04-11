@@ -1,17 +1,10 @@
+<div class="span12">
+  <div id="missing-tracks-flash"></div>
+</div>
+
 <%= minimal_form_for @album_playlist,
                      html: {class: 'form-vertical', multipart: true} do |f| %>
   <%= render 'layouts/error_messages', object: f.object %>
-
-  <div class="row">
-    <div class="span12">
-      <div id="bootstrap-flash">
-        <%= bootstrap_flash %>
-      </div>
-      <div id="missing-tracks-flash"></div>
-    </div>
-    <!--/span-->
-  </div>
-  <!--/row-->
 
   <div class="span3">
     <div class="content">

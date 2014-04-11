@@ -28,7 +28,7 @@
         <div class="poster-list">
           <ul>
             <% if @track.album.title_original.present? %>
-              <li class="poster-info"><%= link_to @track.album.title_original, album_path(@track.album) %></li>
+              <li class="poster-info">Album: <%= link_to @track.album.title_original, album_path(@track.album) %></li>
             <% end %>
             <% if @track.album.release_year.present? %>
               <li class="poster-info">Release Year: <%= @track.album.release_year %></li>

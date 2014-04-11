@@ -15,8 +15,8 @@
           <li class="info">Client Playlist Code: <%= @album_playlist.client_playlist_code %>
           <li class="info">Airline: <%= @album_playlist.airline.name if !@album_playlist.airline_id.nil? %>
           <li class="info">In/Out: <%= @album_playlist.in_out %>
-          <li class="info">Play Date From: <%= @album_playlist.start_playdate.strftime("%B %Y") %></li>
-          <li class="info">Play Date To: <%= @album_playlist.end_playdate.strftime("%B %Y") %></li>
+          <li class="info">Play Date From: <%= @album_playlist.start_playdate.strftime("%Y %B") %></li>
+          <li class="info">Play Date To: <%= @album_playlist.end_playdate.strftime("%Y %B") %></li>
         </ul>
       </div>
     </div>

@@ -371,12 +371,27 @@ class AlbumsController < ApplicationController
 
     # Callback
     if result
-      puts result
+      if result[1].class.to_s == "Array"
+        @missing_tracks = result[1].map { |t| t.split("/") }
+        @missing_tracks_count = result[1].count
+      else
+        @missing_tracks = "None"
+        @missing_tracks_count = 0
+      end
+
       flash[:notice] = 'Zip file created successfully.'
       @album.update_attribute :job_finished_at, Time.current
       respond_to do |format|
         format.js
       end
+    end
+  end
+
+  def log_missing_tracks
+    @id = params[:id]
+    @missing_tracks = params[:missing_tracks]
+    respond_to do |format|
+      format.html { render :layout => false }
     end
   end
 

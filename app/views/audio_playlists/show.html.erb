@@ -9,6 +9,10 @@
       </div>
     </div>
     <!--/span-->
+    <div class="span12">
+      <div id="missing-tracks-flash"></div>
+    </div>
+    <!--/span-->
   </div>
   <!--/row-->
 
@@ -31,8 +35,8 @@
             <li class="info">VO: <%= @audio_playlist.vo.name if !@audio_playlist.vo_id.nil? %>
             <li class="info">Airline: <%= @audio_playlist.airline.name if !@audio_playlist.airline_id.nil? %>
             <li class="info">In/Out: <%= @audio_playlist.in_out %>
-            <li class="info">Play Date From: <%= @audio_playlist.start_playdate.strftime("%B %Y") %></li>
-            <li class="info">Play Date To: <%= @audio_playlist.end_playdate.strftime("%B %Y") %></li>
+            <li class="info">Play Date From: <%= @audio_playlist.start_playdate.strftime("%Y %B") %></li>
+            <li class="info">Play Date To: <%= @audio_playlist.end_playdate.strftime("%Y %B") %></li>
           </ul>
         </div>
         <br>

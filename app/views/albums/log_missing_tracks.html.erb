@@ -1,0 +1,8 @@
+<script>
+  window.print();
+</script>
+
+<pre>Missing tracks for Album Playlist <%= @id %></pre>
+<% (JSON.parse @missing_tracks).each do |t| %>
+  <pre><%= "Album: #{t[0]}, Track #{t[1]}" %></pre>
+<% end %>
