@@ -1,4 +1,4 @@
-<tr id="track-<%= track.id %>">
+<tr id="track-<%= track.id %>" class="track">
   <td data-title="ID"><%= link_to track.id,
                                   track_path(id: track.id) %></td>
   <td data-title="Title">
@@ -47,4 +47,11 @@
       <% end %>
     </td>
   <% end %>
+  <td>&nbsp;</td>
+  <td data-title="Permanently delete?">
+    <% if track.to_delete %>
+      <%= check_box_tag "track_ids[]",
+                        track.id %>&nbsp;
+    <% end %>
+  </td>
 </tr>

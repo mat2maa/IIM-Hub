@@ -1,50 +1,128 @@
 <% if @tracks_count > 0 %>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>
-        <%= sort_link @search,
-                      :id,
-                      'ID' %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :title_original,
-                      'Original Title' %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :artist_original,
-                      'Original Artist' %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :album_label_name,
-                      'Label' %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :album_cd_code,
-                      'CD Code' %>
-      </th>
-      <th>
-        <%= sort_link @search,
-                      :duration,
-                      'Duration' %>
-      </th>
-      <th width="180" colspan="2"></th>
-    </tr>
-    </thead>
-
-    <%= render partial: "track",
-               collection: @tracks %>
-  </table>
-
   <% if permitted_to? :destroy_all,
                       :tracks %>
-    <%= link_to 'Destroy all pending delete',
-                destroy_all_pending_delete_path,
-                class: 'btn' %>
+    <%= form_tag url_for(controller: 'tracks',
+                         action: 'destroy_all') do %>
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>
+            <%= sort_link @search,
+                          :id,
+                          'ID' %>
+          </th>
+          <th>
+            <%= sort_link @search,
+                          :title_original,
+                          'Original Title' %>
+          </th>
+          <th>
+            <%= sort_link @search,
+                          :artist_original,
+                          'Original Artist' %>
+          </th>
+          <th>
+            <%= sort_link @search,
+                          :album_label_name,
+                          'Label' %>
+          </th>
+          <th>
+            <%= sort_link @search,
+                          :album_cd_code,
+                          'CD Code' %>
+          </th>
+          <th>
+            <%= sort_link @search,
+                          :duration,
+                          'Duration' %>
+          </th>
+          <th width="180" colspan="2"></th>
+          <th>
+            <%= check_box_tag('check_all',
+                              'check_all',
+                              false) %>
+          </th>
+        </tr>
+        </thead>
+
+        <%= render partial: "track",
+                   collection: @tracks %>
+      </table>
+
+      <%= submit_tag 'Destroy all pending delete',
+                     class: 'btn' %>
+
+    <% end %>
+
+    <script>
+
+      var $ = jQuery;
+
+      $(document).ready(function () {
+
+        $('#check_all').click(function () {
+          if (this.checked) {
+            $('.track').find(':checkbox').each(function () {
+              this.checked = true;
+            });
+          } else {
+            $('.track').find(':checkbox').each(function () {
+              this.checked = false;
+            });
+          }
+        });
+
+      });
+
+    </script>
+
+  <% else %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>
+          <%= sort_link @search,
+                        :id,
+                        'ID' %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :title_original,
+                        'Original Title' %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :artist_original,
+                        'Original Artist' %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :album_label_name,
+                        'Label' %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :album_cd_code,
+                        'CD Code' %>
+        </th>
+        <th>
+          <%= sort_link @search,
+                        :duration,
+                        'Duration' %>
+        </th>
+        <th width="180" colspan="2"></th>
+        <th>
+          <%= check_box_tag('check_all',
+                            'check_all',
+                            false) %>
+        </th>
+      </tr>
+      </thead>
+
+      <%= render partial: "track",
+                 collection: @tracks %>
+    </table>
   <% end %>
 
 

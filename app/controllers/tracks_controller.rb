@@ -8,9 +8,9 @@ class TracksController < ApplicationController
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
     @tracks = @search.result(distinct: true)
-                     .order("tracks.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("tracks.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -73,9 +73,9 @@ class TracksController < ApplicationController
     dur_max = (params[:dur_max_min].to_i * 60 *1000) + (params[:dur_max_sec].to_i * 1000)
 
     @tracks = @search.result(distinct: true)
-                     .order("tracks.id DESC")
-                     .paginate(page: params[:page],
-                               per_page: items_per_page.present? ? items_per_page : 100)
+    .order("tracks.id DESC")
+    .paginate(page: params[:page],
+              per_page: items_per_page.present? ? items_per_page : 100)
 
     unless dur_max.zero?
       @tracks = @tracks.greater_than_dur_min(dur_min)
@@ -176,9 +176,15 @@ class TracksController < ApplicationController
   end
 
   def destroy_all
-    @to_delete = Track.where('to_delete = true')
-    @to_delete.destroy_all
-    flash[:notice] = 'All tracks that were pending delete have now been completely removed.'
+    track_ids = params[:track_ids]
+
+    if track_ids
+      @to_delete = Track.where('to_delete = true AND id in (?)', track_ids)
+      @to_delete.destroy_all
+      flash[:notice] = 'Selected tracks were successfully deleted.'
+    else
+      flash[:notice] = 'You did not select any tracks to delete.'
+    end
 
     respond_to do |format|
       format.html { redirect_to(:back) }
