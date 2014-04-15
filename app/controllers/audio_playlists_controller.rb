@@ -488,7 +488,7 @@ class AudioPlaylistsController < ApplicationController
 
     @albums = @tracks_found.map { |t| t.track.album_id }.flatten
     @tracks = @tracks_found.map { |t| t.track.track_num }.flatten
-    @track_positions = @tracks_found.map { |t| t.position.to_s }.flatten
+    @track_positions = @tracks_found.map.with_index { |t, index| index+1 }.flatten
 
     # Call
     begin
