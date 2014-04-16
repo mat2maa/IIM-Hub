@@ -1,6 +1,9 @@
 Iim::Application.routes.draw do
 
 
+  resources :album_categories
+
+
   resources :movie_playlist_types
 
 
@@ -217,7 +220,11 @@ Iim::Application.routes.draw do
   resources :airlines
   resources :programs
   resources :genres
-  resources :labels
+  resources :labels do
+    member do
+      get 'albums', action: 'get_albums', as: 'get_albums'
+    end
+  end
   resources :audio_playlist_tracks
 
   resources :album_playlists do

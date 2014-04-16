@@ -1,10 +1,15 @@
 var notice = "<%= escape_javascript((@notice).html_safe) %>";
+var link = "<%= j link_to "Continue adding to playlist",
+                          add_album_album_playlist_path(@album_playlist, album_id: @album_to_add.id, add: true),
+                          method: :post,
+                          remote: true,
+                          class: 'spinner-trigger alert-link' %>";
 
 if (notice !== '') {
   $("#album_flash_notice").html('<div class="alert fade in alert-error">' +
       '<button class="close" data-dismiss="alert">×</button>' +
       "This album exists in other playlists:" +
-      notice +
+      notice + " " + link +
       '</div>');
 
   $('.ajax-loader').fadeOut('fast');

@@ -2,6 +2,9 @@
   <td class="list-item"><%= label.id %></td>
   <td class="list-item"><%= label.name %></td>
   <td class="list-item">
+    <%= link_to 'Show',
+                get_albums_label_path(label),
+                class: 'btn btn-mini' %>
     <%= link_to 'Edit',
                 edit_label_path(label),
                 class: 'btn btn-mini' %>

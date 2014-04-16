@@ -6,6 +6,7 @@ class Album < ActiveRecord::Base
   belongs_to :label
   belongs_to :publisher
   belongs_to :language
+  belongs_to :album_category
   has_many :album_playlist_items
   has_many :album_playlists, :through => :album_playlist_items
   has_many :audio_playlist_tracks, :through => :tracks
@@ -32,7 +33,7 @@ class Album < ActiveRecord::Base
                   :artist_english, :disc_num, :disc_count, :cd_code, :live_album, :explicit_lyrics, :cover, :cover_remote_url, :gender,
                   :language_id, :compilation, :origin_id, :synopsis, :genre_ids, :cover, :tracks_attributes,
                   :to_delete, :mp3_exists, :job_id, :job_finished_at, :job_current_track,
-                  :job_current_progress, :job_total_tracks
+                  :job_current_progress, :job_total_tracks, :album_category_id, :album_category_auto_increment
 
   accepts_nested_attributes_for :tracks
 

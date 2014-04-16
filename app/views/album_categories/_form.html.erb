@@ -1,0 +1,19 @@
+<%= minimal_form_for @album_category,
+                     remote: controller.action_name == 'index' ? true : false,
+                     html: {id: "album_category_form"} do |f| %>
+  <%= render 'layouts/error_messages', object: f.object %>
+
+  <div class="controls controls-row">
+    <%= f.input_field :name,
+                      class: 'span12',
+                      placeholder: 'Album Category Name' %>
+  </div>
+
+  <% if controller.action_name == 'edit' %>
+    <%= f.submit "Update #{controller_name.singularize.split('_').join(' ').titleize}",
+                 class: 'btn' %>
+  <% else %>
+    <%= f.submit "Create #{indefinite_articlerize(controller_name.singularize.split('_').join(' ').titleize)}",
+                 class: 'btn' %>
+  <% end %>
+<% end %>

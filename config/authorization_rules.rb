@@ -157,7 +157,8 @@ authorization do
     has_permission_on :genres,
                       :to => :manage
     has_permission_on :labels,
-                      :to => :manage
+                      :to => [:manage,
+                              :get_albums]
     has_permission_on :languages,
                       :to => :manage
     has_permission_on :origins,
@@ -241,6 +242,9 @@ authorization do
     has_permission_on :users,
                       :to => [:index, :edit_own_password,
                               :update_own_password]
+
+    has_permission_on :album_categories,
+                      :to => :manage
   end
 
   # permissions on other roles, such as
@@ -291,7 +295,8 @@ authorization do
     has_permission_on :genres,
                       :to => :manage
     has_permission_on :labels,
-                      :to => :manage
+                      :to => [:manage,
+                              :get_albums]
     has_permission_on :languages,
                       :to => :manage
     has_permission_on :master_languages,
@@ -486,6 +491,9 @@ authorization do
                               :table_column_select,
                               :sort_alphabetically]
 
+    has_permission_on :album_categories,
+                      :to => :manage
+
   end
 
   role :super do
@@ -535,7 +543,8 @@ authorization do
     has_permission_on :genres,
                       :to => :manage
     has_permission_on :labels,
-                      :to => :manage
+                      :to => [:manage,
+                              :get_albums]
     has_permission_on :languages,
                       :to => :manage
     has_permission_on :master_languages,
@@ -740,6 +749,8 @@ authorization do
                               :table_column_select,
                               :sort_alphabetically]
 
+    has_permission_on :album_categories,
+                      :to => :manage
   end
 end
 

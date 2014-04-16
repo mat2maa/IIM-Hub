@@ -1,1 +1,63 @@
-window.location.reload();
+<% if @notice_array.length != 0 %>
+var notice = "", links = new Array, link;
+<% @albums_to_add.each do |id| %>
+link = "<%= j link_to id,
+                      add_album_album_playlist_path(@album_playlist, album_id: id, add: true),
+                      method: :post,
+                      remote: true,
+                      class: 'spinner-trigger alert-link' %>";
+links.push(link)
+<% end %>
+<% @notice_array.each do |notice| %>
+notice += "<li>" + "<%= escape_javascript((notice).html_safe) %>" + "</li>"
+<% end %>
+$("#multiple_album_flash_notice").html('<div class="alert fade in alert-error">' +
+    '<button class="close" data-dismiss="alert">×</button>' +
+    "<ul>" + notice + "</ul>" +
+    "<p>" + "Click the IDs of the albums below to confirm adding to the playlist" + "</p>" +
+    links.join(", ") +
+    '</div>');
+<% end %>
+
+var playlist = "<%= escape_javascript(render partial: 'playlist',
+                                               object: @album_playlist) %>";
+
+$('#playlist').html(playlist);
+
+$(window).scrollTop($('#item_<%= @album_playlist_item.id %>').offset().top);
+$('#item_<%= @album_playlist_item.id %>').addClass("new");
+
+$('.ajax-loader').fadeOut('fast');
+
+//jQuery UI Sortable and Mixonic Ranked-Model to sort and submit playlist orders
+var item_id,
+    position,
+    url;
+
+$(".sort-list").sortable({
+  axis: 'y',
+  containment: 'parent',
+  cursor: 'crosshair',
+  items: 'tr.sortable',
+
+  stop: function (e, ui) {
+    ui.item.children('td').effect('highlight', {}, 1000);
+  },
+  update: function (e, ui) {
+    item_id = ui.item.attr('data-id');
+    position = ui.item.index();
+    url = $(this).attr('data-url');
+    console.log(item_id + " " + position + " " + url);
+    $.ajax({
+      type: 'POST',
+      url: $(this).data('url'),
+      dataType: 'json',
+
+      //the :thing hash gets passed to @thing.attributes
+      data: {
+        id: item_id,
+        position_position: position
+      }
+    });
+  }
+});

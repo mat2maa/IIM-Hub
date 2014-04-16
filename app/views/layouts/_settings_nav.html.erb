@@ -18,49 +18,63 @@
 
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class='<%= 'active' if controller_name == 'airlines' %>'>
-            <%= link_to 'Airlines',
-                        controller: 'airlines' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Playlists <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'airlines' %>'>
+                <%= link_to 'Airlines',
+                            controller: 'airlines' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'programs' %>'>
+                <%= link_to 'Programs',
+                            controller: 'programs' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'categories' %>'>
+                <%= link_to 'Categories',
+                            controller: 'categories' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'vos' %>'>
+                <%= link_to 'VOs',
+                            controller: 'vos' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'vo_durations' %>'>
+                <%= link_to 'VO Durations',
+                            controller: 'vo_durations' %>
+              </li>
+            </ul>
           </li>
-          <li class='<%= 'active' if controller_name == 'programs' %>'>
-            <%= link_to 'Programs',
-                        controller: 'programs' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'genres' %>'>
-            <%= link_to 'Genres',
-                        controller: 'genres' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'labels' %>'>
-            <%= link_to 'Labels',
-                        controller: 'labels' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'publishers' %>'>
-            <%= link_to 'Publishers',
-                        controller: 'publishers' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'languages' %>'>
-            <%= link_to 'Languages',
-                        controller: 'languages' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'origins' %>'>
-            <%= link_to 'Origins',
-                        controller: 'origins' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'categories' %>'>
-            <%= link_to 'Categories',
-                        controller: 'categories' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'vos' %>'>
-            <%= link_to 'VOs',
-                        controller: 'vos' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'splits' %>'>
-            <%= link_to 'Splits',
-                        controller: 'splits' %>
-          </li>
-          <li class='<%= 'active' if controller_name == 'vo_durations' %>'>
-            <%= link_to 'VO Durations',
-                        controller: 'vo_durations' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Albums and Tracks <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class='<%= 'active' if controller_name == 'album_categories' %>'>
+                <%= link_to 'Album Categories',
+                            controller: 'album_categories' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'genres' %>'>
+                <%= link_to 'Genres',
+                            controller: 'genres' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'labels' %>'>
+                <%= link_to 'Labels',
+                            controller: 'labels' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'publishers' %>'>
+                <%= link_to 'Publishers',
+                            controller: 'publishers' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'languages' %>'>
+                <%= link_to 'Languages',
+                            controller: 'languages' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'origins' %>'>
+                <%= link_to 'Origins',
+                            controller: 'origins' %>
+              </li>
+              <li class='<%= 'active' if controller_name == 'splits' %>'>
+                <%= link_to 'Splits',
+                            controller: 'splits' %>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

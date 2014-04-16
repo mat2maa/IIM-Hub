@@ -17,6 +17,12 @@
                       class: 'btn btn-large btn-block btn-inverse' %>
         <% end %>
         <% if permitted_to? :edit,
+                            :album_categories %>
+          <%= link_to 'Album Categories',
+                      album_categories_path,
+                      class: 'btn btn-large btn-block btn-inverse' %>
+        <% end %>
+        <% if permitted_to? :edit,
                             :genres %>
           <%= link_to 'Genres',
                       genres_path,

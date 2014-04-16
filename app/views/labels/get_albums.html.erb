@@ -1,0 +1,117 @@
+<%= render partial: 'layouts/settings_nav' %>
+
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <div id="content">
+        <% if @albums.length == 0 %>
+          <div class="alert fade in alert-error">
+            <button class="close" data-dismiss="alert">×</button>
+            No albums are using this label
+          </div>
+        <% end %>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+  <div class="row">
+    <div class="span12">
+      <div id="content">
+        <h1>Information for <%= "#{@label.id}: #{@label.name}" %></h1>
+        <hr/>
+        <%= link_to "Previous",
+                    get_albums_label_path(@label.previous),
+                    class: 'btn btn-mini' if @label.previous.present? %>
+        <%= link_to "Next",
+                    get_albums_label_path(@label.next),
+                    class: 'btn btn-mini' if @label.next.present? %>
+        <br/><br/>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+  <div class="row">
+    <div class="span12">
+      <div id="content">
+        <% if @albums.length != 0 %>
+          <h4>Albums using this label:</h4>
+          <table id="no-more-tables" class="table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <% @albums.each do |a| %>
+              <tbody>
+              <tr>
+                <td><%= a.id %></td>
+                <td><%= a.title_original %></td>
+                <td><%= link_to 'Show',
+                                albums_path(a),
+                                class: 'btn btn-mini' %></td>
+              </tr>
+              </tbody>
+            <% end %>
+          </table>
+        <% else %>
+          No albums are using this label so you may
+          <%= link_to 'Delete',
+                      @label,
+                      confirm: 'Are you sure?',
+                      method: :delete,
+                      class: 'btn btn-mini btn-danger' %>
+        <% end %>
+        <br/><br/>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+  <div class="row">
+    <div class="span12">
+      <div id="content">
+        <% if @linked_labels.length != 0 %>
+          <h4>Other labels with the same name:</h4>
+          <table id="no-more-tables" class="table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <% @linked_labels.each do |l| %>
+              <tbody>
+              <tr>
+                <td><%= l.id %></td>
+                <td><%= l.name %></td>
+                <td><%= link_to 'Show',
+                                get_albums_label_path(l),
+                                class: 'btn btn-mini' %></td>
+              </tr>
+              </tbody>
+            <% end %>
+          </table>
+        <% else %>
+          NOTE: No labels have a duplicate name to this one
+        <% end %>
+      </div>
+      <!--/content-->
+    </div>
+    <!--/span-->
+  </div>
+  <!--/row-->
+
+</div>
+<!-- /container -->

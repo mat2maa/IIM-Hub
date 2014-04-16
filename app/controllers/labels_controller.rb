@@ -77,8 +77,7 @@ class LabelsController < ApplicationController
       @label.destroy
 
     else
-      flash[:notice] = 'Label could not be deleted,
-label is in use in some albums or tracks'
+      flash[:notice] = 'Label could not be deleted, label is in use in some albums or tracks'
     end
 
 
@@ -86,4 +85,17 @@ label is in use in some albums or tracks'
       format.html { redirect_to(labels_url) }
     end
   end
+
+  # GET /labels/1/albums
+  # GET /album_categories/1.json
+  def get_albums
+    @label = Label.find(params[:id])
+    @albums = @label.albums
+    @linked_labels = Label.where('name = ? AND id != ?', @label.name, @label.id)
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
 end

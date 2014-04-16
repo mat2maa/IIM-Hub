@@ -30,7 +30,7 @@ class AlbumsController < ApplicationController
 
   def show
     @album = Album.find(params[:id])
-    @tracks = Track.where(album_id: params[:id])
+    @tracks = Track.where(album_id: params[:id]).order('track_num ASC')
     @playlists = AlbumPlaylistItem.where('album_id=?',
                                          params[:id])
   end
